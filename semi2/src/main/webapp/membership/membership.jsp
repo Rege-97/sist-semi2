@@ -10,7 +10,7 @@
 <section>
 <article>
 <h2>이용권 구매</h2>
-<iframe src="membership_list.jsp" width="955" height="1500"></iframe>
+<iframe src="membership_list.jsp" name="membership_child" width="955" height="1500"></iframe>
 </article>
 </section>
 
