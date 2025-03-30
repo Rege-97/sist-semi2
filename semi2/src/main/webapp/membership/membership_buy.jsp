@@ -9,8 +9,8 @@
 <body>
 	<section>
 		<article>
-			<form name="membership_buy" action="membership_buy_ok"
-				target="membership_parent">
+		<h2>이용권 구매</h2>
+			<form name="membership_buy" action="membership_buy_ok">
 				<fieldset>
 					<table>
 						<tr>
