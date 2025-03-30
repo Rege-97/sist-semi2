@@ -9,11 +9,54 @@
 <body>
 	<section>
 		<article>
-			<form name="membership_buy" action="membership_buy_ok" target="membership_parent">
-			aa
-			<table>
-			
-			</table>
+			<form name="membership_buy" action="membership_buy_ok"
+				target="membership_parent">
+				<fieldset>
+					<table>
+						<tr>
+							<th colspan="4">카드번호</th>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" name="card_number1">
+							</td>
+							<td>
+								<input type="text" name="card_number2">
+							</td>
+							<td>
+								<input type="text" name="card_number3">
+							</td>
+							<td>
+								<input type="text" name="card_number4">
+							</td>
+						</tr>
+						<th colspan="2">유효기간</th>
+						<th colspan="2">CVC</th>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" name="card_month">
+							</td>
+							<td>
+								<input type="text" name="card_year">
+							</td>
+							<td colspan="2">
+								<input type="text" name="card_cvc">
+							</td>
+						</tr>
+						<tr>
+							<th colspan="4">결제금액</th>
+						</tr>
+						<tr>
+							<td colspan="4">10,000원</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<input type="submit" value="결제하기">
+							</td>
+						</tr>
+					</table>
+				</fieldset>
 			</form>
 		</article>
 	</section>
