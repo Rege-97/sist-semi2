@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@include file="/header.jsp" %>
 <section>
 	<article>
 		<a>|전체보기|</a>
@@ -21,18 +22,18 @@
 		<table>
 			<tr>
 			<td><label>순위</label>
-			<td><img>앨범아트
-			<td><a>제목</a>
-			<a>앨범명</a>
+			<td><a href="/semi2/chart/album-details.jsp"><img>앨범아트</a>
+			<td><a href="/semi2/chart/song-details.jsp">제목</a>
+			<a href="/semi2/chart/album-details.jsp">앨범명</a>
 			<td><label>아티스트</label>
 			<td><img>+
 			<td><img>재생
 			<td><img>다운로드
 			<tr>
 			<td><label>순위</label>
-			<td><img>앨범아트
-			<td><a>제목</a>
-			<a>앨범명</a>
+			<td><a href="/semi2/chart/album-details.jsp"><img>앨범아트</a>
+			<td><a href="/semi2/chart/song-details.jsp">제목</a>
+			<a href="/semi2/chart/album-details.jsp">앨범명</a>
 			<td><label>아티스트</label>
 			<td><img>+
 			<td><img>재생
@@ -42,5 +43,6 @@
 </section>
 
 
+<%@include file="/footer.jsp" %>
 </body>
 </html>
