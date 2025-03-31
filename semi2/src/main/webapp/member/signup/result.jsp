@@ -9,6 +9,6 @@
 <body>
 <h1>환영해요 <%=request.getParameter("name") %>님!</h1>
 
-<input type = "button" value = "로그인 하러가기" onclick = "location.href = '/member/signin.jsp'">
+<input type = "button" value = "로그인 하러가기" onclick = "location.href = '/semi2/member/signin.jsp'">
 </body>
 </html>

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page = "/header.jsp"></jsp:include>
+<%@ include file="/header.jsp" %>
 <fieldset>
 	<form>
 		<input type="email" placeholder="아이디(이메일)">
@@ -18,11 +18,11 @@
 		<br>
 		<input type="submit" value = "로그인">
 		<br>
-		<label onclick="location.href = '/member/find/id.jsp'">아이디 찾기</label>|
-		<label onclick="location.href = '/member/find/password.jsp'">비밀번호 찾기</label>
-		<label onclick="location.href = '/member/signup/terms.jsp'">회원가입</label>
+		<label onclick="location.href = '/semi2/member/find/id.jsp'">아이디 찾기</label>|
+		<label onclick="location.href = '/semi2/member/find/password.jsp'">비밀번호 찾기</label>
+		<label onclick="location.href = '/semi2/member/signup/terms.jsp'">회원가입</label>
 	</form>
 </fieldset>
-<jsp:include page="/footer.jsp"></jsp:include>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>

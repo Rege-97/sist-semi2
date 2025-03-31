@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@include file="/header.jsp" %>
 <section>
 	<article>
 		<img>앨범아트
@@ -63,5 +64,6 @@
 		
 	</article>
 </section>
+<%@include file="/footer.jsp" %>
 </body>
 </html>

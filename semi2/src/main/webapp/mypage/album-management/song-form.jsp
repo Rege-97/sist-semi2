@@ -16,7 +16,7 @@ function nextsong(b){
 function add_album(b){
 	window.alert("앨범을 등록하시겠습니까?");
 	var form = b.form;
-	form.action = "../mypage-profile.jsp";
+	form.action = "semi2/mypage/profile.jsp";
 	form.submit();
 }
 </script>

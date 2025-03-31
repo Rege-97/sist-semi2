@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="../../header.jsp" %>
+<%@ include file="/header.jsp" %>
 <h2>앨범등록</h2>
 <iframe src = "album-form.jsp"></iframe>
-<%@ include file="../../footer.jsp" %>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>

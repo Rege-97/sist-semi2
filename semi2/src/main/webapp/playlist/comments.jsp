@@ -10,7 +10,7 @@
 댓글(<%="댓글 수" %>)
 <table>
 	<tr>
-		<td><img src = "../img/mincat.png" width="50px" height="50px"></td>
+		<td><img src = "/semi2/img/mincat.png" width="50px" height="50px"></td>
 		<td>닉네임</td>
 		<td>댓글내용</td>
 		<td><input type = "button" value = "답글" onclick = "opencoment();"></td>

@@ -15,7 +15,7 @@
 	</tr>
 	</thead>
 	<tr>
-		<td><img src = "../img/mincat.png" width="120px" height="120px"></td>
+		<td><img src = "/semi2/img/mincat.png" width="120px" height="120px"></td>
 		<td><label>제목</label><label>앨범명</label></td>
 		<td>아티스트</td>
 		<td>재생목록에 추가</td>
