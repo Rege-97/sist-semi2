@@ -27,8 +27,8 @@
 <h2>플리 소개</h2>
 앨범 소개글
 
-<jsp:include page = "comentplus.jsp"></jsp:include>
-<jsp:include page = "playlistcoment.jsp"></jsp:include>
+<jsp:include page = "comment-form.jsp"></jsp:include>
+<jsp:include page = "comments.jsp"></jsp:include>
 <br>
 <jsp:include page = "/footer.jsp"></jsp:include>
 </body>

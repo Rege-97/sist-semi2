@@ -18,9 +18,9 @@
 		<br>
 		<input type="submit" value = "로그인">
 		<br>
-		<label onclick="location.href = '/musicismylife/member/findid/findid.jsp'">아이디 찾기</label>|
-		<label onclick="location.href = '/musicismylife/member/findpwd/findpwd.jsp'">비밀번호 찾기</label>
-		<label onclick="location.href = '/musicismylife/member/signup/memberagree.jsp'">회원가입</label>
+		<label onclick="location.href = '/member/find/id.jsp'">아이디 찾기</label>|
+		<label onclick="location.href = '/member/find/password.jsp'">비밀번호 찾기</label>
+		<label onclick="location.href = '/member/signup/terms.jsp'">회원가입</label>
 	</form>
 </fieldset>
 <jsp:include page="/footer.jsp"></jsp:include>

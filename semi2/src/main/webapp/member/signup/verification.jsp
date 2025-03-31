@@ -9,13 +9,13 @@
 <body>
 <jsp:include page = "/header.jsp"></jsp:include>
 <fieldset>
-	<form action = "/musicismylife/member/signin.jsp">
-		<h2>비밀번호 찾기</h2>
-		<input type="text" placeholder="새 비밀번호">
+	<form action = "form.jsp">
+		<h2>본인인증</h2>
+		<input type="text" name = "name" placeholder="이름">
 		<br>
-		<input type="text" placeholder="새 비밀번호 확인">
+		<input type="text" name = "tel" placeholder="전화번호">
 		<br>
-		<input type="submit" value="비밀번호 변경">
+		<input type="submit" value="다음">
 	</form>
 </fieldset>
 <jsp:include page = "/footer.jsp"></jsp:include>
