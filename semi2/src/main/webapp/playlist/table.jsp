@@ -10,7 +10,7 @@
 <table>
 	<tr>
 		<td>
-		<img src = "../img/mincat.png" width="200px" height="200px" onclick = "parent.location.href = 'details.jsp'">
+		<img src = "/semi/img/mincat.png" width="200px" height="200px" onclick = "parent.location.href = 'details.jsp'">
 		<audio src=""></audio>
 		<label onclick = "">플리 제목</label>
 		</td>
