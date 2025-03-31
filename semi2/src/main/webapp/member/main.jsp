@@ -7,8 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>환영해요 <%=request.getParameter("name") %>님!</h1>
-
-<input type = "button" value = "로그인 하러가기" onclick = "location.href = '/musicismylife/member/signin.jsp'">
+<%@ include file="/header.jsp" %>
+<iframe src="<%=request.getParameter("signtype") %>.jsp">
+</iframe>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>

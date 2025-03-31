@@ -9,7 +9,7 @@
 <body>
 <jsp:include page = "/header.jsp"></jsp:include>
 <fieldset>
-	<form action = "userwelcome.jsp">
+	<form action = "result.jsp">
 		<h2>회원가입</h2>
 		<input type = "hidden" name = "name" value = "<%=request.getParameter("name") %>"> 
 		이름:<%=request.getParameter("name") %> 전화번호:<%=request.getParameter("tel") %>

@@ -7,15 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action = "comentplus_ok.jsp">
 <table>
 	<tr>
-		<td><img src = "../img/mincat.png" width="50px" height="50px"></td>
-		<td>닉네임</td>
-		<td><textarea>댓글내용</textarea></td>
-		<td><input type = "submit" value = "등록"></td>
+		<td>
+		<img src = "../img/mincat.png" width="200px" height="200px" onclick = "parent.location.href = 'details.jsp'">
+		<audio src=""></audio>
+		<label onclick = "">플리 제목</label>
+		</td>
 	</tr>
 </table>
-</form>
 </body>
 </html>

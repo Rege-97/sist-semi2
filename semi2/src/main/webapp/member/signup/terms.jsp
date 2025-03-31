@@ -12,7 +12,7 @@
 		<h2>이용약관</h2>
 		<iframe src="useterms.jsp"></iframe>
 		<input type="checkbox"> 약관동의 <input type="button" value="다음"
-			onclick="location.href = 'memberverification.jsp'">
+			onclick="location.href = 'verification.jsp'">
 	</fieldset>
 	<jsp:include page="/footer.jsp"></jsp:include>
 </body>

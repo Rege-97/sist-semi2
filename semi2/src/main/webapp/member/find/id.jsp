@@ -9,11 +9,11 @@
 <body>
 <jsp:include page = "/header.jsp"></jsp:include>
 <fieldset>
-	<form action = "registerinfo.jsp">
-		<h2>본인인증</h2>
-		<input type="text" name = "name" placeholder="이름">
+	<form action = "id-result.jsp">
+		<h2>아이디 찾기</h2>
+		<input type="text" placeholder="이름">
 		<br>
-		<input type="text" name = "tel" placeholder="전화번호">
+		<input type="text" placeholder="전화번호">
 		<br>
 		<input type="submit" value="다음">
 	</form>

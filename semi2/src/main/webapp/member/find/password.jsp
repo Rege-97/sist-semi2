@@ -9,8 +9,10 @@
 <body>
 <jsp:include page = "/header.jsp"></jsp:include>
 <fieldset>
-	<form action = "findedid.jsp">
-		<h2>아이디 찾기</h2>
+	<form action = "password-reset.jsp">
+		<h2>비밀번호 찾기</h2>
+		<input type="text" placeholder="아이디">
+		<br>
 		<input type="text" placeholder="이름">
 		<br>
 		<input type="text" placeholder="전화번호">
