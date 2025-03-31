@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page = "/header.jsp"></jsp:include>
+<%@ include file="/header.jsp" %>
 <fieldset>
 	<form action = "result.jsp">
 		<h2>회원가입</h2>
@@ -25,6 +25,6 @@
 		<input type="submit" value="가입하기">
 	</form>
 </fieldset>
-<jsp:include page = "/footer.jsp"></jsp:include>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>

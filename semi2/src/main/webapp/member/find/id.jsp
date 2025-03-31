@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page = "/header.jsp"></jsp:include>
+<%@ include file="/header.jsp" %>
 <fieldset>
 	<form action = "id-result.jsp">
 		<h2>아이디 찾기</h2>
@@ -18,6 +18,6 @@
 		<input type="submit" value="다음">
 	</form>
 </fieldset>
-<jsp:include page = "/footer.jsp"></jsp:include>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>
