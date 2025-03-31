@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/header.jsp" %>
 <!-- 배너 -->
 <section>
 	<article>
@@ -42,5 +43,6 @@
 		</ul>
 	</article>
 </section>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>
