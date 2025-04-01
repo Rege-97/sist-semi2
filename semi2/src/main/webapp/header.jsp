@@ -5,7 +5,7 @@
 </script>
 <header>
 <nav>
-<img name="로고">로고
+<a href = "/semi2/main.jsp"><img name="로고">로고</a>
 <a href="/semi2/chart/main.jsp">차트</a>
 <a href="/semi2/playlist/main.jsp">플리</a>
 <form>
