@@ -24,7 +24,7 @@
 						<del>정가 8,800원</del>
 					</td>
 					<td>8,690원</td>
-					<td rowspan="2"><a href="membership_buy.jsp?membership_id=1">구매</a></td>
+					<td rowspan="2"><a href="payment.jsp?membership_id=1">구매</a></td>
 				</tr>
 				<tr>
 					<td>모든 곡 스트리밍</td>
@@ -40,7 +40,7 @@
 						<del>정가 8,800원</del>
 					</td>
 					<td>8,690원</td>
-					<td rowspan="2"><a href="membership_buy.jsp?membership_id=2">구매</a></td>
+					<td rowspan="2"><a href="payment.jsp?membership_id=2">구매</a></td>
 				</tr>
 				<tr>
 					<td>모든 곡 다운로드</td>
@@ -56,7 +56,7 @@
 						<del>정가 19,800원</del>
 					</td>
 					<td>15,890원</td>
-					<td rowspan="2"><a href="membership_buy.jsp?membership_id=3">구매</a></td>
+					<td rowspan="2"><a href="payment.jsp?membership_id=3">구매</a></td>
 				</tr>
 				<tr>
 					<td>모든 곡 스트리밍 + 다운로드</td>
