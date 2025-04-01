@@ -10,8 +10,10 @@
 <%@ include file="/header.jsp" %>
 <h2>마이페이지</h2>
 <label>이용권 정보:</label><img src = "">
+
 <input type = "button" value = "이용권구매" onclick = "location.href = '/semi2/membership/main.jsp'">
 <input type = "button" value = "이용권변경" onclick = "location.href = '/semi2/membership/main.jsp'">
+
 <br>
 <input type = "button" value = "비밀번호 변경" onclick = "location.href = '/semi2/member/find/password-reset.jsp'"> 
 <input type = "button" value = "프로필 변경" onclick = "location.href = '/semi2/mypage/profile.jsp'"> 
