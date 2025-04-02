@@ -19,8 +19,6 @@ if (id_s == null && id_s.equals("")) {
 int id = Integer.parseInt(id_s);
 
 SongDto dto = dao.findSong(id);
-
-
 %>
 
 </head>
@@ -28,6 +26,20 @@ SongDto dto = dao.findSong(id);
 	<%@include file="/header.jsp"%>
 	<section>
 		<article>
+			<table>
+			<tr>
+				<td rowspan="3"><img src="#"></td>
+				<td><%=dto.getName() %></td>
+			</tr>
+			<tr>
+				<td><%= %></td>
+			</tr>
+			
+			</table>
+		
+		
+		
+		
 			<img>앨범아트 <label>곡 제목</label> <label>아티스트</label> <label>앨범명</label>
 		</article>
 		<article>
