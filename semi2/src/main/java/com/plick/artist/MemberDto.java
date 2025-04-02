@@ -18,6 +18,13 @@ public class MemberDto {
 		this.playlistDtos = playlistDtos;
 	}
 
+	public MemberDto(MemberDto memberDto) {
+		this.id = memberDto.getId();
+		this.nickname = memberDto.getNickname();
+		this.description = memberDto.getDescription();
+		this.playlistDtos = memberDto.getPlaylistDtos();
+	}
+
 	public int getId() {
 		return id;
 	}
