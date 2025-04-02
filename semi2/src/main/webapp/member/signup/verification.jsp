@@ -9,7 +9,7 @@
 <body>
 <%@ include file="/header.jsp" %>
 <fieldset>
-	<form action = "form.jsp">
+	<form action = "form.jsp" method = "post">
 		<h2>본인인증</h2>
 		<input type="text" name = "name" placeholder="이름">
 		<br>
