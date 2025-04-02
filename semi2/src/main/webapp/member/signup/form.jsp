@@ -18,31 +18,38 @@ emailformlist.add("daum.net");
 %>
 <script>
 // select에서 직접 입력 선택시 입력 메뉴 보여주는 함수 (셀렉트 박스 숨길 때 style.display 사용했음)
-function changeDirectInput(selectelement){
-	if (selectelement.value == "direct"){
-		selectelement.style.display = "none";
-		var inputfield = document.createElement("input");
-		inputfield.type = "text";
-		inputfield.id = "emailtaildirect";
-		document.getElementById("directinput").appendChild(inputfield);
-	}
-}
+var pwdsame = false;
 
+function changeDirectInput(selectelement){
+	document.getElementById("emailtail").value = selectelement.value;
+}
 function assembleEmail() {
 	var emailhead = document.getElementById("emailhead").value;
-	var emailtail = document.getElementById("emailtaildirect") == null ?
-			document.getElementById("emailtail").value : 
-			document.getElementById("emailtaildirect").value;
-			
+	var emailtail = document.getElementById("emailtail").value;
 	document.getElementById("assembleemail").value = emailhead+"@"+emailtail;
-	window.alert(document.getElementById("assembleemail").value);
 }
 function testPassword() {
 	var pwd = document.getElementById("pwd").value;
 	var pwd2 = document.getElementById("pwdtest").value;
-	document.getElementById("pwdcheck").innerText =
-		pwd == pwd2 ? "입력하신 비밀번호가 같습니다" : "입력한 비밀번호가 다릅니다";
-	
+	if (pwd == pwd2){
+		document.getElementById("pwdcheck").innerText = "입력하신 비밀번호가 같습니다";
+		pwdsame = true;
+	}else{
+		document.getElementById("pwdcheck").innerText = "입력하신 비밀번호가 다릅니다";
+		pwdsame = false;
+	}
+}
+function formCheck(event) {
+	var a = true;
+	if (pwdsame == false){ 
+		event.preventDefault();
+		a = false;
+	}
+	if (document.getElementById("nickname").value == null || document.getElementById("nickname").value == ""){
+		event.preventDefault();
+		a = false;
+	}
+	if (!a) window.alert("form에 잘못된 부분 있음 확인바람");
 }
 
 </script>
@@ -50,7 +57,7 @@ function testPassword() {
 <body>
 <%@ include file="/header.jsp" %>
 <fieldset>
-	<form action = "form_ok.jsp" method = "post">
+	<form action = "form_ok.jsp" method = "post" onsubmit="formCheck(event);">
 		<h2>회원가입</h2>
 		<input type = "hidden" name = "name" value = "<%=request.getParameter("name") %>">
 		<input type = "hidden" name = "tel" value = "<%=request.getParameter("tel") %>"> 
@@ -59,7 +66,8 @@ function testPassword() {
 		이름:<%=request.getParameter("name") %> 전화번호:<%=request.getParameter("tel") %>
 		
 		<input type="text" id = "emailhead" placeholder="이메일">@
-		<select id = "emailtail" onchange="changeDirectInput(this);" >
+		<input type="text" id = "emailtail" value = "선택">
+		<select onchange="changeDirectInput(this);">
 		<option disabled selected>선택</option>
 <%
 for (int i = 0; i < emailformlist.size(); i++) {
@@ -68,12 +76,10 @@ for (int i = 0; i < emailformlist.size(); i++) {
 <%
 }
 %>
-		<option value = "<%="direct" %>">직접입력</option>
+		<option value = "">직접입력</option>
 		</select>
-		<div id = "directinput">
-		</div>
-		<input type = "email" id = "assembleemail" name = "email" value = ""> 
-		<input type="text" name = "nickname" placeholder="닉네임">
+		<input type = "email" id = "assembleemail" name = "email"> 
+		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
 		<input type="text" id = "pwd" name = "password" placeholder="비밀번호">
 		<input type="text" id = "pwdtest" placeholder="비밀번호 확인" onchange="testPassword();">
