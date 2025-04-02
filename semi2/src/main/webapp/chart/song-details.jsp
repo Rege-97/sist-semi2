@@ -36,12 +36,12 @@ SongDetailDto dto = sdao.findSong(id);
 					<td colspan="2"><%=dto.getArtist() %></td>
 				</tr>
 				<tr>
-					<td colspan="2"><%=dto.getAlbumName() %> ></td>
+					<td colspan="2"><a href="#"><%=dto.getAlbumName() %> ></a></td>
 				</tr>
 				<tr>
-					<td>재생</td> <!-- 재생버튼 -->
-					<td>담기</td> <!-- 플리담기버튼 -->
-					<td>다운로드</td> <!-- 플리담기버튼 -->
+					<td><a href="#">재생</a></td> <!-- 재생버튼 -->
+					<td><a href="#">담기</a></td> <!-- 플리담기버튼 -->
+					<td><a href="#">다운로드</a></td> <!-- 플리담기버튼 -->
 				</tr>
 			</table>
 		</article>
