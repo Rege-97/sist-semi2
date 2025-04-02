@@ -21,8 +21,8 @@ public class ChartDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "select * from songs where id=?";
-
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
 
