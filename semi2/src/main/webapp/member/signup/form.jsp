@@ -22,11 +22,16 @@ var pwdsame = false;
 
 function changeDirectInput(selectelement){
 	document.getElementById("emailtail").value = selectelement.value;
+	assembleEmail()
+	
 }
 function assembleEmail() {
 	var emailhead = document.getElementById("emailhead").value;
 	var emailtail = document.getElementById("emailtail").value;
-	document.getElementById("assembleemail").value = emailhead+"@"+emailtail;
+	var email = emailhead+"@"+emailtail;
+	document.getElementById("assembleemail").value = email;
+	
+	document.getElementById("form_hidden").src = "form_hidden.jsp?email="+email;
 }
 function testPassword() {
 	var pwd = document.getElementById("pwd").value;
@@ -78,6 +83,7 @@ for (int i = 0; i < emailformlist.size(); i++) {
 %>
 		<option value = "">직접입력</option>
 		</select>
+		<label id = "checkemailduplicate">나 여기 있다옹</label>
 		<input type = "email" id = "assembleemail" name = "email"> 
 		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
@@ -88,6 +94,7 @@ for (int i = 0; i < emailformlist.size(); i++) {
 		<input type="submit" value="가입하기" onclick="assembleEmail();">
 	</form>
 </fieldset>
+<iframe id = "form_hidden"></iframe>
 <%@ include file="/footer.jsp" %>
 </body>
 </html>
