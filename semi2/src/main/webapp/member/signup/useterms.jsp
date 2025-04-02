@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 <%
 try{
-	BufferedReader br = new BufferedReader(new FileReader(request.getRealPath("text/terms.txt")));
+	BufferedReader br = new BufferedReader(new FileReader(request.getRealPath("/resources/texts/term/terms.txt")));
 	String terms = null;
 
 %>
