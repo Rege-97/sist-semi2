@@ -1,8 +1,9 @@
+<%@page import="com.plick.chart.SongDetailDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ page import="com.plick.dto.*"%>
-<jsp:useBean id="dao" class="com.plick.chart.ChartDao"></jsp:useBean>
+<jsp:useBean id="sdao" class="com.plick.chart.ChartDao"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,13 +13,13 @@
 <%
 String id_s = request.getParameter("songid");
 
-if (id_s == null && id_s.equals("")) {
+if (id_s == null || id_s.equals("")) {
 	id_s = "0";
 }
 
 int id = Integer.parseInt(id_s);
 
-SongDto dto = dao.findSong(id);
+SongDetailDto dto = sdao.findSong(id);
 %>
 
 </head>
@@ -27,33 +28,40 @@ SongDto dto = dao.findSong(id);
 	<section>
 		<article>
 			<table>
-			<tr>
-				<td rowspan="3"><img src="#"></td>
-				<td><%=dto.getName() %></td>
-			</tr>
-			<tr>
-				<td><%= %></td>
-			</tr>
-			
+				<tr>
+					<td rowspan="4"><img src="/semi2/resources/images/album/<%=dto.getAlbumId()%>/cover.jpg" width="200"></td>
+					<td colspan="2"><%=dto.getName() %></td>
+				</tr>
+				<tr>
+					<td colspan="2"><%=dto.getArtist() %></td>
+				</tr>
+				<tr>
+					<td colspan="2"><%=dto.getAlbumName() %> ></td>
+				</tr>
+				<tr>
+					<td>재생</td> <!-- 재생버튼 -->
+					<td>담기</td> <!-- 플리담기버튼 -->
+				</tr>
 			</table>
-		
-		
-		
-		
-			<img>앨범아트 <label>곡 제목</label> <label>아티스트</label> <label>앨범명</label>
 		</article>
 		<article>
 			<table>
 				<tr>
-					<td>작곡
-					<td>작사
+					<td>곡명</td>
+					<td><%=dto.getName() %></td>
+				</tr>
 				<tr>
-					<td>작곡가 이름, 작곡가 이름
-					<td>작사가 이름, 작사가 이름
+					<td>작곡</td>
+					<td><%=dto.getComposer() %></td>
+				</tr>
+				<tr>
+					<td>작사</td>
+					<td><%=dto.getLyricist() %></td>
+				</tr>
+				<tr>
+					<td colspan="2"><br><%=dto.getLyrics().replaceAll("\n", "<br>")%></td>
+				</tr>
 			</table>
-			<h3>가사</h3>
-			<p>가사내용가사내용가사내용가사내용가사내용가사내용가사내용가사내용가사내용
-				가사내용가사내용가사내용가사내용가사내용가사내용가사내용가사내용가사내용</p>
 		</article>
 	</section>
 	<%@include file="/footer.jsp"%>

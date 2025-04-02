@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import com.plick.dto.SongDto;
 
 public class ChartDao {
-	
+
 	Connection conn;
 	PreparedStatement ps;
 	ResultSet rs;
@@ -15,18 +15,21 @@ public class ChartDao {
 	public ChartDao() {
 
 	}
-	
+
 	// 곡 정보 조회 메서드
-	public SongDto findSong(int id) {
+	public SongDetailDto findSong(int id) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select * from songs where id=?";
+			String sql = "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" "
+					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
+					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND s.ID = ?";
+
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
 
 			rs = ps.executeQuery();
 
-			SongDto dto = null;
+			SongDetailDto dto = null;
 
 			if (rs.next()) {
 				int albumId = rs.getInt("album_id");
@@ -35,8 +38,12 @@ public class ChartDao {
 				String lyricist = rs.getString("lyricist");
 				String lyrics = rs.getString("lyrics");
 				int viewCount = rs.getInt("view_count");
+				String artist = rs.getString("artist");
+				String albumName = rs.getString("album_name");
 
-				dto = new SongDto(id, albumId, name, composer, lyricist, lyrics, viewCount);
+				dto = new SongDetailDto(id, albumId, name, composer, lyricist, lyrics, viewCount, artist,
+						albumName);
+
 			}
 
 			return dto;

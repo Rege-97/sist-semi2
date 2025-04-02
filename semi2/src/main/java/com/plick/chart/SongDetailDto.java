@@ -8,7 +8,7 @@ public class SongDetailDto {
 	private String lyricist;
 	private String lyrics;
 	private int viewCount;
-	private String memberName;
+	private String artist;
 	private String albumName;
 	
 	public SongDetailDto() {
@@ -16,7 +16,7 @@ public class SongDetailDto {
 	}
 
 	public SongDetailDto(int id, int albumId, String name, String composer, String lyricist, String lyrics,
-			int viewCount, String memberName, String albumName) {
+			int viewCount, String artist, String albumName) {
 		super();
 		this.id = id;
 		this.albumId = albumId;
@@ -25,7 +25,7 @@ public class SongDetailDto {
 		this.lyricist = lyricist;
 		this.lyrics = lyrics;
 		this.viewCount = viewCount;
-		this.memberName = memberName;
+		this.artist = artist;
 		this.albumName = albumName;
 	}
 
@@ -85,12 +85,12 @@ public class SongDetailDto {
 		this.viewCount = viewCount;
 	}
 
-	public String getMemberName() {
-		return memberName;
+	public String getArtist() {
+		return artist;
 	}
 
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
+	public void setArtist(String artist) {
+		this.artist = artist;
 	}
 
 	public String getAlbumName() {
