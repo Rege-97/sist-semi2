@@ -14,7 +14,6 @@
 		<label>곡 제목</label>
 		<label>아티스트</label>
 		<label>앨범명</label>
-		
 	</article>
 	<article>
 		<table>
