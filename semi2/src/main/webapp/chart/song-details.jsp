@@ -41,6 +41,7 @@ SongDetailDto dto = sdao.findSong(id);
 				<tr>
 					<td>재생</td> <!-- 재생버튼 -->
 					<td>담기</td> <!-- 플리담기버튼 -->
+					<td>다운로드</td> <!-- 플리담기버튼 -->
 				</tr>
 			</table>
 		</article>
