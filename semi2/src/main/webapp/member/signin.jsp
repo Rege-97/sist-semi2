@@ -9,10 +9,10 @@
 <body>
 <%@ include file="/header.jsp" %>
 <fieldset>
-	<form>
-		<input type="email" placeholder="아이디(이메일)">
+	<form action = "signin_ok.jsp" method = "post">
+		<input type="email" name = "email" placeholder="아이디(이메일)">
 		<br>
-		<input type="password" placeholder="비밀번호">
+		<input type="password" name = "password" placeholder="비밀번호">
 		<br>
 		<input type="checkbox">아이디 저장
 		<br>
