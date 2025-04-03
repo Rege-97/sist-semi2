@@ -22,6 +22,30 @@ if (genre == null) {
 	title = genre + " TOP 30";
 }
 %>
+
+
+<script>
+	function moreList() {
+		const rows = document.querySelectorAll('.morelist2');
+
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].style.display == 'none') {
+				rows[i].style.display = 'table-row-group';
+			} else {
+				rows[i].style.display = 'none';
+			}
+		}
+
+		const more = document.getElementById('more');
+
+		if (more.value == '더보기') {
+			more.value = '더보기 접기';
+		} else {
+			more.value = '더보기';
+		}
+	}
+</script>
+
 </head>
 <body>
 	<%@include file="/header.jsp"%>
@@ -42,7 +66,7 @@ if (genre == null) {
 			</ul>
 		</article>
 		<article>
-			<h1><%=title %></h1>
+			<h1><%=title%></h1>
 			<table width="600">
 				<thead align="left">
 					<tr>
@@ -57,17 +81,46 @@ if (genre == null) {
 						<td colspan="7"><hr></td>
 					</tr>
 				</thead>
+				<%
+				if (arr == null || arr.size() == 0) {
+				%>
 				<tbody>
-					<%
-					if (arr == null || arr.size() == 0) {
-					%>
 					<tr>
 						<td colspan="7">차트가 존재하지 않습니다.</td>
 					</tr>
+				</tbody>
+				<%
+				} else {
+				for (int i = 0; i < arr.size(); i++) {
+					if (i < 30) {
+				%>
+
+				<tbody><tr>
+					<td rowspan="2"><%=arr.get(i).getRnum()%></td>
+					<td rowspan="2"><img
+						src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg"
+						width="50"></td>
+					<td><a
+						href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
+					<td rowspan="2"><a
+						href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a></td>
+					<td rowspan="2"><a href="#">듣기</a></td>
+					<td rowspan="2"><a href="#">담기</a></td>
+					<td rowspan="2"><a href="#">다운로드</a></td>
+				</tr>
+				<tr>
+					<td><%=arr.get(i).getAlbumName()%></td>
+				</tr>
+				<tr>
+					<td colspan="7"><hr></td>
+				</tr>
+				</tbody>
+
 					<%
 					} else {
-					for (int i = 0; i < arr.size(); i++) {
 					%>
+				
+				<tbody class="morelist2" style="display: none;">
 					<tr>
 						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
 						<td rowspan="2"><img
@@ -87,18 +140,23 @@ if (genre == null) {
 					<tr>
 						<td colspan="7"><hr></td>
 					</tr>
-
-					<%
-					}
-
-					}
-					%>
 				</tbody>
+				<%
+				}
+				}
+				}
+				%>
+
 			</table>
+			<%
+			if (genre == null) {
+			%>
+			<input type="button" id="more" value="더보기" onclick="moreList()">
+			<%
+			}
+			%>
 		</article>
 	</section>
-
-
 	<%@include file="/footer.jsp"%>
 </body>
 </html>
