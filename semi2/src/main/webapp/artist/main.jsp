@@ -1,3 +1,4 @@
+<%@page import="com.plick.dto.AlbumDto"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.plick.dto.PlaylistDto"%>
 <%@page import="java.util.stream.Collectors"%>
@@ -5,7 +6,7 @@
 <%@page import="java.util.Comparator"%>
 <%@page import="com.plick.dto.SongDto"%>
 <%@page import="java.text.NumberFormat"%>
-<%@page import="com.plick.artist.AlbumDto"%>
+<%@page import="com.plick.artist.ArtistAlbumDto"%>
 <%@page import="java.util.List"%>
 <%@page import="com.plick.artist.ArtistDto"%>
 <%@page import="com.plick.artist.ArtistDao"%>
@@ -50,7 +51,7 @@ return;
 }
 String nickname = artistDto.getNickname();
 // 아티스트의 앨범을 최신순으로 정렬해 리스트화
-List<AlbumDto> sortedAlbums = artistDto.getAlbums() != null ? artistDto.getAlbums().stream()
+List<ArtistAlbumDto> sortedAlbums = artistDto.getAlbums() != null ? artistDto.getAlbums().stream()
 		.sorted((a1, a2) -> a2.getAlbumDto().getCreatedAt().compareTo(a1.getAlbumDto().getCreatedAt()))
 		.collect(Collectors.toList()) : new ArrayList<>();
 
@@ -72,7 +73,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 <body>
 	<%@ include file="/header.jsp"%>
 	<img
-		src="/semi2/resources/images/member/<%=artistDto.getId()%>/banner.png"
+		src="/semi2/resources/images/member/<%=artistDto.getId()%>/banner.jpg"
 		width=100% />
 	<h1><%=nickname%></h1>
 	<label>누적 리스너: <%=formattedTotalViewCount%></label>
@@ -84,7 +85,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 		<tr>
 			<td><%=i + 1%></td>
 			<td><a href="#"> <img
-					src="/semi2/resources/images/album/<%=sortedSongs.get(i).getAlbumId()%>/cover.png"
+					src="/semi2/resources/images/album/<%=sortedSongs.get(i).getAlbumId()%>/cover.jpg"
 					width="100" />
 			</a></td>
 			<td><a
@@ -103,12 +104,16 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 		<tr>
 			<%
 			for (int i = 0; i < Math.min(sortedPlaylists.size(), MAX_PLAYLISTS_LENGTH); i++) {
+				StringBuffer mood = new StringBuffer();
+				mood.append(sortedPlaylists.get(i).getMood1() == null ? "" : sortedPlaylists.get(i).getMood1());
+				mood.append(" ");
+				mood.append(sortedPlaylists.get(i).getMood2() == null ? "" : sortedPlaylists.get(i).getMood2());
 			%>
 			<td>
 				<table>
 					<tr>
 						<td><a href="#"> <img
-								src="/semi2/resources/images/playlist/<%=sortedPlaylists.get(i).getId()%>/cover.png"
+								src="/semi2/resources/images/playlist/<%=sortedPlaylists.get(i).getId()%>/cover.jpg"
 								width="200" />
 						</a></td>
 					</tr>
@@ -116,7 +121,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 						<td><a href="#"><%=sortedPlaylists.get(i).getName()%></a></td>
 					</tr>
 					<tr>
-						<td><%=sortedPlaylists.get(i).getMood1() + " " + sortedPlaylists.get(i).getMood2()%></td>
+						<td><%=mood.toString().trim()%></td>
 					</tr>
 				</table>
 			</td>
@@ -128,15 +133,21 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 	<h2>이 아티스트의 최신 앨범</h2>
 	<table>
 		<tr>
-
 			<%
 			for (int i = 0; i < Math.min(sortedAlbums.size(), MAX_ALBUMS_LENGTH); i++) {
+				StringBuffer genre = new StringBuffer();
+				AlbumDto albumDto = sortedAlbums.get(i).getAlbumDto();
+				genre.append(albumDto.getGenre1() == null ? "" : albumDto.getGenre1());
+				genre.append(" ");
+				genre.append(albumDto.getGenre2() == null ? "" : albumDto.getGenre2());
+				genre.append(" ");
+				genre.append(albumDto.getGenre3() == null ? "" : albumDto.getGenre3());
 			%>
 			<td>
 				<table>
 					<tr>
 						<td><a href="#"> <img
-								src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.png"
+								src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.jpg"
 								width="200" />
 						</a></td>
 					</tr>
@@ -145,8 +156,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 							• <%=sortedAlbums.get(i).getAlbumDto().getCreatedAt().toString().substring(0, 7)%></td>
 					</tr>
 					<tr>
-						<td><%=sortedAlbums.get(i).getAlbumDto().getGenre1() + " " + sortedAlbums.get(i).getAlbumDto().getGenre2() + " "
-		+ sortedAlbums.get(i).getAlbumDto().getGenre3()%></td>
+						<td><%=genre.toString().trim()%></td>
 					</tr>
 				</table>
 			</td>
@@ -156,7 +166,9 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 		</tr>
 	</table>
 	<h2>아티스트 소개</h2>
-	<img name="artistprofilemain">
+	<img
+		src="/semi2/resources/images/member/<%=artistDto.getId()%>/profile.jpg"
+		width=100% />
 	<label>누적리스너: <%=formattedTotalViewCount%>명
 	</label>
 	<div>
