@@ -101,7 +101,7 @@ public class MemberDao {
 	public ArrayList<String> searchEmail(String name, String tel) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT * FROM members WHERE name = ? and tel = ?";
+			String sql = "SELECT * FROM members WHERE name = ? AND tel = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, name);
 			pstmt.setString(2, tel);
