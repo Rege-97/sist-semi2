@@ -96,7 +96,7 @@ for (int i = 0; i < emailForms.size(); i++) {
 		<input type="password" id = "pwdTest" placeholder="비밀번호 확인" onchange="testPassword();">
 		<label id = "pwdCheck"></label>
 		<br>
-		<input type="submit" value="가입하기" onclick="assembleEmail();">
+		<input type="submit" value="가입하기">
 	</form>
 </fieldset>
 <iframe id = "form_hidden" style = "display: none;"></iframe>
