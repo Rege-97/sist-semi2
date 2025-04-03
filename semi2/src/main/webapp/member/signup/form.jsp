@@ -10,35 +10,42 @@
 request.setCharacterEncoding("UTF-8");
 
 
-ArrayList<String> emailformlist = new ArrayList<String>();
-emailformlist.add("gmail.com");
-emailformlist.add("naver.com");
-emailformlist.add("nate.com");
-emailformlist.add("daum.net");
+ArrayList<String> emailForms = new ArrayList<String>();
+emailForms.add("gmail.com");
+emailForms.add("naver.com");
+emailForms.add("nate.com");
+emailForms.add("daum.net");
 %>
 <script>
 // select에서 직접 입력 선택시 입력 메뉴 보여주는 함수 (셀렉트 박스 숨길 때 style.display 사용했음)
 var pwdsame = false;
 
 function changeDirectInput(selectelement){
-	document.getElementById("emailtail").value = selectelement.value;
-	assembleEmail()
+	if(selectelement.value == "직접입력") {
+		document.getElementById("emailTail").value = "";
+		document.getElementById("emailTail").removeAttribute("readonly");
+	}else{
+		document.getElementById("emailTail").value = selectelement.value;
+		document.getElementById("emailTail").setAttribute("readonly", true);
+	} 
+	assembleEmail();
 }
 function assembleEmail() {
-	var emailhead = document.getElementById("emailhead").value;
-	var emailtail = document.getElementById("emailtail").value;
-	var email = emailhead+"@"+emailtail;
-	document.getElementById("assembleemail").value = email;
+	var emailHead = document.getElementById("emailHead").value;
+	var emailTail = document.getElementById("emailTail").value;
+	var email = emailHead+"@"+emailTail;
+	
+	document.getElementById("assembleEmail").value = email;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?email="+email;
 }
 function testPassword() {
 	var pwd = document.getElementById("pwd").value;
-	var pwd2 = document.getElementById("pwdtest").value;
+	var pwd2 = document.getElementById("pwdTest").value;
 	if (pwd == pwd2){
-		document.getElementById("pwdcheck").innerText = "입력하신 비밀번호가 같습니다";
+		document.getElementById("pwdCheck").innerText = "입력하신 비밀번호가 같습니다";
 		pwdsame = true;
 	}else{
-		document.getElementById("pwdcheck").innerText = "입력하신 비밀번호가 다릅니다";
+		document.getElementById("pwdCheck").innerText = "입력하신 비밀번호가 다릅니다";
 		pwdsame = false;
 	}
 }
@@ -68,31 +75,31 @@ function formCheck(event) {
 		
 		이름:<%=request.getParameter("name") %> 전화번호:<%=request.getParameter("tel") %>
 		
-		<input type="text" id = "emailhead" placeholder="이메일">@
-		<input type="text" id = "emailtail" value = "선택">
+		<input type="text" id = "emailHead" placeholder="이메일">@
+		<input type="text" id = "emailTail" value = "선택" readonly>
 		<select onchange="changeDirectInput(this);">
 		<option disabled selected>선택</option>
 <%
-for (int i = 0; i < emailformlist.size(); i++) {
+for (int i = 0; i < emailForms.size(); i++) {
 %>
-		<option value = "<%=emailformlist.get(i) %>"> <%=emailformlist.get(i) %></option>
+		<option value = "<%=emailForms.get(i) %>"> <%=emailForms.get(i) %></option>
 <%
 }
 %>
-		<option value = "">직접입력</option>
+		<option>직접입력</option>
 		</select>
-		<label id = "checkemailduplicate"></label>
-		<input type = "email" id = "assembleemail" name = "email"> 
+		<label id = "checkEmailDuplicate"></label>
+		<input type = "email" id = "assembleEmail" name = "email" style = "display: none;"> 
 		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
-		<input type="text" id = "pwd" name = "password" placeholder="비밀번호">
-		<input type="text" id = "pwdtest" placeholder="비밀번호 확인" onchange="testPassword();">
-		<label id = "pwdcheck"></label>
+		<input type="password" id = "pwd" name = "password" placeholder="비밀번호">
+		<input type="password" id = "pwdTest" placeholder="비밀번호 확인" onchange="testPassword();">
+		<label id = "pwdCheck"></label>
 		<br>
-		<input type="submit" value="가입하기" onclick="assembleEmail();">
+		<input type="submit" value="가입하기">
 	</form>
 </fieldset>
-<iframe id = "form_hidden"></iframe>
+<iframe id = "form_hidden" style = "display: none;"></iframe>
 <%@ include file="/footer.jsp" %>
 </body>
 </html>
