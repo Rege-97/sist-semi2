@@ -42,9 +42,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 		<article>
 			<table>
 				<tr>
-					<td rowspan="4"><img
-						src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg"
-						width="200"></td>
+					<td rowspan="4"><img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" width="200"></td>
 					<td colspan="2"><%=dto.getName()%></td>
 					<td rowspan="2">별점</td>
 				</tr>
@@ -66,18 +64,18 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 		</article>
 		<article>
 			<h1>수록곡</h1>
-			<table>
-				<thead>
+			<table width="600">
+				<thead align="left">
 					<tr>
 						<th>번호</th>
-						<th>곡/앨범</th>
+						<th colspan="2">곡/앨범</th>
 						<th>아티스트</th>
 						<th>듣기</th>
 						<th>내 리스트</th>
 						<th>다운로드</th>
 					</tr>
 					<tr>
-						<td colspan="6"><hr></td>
+						<td colspan="7"><hr></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -87,7 +85,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 					if (arr == null || arr.size() == 0) {
 					%>
 					<tr>
-						<td colspan="6">수록곡이 존재하지 않습니다.</td>
+						<td colspan="7">수록곡이 존재하지 않습니다.</td>
 					</tr>
 					<%
 					} else {
@@ -95,6 +93,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 					%>
 					<tr>
 						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
+						<td rowspan="2"><img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" width="50"></td>
 						<td><%=arr.get(i).getName()%></td>
 						<td rowspan="2"><%=arr.get(i).getArtist()%></td>
 						<td rowspan="2">듣기</td>
@@ -105,7 +104,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 						<td><%=arr.get(i).getAlbumName()%></td>
 					</tr>
 					<tr>
-						<td colspan="6"><hr></td>
+						<td colspan="7"><hr></td>
 					</tr>
 
 					<%
