@@ -97,7 +97,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 						<td><a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
 						<td rowspan="2"><a href="#"><%=arr.get(i).getArtist()%></a></td>
 						<td rowspan="2"><a href="#">듣기</a></td>
-						<td rowspan="2"><a href="#">플리</a></td>
+						<td rowspan="2"><a href="#">담기</a></td>
 						<td rowspan="2"><a href="#">다운로드</a></td>
 					</tr>
 					<tr>
