@@ -14,6 +14,7 @@ request.setCharacterEncoding("UTF-8");
 <%
 Calendar now = Calendar.getInstance();
 memberdto.setCreatedAt(new Timestamp(now.getTimeInMillis()));
+memberdto.setAccessType("listener");
 
 int result = memberdao.addMember(memberdto);
 String msg = result > 0 ? "회원가입 성공" : "오류 발생!";
