@@ -116,7 +116,7 @@ public class ChartDao {
 	}
 
 	// 앨범 정보 조회 메서드
-	public ArrayList<TrackDto> trackList(int id) {
+	public ArrayList<TrackDto> trackList(int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT rownum AS \"rnum\",s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" "
@@ -124,7 +124,7 @@ public class ChartDao {
 					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND a.ID = ? " + "ORDER BY s.ID";
 
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setInt(1, albumId);
 
 			rs = ps.executeQuery();
 
@@ -132,7 +132,7 @@ public class ChartDao {
 
 			while (rs.next()) {
 				int rnum = rs.getInt("rnum");
-				int albumId = rs.getInt("album_id");
+				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String artist = rs.getString("artist");
 				String albumName = rs.getString("album_name");
