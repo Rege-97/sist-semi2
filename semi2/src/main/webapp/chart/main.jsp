@@ -10,12 +10,19 @@
 <%@include file="/header.jsp" %>
 <section>
 	<article>
-		<a>|전체보기|</a>
-		<a>|장르1|</a>
-		<a>|장르2|</a>
-		<a>|장르3|</a>
-		<a>|장르4|</a>
-		<a>|장르5|</a>
+		<ul>
+			<li><a href="#">전체차트</a></li>
+			<li><a href="#">발라드</a></li>
+			<li><a href="#">알앤비</a></li>
+			<li><a href="#">힙합</a></li>
+			<li><a href="#">아이돌</a></li>
+			<li><a href="#">재즈</a></li>
+			<li><a href="#">팝</a></li>
+			<li><a href="#">클래식</a></li>
+			<li><a href="#">댄스</a></li>
+			<li><a href="#">인디</a></li>
+			<li><a href="#">락</a></li>
+		</ul>
 	</article>
 	<article>
 		<label>인기 차트</label>
