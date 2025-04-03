@@ -5,7 +5,6 @@
 	MemberDao dao = new MemberDao();
 	int result = dao.checkEmailDuplicate(request.getParameter("email"));
 	
-	
 	if(result > 0){
 %>
 <script>
