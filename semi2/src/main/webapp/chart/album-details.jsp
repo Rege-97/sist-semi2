@@ -23,16 +23,18 @@ String genres[] = { dto.getGenre1(), dto.getGenre2(), dto.getGenre3() };
 StringBuffer genre = new StringBuffer();
 
 for (int i = 0; i < 3; i++) {
-	if (genres[i] != null || genres.equals("")) {
-		if (i != 2) {
-	genre.append(genres[i] + " | ");
-		} else {
-	genre.append(genres[i]);
+	if (genres[i] != null) {
+		if (!genres[i].equals("")) {
+			if (i == 0) {
+				genre.append(genres[i]);
+			} else {
+				genre.append(" | " + genres[i]);
+			}
 		}
 	}
 }
 
-SimpleDateFormat sdf= new SimpleDateFormat("yyyy년 MM월 dd일");
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 String releasedAt = sdf.format(dto.getReleasedAt());
 %>
 </head>
@@ -42,7 +44,9 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 		<article>
 			<table>
 				<tr>
-					<td rowspan="4"><img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" width="200"></td>
+					<td rowspan="4"><img
+						src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg"
+						width="200"></td>
 					<td colspan="2"><%=dto.getName()%></td>
 					<td rowspan="2">별점</td>
 				</tr>
@@ -93,8 +97,11 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 					%>
 					<tr>
 						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
-						<td rowspan="2"><img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" width="50"></td>
-						<td><a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
+						<td rowspan="2"><img
+							src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg"
+							width="50"></td>
+						<td><a
+							href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
 						<td rowspan="2"><a href="#"><%=arr.get(i).getArtist()%></a></td>
 						<td rowspan="2"><a href="#">듣기</a></td>
 						<td rowspan="2"><a href="#">담기</a></td>
@@ -121,7 +128,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 					<td>앨범소개</td>
 				</tr>
 				<tr>
-					<td><%=releasedAt %></td>
+					<td><%=releasedAt%></td>
 				</tr>
 				<tr>
 					<td><br><%=dto.getDescription().replaceAll("\n", "<br>")%></td>
@@ -129,7 +136,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 			</table>
 		</article>
 		<article>
-		<hr>
+			<hr>
 			<form>
 				<img>사용자프로필이미지 <label>닉네임</label> <input type="text">
 				<input type="submit" value="등록">
