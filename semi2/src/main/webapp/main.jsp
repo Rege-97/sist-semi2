@@ -28,14 +28,25 @@
 		</label>
 		<ul>
 			<%
-			ArrayList<RootDto> arr = rdao.recentAlbumShow();
-			for (int i=0;i<arr.size();i++){
+			ArrayList<RootDto> arr = new ArrayList<RootDto>();
+			arr = rdao.recentAlbumShow();
+			if(arr==null){
 				%>
-				<li><img src="/semi2/resources/images/album/<%=arr.get(i).getId()%>">
-				<label><%=arr.get(i).getAlbumName() %></label>
-				<label><%=arr.get(i).getMemberName() %></label>
+				<li>불러올 정보가 없습니다.
 				<%
+			}else{
 				
+				for (int i=0;i<arr.size();i++){
+					%>
+					<li>
+					<a href="/semi2/chart/album-details.jsp?id=">				
+					<img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg">
+					</a>
+					<label><a href="/semi2/chart/album-details.jsp?id="><%=arr.get(i).getAlbumName() %></a></label>
+					<label><a href="/semi2/artist/main.jsp?id="><%=arr.get(i).getMemberName() %></a></label>
+					<%
+					
+				}
 			}
 			%>
 			
@@ -46,11 +57,85 @@
 		인기음악
 		</label>
 		<ul>
-			<li><img>1번 음악
-			<li><img>2번 음악
-			<li><img>3번 음악
-			<li><img>4번 음악
-			<li><img>5번 음악
+			<%
+			arr = rdao.popularSongShow();
+			if(arr==null){
+				%>
+				<li>불러올 정보가 없습니다.
+				<%
+			}else{
+				
+				for (int i=0;i<arr.size();i++){
+					%>
+					<li>
+					<a href="/semi2/chart/album-details.jsp?id=">
+					<img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg">
+					</a>
+					<label><a href="/semi2/chart/song-details.jsp?id="><%=arr.get(i).getSongName() %></a></label>
+					<label><a href="/semi2/artist/main.jsp?id="><%=arr.get(i).getMemberName() %></a></label>
+					<%
+					
+				}
+			}
+			%>
+		</ul>
+	</article>
+	<article>
+		<label>
+		인기 플레이리스트
+		</label>
+		<ul>
+			<%
+			arr = rdao.popularPlaylistShow();
+			if(arr==null){
+				%>
+				<li>불러올 정보가 없습니다.
+				<%
+			}else{
+				
+				for (int i=0;i<arr.size();i++){
+					%>
+					<li>
+					<a href="/semi2/playlist/details.jsp?id=">
+					<img src="/semi2/resources/images/playlist/<%=arr.get(i).getPlaylistId()%>/cover.jpg">
+					</a>
+					<label><a href="/semi2/playlist/details.jsp?id="><%=arr.get(i).getPlaylistName() %></a></label>
+					<%
+					
+				}
+			}
+			%>
+		</ul>
+	</article>
+	<article>
+		<label>
+		분위기에 따른 플레이리스트
+		</label>
+		<ul>
+			<li><a href="#"><img>신나는</a>
+			<li><a href="#"><img>잔잔한</a>
+			<li><a href="#"><img>감성적인</a>
+			<li><a href="#"><img>슬플 때</a>
+			<li><a href="#"><img>달달한</a>
+			<li><a href="#"><img>상쾌한</a>
+			<li><a href="#"><img>몽환적인</a>
+		</ul>
+	</article>
+	<article>
+		<label>
+		장르 콜렉션
+		</label>
+		<ul>
+			<li><a href="#"><img>1번 장르</a>
+			<li><a href="#"><img>2번 장르</a>
+			<li><a href="#"><img>3번 장르</a>
+			<li><a href="#"><img>4번 장르</a>
+			<li><a href="#"><img>5번 장르</a>
+			<li><a href="#"><img>6번 장르</a>
+			<li><a href="#"><img>7번 장르</a>
+			<li><a href="#"><img>8번 장르</a>
+			<li><a href="#"><img>9번 장르</a>
+			<li><a href="#"><img>10번 장르</a>
 		</ul>
 	</article>
 </section>
