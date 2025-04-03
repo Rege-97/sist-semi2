@@ -12,8 +12,6 @@ request.setCharacterEncoding("UTF-8");
 <jsp:useBean id="memberDao" class = "com.plick.member.MemberDao"></jsp:useBean>
 
 <%
-Calendar now = Calendar.getInstance();
-memberDto.setCreatedAt(new Timestamp(now.getTimeInMillis()));
 memberDto.setAccessType("listener");
 
 int result = memberDao.addMember(memberDto);

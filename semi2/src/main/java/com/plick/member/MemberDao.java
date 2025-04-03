@@ -19,7 +19,7 @@ public class MemberDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "INSERT INTO members (id, name, nickname, tel, email, password, access_type, created_at)"
-					+ " VALUES (seq_members_id.nextval, ?, ?, ?, ?, ?, ?, ?)";
+					+ " VALUES (seq_members_id.nextval, ?, ?, ?, ?, ?, ?, systimestamp)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getNickname());
@@ -27,7 +27,6 @@ public class MemberDao {
 			pstmt.setString(4, dto.getEmail());
 			pstmt.setString(5, dto.getPassword());
 			pstmt.setString(6, dto.getAccessType());
-			pstmt.setTimestamp(7, dto.getCreatedAt());
 			int result = pstmt.executeUpdate();
 			return result;
 		}catch(Exception e) {

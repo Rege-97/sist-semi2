@@ -28,11 +28,13 @@ function changeDirectInput(selectelement){
 		document.getElementById("emailTail").value = selectelement.value;
 		document.getElementById("emailTail").setAttribute("readonly", true);
 	} 
+	assembleEmail();
 }
 function assembleEmail() {
 	var emailHead = document.getElementById("emailHead").value;
 	var emailTail = document.getElementById("emailTail").value;
 	var email = emailHead+"@"+emailTail;
+	
 	document.getElementById("assembleEmail").value = email;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?email="+email;
 }
