@@ -3,6 +3,8 @@ package com.plick.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
 import com.plick.dto.MemberDto;
 
 public class MemberDao {
@@ -91,6 +93,31 @@ public class MemberDao {
 		}finally {
 			try {
 				
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	public ArrayList<String> searchEmail(String name, String tel) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT * FROM members WHERE name = ? and tel = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, tel);
+			rs = pstmt.executeQuery();
+			ArrayList<String> arr = new ArrayList<String>();
+			if(rs.next()) {
+				do {
+					arr.add(rs.getString("email"));
+				}while(rs.next());
+			}
+			return arr;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			try {	
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
