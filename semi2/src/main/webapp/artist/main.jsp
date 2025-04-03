@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.plick.dto.PlaylistDto"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="java.util.stream.Collector"%>
@@ -49,13 +50,15 @@ return;
 }
 String nickname = artistDto.getNickname();
 // 아티스트의 앨범을 최신순으로 정렬해 리스트화
-List<AlbumDto> sortedAlbums = artistDto.getAlbums().stream()
+List<AlbumDto> sortedAlbums = artistDto.getAlbums() != null ? artistDto.getAlbums().stream()
 		.sorted((a1, a2) -> a2.getAlbumDto().getCreatedAt().compareTo(a1.getAlbumDto().getCreatedAt()))
-		.collect(Collectors.toList());
+		.collect(Collectors.toList()) : new ArrayList<>();
 
 // 아티스트의 플레이리스트를 최신순으로 정렬해 리스트화
-List<PlaylistDto> sortedPlaylists = artistDto.getPlaylistDtos().stream()
-		.sorted((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt())).collect(Collectors.toList());
+List<PlaylistDto> sortedPlaylists = artistDto.getPlaylistDtos() != null
+		? artistDto.getPlaylistDtos().stream().sorted((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()))
+		.collect(Collectors.toList())
+		: new ArrayList<>();
 
 // 아티스트의 모든 노래를 조회수로 내림차순 정렬해 리스트화
 List<SongDto> sortedSongs = sortedAlbums.stream().flatMap(album -> album.getSongDtos().stream())
