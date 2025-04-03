@@ -23,7 +23,6 @@ public class MemberDao {
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getNickname());
 			pstmt.setString(3, dto.getTel());
-			System.out.println(dto.getEmail());
 			pstmt.setString(4, dto.getEmail());
 			pstmt.setString(5, dto.getPassword());
 			pstmt.setString(6, dto.getAccessType());

@@ -23,14 +23,12 @@ var pwdsame = false;
 function changeDirectInput(selectelement){
 	document.getElementById("emailtail").value = selectelement.value;
 	assembleEmail()
-	
 }
 function assembleEmail() {
 	var emailhead = document.getElementById("emailhead").value;
 	var emailtail = document.getElementById("emailtail").value;
 	var email = emailhead+"@"+emailtail;
 	document.getElementById("assembleemail").value = email;
-	
 	document.getElementById("form_hidden").src = "form_hidden.jsp?email="+email;
 }
 function testPassword() {
@@ -83,7 +81,7 @@ for (int i = 0; i < emailformlist.size(); i++) {
 %>
 		<option value = "">직접입력</option>
 		</select>
-		<label id = "checkemailduplicate">나 여기 있다옹</label>
+		<label id = "checkemailduplicate"></label>
 		<input type = "email" id = "assembleemail" name = "email"> 
 		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
