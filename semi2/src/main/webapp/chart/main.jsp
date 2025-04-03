@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.plick.chart.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
@@ -95,41 +94,34 @@ if (genre == null) {
 					if (i < 30) {
 				%>
 
-				<tbody><tr>
-					<td rowspan="2"><%=arr.get(i).getRnum()%></td>
-					<td rowspan="2"><img
-						src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg"
-						width="50"></td>
-					<td><a
-						href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
-					<td rowspan="2"><a
-						href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a></td>
-					<td rowspan="2"><a href="#">듣기</a></td>
-					<td rowspan="2"><a href="#">담기</a></td>
-					<td rowspan="2"><a href="#">다운로드</a></td>
-				</tr>
-				<tr>
-					<td><%=arr.get(i).getAlbumName()%></td>
-				</tr>
-				<tr>
-					<td colspan="7"><hr></td>
-				</tr>
+				<tbody>
+					<tr>
+						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
+						<td rowspan="2"><a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg" width="50"></a></td>
+						<td><a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
+						<td rowspan="2"><a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a></td>
+						<td rowspan="2"><a href="#">듣기</a></td>
+						<td rowspan="2"><a href="#">담기</a></td>
+						<td rowspan="2"><a href="#">다운로드</a></td>
+					</tr>
+					<tr>
+						<td><a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><%=arr.get(i).getAlbumName()%></a></td>
+					</tr>
+					<tr>
+						<td colspan="7"><hr></td>
+					</tr>
 				</tbody>
 
-					<%
-					} else {
-					%>
-				
+				<%
+				} else {
+				%>
+
 				<tbody class="morelist2" style="display: none;">
 					<tr>
 						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
-						<td rowspan="2"><img
-							src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg"
-							width="50"></td>
-						<td><a
-							href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
-						<td rowspan="2"><a
-							href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a></td>
+						<td rowspan="2"><img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg" width="50"></td>
+						<td><a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
+						<td rowspan="2"><a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a></td>
 						<td rowspan="2"><a href="#">듣기</a></td>
 						<td rowspan="2"><a href="#">담기</a></td>
 						<td rowspan="2"><a href="#">다운로드</a></td>
