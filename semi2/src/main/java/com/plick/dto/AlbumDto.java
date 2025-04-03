@@ -1,6 +1,6 @@
 package com.plick.dto;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class AlbumDto {
 	private int id;
