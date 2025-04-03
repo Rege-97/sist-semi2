@@ -19,7 +19,10 @@ public class ArtistDao {
 
 			MemberDto memberDto = findMemberDetailsByMemberId(memberId, conn);
 			List<AlbumDto> albumDtos = findAlbumsByMemberId(memberId, conn);
-
+			
+			if (memberDto == null) {
+				return null;
+			}
 			return new ArtistDto(memberDto, albumDtos);
 		} catch (SQLException e) {
 			e.printStackTrace();
