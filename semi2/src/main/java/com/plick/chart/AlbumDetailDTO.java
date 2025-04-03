@@ -2,7 +2,7 @@ package com.plick.chart;
 
 import java.sql.Timestamp;
 
-public class AlbumDetailDTO {
+public class AlbumDetailDto {
 	int id;
 	int memberId;
 	String name;
@@ -14,11 +14,11 @@ public class AlbumDetailDTO {
 	Timestamp createdAt;
 	String artist;
 	
-	public AlbumDetailDTO() {
+	public AlbumDetailDto() {
 
 	}
 
-	public AlbumDetailDTO(int id, int memberId, String name, String description, String genre1, String genre2,
+	public AlbumDetailDto(int id, int memberId, String name, String description, String genre1, String genre2,
 			String genre3, Timestamp releasedAt, Timestamp createdAt, String artist) {
 		super();
 		this.id = id;

@@ -3,8 +3,7 @@ package com.plick.chart;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import com.plick.dto.SongDto;
+import java.sql.Timestamp;
 
 public class ChartDao {
 
@@ -41,9 +40,58 @@ public class ChartDao {
 				String artist = rs.getString("artist");
 				String albumName = rs.getString("album_name");
 
-				dto = new SongDetailDto(id, albumId, name, composer, lyricist, lyrics, viewCount, artist,
-						albumName);
+				dto = new SongDetailDto(id, albumId, name, composer, lyricist, lyrics, viewCount, artist, albumName);
 
+			}
+
+			return dto;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+
+			}
+		}
+	}
+
+	// 앨범 정보 조회 메서드
+	public AlbumDetailDto findAlbum(int id) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT a.*, m.NICKNAME AS \"artist\" " + "FROM MEMBERS m, ALBUMS a "
+					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = ?";
+
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			rs = ps.executeQuery();
+
+			AlbumDetailDto dto = null;
+
+			if (rs.next()) {
+				int memberId = rs.getInt("member_id");
+				String name = rs.getString("name");
+				String description = rs.getString("description");
+				String genre1 = rs.getString("genre1");
+				String genre2 = rs.getString("genre2");
+				String genre3 = rs.getString("genre3");
+				Timestamp releasedAt = rs.getTimestamp("releasedAt");
+				Timestamp createdAt = rs.getTimestamp("createdAt");
+				String artist = rs.getString("artist");
+
+				dto = new AlbumDetailDto(id, memberId, name, description, genre1, genre2, genre3, releasedAt, createdAt,
+						artist);
+				
 			}
 
 			return dto;
