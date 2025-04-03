@@ -21,7 +21,6 @@ emailForms.add("daum.net");
 var pwdsame = false;
 
 function changeDirectInput(selectelement){
-	window.alert(selectelement.value);
 	if(selectelement.value == "직접입력") {
 		document.getElementById("emailTail").value = "";
 		document.getElementById("emailTail").removeAttribute("readonly");
@@ -88,7 +87,7 @@ for (int i = 0; i < emailForms.size(); i++) {
 		<option>직접입력</option>
 		</select>
 		<label id = "checkEmailDuplicate"></label>
-		<input type = "email" id = "assembleEmail" name = "email"> 
+		<input type = "email" id = "assembleEmail" name = "email" style = "display: none;"> 
 		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
 		<input type="password" id = "pwd" name = "password" placeholder="비밀번호">
@@ -98,7 +97,7 @@ for (int i = 0; i < emailForms.size(); i++) {
 		<input type="submit" value="가입하기" onclick="assembleEmail();">
 	</form>
 </fieldset>
-<iframe id = "form_hidden"></iframe>
+<iframe id = "form_hidden" style = "display: none;"></iframe>
 <%@ include file="/footer.jsp" %>
 </body>
 </html>
