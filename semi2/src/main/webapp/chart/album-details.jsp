@@ -51,7 +51,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 					<td rowspan="2">별점</td>
 				</tr>
 				<tr>
-					<td colspan="2"><a href="#"><%=dto.getArtist()%></a></td>
+					<td colspan="2"><a href="/semi2/artist/main.jsp?memberid=<%=dto.getMemberId()%>"><%=dto.getArtist()%></a></td>
 				</tr>
 				<tr>
 					<td colspan="3"><%=genre%></td>
@@ -102,7 +102,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 							width="50"></td>
 						<td><a
 							href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a></td>
-						<td rowspan="2"><a href="#"><%=arr.get(i).getArtist()%></a></td>
+						<td rowspan="2"><a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a></td>
 						<td rowspan="2"><a href="#">듣기</a></td>
 						<td rowspan="2"><a href="#">담기</a></td>
 						<td rowspan="2"><a href="#">다운로드</a></td>

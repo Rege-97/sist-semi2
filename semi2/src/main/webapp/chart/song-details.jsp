@@ -33,7 +33,7 @@ SongDetailDto dto = sdao.findSong(id);
 					<td colspan="2"><%=dto.getName() %></td>
 				</tr>
 				<tr>
-					<td colspan="2"><%=dto.getArtist() %></td>
+					<td colspan="2"><a href="/semi2/artist/main.jsp?memberid=<%=dto.getMemberId()%>"><%=dto.getArtist() %></a></td>
 				</tr>
 				<tr>
 					<td colspan="2"><a href="/semi2/chart/album-details.jsp?albumid=<%=dto.getAlbumId()%>"><%=dto.getAlbumName() %> ></a></td>
