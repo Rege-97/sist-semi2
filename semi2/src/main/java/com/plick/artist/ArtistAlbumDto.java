@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.plick.dto.SongDto;
 
-public class AlbumDto {
+public class ArtistAlbumDto {
 	private com.plick.dto.AlbumDto albumDto;
 	private List<SongDto> songDtos;
 
-	public AlbumDto(com.plick.dto.AlbumDto albumDto, List<SongDto> songDtos) {
+	public ArtistAlbumDto(com.plick.dto.AlbumDto albumDto, List<SongDto> songDtos) {
 		super();
 		this.albumDto = albumDto;
 		this.songDtos = songDtos;

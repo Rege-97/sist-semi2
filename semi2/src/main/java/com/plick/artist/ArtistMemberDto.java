@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.plick.dto.PlaylistDto;
 
-public class MemberDto {
+public class ArtistMemberDto {
 	private int id;
 	private String nickname;
 	private String description;
 	private List<PlaylistDto> playlistDtos;
 
-	public MemberDto(int id, String nickname, String description, List<PlaylistDto> playlistDtos) {
+	public ArtistMemberDto(int id, String nickname, String description, List<PlaylistDto> playlistDtos) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -18,7 +18,7 @@ public class MemberDto {
 		this.playlistDtos = playlistDtos;
 	}
 
-	public MemberDto(MemberDto memberDto) {
+	public ArtistMemberDto(ArtistMemberDto memberDto) {
 		this.id = memberDto.getId();
 		this.nickname = memberDto.getNickname();
 		this.description = memberDto.getDescription();

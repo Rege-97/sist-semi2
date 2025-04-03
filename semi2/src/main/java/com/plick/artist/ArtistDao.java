@@ -17,9 +17,9 @@ public class ArtistDao {
 	public ArtistDto findArtistDetailsByMemberId(int memberId) {
 		try (Connection conn = DBConnector.getConn();) {
 
-			MemberDto memberDto = findMemberDetailsByMemberId(memberId, conn);
-			List<AlbumDto> albumDtos = findAlbumsByMemberId(memberId, conn);
-			
+			ArtistMemberDto memberDto = findMemberDetailsByMemberId(memberId, conn);
+			List<ArtistAlbumDto> albumDtos = findAlbumsByMemberId(memberId, conn);
+
 			if (memberDto == null) {
 				return null;
 			}
@@ -30,7 +30,7 @@ public class ArtistDao {
 		return null;
 	}
 
-	private List<AlbumDto> findAlbumsByMemberId(int memberId, Connection conn) {
+	private List<ArtistAlbumDto> findAlbumsByMemberId(int memberId, Connection conn) {
 		String sql = "SELECT a.id AS album_id, a.member_id AS album_member_id, a.name AS album_name, "
 				+ "a.description AS album_description, a.genre1 AS album_genre1, a.genre2 AS album_genre2, "
 				+ "a.genre3 AS album_genre3, a.released_at AS album_released_at, a.created_at AS album_created_at, "
@@ -45,11 +45,11 @@ public class ArtistDao {
 				if (!rs.next()) {
 					return null;
 				}
-				Map<Integer, AlbumDto> albumMap = new HashMap<>();
+				Map<Integer, ArtistAlbumDto> albumMap = new HashMap<>();
 
 				do {
 					int albumId = rs.getInt("album_id");
-					AlbumDto albumDto = albumMap.get(albumId);
+					ArtistAlbumDto albumDto = albumMap.get(albumId);
 					if (albumDto == null) {
 						com.plick.dto.AlbumDto albumData = new com.plick.dto.AlbumDto(albumId,
 								rs.getInt("album_member_id"), rs.getString("album_name"),
@@ -57,7 +57,7 @@ public class ArtistDao {
 								rs.getString("album_genre2"), rs.getString("album_genre3"),
 								rs.getTimestamp("album_released_at"), rs.getTimestamp("album_created_at"));
 
-						albumDto = new AlbumDto(albumData, new ArrayList<>());
+						albumDto = new ArtistAlbumDto(albumData, new ArrayList<>());
 						albumMap.put(albumId, albumDto);
 					}
 					int songId = rs.getInt("song_id");
@@ -76,7 +76,7 @@ public class ArtistDao {
 		return null;
 	}
 
-	private MemberDto findMemberDetailsByMemberId(int memberId, Connection conn) {
+	private ArtistMemberDto findMemberDetailsByMemberId(int memberId, Connection conn) {
 		String sql = "SELECT m.id, m.nickname, m.description, "
 				+ "p.id AS playlist_id, p.member_id AS playlist_member_id, "
 				+ "p.name AS playlist_name, p.created_at, p.mood1, p.mood2 FROM members m "
@@ -101,7 +101,7 @@ public class ArtistDao {
 								rs.getString("mood2")));
 					}
 				} while (rs.next());
-				return new MemberDto(memberId, nickname, description, playlists);
+				return new ArtistMemberDto(memberId, nickname, description, playlists);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
