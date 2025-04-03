@@ -3,16 +3,16 @@ package com.plick.chart;
 import java.sql.Timestamp;
 
 public class AlbumDetailDto {
-	int id;
-	int memberId;
-	String name;
-	String description;
-	String genre1;
-	String genre2;
-	String genre3;
-	Timestamp releasedAt;
-	Timestamp createdAt;
-	String artist;
+	private int id;
+	private int memberId;
+	private String name;
+	private String description;
+	private String genre1;
+	private String genre2;
+	private String genre3;
+	private Timestamp releasedAt;
+	private Timestamp createdAt;
+	private String artist;
 	
 	public AlbumDetailDto() {
 

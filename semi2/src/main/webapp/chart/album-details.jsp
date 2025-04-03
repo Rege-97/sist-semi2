@@ -61,22 +61,21 @@ for (int i = 0; i < 3; i++) {
 			</table>
 		</article>
 		<article>
-			<label>수록곡</label>
+		<h1>수록곡</h1>
 			<table>
-				<tr>
-					<td><img>앨범아트
-					<td><a>제목</a> <a>앨범명</a>
-					<td><label>아티스트</label>
-					<td><img>+
-					<td><img>재생
-					<td><img>다운로드
-				<tr>
-					<td><img>앨범아트
-					<td><a>제목</a> <a>앨범명</a>
-					<td><label>아티스트</label>
-					<td><img>+
-					<td><img>재생
-					<td><img>다운로드
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>곡/앨범</th>
+						<th>아티스트</th>
+						<th>듣기</th>
+						<th>내 리스트</th>
+						<th>다운로드</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+				</tbody>
 			</table>
 		</article>
 		<article>
