@@ -115,7 +115,7 @@ public class ChartDao {
 		}
 	}
 
-	// 앨범 정보 조회 메서드
+	// 앨범 트랙 조회 메서드
 	public ArrayList<TrackDto> trackList(int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
@@ -133,6 +133,56 @@ public class ChartDao {
 			while (rs.next()) {
 				int rnum = rs.getInt("rnum");
 				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String artist = rs.getString("artist");
+				String albumName = rs.getString("album_name");
+
+				TrackDto dto = new TrackDto(rnum, id, albumId, name, artist, albumName);
+
+				arr.add(dto);
+			}
+
+			return arr;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	// 전체 차트 조회 메서드
+	public ArrayList<TrackDto> allChartList() {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT rownum AS rnum,a.* "
+					+ "FROM (SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" "
+					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
+					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND rownum<=100 "
+					+ "ORDER BY s.VIEW_COUNT desc)a "
+					+ "ORDER BY RNUM";
+
+			ps = conn.prepareStatement(sql);
+
+			rs = ps.executeQuery();
+
+			ArrayList<TrackDto> arr = new ArrayList<TrackDto>();
+
+			while (rs.next()) {
+				int rnum = rs.getInt("rnum");
+				int id = rs.getInt("id");
+				int albumId = rs.getInt("album_id");
 				String name = rs.getString("name");
 				String artist = rs.getString("artist");
 				String albumName = rs.getString("album_name");
