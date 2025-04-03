@@ -1,6 +1,9 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.plick.chart.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.sql.*"%>
 <jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
 <!DOCTYPE html>
 <html>
@@ -16,20 +19,21 @@ int id = Integer.parseInt(id_s);
 
 AlbumDetailDto dto = cdao.findAlbum(id);
 
-System.out.println(dto);
-
 String genres[] = { dto.getGenre1(), dto.getGenre2(), dto.getGenre3() };
 StringBuffer genre = new StringBuffer();
 
 for (int i = 0; i < 3; i++) {
 	if (genres[i] != null || genres.equals("")) {
 		if (i != 2) {
-			genre.append(genres[i] + "/");
+	genre.append(genres[i] + "/");
 		} else {
-			genre.append(genres[i]);
+	genre.append(genres[i]);
 		}
 	}
 }
+
+SimpleDateFormat sdf= new SimpleDateFormat("yyyy년 MM월 dd일");
+String releasedAt = sdf.format(dto.getReleasedAt());
 %>
 </head>
 <body>
@@ -48,7 +52,7 @@ for (int i = 0; i < 3; i++) {
 					<td colspan="2"><%=dto.getArtist()%></td>
 				</tr>
 				<tr>
-					<td colspan="3"><%=genre %></td>
+					<td colspan="3"><%=genre%></td>
 				</tr>
 				<tr>
 					<td><a href="#">모두재생</a></td>
@@ -61,7 +65,7 @@ for (int i = 0; i < 3; i++) {
 			</table>
 		</article>
 		<article>
-		<h1>수록곡</h1>
+			<h1>수록곡</h1>
 			<table>
 				<thead>
 					<tr>
@@ -72,14 +76,58 @@ for (int i = 0; i < 3; i++) {
 						<th>내 리스트</th>
 						<th>다운로드</th>
 					</tr>
+					<tr>
+						<td colspan="6"><hr></td>
+					</tr>
 				</thead>
 				<tbody>
-				
+					<%
+					ArrayList<TrackDto> arr = cdao.trackList(id);
+
+					if (arr == null || arr.size() == 0) {
+					%>
+					<tr>
+						<td colspan="6">수록곡이 존재하지 않습니다.</td>
+					</tr>
+					<%
+					} else {
+					for (int i = 0; i < arr.size(); i++) {
+					%>
+					<tr>
+						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
+						<td><%=arr.get(i).getName()%></td>
+						<td rowspan="2"><%=arr.get(i).getArtist()%></td>
+						<td rowspan="2">듣기</td>
+						<td rowspan="2">플리</td>
+						<td rowspan="2">다운로드</td>
+					</tr>
+					<tr>
+						<td><%=arr.get(i).getAlbumName()%></td>
+					</tr>
+					<tr>
+						<td colspan="6"><hr></td>
+					</tr>
+
+					<%
+					}
+
+					}
+					%>
 				</tbody>
 			</table>
 		</article>
 		<article>
-			<label>앨범소개</label> <label>발매일</label> <label>소개소개소개소개소개소개소개소개소개소개소개소개</label>
+			<table>
+				<tr>
+					<td>앨범소개</td>
+				</tr>
+				<tr>
+					<td><%=releasedAt %></td>
+				</tr>
+				<tr>
+					<td><br><%=dto.getDescription().replaceAll("\n", "<br>")%></td>
+				</tr>
+			</table>
 		</article>
 		<article>
 			<form>

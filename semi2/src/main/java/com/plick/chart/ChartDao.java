@@ -130,7 +130,7 @@ public class ChartDao {
 
 			ArrayList<TrackDto> arr = new ArrayList<TrackDto>();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				int rnum = rs.getInt("rnum");
 				int albumId = rs.getInt("album_id");
 				String name = rs.getString("name");
