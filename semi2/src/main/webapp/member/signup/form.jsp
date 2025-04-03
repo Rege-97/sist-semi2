@@ -85,8 +85,8 @@ for (int i = 0; i < emailformlist.size(); i++) {
 		<input type = "email" id = "assembleemail" name = "email"> 
 		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
-		<input type="text" id = "pwd" name = "password" placeholder="비밀번호">
-		<input type="text" id = "pwdtest" placeholder="비밀번호 확인" onchange="testPassword();">
+		<input type="password" id = "pwd" name = "password" placeholder="비밀번호">
+		<input type="password" id = "pwdtest" placeholder="비밀번호 확인" onchange="testPassword();">
 		<label id = "pwdcheck"></label>
 		<br>
 		<input type="submit" value="가입하기" onclick="assembleEmail();">
