@@ -36,7 +36,7 @@ SongDetailDto dto = sdao.findSong(id);
 					<td colspan="2"><%=dto.getArtist() %></td>
 				</tr>
 				<tr>
-					<td colspan="2"><a href="#"><%=dto.getAlbumName() %> ></a></td>
+					<td colspan="2"><a href="/semi2/chart/album-details.jsp?albumid=<%=dto.getAlbumId()%>"><%=dto.getAlbumName() %> ></a></td>
 				</tr>
 				<tr>
 					<td><a href="#">재생</a></td> <!-- 재생버튼 -->
