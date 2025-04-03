@@ -20,7 +20,7 @@ public class ChartDao {
 	public SongDetailDto findSong(int id) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" "
+			String sql = "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\", a.MEMBER_ID "
 					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
 					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND s.ID = ?";
 
@@ -40,8 +40,10 @@ public class ChartDao {
 				int viewCount = rs.getInt("view_count");
 				String artist = rs.getString("artist");
 				String albumName = rs.getString("album_name");
+				int memberId = rs.getInt("member_id");
 
-				dto = new SongDetailDto(id, albumId, name, composer, lyricist, lyrics, viewCount, artist, albumName);
+				dto = new SongDetailDto(id, albumId, name, composer, lyricist, lyrics, viewCount, artist, albumName,
+						memberId);
 
 			}
 
@@ -119,7 +121,7 @@ public class ChartDao {
 	public ArrayList<TrackDto> trackList(int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT rownum AS \"rnum\",s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" "
+			String sql = "SELECT rownum AS \"rnum\",s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" ,a.MEMBER_ID "
 					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
 					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND a.ID = ? " + "ORDER BY s.ID";
 
@@ -136,8 +138,9 @@ public class ChartDao {
 				String name = rs.getString("name");
 				String artist = rs.getString("artist");
 				String albumName = rs.getString("album_name");
+				int memberId = rs.getInt("member_id");
 
-				TrackDto dto = new TrackDto(rnum, id, albumId, name, artist, albumName);
+				TrackDto dto = new TrackDto(rnum, id, albumId, name, artist, albumName, memberId);
 
 				arr.add(dto);
 			}
@@ -161,17 +164,16 @@ public class ChartDao {
 			}
 		}
 	}
-	
+
 	// 전체 차트 조회 메서드
 	public ArrayList<TrackDto> allChartList() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT rownum AS rnum,a.* "
-					+ "FROM (SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\" "
+					+ "FROM (SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\", a.MEMBER_ID "
 					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
 					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND rownum<=100 "
-					+ "ORDER BY s.VIEW_COUNT desc)a "
-					+ "ORDER BY RNUM";
+					+ "ORDER BY s.VIEW_COUNT desc)a " + "ORDER BY RNUM";
 
 			ps = conn.prepareStatement(sql);
 
@@ -186,8 +188,9 @@ public class ChartDao {
 				String name = rs.getString("name");
 				String artist = rs.getString("artist");
 				String albumName = rs.getString("album_name");
+				int memberId = rs.getInt("member_id");
 
-				TrackDto dto = new TrackDto(rnum, id, albumId, name, artist, albumName);
+				TrackDto dto = new TrackDto(rnum, id, albumId, name, artist, albumName, memberId);
 
 				arr.add(dto);
 			}

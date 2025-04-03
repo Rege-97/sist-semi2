@@ -7,12 +7,13 @@ public class TrackDto {
 	private String name;
 	private String artist;
 	private String albumName;
-	
+	private int memberId;
+
 	public TrackDto() {
 
 	}
 
-	public TrackDto(int rnum, int id, int albumId, String name, String artist, String albumName) {
+	public TrackDto(int rnum, int id, int albumId, String name, String artist, String albumName, int memberId) {
 		super();
 		this.rnum = rnum;
 		this.id = id;
@@ -20,6 +21,7 @@ public class TrackDto {
 		this.name = name;
 		this.artist = artist;
 		this.albumName = albumName;
+		this.memberId = memberId;
 	}
 
 	public int getRnum() {
@@ -70,5 +72,12 @@ public class TrackDto {
 		this.albumName = albumName;
 	}
 
-	
+	public int getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(int memberId) {
+		this.memberId = memberId;
+	}
+
 }
