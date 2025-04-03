@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.plick.root.*" %>
+<%@ page import="java.util.*" %>    
+<jsp:useBean id="rdao" class="com.plick.root.RootDao"></jsp:useBean>
+<jsp:useBean id="rdto" class="com.plick.root.RootDto"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,14 +24,21 @@
 <section>
 	<article>
 		<label>
-		최신음악
+		최신발매앨범
 		</label>
 		<ul>
-			<li><img>1번 음악
-			<li><img>2번 음악
-			<li><img>3번 음악
-			<li><img>4번 음악
-			<li><img>5번 음악
+			<%
+			ArrayList<RootDto> arr = rdao.recentAlbumShow();
+			for (int i=0;i<arr.size();i++){
+				%>
+				<li><img src="/semi2/resources/images/album/<%=arr.get(i).getId()%>">
+				<label><%=arr.get(i).getAlbumName() %></label>
+				<label><%=arr.get(i).getMemberName() %></label>
+				<%
+				
+			}
+			%>
+			
 		</ul>
 	</article>
 	<article>
