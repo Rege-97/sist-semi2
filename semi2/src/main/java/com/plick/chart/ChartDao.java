@@ -85,8 +85,8 @@ public class ChartDao {
 				String genre1 = rs.getString("genre1");
 				String genre2 = rs.getString("genre2");
 				String genre3 = rs.getString("genre3");
-				Timestamp releasedAt = rs.getTimestamp("releasedAt");
-				Timestamp createdAt = rs.getTimestamp("createdAt");
+				Timestamp releasedAt = rs.getTimestamp("released_at");
+				Timestamp createdAt = rs.getTimestamp("created_at");
 				String artist = rs.getString("artist");
 
 				dto = new AlbumDetailDto(id, memberId, name, description, genre1, genre2, genre3, releasedAt, createdAt,
