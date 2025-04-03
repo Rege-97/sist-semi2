@@ -25,7 +25,7 @@ StringBuffer genre = new StringBuffer();
 for (int i = 0; i < 3; i++) {
 	if (genres[i] != null || genres.equals("")) {
 		if (i != 2) {
-	genre.append(genres[i] + "/");
+	genre.append(genres[i] + " | ");
 		} else {
 	genre.append(genres[i]);
 		}
@@ -129,6 +129,7 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 			</table>
 		</article>
 		<article>
+		<hr>
 			<form>
 				<img>사용자프로필이미지 <label>닉네임</label> <input type="text">
 				<input type="submit" value="등록">
