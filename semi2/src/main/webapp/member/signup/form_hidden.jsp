@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.plick.member.MemberDao"%>
 <%
-	System.out.println(request.getParameter("email"));
 	MemberDao dao = new MemberDao();
 	int result = dao.checkEmailDuplicate(request.getParameter("email"));
 	

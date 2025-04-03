@@ -42,8 +42,9 @@ public class MemberDao {
 	public int checkEmailDuplicate(String email) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT id FROM members";
+			String sql = "SELECT id FROM members where email = ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return 1;
