@@ -21,8 +21,14 @@ emailForms.add("daum.net");
 var pwdsame = false;
 
 function changeDirectInput(selectelement){
-	document.getElementById("emailTail").value = selectelement.value;
-	assembleEmail()
+	window.alert(selectelement.value);
+	if(selectelement.value == "직접입력") {
+		document.getElementById("emailTail").value = "";
+		document.getElementById("emailTail").removeAttribute("readonly");
+	}else{
+		document.getElementById("emailTail").value = selectelement.value;
+		document.getElementById("emailTail").setAttribute("readonly", true);
+	} 
 }
 function assembleEmail() {
 	var emailHead = document.getElementById("emailHead").value;
@@ -69,7 +75,7 @@ function formCheck(event) {
 		이름:<%=request.getParameter("name") %> 전화번호:<%=request.getParameter("tel") %>
 		
 		<input type="text" id = "emailHead" placeholder="이메일">@
-		<input type="text" id = "emailTail" value = "선택">
+		<input type="text" id = "emailTail" value = "선택" readonly>
 		<select onchange="changeDirectInput(this);">
 		<option disabled selected>선택</option>
 <%
@@ -79,7 +85,7 @@ for (int i = 0; i < emailForms.size(); i++) {
 <%
 }
 %>
-		<option value = "">직접입력</option>
+		<option>직접입력</option>
 		</select>
 		<label id = "checkEmailDuplicate"></label>
 		<input type = "email" id = "assembleEmail" name = "email"> 
