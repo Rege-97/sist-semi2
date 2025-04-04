@@ -5,18 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import com.plick.dto.MemberDto;
-
 public class MemberDao {
 
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;
 	static final int ERROR = -1;
-	static final int INVALID_ID = 1;
-	static final int INVALID_PWD = 2;
-	static final int SIGNIN_SUCCESS = 0;
-	public static final int COOKIE_LIFE_30DAYS = 3600*24*30;
+	
 	
 	public int addMember(MemberDto dto) {
 		try {
@@ -70,37 +65,7 @@ public class MemberDao {
 			}
 		}
 	}
-	public int verifySignin(MemberDto dto) {
-		try {
-			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT * FROM members WHERE email = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dto.getEmail());
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				if(!rs.getString("password").equals(dto.getPassword())) return INVALID_PWD;
-				dto.setId(rs.getInt("id"));
-				dto.setName(rs.getString("name"));
-				dto.setNickname(rs.getString("nickname"));
-				dto.setTel(rs.getString("tel"));
-				dto.setAccessType(rs.getString("access_type"));
-				dto.setCreatedAt(rs.getTimestamp("created_at"));
-				dto.setDescription(rs.getString("description"));
-				return SIGNIN_SUCCESS;
-			}else return INVALID_ID;
-		}catch(Exception e) {
-			e.printStackTrace();
-			return ERROR;
-		}finally {
-			try {
-				if(rs!=null)rs.close();
-				if(pstmt!=null)pstmt.close();
-				if(conn!=null)conn.close();
-			}catch(Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-	}
+	
 	public ArrayList<String> searchEmail(String name, String tel) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();

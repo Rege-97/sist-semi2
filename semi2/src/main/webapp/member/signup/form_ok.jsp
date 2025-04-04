@@ -2,12 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="java.util.Calendar" %>
-<%@ page import="com.plick.dto.MemberDto" %>
+<%@ page import="com.plick.member.MemberDto" %>
 <%
 request.setCharacterEncoding("UTF-8");
 %>
 
-<jsp:useBean id="memberDto" class = "com.plick.dto.MemberDto"></jsp:useBean>
+<jsp:useBean id="memberDto" class = "com.plick.member.MemberDto"></jsp:useBean>
 <jsp:setProperty property="*" name="memberDto"/>
 <jsp:useBean id="memberDao" class = "com.plick.member.MemberDao"></jsp:useBean>
 

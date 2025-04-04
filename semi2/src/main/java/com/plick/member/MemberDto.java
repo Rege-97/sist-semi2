@@ -1,4 +1,4 @@
-package com.plick.dto;
+package com.plick.member;
 
 import java.sql.Timestamp;
 
