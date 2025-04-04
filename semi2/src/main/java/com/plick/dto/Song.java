@@ -1,6 +1,6 @@
 package com.plick.dto;
 
-public class SongDto {
+public class Song {
 	private int id;
 	private int albumId;
 	private String name;
@@ -9,10 +9,10 @@ public class SongDto {
 	private String lyrics;
 	private int viewCount;
 
-	public SongDto() {
+	public Song() {
 	}
 
-	public SongDto(int id, int albumId, String name, String composer, String lyricist, String lyrics, int viewCount) {
+	public Song(int id, int albumId, String name, String composer, String lyricist, String lyrics, int viewCount) {
 		super();
 		this.id = id;
 		this.albumId = albumId;
