@@ -16,6 +16,7 @@ public class MemberDao {
 	static final int INVALID_ID = 1;
 	static final int INVALID_PWD = 2;
 	static final int SIGNIN_SUCCESS = 0;
+	public static final int COOKIE_LIFE_30DAYS = 3600*24*30;
 	
 	public int addMember(MemberDto dto) {
 		try {
