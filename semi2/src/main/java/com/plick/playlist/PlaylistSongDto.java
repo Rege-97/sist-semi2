@@ -1,32 +1,31 @@
-package com.plick.dto;
+package com.plick.playlist;
+
+import com.plick.dto.Song;
 
 public class PlaylistSongDto {
-	private int songId;
+	private int id;
+	private Song song;
 	private int playlistId;
-
-	public PlaylistSongDto() {
-	}
-
-	public PlaylistSongDto(int songId, int playlistId) {
+	private int turn;
+	
+	public PlaylistSongDto(int id, Song song, int playlistId, int turn) {
 		super();
-		this.songId = songId;
+		this.id = id;
+		this.song = song;
 		this.playlistId = playlistId;
+		this.turn = turn;
 	}
-
-	public int getSongId() {
-		return songId;
+	public int getId() {
+		return id;
 	}
-
-	public void setSongId(int songId) {
-		this.songId = songId;
+	public Song getSong() {
+		return song;
 	}
-
 	public int getPlaylistId() {
 		return playlistId;
 	}
-
-	public void setPlaylistId(int playlistId) {
-		this.playlistId = playlistId;
+	public int getTurn() {
+		return turn;
 	}
 
 }
