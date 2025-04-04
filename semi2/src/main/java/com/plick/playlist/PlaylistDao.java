@@ -40,33 +40,35 @@ public class PlaylistDao {
 				+ "LEFT JOIN members m ON p.member_id = m.id " + "LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
 				+ "LEFT JOIN songs s ON ps.song_id = s.id " + "WHERE  " + "    p.id = ? ";
 
-		try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
+			try (ResultSet rs = pstmt.executeQuery();) {
 
-			if (!rs.next()) {
-				return null;
-			}
-			int likeCount = findLikeCountByPlaylistId(playlistId, conn);
-
-			MemDto memberDto = new MemDto(rs.getInt("member_id"), rs.getString("member_nickname"),
-					rs.getString("member_access_type"));
-
-			Playlist playlist = new Playlist(rs.getInt("playlist_id"), rs.getInt("playlist_member_id"),
-					rs.getString("playlist_name"), rs.getTimestamp("playlist_created_at"),
-					rs.getString("playlist_mood1"), rs.getString("playlist_mood2"));
-
-			List<PlaylistSongDto> playlistSongDtos = new ArrayList<PlaylistSongDto>();
-			do {
-				int playlistSongId = rs.getInt("playlist_song_id");
-				if (!rs.wasNull()) {
-					playlistSongDtos.add(new PlaylistSongDto(playlistSongId,
-							new Song(rs.getInt("song_id"), rs.getInt("song_album_id"), rs.getString("song_name"), "",
-									"", "", rs.getInt("song_view_count")),
-							rs.getInt("playlist_song_playlist_id"), rs.getInt("playlist_song_turn")));
+				if (!rs.next()) {
+					return null;
 				}
-			} while (rs.next());
+				int likeCount = findLikeCountByPlaylistId(playlistId, conn);
 
-			return new PlaylistDto(memberDto, playlist, playlistSongDtos, likeCount);
+				MemDto memberDto = new MemDto(rs.getInt("member_id"), rs.getString("member_nickname"),
+						rs.getString("member_access_type"));
+
+				Playlist playlist = new Playlist(rs.getInt("playlist_id"), rs.getInt("playlist_member_id"),
+						rs.getString("playlist_name"), rs.getTimestamp("playlist_created_at"),
+						rs.getString("playlist_mood1"), rs.getString("playlist_mood2"));
+
+				List<PlaylistSongDto> playlistSongDtos = new ArrayList<PlaylistSongDto>();
+				do {
+					int playlistSongId = rs.getInt("playlist_song_id");
+					if (!rs.wasNull()) {
+						playlistSongDtos.add(new PlaylistSongDto(playlistSongId,
+								new Song(rs.getInt("song_id"), rs.getInt("song_album_id"), rs.getString("song_name"),
+										"", "", "", rs.getInt("song_view_count")),
+								rs.getInt("playlist_song_playlist_id"), rs.getInt("playlist_song_turn")));
+					}
+				} while (rs.next());
+
+				return new PlaylistDto(memberDto, playlist, playlistSongDtos, likeCount);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -76,10 +78,12 @@ public class PlaylistDao {
 	private int findLikeCountByPlaylistId(int playlistId, Connection conn) {
 		String sql = "SELECT COUNT(*) AS total_count " + "FROM likes WHERE playlist_id = ? ";
 
-		try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery();) {
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
+			try (ResultSet rs = pstmt.executeQuery();) {
 
-			return rs.next() ? rs.getInt("total_count") : Integer.MIN_VALUE;
+				return rs.next() ? rs.getInt("total_count") : Integer.MIN_VALUE;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -92,27 +96,28 @@ public class PlaylistDao {
 				+ "    pc.playlist_id AS playlist_comment_playlist_id, "
 				+ "    pc.content AS playlist_comment_content, " + "    pc.created_at AS playlist_comment_created_at, "
 				+ "    pc.parent_id AS playlist_comment_parent_id, " + "    m.id AS member_id, "
-				+ "    m.nickname AS member_nickname, " + "    m.access_type AS member_access_type, "
+				+ "    m.nickname AS member_nickname, " + "    m.access_type AS member_access_type " + "FROM "
 				+ "    playlist_comments pc " + "LEFT JOIN  " + "    members m ON pc.member_id = m.id " + "WHERE  "
 				+ "    pc.playlist_id = ?";
 
-		try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery();) {
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
+			try (ResultSet rs = pstmt.executeQuery();) {
 
-			if (!rs.next()) {
-				return null;
+				if (!rs.next()) {
+					return null;
+				}
+				List<PlaylistCommentDto> playlistCommentDtos = new ArrayList<PlaylistCommentDto>();
+				MemDto memberDto = new MemDto(rs.getInt("member_id"), rs.getString("member_nickname"),
+						rs.getString("member_access_type"));
+				do {
+					playlistCommentDtos.add(new PlaylistCommentDto(memberDto, new PlaylistComment(
+							rs.getInt("playlist_comment_id"), rs.getInt("playlist_comment_member_id"),
+							rs.getInt("playlist_comment_playlist_id"), rs.getString("playlist_comment_content"),
+							rs.getTimestamp("playlist_comment_created_at"), rs.getInt("playlist_comment_parent_id"))));
+				} while (rs.next());
+				return playlistCommentDtos;
 			}
-			List<PlaylistCommentDto> playlistCommentDtos = new ArrayList<PlaylistCommentDto>();
-			MemDto memberDto = new MemDto(rs.getInt("member_id"), rs.getString("member_nickname"),
-					rs.getString("member_access_type"));
-			do {
-				playlistCommentDtos.add(new PlaylistCommentDto(memberDto,
-						new PlaylistComment(rs.getInt("playlist_comment_id"), rs.getInt("playlist_comment_member_id"),
-								rs.getInt("playlist_comment_playlist_id"), rs.getString("playlist_comment_content"),
-								rs.getTimestamp("playlist_comment_created_at"),
-								rs.getInt("playlist_comment_parent_id"))));
-			} while (rs.next());
-			return playlistCommentDtos;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
