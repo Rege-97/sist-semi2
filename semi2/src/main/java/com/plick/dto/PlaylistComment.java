@@ -2,7 +2,7 @@ package com.plick.dto;
 
 import java.sql.Timestamp;
 
-public class PlaylistCommnetDto {
+public class PlaylistComment {
 	private int id;
 	private int memberId;
 	private int playlistId;
@@ -10,10 +10,10 @@ public class PlaylistCommnetDto {
 	private Timestamp createdAt;
 	private int parentId;
 
-	public PlaylistCommnetDto() {
+	public PlaylistComment() {
 	}
 
-	public PlaylistCommnetDto(int id, int memberId, int playlistId, String content, Timestamp createdAt, int parentId) {
+	public PlaylistComment(int id, int memberId, int playlistId, String content, Timestamp createdAt, int parentId) {
 		super();
 		this.id = id;
 		this.memberId = memberId;

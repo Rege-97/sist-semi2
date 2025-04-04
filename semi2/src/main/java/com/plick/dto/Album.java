@@ -2,7 +2,7 @@ package com.plick.dto;
 
 import java.sql.Timestamp;
 
-public class AlbumDto {
+public class Album {
 	private int id;
 	private int memberId;
 	private String name;
@@ -13,10 +13,10 @@ public class AlbumDto {
 	private Timestamp releasedAt;
 	private Timestamp createdAt;
 
-	public AlbumDto() {
+	public Album() {
 	}
 
-	public AlbumDto(int id, int memberId, String name, String description, String genre1, String genre2, String genre3,
+	public Album(int id, int memberId, String name, String description, String genre1, String genre2, String genre3,
 			Timestamp releasedAt, Timestamp createdAt) {
 		super();
 		this.id = id;

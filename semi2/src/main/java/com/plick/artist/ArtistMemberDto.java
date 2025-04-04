@@ -2,15 +2,15 @@ package com.plick.artist;
 
 import java.util.List;
 
-import com.plick.dto.PlaylistDto;
+import com.plick.dto.Playlist;
 
 public class ArtistMemberDto {
 	private int id;
 	private String nickname;
 	private String description;
-	private List<PlaylistDto> playlistDtos;
+	private List<Playlist> playlistDtos;
 
-	public ArtistMemberDto(int id, String nickname, String description, List<PlaylistDto> playlistDtos) {
+	public ArtistMemberDto(int id, String nickname, String description, List<Playlist> playlistDtos) {
 		super();
 		this.id = id;
 		this.nickname = nickname;
@@ -37,7 +37,7 @@ public class ArtistMemberDto {
 		return description;
 	}
 
-	public List<PlaylistDto> getPlaylistDtos() {
+	public List<Playlist> getPlaylistDtos() {
 		return playlistDtos;
 	}
 

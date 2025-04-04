@@ -2,15 +2,15 @@ package com.plick.dto;
 
 import java.sql.Timestamp;
 
-public class LikeDto {
+public class Like {
 	private int memberId;
 	private int playlistId;
 	private Timestamp createdAt;
 
-	public LikeDto() {
+	public Like() {
 	}
 
-	public LikeDto(int memberId, int playlistId, Timestamp createdAt) {
+	public Like(int memberId, int playlistId, Timestamp createdAt) {
 		super();
 		this.memberId = memberId;
 		this.playlistId = playlistId;

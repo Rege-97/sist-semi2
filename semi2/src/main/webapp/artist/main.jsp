@@ -1,10 +1,10 @@
-<%@page import="com.plick.dto.AlbumDto"%>
+<%@page import="com.plick.dto.Album"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.plick.dto.PlaylistDto"%>
+<%@page import="com.plick.dto.Playlist"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="java.util.stream.Collector"%>
 <%@page import="java.util.Comparator"%>
-<%@page import="com.plick.dto.SongDto"%>
+<%@page import="com.plick.dto.Song"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="com.plick.artist.ArtistAlbumDto"%>
 <%@page import="java.util.List"%>
@@ -56,13 +56,13 @@ List<ArtistAlbumDto> sortedAlbums = artistDto.getAlbums() != null ? artistDto.ge
 		.collect(Collectors.toList()) : new ArrayList<>();
 
 // 아티스트의 플레이리스트를 최신순으로 정렬해 리스트화
-List<PlaylistDto> sortedPlaylists = artistDto.getPlaylistDtos() != null
+List<Playlist> sortedPlaylists = artistDto.getPlaylistDtos() != null
 		? artistDto.getPlaylistDtos().stream().sorted((p1, p2) -> p2.getCreatedAt().compareTo(p1.getCreatedAt()))
 		.collect(Collectors.toList())
 		: new ArrayList<>();
 
 // 아티스트의 모든 노래를 조회수로 내림차순 정렬해 리스트화
-List<SongDto> sortedSongs = sortedAlbums.stream().flatMap(album -> album.getSongDtos().stream())
+List<Song> sortedSongs = sortedAlbums.stream().flatMap(album -> album.getSongDtos().stream())
 		.sorted((s1, s2) -> Integer.compare(s2.getViewCount(), s1.getViewCount())).collect(Collectors.toList());
 // 총 조회수 합산
 long totalViewCount = sortedSongs.stream().mapToLong(song -> song.getViewCount()).sum();
@@ -136,7 +136,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 			<%
 			for (int i = 0; i < Math.min(sortedAlbums.size(), MAX_ALBUMS_LENGTH); i++) {
 				StringBuffer genre = new StringBuffer();
-				AlbumDto albumDto = sortedAlbums.get(i).getAlbumDto();
+				Album albumDto = sortedAlbums.get(i).getAlbumDto();
 				genre.append(albumDto.getGenre1() == null ? "" : albumDto.getGenre1());
 				genre.append(" ");
 				genre.append(albumDto.getGenre2() == null ? "" : albumDto.getGenre2());
