@@ -3,19 +3,21 @@
 <%
 request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="memberDto" class="com.plick.dto.MemberDto" scope="session"></jsp:useBean>
-<jsp:setProperty property="*" name="memberDto"/>	
-<jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+<jsp:setProperty property="*" name="signedinDto"/>	
+<jsp:useBean id="signedinDao" class="com.plick.signedin.signedinDao"></jsp:useBean>
 <%
-int result = memberDao.verifySignin(memberDto);
+System.out.println(signedinDto.getMemberEmail());
+System.out.println(signedinDto.getMemberPassword());
+int result = signedinDao.verifySignin(signedinDto);
 String msg = "";
 String path = "";
 
 switch(result){
 case 0: 
 if(request.getParameter("rememberMe")!=null){
-	Cookie rememberMe = new Cookie("rememberMe", memberDto.getEmail());
-	rememberMe.setMaxAge(memberDao.COOKIE_LIFE_30DAYS);
+	Cookie rememberMe = new Cookie("rememberMe", signedinDto.getMemberEmail());
+	rememberMe.setMaxAge(signedinDao.COOKIE_LIFE_30DAYS);
 	response.addCookie(rememberMe);
 }else{
 	Cookie cookies[] = request.getCookies();

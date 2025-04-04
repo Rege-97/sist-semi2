@@ -25,9 +25,9 @@ for(int i = 0; i < cookies.length; i++){
 <%@ include file="/header.jsp" %>
 <fieldset>
 	<form action = "signin_ok.jsp" method = "post">
-		<input type="email" name = "email" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
+		<input type="email" name = "memberEmail" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
 		<br>
-		<input type="password" name = "password" placeholder="비밀번호">
+		<input type="password" name = "memberPassword" placeholder="비밀번호">
 		<br>
 		<input type="checkbox" id="remeberMe" name="rememberMe" <%=rememberEmail!=null?"checked":"" %>>아이디 저장
 		<br>
