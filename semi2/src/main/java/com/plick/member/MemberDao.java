@@ -92,7 +92,9 @@ public class MemberDao {
 			return ERROR;
 		}finally {
 			try {
-				
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
@@ -118,6 +120,55 @@ public class MemberDao {
 			return null;
 		}finally {
 			try {	
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	public boolean findPassword(String email, String name, String tel) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT * FROM members WHERE email = ? AND name = ? AND tel = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			pstmt.setString(2, name);
+			pstmt.setString(3, tel);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return true;
+			}else return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	public int resetPassword(String pwd, String email) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE members SET password = ? WHERE email = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pwd);
+			pstmt.setString(2, email);
+			int result = pstmt.executeUpdate();
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
