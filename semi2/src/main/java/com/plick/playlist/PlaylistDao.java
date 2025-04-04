@@ -17,6 +17,9 @@ public class PlaylistDao {
 	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId) {
 		try (Connection conn = DBConnector.getConn();) {
 			PlaylistDto playlistDto = findPlaylistByPlaylistId(playlistId, conn);
+			if (playlistDto==null) {
+				return null;
+			}
 			List<PlaylistCommentDto> playlistCommentDtos = findPlaylistCommentDtosByPlaylistId(playlistId, conn);
 			if (playlistCommentDtos == null) {
 				playlistCommentDtos = new ArrayList<PlaylistCommentDto>();
