@@ -8,8 +8,34 @@
 </head>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <script>
+
 function changeNickname() {
-	document.getElementById("emailTail").removeAttribute("readonly");
+	var nicknameEditButton = document.getElementById("nicknameEditButton");
+	var nickname = document.getElementById("nickname");
+	if (nicknameEditButton.value == "닉네임 변경"){
+		document.getElementById("nickname").removeAttribute("readonly");
+		nicknameEditButton.value = "수정완료";
+	}else if (nicknameEditButton.value == "수정완료"){	
+		var effectiveness = document.getElementById("nicknamecheck").value = true ? true : false;
+		if (effectiveness){
+			document.getElementById("profile_hidden").src = "profile_hidden.jsp?editedNickname="+document.getElementById("nickname").value
+					+"&memberId=<%=signedinDto.getMemberId() %>";
+		}
+		documen
+		document.getElementById("nickname").setAttribute("readonly", true);
+		nicknameEditButton.value = "닉네임 변경";
+	}
+}
+function changeTel() {
+	document.getElementById("tle").removeAttribute("readonly");
+	document.getElementById("tleEditButton").value = "수정완료";
+}
+function checkDuplicateNickname() {
+	document.getElementById("profile_hidden").src = "profile_hidden.jsp?editNickname="+document.getElementById("nickname").value;
+}
+function checkForm() {
+
+	
 }
 </script>
 <body>
@@ -26,12 +52,15 @@ function changeNickname() {
 <fieldset>
 	<img src = "">
 	<br>
-	<input type = "text" name = "nickname" value = "<%=signedinDto.getMemberNickname() %>" readonly>
-	<input type = "button" value = "닉네임 변경"  onclick = "changeNickname();">
-	<input type = "text" name = "tel" value = "<%=signedinDto.getMemberTel() %>">
-	<input type = "button" value = "프로필 수정">
+	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberNickname() %>" readonly onchange = "checkDuplicateNickname();">
+	<input type = "button" id = "nicknameEditButton" value = "닉네임 변경"  onclick = "changeNickname();" >
+	<label id = "duplicateNickname"></label>
+	<input type = "hidden" id = "nicknamecheck" value = "true">
+	<input type = "text" id = "nickname" name = "tel" value = "<%=signedinDto.getMemberTel() %>" readonly>
+	<input type = "button" id = "telEditButton" value = "번호 변경"  onclick = "changeTel();">
 </fieldset>
 <input type = "button" value = "아티스트 등록">
 <%@ include file="/footer.jsp" %>
+<iframe id = "profile_hidden" style = "display: none;"></iframe>
 </body>
 </html>
