@@ -1,4 +1,4 @@
-<%@page import="com.plick.dto.AlbumDto"%>
+<%@page import="com.plick.dto.Album"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.plick.dto.Playlist"%>
 <%@page import="java.util.stream.Collectors"%>
@@ -136,7 +136,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 			<%
 			for (int i = 0; i < Math.min(sortedAlbums.size(), MAX_ALBUMS_LENGTH); i++) {
 				StringBuffer genre = new StringBuffer();
-				AlbumDto albumDto = sortedAlbums.get(i).getAlbumDto();
+				Album albumDto = sortedAlbums.get(i).getAlbumDto();
 				genre.append(albumDto.getGenre1() == null ? "" : albumDto.getGenre1());
 				genre.append(" ");
 				genre.append(albumDto.getGenre2() == null ? "" : albumDto.getGenre2());

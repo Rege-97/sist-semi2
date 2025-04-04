@@ -5,16 +5,16 @@ import java.util.List;
 import com.plick.dto.Song;
 
 public class ArtistAlbumDto {
-	private com.plick.dto.AlbumDto albumDto;
+	private com.plick.dto.Album albumDto;
 	private List<Song> songDtos;
 
-	public ArtistAlbumDto(com.plick.dto.AlbumDto albumDto, List<Song> songDtos) {
+	public ArtistAlbumDto(com.plick.dto.Album albumDto, List<Song> songDtos) {
 		super();
 		this.albumDto = albumDto;
 		this.songDtos = songDtos;
 	}
 
-	public com.plick.dto.AlbumDto getAlbumDto() {
+	public com.plick.dto.Album getAlbumDto() {
 		return albumDto;
 	}
 

@@ -51,7 +51,7 @@ public class ArtistDao {
 					int albumId = rs.getInt("album_id");
 					ArtistAlbumDto albumDto = albumMap.get(albumId);
 					if (albumDto == null) {
-						com.plick.dto.AlbumDto albumData = new com.plick.dto.AlbumDto(albumId,
+						com.plick.dto.Album albumData = new com.plick.dto.Album(albumId,
 								rs.getInt("album_member_id"), rs.getString("album_name"),
 								rs.getString("album_description"), rs.getString("album_genre1"),
 								rs.getString("album_genre2"), rs.getString("album_genre3"),

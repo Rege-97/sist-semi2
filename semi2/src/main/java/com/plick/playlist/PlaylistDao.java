@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.plick.db.DBConnector;
+import com.plick.dto.Album;
 import com.plick.dto.Playlist;
 import com.plick.dto.PlaylistComment;
 import com.plick.dto.Song;
@@ -17,7 +18,7 @@ public class PlaylistDao {
 	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId) {
 		try (Connection conn = DBConnector.getConn();) {
 			PlaylistDto playlistDto = findPlaylistByPlaylistId(playlistId, conn);
-			if (playlistDto==null) {
+			if (playlistDto == null) {
 				return null;
 			}
 			List<PlaylistCommentDto> playlistCommentDtos = findPlaylistCommentDtosByPlaylistId(playlistId, conn);
@@ -39,9 +40,14 @@ public class PlaylistDao {
 				+ "    m.access_type AS member_access_type, " + "    ps.id AS playlist_song_id, "
 				+ "    ps.song_id AS playlist_song_song_id, " + "    ps.playlist_id AS playlist_song_playlist_id, "
 				+ "    ps.turn AS playlist_song_turn, " + "    s.id AS song_id, " + "    s.album_id AS song_album_id, "
-				+ "    s.name AS song_name, " + "    s.view_count AS song_view_count " + "FROM  " + "    playlists p "
-				+ "LEFT JOIN members m ON p.member_id = m.id " + "LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "LEFT JOIN songs s ON ps.song_id = s.id " + "WHERE  " + "    p.id = ? ";
+				+ "    s.name AS song_name, " + "    s.view_count AS song_view_count, " + "    a.id AS album_id, "
+				+ "    a.name AS album_name, " + "    m2.nickname AS album_member_nickname, " 
+				+ "    m2.id AS album_member_id "
+				+ "    FROM  "
+				+ "    playlists p " + "LEFT JOIN members m ON p.member_id = m.id "
+				+ "LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id " + "LEFT JOIN songs s ON ps.song_id = s.id "
+				+ "LEFT JOIN albums a ON a.id = s.album_id " + " LEFT JOIN members m2 ON m2.id = a.member_id "
+				+ "WHERE  " + "    p.id = ? ";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
@@ -50,7 +56,7 @@ public class PlaylistDao {
 				if (!rs.next()) {
 					return null;
 				}
-				int likeCount = findLikeCountByPlaylistId(playlistId, conn);
+				long likeCount = findLikeCountByPlaylistId(playlistId, conn);
 
 				MemDto memberDto = new MemDto(rs.getInt("member_id"), rs.getString("member_nickname"),
 						rs.getString("member_access_type"));
@@ -66,7 +72,9 @@ public class PlaylistDao {
 						playlistSongDtos.add(new PlaylistSongDto(playlistSongId,
 								new Song(rs.getInt("song_id"), rs.getInt("song_album_id"), rs.getString("song_name"),
 										"", "", "", rs.getInt("song_view_count")),
-								rs.getInt("playlist_song_playlist_id"), rs.getInt("playlist_song_turn")));
+								rs.getInt("playlist_song_playlist_id"), rs.getInt("playlist_song_turn"),
+								rs.getInt("album_id"), rs.getString("album_name"),
+								rs.getString("album_member_nickname"), rs.getInt("album_member_id")));
 					}
 				} while (rs.next());
 
@@ -78,19 +86,19 @@ public class PlaylistDao {
 		return null;
 	}
 
-	private int findLikeCountByPlaylistId(int playlistId, Connection conn) {
+	private long findLikeCountByPlaylistId(int playlistId, Connection conn) {
 		String sql = "SELECT COUNT(*) AS total_count " + "FROM likes WHERE playlist_id = ? ";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
 			try (ResultSet rs = pstmt.executeQuery();) {
 
-				return rs.next() ? rs.getInt("total_count") : Integer.MIN_VALUE;
+				return rs.next() ? rs.getInt("total_count") : -1L;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Integer.MIN_VALUE;
+		return -1L;
 	}
 
 	private List<PlaylistCommentDto> findPlaylistCommentDtosByPlaylistId(int playlistId, Connection conn) {
