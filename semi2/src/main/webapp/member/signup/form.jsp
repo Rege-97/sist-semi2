@@ -92,7 +92,7 @@ for (int i = 0; i < emailForms.size(); i++) {
 		<input type = "email" id = "assembleEmail" name = "email" style = "display: none;"> 
 		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
 		<br>
-		<input type="password" id = "pwd" name = "password" placeholder="비밀번호">
+		<input type="password" id = "pwd" name = "password" placeholder="비밀번호" onchange="testPassword();">
 		<input type="password" id = "pwdTest" placeholder="비밀번호 확인" onchange="testPassword();">
 		<label id = "pwdCheck"></label>
 		<br>
