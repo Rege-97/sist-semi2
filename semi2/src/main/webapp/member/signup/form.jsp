@@ -49,6 +49,11 @@ function testPassword() {
 		pwdsame = false;
 	}
 }
+function testNickname() {
+	var nickname = document.getElementById("nickname").value;
+	window.alert(nickname);
+	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
+}
 function formCheck(event) {
 	var a = true;
 	if (pwdsame == false){ 
@@ -90,7 +95,8 @@ for (int i = 0; i < emailForms.size(); i++) {
 		</select>
 		<label id = "checkEmailDuplicate"></label>
 		<input type = "email" id = "assembleEmail" name = "email" style = "display: none;"> 
-		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임">
+		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임" onchange = "testNickname();">
+		<label id = "checkNicknameDuplicate"></label>
 		<br>
 		<input type="password" id = "pwd" name = "password" placeholder="비밀번호" onchange="testPassword();">
 		<input type="password" id = "pwdTest" placeholder="비밀번호 확인" onchange="testPassword();">
