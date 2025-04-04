@@ -5,6 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%
+Cookie cookies[] = request.getCookies();
+for(int i = 0; i < cookies.length; i++){
+	if(cookies[i].getName().equals("rememberMe")){
+		
+	}
+}
+%>
 </head>
 <body>
 <%@ include file="/header.jsp" %>
@@ -14,7 +22,7 @@
 		<br>
 		<input type="password" name = "password" placeholder="비밀번호">
 		<br>
-		<input type="checkbox">아이디 저장
+		<input type="checkbox" id="remeberMe">아이디 저장
 		<br>
 		<input type="submit" value = "로그인">
 		<br>
