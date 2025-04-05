@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:useBean id="memberDto" class="com.plick.dto.MemberDto" scope="session"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <%
-String accessType=memberDto.getAccessType();
+String accessType=signedinDto.getMemberAccessType();
 if(accessType==null){
 	%>
 	<script>
@@ -25,7 +25,7 @@ if(accessType==null){
 <form name="writeForm" action="/semi2/support/question/write_ok.jsp" method="post">
 <label>제목</label><input name="title" type="text" placeholder="제목을 입력하세요."><br>
 <textarea name="content"></textarea>
-<input type="hidden" name="memberId" value="<%=memberDto.getId()%>">
+<input type="hidden" name="memberId" value="<%=signedinDto.getMemberId()%>">
 <input type="submit" value="글쓰기">
 </form>
 

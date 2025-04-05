@@ -3,9 +3,9 @@
 <%@ page import="java.util.*" %>	
 <%@ page import="com.plick.support.*" %>
 <jsp:useBean id="faqDao" class="com.plick.support.FaqDao"></jsp:useBean>
-<jsp:useBean id="memberDto" class="com.plick.dto.MemberDto" scope="session"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <%
-String accessType=memberDto.getAccessType();
+String accessType=signedinDto.getMemberAccessType();
 if(accessType==null){
 	accessType="";
 }
