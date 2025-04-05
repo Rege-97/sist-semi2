@@ -8,7 +8,7 @@
 </head>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <script>
-
+// 닉네임 변경 함수
 function changeNickname() {
 	var nicknameEditButton = document.getElementById("nicknameEditButton");
 	var nickname = document.getElementById("nickname");
@@ -26,13 +26,15 @@ function changeNickname() {
 		nicknameEditButton.value = "닉네임 변경";
 	}
 }
+// 전화 번호 변경 정책이 정해지면 구현할 부분
 function changeTel() {
-	document.getElementById("tle").removeAttribute("readonly");
-	document.getElementById("tleEditButton").value = "수정완료";
+	
 }
+// 닉네임 중복 실시간 검수 함수
 function checkDuplicateNickname() {
 	document.getElementById("profile_hidden").src = "profile_hidden.jsp?editNickname="+document.getElementById("nickname").value;
 }
+// 서밋 전 최종 데이터 검수
 function checkForm() {
 
 	
@@ -52,7 +54,7 @@ function checkForm() {
 <fieldset>
 	<img src = "">
 	<br>
-	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberNickname() %>" readonly onchange = "checkDuplicateNickname();">
+	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberEmail() %>" readonly onchange = "checkDuplicateNickname();">
 	<input type = "button" id = "nicknameEditButton" value = "닉네임 변경"  onclick = "changeNickname();" >
 	<label id = "duplicateNickname"></label>
 	<input type = "hidden" id = "nicknamecheck" value = "true">
