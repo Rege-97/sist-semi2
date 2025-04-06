@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.plick.dto.*" %>
+<%@ page import="java.text.*" %>
 <!DOCTYPE html>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <jsp:useBean id="signedinDao" class="com.plick.signedin.signedinDao"></jsp:useBean>
+<jsp:useBean id="membershipDao" class="com.plick.membership.MembershipDao"></jsp:useBean>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%
-if (signedinDto.getMemberEmail() == null) {
+if (signedinDto.getMemberId() ==0) {
 %>
 <script>
 	window.alert('로그인 후 이용하세요.');
@@ -39,8 +42,11 @@ if (membershipId_s == null || membershipId_s == "") {
 </script>
 <%
 }
-
 int membershipId = Integer.parseInt(membershipId_s);
+MembershipDto dto= membershipDao.findMembership(membershipId);
+
+DecimalFormat formatter = new DecimalFormat("#,###");
+String price=formatter.format(dto.getPrice());
 %>
 </head>
 <body>
@@ -48,31 +54,31 @@ int membershipId = Integer.parseInt(membershipId_s);
 	<section>
 		<article>
 			<h2>이용권 구매</h2>
-			<form name="payment" action="payment_ok">
+			<form name="payment" action="payment_ok.jsp" method="post">
+				<input type="hidden" name="memberid" value="<%=signedinDto.getMemberId()%>">
+				<input type="hidden" name="membershipid" value="<%=membershipId%>">
 				<fieldset>
+				<h2><%=dto.getName() %></h2>
 					<table>
 						<tr>
 							<th colspan="4">카드번호</th>
 						</tr>
 						<tr>
-							<td><input type="text" name="card_number1"></td>
-							<td><input type="text" name="card_number2"></td>
-							<td><input type="text" name="card_number3"></td>
-							<td><input type="text" name="card_number4"></td>
+							<td><input type="text" name="card_number1" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number2" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number3" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number4" minlength="4" maxlength="4" required></td>
 						</tr>
 						<th colspan="2">유효기간</th>
 						<th colspan="2">CVC</th>
 						</tr>
 						<tr>
-							<td><input type="text" name="card_month"></td>
-							<td><input type="text" name="card_year"></td>
-							<td colspan="2"><input type="text" name="card_cvc"></td>
+							<td><input type="text" name="card_month" minlength="2" maxlength="2" required></td>
+							<td><input type="text" name="card_year" minlength="2" maxlength="2" required></td>
+							<td colspan="2"><input type="text" name="card_cvc" minlength="3" maxlength="3" required></td>
 						</tr>
 						<tr>
-							<th colspan="4">결제금액</th>
-						</tr>
-						<tr>
-							<td colspan="4">10,000원</td>
+							<th colspan="4">결제금액 : <%=price %>원</th>
 						</tr>
 						<tr>
 							<td colspan="4"><input type="submit" value="결제하기"></td>
