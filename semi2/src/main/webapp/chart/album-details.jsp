@@ -5,6 +5,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
@@ -137,9 +138,20 @@ String releasedAt = sdf.format(dto.getReleasedAt());
 		</article>
 		<article>
 			<hr>
-			<form>
-				<img>사용자프로필이미지 <label>닉네임</label> <input type="text">
-				<input type="submit" value="등록">
+			<form name="album-comment" action="album-comment_ok.jsp" id="comment">
+			<input type="hidden" name="albumid" value="<%=dto.getId()%>">
+				<div class="comment-add">
+				<table class="commnet-add-table">
+					<tr>
+						<td class="comment-add-profile">
+						<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId() %>.jpg" width="50"class="comment-add-profile-image">
+							<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname() %></div>
+							</td>
+						<td class="comment-add-content"><textarea name="content" rows="3" cols="96" required></textarea></td>
+						<td class="comment-add-submit"><input type="submit" value="등록"></td>
+					</tr>
+				</table>
+				</div>
 			</form>
 			<table>
 				<tr>
