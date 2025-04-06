@@ -22,7 +22,7 @@ public class MembershipDao {
 
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			rs=ps.executeQuery();
+			rs = ps.executeQuery();
 
 			MembershipDto dto = null;
 
@@ -38,6 +38,37 @@ public class MembershipDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public int payMembership(int memberid, int membershipid) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "INSERT  " + "INTO MEMBERSHIP_MEMBERS  "
+					+ "values(seq_membership_members_id.nextval,?,?,systimestamp,systimestamp+(SELECT period FROM MEMBERSHIPS WHERE id=?))";
+
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, membershipid);
+			ps.setInt(2, memberid);
+			ps.setInt(3, membershipid);
+
+			int count= ps.executeUpdate();
+			return count;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
 		} finally {
 			try {
 				if (rs != null)

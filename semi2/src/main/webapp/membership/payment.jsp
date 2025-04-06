@@ -54,7 +54,7 @@ String price=formatter.format(dto.getPrice());
 	<section>
 		<article>
 			<h2>이용권 구매</h2>
-			<form name="payment" action="payment_ok">
+			<form name="payment" action="payment_ok.jsp" method="post">
 				<input type="hidden" name="memberid" value="<%=signedinDto.getMemberId()%>">
 				<input type="hidden" name="membershipid" value="<%=membershipId%>">
 				<fieldset>
