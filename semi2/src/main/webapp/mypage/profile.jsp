@@ -7,39 +7,6 @@
 <title>Insert title here</title>
 </head>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
-<script>
-// 닉네임 변경 함수
-function changeNickname() {
-	var nicknameEditButton = document.getElementById("nicknameEditButton");
-	var nickname = document.getElementById("nickname");
-	if (nicknameEditButton.value == "닉네임 변경"){
-		document.getElementById("nickname").removeAttribute("readonly");
-		nicknameEditButton.value = "수정완료";
-	}else if (nicknameEditButton.value == "수정완료"){	
-		var effectiveness = document.getElementById("nicknamecheck").value = true ? true : false;
-		if (effectiveness){
-			document.getElementById("profile_hidden").src = "profile_hidden.jsp?editedNickname="+document.getElementById("nickname").value
-					+"&memberId=<%=signedinDto.getMemberId() %>";
-		}
-		documen
-		document.getElementById("nickname").setAttribute("readonly", true);
-		nicknameEditButton.value = "닉네임 변경";
-	}
-}
-// 전화 번호 변경 정책이 정해지면 구현할 부분
-function changeTel() {
-	
-}
-// 닉네임 중복 실시간 검수 함수
-function checkDuplicateNickname() {
-	document.getElementById("profile_hidden").src = "profile_hidden.jsp?editNickname="+document.getElementById("nickname").value;
-}
-// 서밋 전 최종 데이터 검수
-function checkForm() {
-
-	
-}
-</script>
 <body>
 <%@ include file="/header.jsp" %>
 <h2>마이페이지</h2>
@@ -54,7 +21,7 @@ function checkForm() {
 <fieldset>
 	<img src = "">
 	<br>
-	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberEmail() %>" readonly onchange = "checkDuplicateNickname();">
+	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberNickname() %>" readonly onchange = "checkDuplicateNickname();">
 	<input type = "button" id = "nicknameEditButton" value = "닉네임 변경"  onclick = "changeNickname();" >
 	<label id = "duplicateNickname"></label>
 	<input type = "hidden" id = "nicknamecheck" value = "true">
@@ -64,5 +31,39 @@ function checkForm() {
 <input type = "button" value = "아티스트 등록">
 <%@ include file="/footer.jsp" %>
 <iframe id = "profile_hidden" style = "display: none;"></iframe>
+<script>
+// 닉네임 변경 dom 제어/ ifarame으로 중복 검사 요청
+	var nicknameEditButton = document.getElementById("nicknameEditButton");
+	var nickname = document.getElementById("nickname");
+	var profileHidden = document.getElementById("profile_hidden");
+function changeNickname() {
+	if (nicknameEditButton.value == "닉네임 변경"){
+		nickname.removeAttribute("readonly");
+		nicknameEditButton.value = "수정완료";
+	}else if (nicknameEditButton.value == "수정완료"){	
+		var effectiveness = document.getElementById("nicknamecheck").value == "true" ? true : false;
+		if (effectiveness){
+			window.alert("1");
+			profileHidden.src = "profile_hidden.jsp?editedNickname="+nickname.value
+					+"&memberId=<%=signedinDto.getMemberId() %>";
+		}
+		nickname.setAttribute("readonly", true);
+		nicknameEditButton.value = "닉네임 변경";
+	}
+}
+// 전화 번호 변경 정책이 정해지면 구현할 부분
+function changeTel() {
+	
+}
+// 닉네임 중복 실시간 검수 함수
+function checkDuplicateNickname() {
+	profileHidden.src = "profile_hidden.jsp?editNickname="+nickname.value;
+}
+// 서밋 전 최종 데이터 검수
+function checkForm() {
+
+	
+}
+</script>
 </body>
 </html>
