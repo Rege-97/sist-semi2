@@ -64,18 +64,18 @@ String price=formatter.format(dto.getPrice());
 							<th colspan="4">카드번호</th>
 						</tr>
 						<tr>
-							<td><input type="text" name="card_number1" required></td>
-							<td><input type="text" name="card_number2" required></td>
-							<td><input type="text" name="card_number3" required></td>
-							<td><input type="text" name="card_number4" required></td>
+							<td><input type="text" name="card_number1" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number2" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number3" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number4" minlength="4" maxlength="4" required></td>
 						</tr>
 						<th colspan="2">유효기간</th>
 						<th colspan="2">CVC</th>
 						</tr>
 						<tr>
-							<td><input type="text" name="card_month" required></td>
-							<td><input type="text" name="card_year" required></td>
-							<td colspan="2"><input type="text" name="card_cvc" required></td>
+							<td><input type="text" name="card_month" minlength="2" maxlength="2" required></td>
+							<td><input type="text" name="card_year" minlength="2" maxlength="2" required></td>
+							<td colspan="2"><input type="text" name="card_cvc" minlength="3" maxlength="3" required></td>
 						</tr>
 						<tr>
 							<th colspan="4">결제금액 : <%=price %>원</th>
