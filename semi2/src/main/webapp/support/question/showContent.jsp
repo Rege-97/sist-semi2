@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.plick.support.*" %>    
 <jsp:useBean id="questionDao" class="com.plick.support.QuestionDao"></jsp:useBean>
-<jsp:useBean id="memberDto" class="com.plick.dto.MemberDto" scope="session"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+
 
 <%
 String swAnswer = request.getParameter("answer");
@@ -36,7 +37,7 @@ if(id_str==null||id_str.equals("")){
 			<td colspan="2"><%=dto.getContent() %>
 			
 			<%
-			String accessType=memberDto.getAccessType();
+			String accessType=signedinDto.getMemberAccessType();
 			if(accessType==null){
 				accessType="";
 			}
@@ -46,7 +47,7 @@ if(id_str==null||id_str.equals("")){
 				<td>
 				<form action="/semi2/support/question/answer.jsp" method="post">
 				<input type="hidden" name="title" value="<%=dto.getTitle() %>">
-				<input type="hidden" name="id" value="<%=dto.getId() %>">
+				<input type="hidden" name="id" value="<%=dto.getParentId() %>">
 				<input type="submit" value="답글">
 				
 				</form>
