@@ -24,8 +24,8 @@ public class signedinDao {
 	public int verifySignin(signedinDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT name, nickname, tel, email, password, access_type, created_at, "
-					+ "description, membership_members.id, membership_id, member_id, started_at, stopped_at "
+			String sql = "SELECT members.id AS member_id, name, nickname, tel, email, password, access_type, created_at, "
+					+ "description, membership_members.id AS membership_member_id, membership_id, started_at, stopped_at "
 					+ "FROM members LEFT OUTER JOIN membership_members "
 					+ "ON members.id = membership_members.member_id " + "WHERE members.email = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -35,6 +35,7 @@ public class signedinDao {
 			if (rs.next()) {
 				if (!rs.getString("password").equals(dto.getMemberPassword()))
 					return INVALID_PWD;
+				dto.setMemberId(rs.getInt("member_id"));
 				dto.setMemberName(rs.getString("name"));
 				dto.setMemberNickname(rs.getString("nickname"));
 				dto.setMemberTel(rs.getString("tel"));
@@ -42,9 +43,8 @@ public class signedinDao {
 				dto.setMemberAccessType(rs.getString("access_type"));
 				dto.setMemberCreatedAt(rs.getTimestamp("created_at"));
 				dto.setMemberDescription(rs.getString("description"));
-				dto.setId(rs.getInt("id"));
+				dto.setMembershipMemberId(rs.getInt("membership_member_id"));
 				dto.setMembershipId(rs.getInt("membership_id"));
-				dto.setMemberId(rs.getInt("member_id"));
 				dto.setMembershipStarted_at(rs.getTimestamp("started_at"));
 				dto.setMembershipStopped_at(rs.getTimestamp("stopped_at"));
 				return SIGNIN_SUCCESS;
