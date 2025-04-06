@@ -311,7 +311,7 @@ public class ChartDao {
 			ps.setInt(1, memberId);
 			ps.setInt(2, albumId);
 			ps.setString(3, content);
-			ps.setInt(4, parentId);
+			ps.setInt(4, parentId + 1);
 
 			int count = ps.executeUpdate();
 
@@ -331,4 +331,115 @@ public class ChartDao {
 			}
 		}
 	}
+	
+	// 답글 등록 메서드
+		public int addCommentAnswer(int memberId, int albumId, String content,int parentId) {
+			try {
+				conn = com.plick.db.DBConnector.getConn();
+				String sql = "INSERT " + "INTO ALBUM_COMMENTS "
+						+ "values(seq_album_comments_id.nextval,?,?,?,systimestamp,?)";
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, memberId);
+				ps.setInt(2, albumId);
+				ps.setString(3, content);
+				ps.setInt(4, parentId);
+
+				int count = ps.executeUpdate();
+
+				return count;
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			} finally {
+				try {
+					if (ps != null)
+						ps.close();
+					if (conn != null)
+						conn.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+
+	// 총 댓글 수 구하기
+	public int getTotalCnt() {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "select count(*) from ALBUM_COMMENTS";
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			rs.next();
+
+			int count = rs.getInt(1);
+
+			return count == 0 ? 1 : count;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+
+			}
+		}
+	}
+
+	// 댓글 리스트 조회
+	public ArrayList<commentDto> commentList(int cp, int listSize) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			int start = (cp - 1) * listSize + 1;
+			int end = cp * listSize;
+			String sql = "SELECT b.*,m.NICKNAME FROM  " + "(SELECT rownum AS rnum,a.* from  "
+					+ "(SELECT * FROM ALBUM_COMMENTS ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m  "
+					+ "WHERE b.MEMBER_ID=m.ID AND rnum >=? AND rnum<=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, start);
+			ps.setInt(2, end);
+
+			rs = ps.executeQuery();
+			ArrayList<commentDto> arr = new ArrayList<commentDto>();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int memberId = rs.getInt("member_id");
+				int albumId = rs.getInt("album_id");
+				String content = rs.getString("content");
+				Timestamp createdAt = rs.getTimestamp("created_at");
+				int parentId = rs.getInt("parent_id");
+				String nickname = rs.getString("nickname");
+
+				commentDto dto = new commentDto(id, memberId, albumId, content, createdAt, parentId, nickname);
+				arr.add(dto);
+			}
+
+			return arr;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+
+			}
+		}
+	}
+
 }
