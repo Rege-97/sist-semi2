@@ -43,9 +43,7 @@ function changeNickname() {
 	}else if (nicknameEditButton.value == "수정완료"){	
 		var effectiveness = document.getElementById("nicknamecheck").value == "true" ? true : false;
 		if (effectiveness){
-			window.alert("1");
-			profileHidden.src = "profile_hidden.jsp?editedNickname="+nickname.value
-					+"&memberId=<%=signedinDto.getMemberId() %>";
+			profileHidden.src = "profile_hidden.jsp?editNickname="+nickname.value+"&memberId=<%=signedinDto.getMemberId() %>";
 		}
 		nickname.setAttribute("readonly", true);
 		nicknameEditButton.value = "닉네임 변경";

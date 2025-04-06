@@ -6,9 +6,9 @@
 <%
 MypageDao mypageDao = new MypageDao();
 String nickname = request.getParameter("editNickname");
-
+String memberId = request.getParameter("memberId");
 // "editNickname"로 요청이 들어오면 닉네임 중복 검사
-if (request.getParameter("editNickname")!=null){
+if (nickname!=null && memberId==null){
 	int result = mypageDao.checkNicknameDuplicate(nickname);
 	switch(result){
 	case 0: 
@@ -29,7 +29,7 @@ if (request.getParameter("editNickname")!=null){
 		break;
 	default:
 	}
-}else if(nickname!=null){// "MemberId"로 요청이 들어오면 닉네임 업데이트
+}else if(nickname!=null && memberId!=null){// "memberId"로 요청이 들어오면 닉네임 업데이트
 	int result = mypageDao.updateMemberNickname(nickname, Integer.parseInt(request.getParameter("memberId")));
 	if(result > 0){
 		signedinDto.setMemberNickname(nickname);
