@@ -11,14 +11,36 @@ if (signedinDto.getMemberEmail() == null) {
 %>
 <script>
 	window.alert('로그인 후 이용하세요.');
-	location.href='/semi2/membership/main.jsp';
+	location.href = '/semi2/membership/main.jsp';
 </script>
 <%
 }
 
+int hasMembershipId = signedinDao.hasActiveMembership(signedinDto);
+
+if (hasMembershipId > 0) {
+	%>
+	<script>
+	if(!confirm('이미 이용권이 있습니다. 변경하시겠습니까?')){
+		location.href = '/semi2/membership/main.jsp';
+	}
+	</script>
+	<%
+	
+}
+
 String membershipId_s = request.getParameter("membershipid");
 
+if (membershipId_s == null || membershipId_s == "") {
+%>
+<script>
+	window.alert('잘못된 접근입니다.');
+	location.href = '/semi2/membership/main.jsp';
+</script>
+<%
+}
 
+int membershipId = Integer.parseInt(membershipId_s);
 %>
 </head>
 <body>

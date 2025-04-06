@@ -73,6 +73,7 @@ public class signedinDao {
 			String sql = "SELECT stopped_at,membership_id FROM MEMBERSHIP_MEMBERS WHERE stopped_at=(SELECT max(stopped_at) FROM MEMBERSHIP_MEMBERS WHERE member_id=?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getMemberId());
+			rs=pstmt.executeQuery();
 			
 			int hasMembershipId = 0;
 			
