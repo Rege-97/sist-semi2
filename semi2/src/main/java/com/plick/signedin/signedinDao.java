@@ -43,7 +43,7 @@ public class signedinDao {
 				dto.setMemberAccessType(rs.getString("access_type"));
 				dto.setMemberCreatedAt(rs.getTimestamp("created_at"));
 				dto.setMemberDescription(rs.getString("description"));
-				dto.setId(rs.getInt("membership_member_id"));
+				dto.setMembershipMemberId(rs.getInt("membership_member_id"));
 				dto.setMembershipId(rs.getInt("membership_id"));
 				dto.setMembershipStarted_at(rs.getTimestamp("started_at"));
 				dto.setMembershipStopped_at(rs.getTimestamp("stopped_at"));
