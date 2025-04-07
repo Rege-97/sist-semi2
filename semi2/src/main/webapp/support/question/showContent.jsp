@@ -30,8 +30,9 @@ if(id_str==null||id_str.equals("")){
 			<tr>
 			<th><label>제목</label>
 			<td><%=dto.getTitle() %>
+			<%System.out.println(dto.getContent()); %>
 			<tr>
-			<td colspan="2"><%=dto.getContent() %>
+			<td colspan="2"><%=dto.getContent().replaceAll("\n", "<br>") %>
 			
 			<%
 			String accessType=signedinDto.getMemberAccessType();

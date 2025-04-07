@@ -31,7 +31,7 @@ if(id_str==null||id_str.equals("")){
 			<th><label>제목</label>
 			<td><%=dto.getTitle() %>
 			<tr>
-			<td colspan="2"><%=dto.getContent() %>
+			<td colspan="2"><%=dto.getContent().replaceAll("\n", "<br>") %>
 		</table>
 	</article>
 </section>
