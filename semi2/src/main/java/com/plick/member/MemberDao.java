@@ -193,15 +193,15 @@ public class MemberDao {
 		}
 	}
 	public String loadProfileImg(String realPath, int memberId) {
-		File profileImg = new File(realPath+"resources/images/member/"+memberId+"/profileImg.jpg");
+		File profileImg = new File(realPath+"resources/images/member/"+memberId+"/profile.jpg");
 		if (profileImg.exists()) {
-			return("resources/images/member/"+memberId+"/profileImg.jpg");
-		}else return "resources/images/member/defaultImg.jpg";
+			return("resources/images/member/"+memberId+"/profile.jpg");
+		}else return "resources/images/member/default-profile.jpg";
 	}
 	public String loadEditerImg(String realPath, int memberId) {
-		File profileImg = new File(realPath+"resources/images/member/"+memberId+"/profileImg.jpg");
+		File profileImg = new File(realPath+"resources/images/member/"+memberId+"/profile.jpg");
 		if (profileImg.exists()) {
-			return("resources/images/member/"+memberId+"/profileImg.jpg");
-		}else return "resources/images/member/editerImg.jpg";
+			return("resources/images/member/"+memberId+"/profile.jpg");
+		}else return "resources/images/member/editer-profile.jpg";
 	}
 }

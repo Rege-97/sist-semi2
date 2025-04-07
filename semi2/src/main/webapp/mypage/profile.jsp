@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
 <body>
 <%@ include file="/header.jsp" %>
