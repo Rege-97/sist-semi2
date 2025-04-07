@@ -54,7 +54,7 @@ header {
 
 /*로고 세팅*/
 .logo {
-	height: 30px;
+	height: 40px;
 	margin-right: 30px;
 }
 
@@ -62,7 +62,7 @@ header {
 .search-wrapper {
 	position: relative;
 	width: 300px;
-	margin-left: 60px;
+	margin-left: 50px;
 }
 
 .search-wrapper input[type="text"] {
@@ -91,9 +91,23 @@ header {
 
 /*로그인 세팅*/
 .login {
+	display:flex;
 	margin-left: auto;
 	font-size: 12px;
+	align-items: center;
+	gap:10px;
 }
+
+.login a:hover{
+	color: #ff2dac;
+}
+.login-profile-image{
+	width: 40px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+
 
 /*공통요소*/
 
