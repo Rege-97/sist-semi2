@@ -1,4 +1,4 @@
-package com.plick.playlist.main;
+package com.plick.playlist;
 
 import java.sql.Timestamp;
 
@@ -10,9 +10,10 @@ public class PlaylistPreviewDto {
 	private int likeCount;
 	private int songCount;
 	private String memberNickname;
+	private int firstAlbumId;
 
 	public PlaylistPreviewDto(int playlistId, int memberId, String playlistName, Timestamp createdAt, int likeCount,
-			int songCount, String memberNickname) {
+			int songCount, String memberNickname, int firstAlbumId) {
 		super();
 		this.playlistId = playlistId;
 		this.memberId = memberId;
@@ -21,6 +22,11 @@ public class PlaylistPreviewDto {
 		this.likeCount = likeCount;
 		this.songCount = songCount;
 		this.memberNickname = memberNickname;
+		this.firstAlbumId = firstAlbumId;
+	}
+
+	public int getFirstAlbumId() {
+		return firstAlbumId;
 	}
 
 	public int getPlaylistId() {
