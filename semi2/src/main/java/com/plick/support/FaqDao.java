@@ -14,7 +14,7 @@ public class FaqDao {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "insert into faq values (seq_faq_id.nextval,?,?,?,systimestamp)";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, dto.getId());
+			ps.setInt(1, dto.getMemberId());
 			ps.setString(2, dto.getTitle());
 			ps.setString(3, dto.getContent());
 			return ps.executeUpdate();

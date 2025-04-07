@@ -5,7 +5,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%!// 각 리스트(최신순, 인기순)에 최대 몇개를 가져올지 설정
-	static final int PREVIEW_MAX_COUNT = 10;%>
+static final int PREVIEW_MAX_COUNT = 10;%>
+
 <!DOCTYPE html>
 <html>
 <head>

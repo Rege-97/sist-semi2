@@ -3,12 +3,10 @@
 <%
 request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="signedinDto"/>	
-<jsp:useBean id="signedinDao" class="com.plick.signedin.signedinDao"></jsp:useBean>
+<jsp:useBean id="signedinDao" class="com.plick.signedin.SignedinDao"></jsp:useBean>
 <%
-System.out.println(signedinDto.getMemberEmail());
-System.out.println(signedinDto.getMemberPassword());
 int result = signedinDao.verifySignin(signedinDto);
 String msg = "";
 String path = "";

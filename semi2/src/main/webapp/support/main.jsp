@@ -3,7 +3,21 @@
 <%@ page import="java.util.*" %>	
 <%@ page import="com.plick.support.*" %>
 <jsp:useBean id="ndao" class="com.plick.support.NoticeDao"></jsp:useBean>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function write(){
+	console.log('write함수 실행')
+	location.href='/semi2/support/noticeWrite.jsp';
+}
+</script>
+</head>
+<body>
+<%@ include file="/header.jsp" %>
 <%
 String accessType=signedinDto.getMemberAccessType();
 if(accessType==null){
@@ -20,20 +34,6 @@ int currentPage = Integer.parseInt(currentPage_str);
 int pageGroupCount = (totalPage-1)/pageGroupSize+1;
 int currentGroup = (currentPage-1)/pageGroupSize+1;
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script>
-function write(){
-	console.log('write함수 실행')
-	location.href='/semi2/support/noticeWrite.jsp';
-}
-</script>
-</head>
-<body>
-<%@ include file="/header.jsp" %>
 	<section>
 		<article>
 			<h2>고객센터</h2>

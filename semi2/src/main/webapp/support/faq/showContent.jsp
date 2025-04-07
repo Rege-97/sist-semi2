@@ -3,20 +3,18 @@
 <%@ page import="com.plick.support.*" %>    
 <jsp:useBean id="faqDao" class="com.plick.support.FaqDao"></jsp:useBean>
 <%
-
 String id_str = request.getParameter("id"); 
 if(id_str==null||id_str.equals("")){
-	%>
+%>
 	<script>
 	window.alert('잘못된 접근입니다.');
 	location.href='/semi2/support/main.jsp';
 	</script>
 	<%
-}
-int	id = Integer.parseInt(id_str);
-FaqDto dto = faqDao.showContent(id);
-
-%>
+	}
+	int	id = Integer.parseInt(id_str);
+	FaqDto dto = faqDao.showContent(id);
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +30,7 @@ FaqDto dto = faqDao.showContent(id);
 			<th><label>제목</label>
 			<td><%=dto.getTitle() %>
 			<tr>
-			<td colspan="2"><%=dto.getContent() %>
+			<td colspan="2"><%=dto.getContent().replaceAll("\n", "<br>") %>
 		</table>
 	</article>
 </section>

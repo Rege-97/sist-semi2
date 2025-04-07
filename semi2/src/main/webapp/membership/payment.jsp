@@ -2,55 +2,54 @@
 <%@ page import="com.plick.dto.*" %>
 <%@ page import="java.text.*" %>
 <!DOCTYPE html>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
-<jsp:useBean id="signedinDao" class="com.plick.signedin.signedinDao"></jsp:useBean>
+<jsp:useBean id="signedinDao" class="com.plick.signedin.SignedinDao"></jsp:useBean>
 <jsp:useBean id="membershipDao" class="com.plick.membership.MembershipDao"></jsp:useBean>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%
-if (signedinDto.getMemberId() ==0) {
-%>
-<script>
-	window.alert('로그인 후 이용하세요.');
-	location.href = '/semi2/membership/main.jsp';
-</script>
-<%
-}
-
-int hasMembershipId = signedinDao.hasActiveMembership(signedinDto);
-
-if (hasMembershipId > 0) {
-	%>
-	<script>
-	if(!confirm('이미 이용권이 있습니다. 변경하시겠습니까?')){
-		location.href = '/semi2/membership/main.jsp';
-	}
-	</script>
-	<%
-	
-}
-
-String membershipId_s = request.getParameter("membershipid");
-
-if (membershipId_s == null || membershipId_s == "") {
-%>
-<script>
-	window.alert('잘못된 접근입니다.');
-	location.href = '/semi2/membership/main.jsp';
-</script>
-<%
-}
-int membershipId = Integer.parseInt(membershipId_s);
-MembershipDto dto= membershipDao.findMembership(membershipId);
-
-DecimalFormat formatter = new DecimalFormat("#,###");
-String price=formatter.format(dto.getPrice());
-%>
 </head>
 <body>
 	<%@include file="/header.jsp"%>
+		<%
+	if (signedinDto.getMemberId() ==0) {
+	%>
+	<script>
+		window.alert('로그인 후 이용하세요.');
+		location.href = '/semi2/membership/main.jsp';
+	</script>
+	<%
+	}
+	
+	int hasMembershipId = signedinDao.hasActiveMembership(signedinDto);
+	
+	if (hasMembershipId > 0) {
+		%>
+		<script>
+		if(!confirm('이미 이용권이 있습니다. 변경하시겠습니까?')){
+			location.href = '/semi2/membership/main.jsp';
+		}
+		</script>
+		<%
+		
+	}
+	
+	String membershipId_s = request.getParameter("membershipid");
+	
+	if (membershipId_s == null || membershipId_s == "") {
+	%>
+	<script>
+		window.alert('잘못된 접근입니다.');
+		location.href = '/semi2/membership/main.jsp';
+	</script>
+	<%
+	}
+	int membershipId = Integer.parseInt(membershipId_s);
+	MembershipDto dto= membershipDao.findMembership(membershipId);
+	
+	DecimalFormat formatter = new DecimalFormat("#,###");
+	String price=formatter.format(dto.getPrice());
+	%>
 	<section>
 		<article>
 			<h2>이용권 구매</h2>
