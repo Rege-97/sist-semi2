@@ -7,14 +7,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<script>
+function addAlbumCover() {
+	document.getElementById("inputAlbumCover").click();
+}
+</script>
 <fieldset>
-	<form action="song-form.jsp">
-	<img src = "" name = "albumart">
+	<form action="song-form.jsp?first=true" method = "post">
+	<img name = "albumCover" onclick = "addAlbumCover();">
+	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover">
 	<br>
-	<input type = "text" name = "albumtitle" placeholder="앨범제목">
+	<input type = "text" name = "name" placeholder="앨범제목">
 	<input type = "text" name = "description" placeholder="앨범소개">
-	<input type = "text" name = "description" placeholder="아티스트">
+	<input type = "text" name = "memberName" placeholder="아티스트">
+	<input type = "text" name = "" placeholder="발매예정일">
 	<select>
 	<option disabled selected>장르선택</option>
 	<option>장르1</option>
