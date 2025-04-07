@@ -2,9 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.plick.support.*" %>    
 <jsp:useBean id="questionDao" class="com.plick.support.QuestionDao"></jsp:useBean>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
-
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%@include file="/header.jsp" %>
 <%
 String swAnswer = request.getParameter("answer");
 String id_str = request.getParameter("id"); 
@@ -19,14 +24,6 @@ if(id_str==null||id_str.equals("")){
 	int	id = Integer.parseInt(id_str);
 	QuestionDto dto = questionDao.showContent(id);
 	%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<%@include file="/header.jsp" %>
 <section>
 	<article>
 		<table>

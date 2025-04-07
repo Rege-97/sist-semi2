@@ -5,5 +5,5 @@ session.invalidate();
 %>
 <script>
 window.alert("로그아웃 실행");
-history.back();
+location.href='/semi2/main.jsp';
 </script>

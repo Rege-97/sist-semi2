@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%@ include file="/header.jsp" %>
 <%
 String accessType=signedinDto.getMemberAccessType();
 if(accessType==null){
@@ -15,14 +23,6 @@ if(!accessType.equals("admin")){
 	<%
 }
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<%@ include file="/header.jsp" %>
 <h1>공지사항 글쓰기</h1>
 <form name="writeForm" action="/semi2/support/notice/write_ok.jsp" method="post">
 <label>제목</label><input name="title" type="text" placeholder="제목을 입력하세요."><br>

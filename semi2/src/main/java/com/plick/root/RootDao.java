@@ -129,5 +129,32 @@ public class RootDao {
 		}
 	}
 	
+	//로그인 완료 화면
+	public SignedinHeaderDto signedinHeader(int memberId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql="select mms.*, memberships.name "
+					+ "from(select members.id member_id, members.nickname, mm.membership_id,mm.stopped_at  "
+					+ "    from members,membership_members mm "
+					+ "    where members.id = mm.member_id) mms, memberships "
+					+ "where mms.membership_id = memberships.id and stopped_at=(SELECT max(stopped_at) FROM MEMBERSHIP_MEMBERS WHERE member_id=?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, memberId);
+			rs = ps.executeQuery();
+			if(!rs.next())return null;
+			String nickname = rs.getString("nickname");
+			int membershipId = rs.getInt("membership_id");
+			Timestamp stoppedAt = rs.getTimestamp("stopped_at");
+			String membershipName = rs.getString("name");
+			SignedinHeaderDto dto = new SignedinHeaderDto(memberId, nickname, membershipId, stoppedAt, membershipName);
+			return dto;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 }
