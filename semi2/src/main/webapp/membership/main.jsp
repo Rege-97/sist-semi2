@@ -6,68 +6,79 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@include file="/header.jsp" %>
-<section>
-<article>
-<h2>이용권 구매</h2>
+
 <body>
 	<section>
 		<article>
-			<a href="/semi2/membership/payment.jsp?membershipid=3"><img src="/semi2/resources/images/design/banner/banner-membership.jpg" width="1300"></a>
-			<hr>
-			<table width="900">
+			<a href="/semi2/membership/payment.jsp?membershipid=3"><img src="/semi2/resources/images/design/banner/banner-membership.jpg" class="membership-banner"></a>
+			
+			<table class="membership-table">
 				<tr>
-					<td>무제한 듣기</td>
-					<td rowspan="2">30일 이용권</td>
-					<td rowspan="2">
-						<del>정가 9,900원</del>
+					<td class="membership-title-col">
+					<div class="membership-title-box">
+					<div class="membership-name">무제한 듣기<span class="membership-day">30일 이용권</span></div>
+					<div class="membership-detail">모든 곡 스트리밍</div>
+					</div>
 					</td>
-					<td>7,990원</td>
-					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membershipid=1">구매</a></td>
-				</tr>
-				<tr>
-					<td>모든 곡 스트리밍</td>
-					<td>VAT 포함</td>
+					<td>
+						<div class="membership-real-price">정가 9,900원</div>
+					</td>
+					<td class="membership-price-col">
+					<div class="membership-price">7,990원</div>
+					<div class="membership-price-detail">VAT 포함</div>
+					</td>
+					<td class="membership-pay-col">
+					<input type="button" value="구매" class="bt" onclick="location.href='/semi2/membership/payment.jsp?membershipid=1'">
+					</td>
 				</tr>
 				</table>
-				<hr>
-				<table width="900">
+				<table class="membership-table">
 				<tr>
-					<td>무제한 다운로드</td>
-					<td rowspan="2">30일 이용권</td>
-					<td rowspan="2">
-						<del>정가 9,900원</del>
+					<td class="membership-title-col">
+					<div class="membership-title-box">
+					<div class="membership-name">무제한 다운로드<span class="membership-day">30일 이용권</span></div>
+					<div class="membership-detail">모든 곡 다운로드</div>
+					</div>
 					</td>
-					<td>7,990원</td>
-					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membershipid=2">구매</a></td>
-				</tr>
-				<tr>
-					<td>모든 곡 다운로드</td>
-					<td>VAT 포함</td>
+					<td>
+						<div class="membership-real-price">정가 9,900원</div>
+					</td>
+					<td class="membership-price-col">
+					<div class="membership-price">7,990원</div>
+					<div class="membership-price-detail">VAT 포함</div>
+					</td>
+					<td class="membership-pay-col">
+					<input type="button" value="구매" class="bt" onclick="location.href='/semi2/membership/payment.jsp?membershipid=2'">
+					</td>
 				</tr>
 				</table>
-				<hr>
-				<table width="900">
+				<table class="membership-table">
 				<tr>
-					<td>무제한 듣기 + 다운로드</td>
-					<td rowspan="2">30일 이용권</td>
-					<td rowspan="2">
-						<del>정가 19,800원</del>
+					<td class="membership-title-col">
+					<div class="membership-title-box">
+					<div class="membership-name">무제한 듣기 + 다운로드<span class="membership-day">30일 이용권</span></div>
+					<div class="membership-detail">모든 곡 스트리밍 + 다운로드</div>
+					</div>
 					</td>
-					<td>13,990원</td>
-					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membershipid=3">구매</a></td>
+					<td>
+						<div class="membership-real-price">정가 19,800원</div>
+					</td>
+					<td class="membership-price-col">
+					<div class="membership-price">13,990원</div>
+					<div class="membership-price-detail">VAT 포함</div>
+					</td>
+					<td class="membership-pay-col">
+					<input type="button" value="구매" class="bt" onclick="location.href='/semi2/membership/payment.jsp?membershipid=3'">
+					</td>
 				</tr>
-				<tr>
-					<td>모든 곡 스트리밍 + 다운로드</td>
-					<td>VAT 포함</td>
-				</tr>
-			</table>
-			<hr>
+				</table>
 		</article>
 		<article>
-		<h1>구매안내</h1>
-		<ul>
+		<div class="membership-caution-title">구매안내</div>
+		<ul class="membership-caution">
 		<li>이용권 구매 시 부가가치세(10%)가 별도 부가됩니다.</li>
 		<li>무제한 듣기는 이용 기간 동안 전곡 스트리밍 무제한 감상이 가능합니다.</li>
 		<li>무제한 듣기는 다운로드 기능은 제공되지 않습니다.</li>

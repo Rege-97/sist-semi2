@@ -148,10 +148,11 @@ header {
 }
 
 /*이미지,텍스트 요소 카드 div*/
-.gallery-card,.gallery-card-last {
+.gallery-card, .gallery-card-last {
 	margin-right: 30px;
 }
-.gallery-card-last{
+
+.gallery-card-last {
 	margin-bottom: 30px;
 }
 
@@ -575,4 +576,90 @@ table.song-list .song-list-body {
 
 .song-detail-table td {
 	text-align: left;
+}
+
+.membership-banner {
+	width: 100%;
+	border-radius: 6px;
+	margin-top:30px;
+}
+
+.membership-table {
+	width: 100%;
+	height: 100px;
+	background: black;
+	border-radius: 6px;
+	padding: 10px 10px;
+	margin-top: 30px;
+	border-collapse: collapse;
+}
+
+.membership-title-col {
+	width: 480px;
+
+}
+.membership-title-box{
+		border-right: 1px solid #262626;
+	padding:10px;
+}
+
+.membership-name {
+	font-size: 25px;
+	margin-left: 20px;
+}
+
+.membership-detail {
+	font-size: 13px;
+	margin-left: 20px;
+	color: #a7a7a7;
+}
+
+.membership-day {
+	font-size:12px;
+	text-align: left;
+	margin-left:10px;
+	margin-bottom: 10px;
+	color: #a7a7a7;
+}
+
+.membership-real-price {
+	color: #a7a7a7;
+	text-decoration: line-through;
+	text-align: right;
+	margin-right: 10px;
+	font-size: 13px;
+	margin-bottom: 12px;
+}
+
+.membership-price-col {
+	width: 150px;
+}
+
+.membership-price {
+	font-size: 25px;
+	color: #ff2dac;
+	text-align: right;
+	margin-right:40px;
+}
+
+.membership-price-detail {
+	font-size: 10px;
+	color: #a7a7a7;
+	text-align: right;
+	margin-right:42px;
+}
+
+.membership-pay-col {
+	width: 100px;
+}
+.membership-caution-title{
+	color: #a7a7a7;
+	font-weight: bold;
+	font-size: 13px;
+	margin-top:50px;
+}
+.membership-caution{
+	font-size: 12px;
+	color: #a7a7a7;
+	padding-left: 15px;
 }
