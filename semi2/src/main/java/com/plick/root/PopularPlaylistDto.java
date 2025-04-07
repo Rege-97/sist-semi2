@@ -1,68 +1,93 @@
 package com.plick.root;
 
+import java.sql.*;
+
 public class PopularPlaylistDto {
-	int playlistId;
-	String playlistName;
-	String playlistMood1;
-	String playlistMood2;
-	
-	
-	
+	private int playlistId;
+	private int MemberId;
+	private String playlistName;
+	private Timestamp createdAt;
+	private int songCount;
+	private int likeCount;
+	private String memberNickname;
+	private int firstAlbumId;
+
 	public int getPlaylistId() {
 		return playlistId;
 	}
-
-
 
 	public void setPlaylistId(int playlistId) {
 		this.playlistId = playlistId;
 	}
 
-
-
 	public String getPlaylistName() {
 		return playlistName;
 	}
-
-
 
 	public void setPlaylistName(String playlistName) {
 		this.playlistName = playlistName;
 	}
 
-
-
-	public String getPlaylistMood1() {
-		return playlistMood1;
+	public int getMemberId() {
+		return MemberId;
 	}
 
-
-
-	public void setPlaylistMood1(String playlistMood1) {
-		this.playlistMood1 = playlistMood1;
+	public void setMemberId(int memberId) {
+		MemberId = memberId;
 	}
 
-
-
-	public String getPlaylistMood2() {
-		return playlistMood2;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
 
-
-
-	public void setPlaylistMood2(String playlistMood2) {
-		this.playlistMood2 = playlistMood2;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
 
+	public int getSongCount() {
+		return songCount;
+	}
 
+	public void setSongCount(int songCount) {
+		this.songCount = songCount;
+	}
 
-	//인기 플리 조회/분위기 플리 조회
-	public PopularPlaylistDto(int playlistId, String playlistName, String playlistMood1, String playlistMood2) {
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public String getMemberNickname() {
+		return memberNickname;
+	}
+
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
+	}
+
+	public int getFirstAlbumId() {
+		return firstAlbumId;
+	}
+
+	public void setFirstAlbumId(int firstAlbumId) {
+		this.firstAlbumId = firstAlbumId;
+	}
+
+	// 인기 플리 조회
+	public PopularPlaylistDto(int playlistId, int memberId, String playlistName, Timestamp createdAt, int songCount,
+			int likeCount, String memberNickname, int firstAlbumId) {
 		super();
 		this.playlistId = playlistId;
+		MemberId = memberId;
 		this.playlistName = playlistName;
-		this.playlistMood1 = playlistMood1;
-		this.playlistMood2 = playlistMood2;
+		this.createdAt = createdAt;
+		this.songCount = songCount;
+		this.likeCount = likeCount;
+		this.memberNickname = memberNickname;
+		this.firstAlbumId = firstAlbumId;
 	}
 
 }

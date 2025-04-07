@@ -62,6 +62,8 @@ StringBuffer mood = new StringBuffer();
 mood.append(playlist.getMood1() == null ? "" : playlist.getMood1());
 mood.append(" ");
 mood.append(playlist.getMood2() == null ? "" : playlist.getMood2());
+// 플레이리스트 사진을 위한 첫번째 곡 앨범아이디, 없으면 0
+int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orElse(0);
 %>
 
 <body>
@@ -71,7 +73,7 @@ mood.append(playlist.getMood2() == null ? "" : playlist.getMood2());
 			<table>
 				<tr>
 					<td rowspan="4"><img
-						src="/semi2/resources/images/playlist/<%=playlist.getId()%>/cover.jpg"
+						src="/semi2/resources/images/<%=firstAlbumId != 0 ? "playlist/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"
 						width="200"></td>
 					<td colspan="2"><%=playlist.getName()%></td>
 					<td rowspan="2"><%=likeCount%> likes</td>

@@ -4,6 +4,7 @@
 <%@ page import="com.plick.root.*" %>    
 <jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
 <header>
+
 <nav class="menu-list">
 <a href="/semi2/main.jsp"><img src="/semi2/resources/images/design/logo.png" class="logo"></a>
 		<div class="menu">
@@ -22,6 +23,7 @@
 			</div>
 			</form>
 		</div>
+
 
 <%
 if (signedinDto.getMemberId()!=0){

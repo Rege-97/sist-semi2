@@ -6,7 +6,7 @@ public class PopularSongDto {
 	String memberNickname;
 	String songName;
 	int songId;
-	
+
 	public int getAlbumId() {
 		return albumId;
 	}
@@ -47,14 +47,14 @@ public class PopularSongDto {
 		this.songId = songId;
 	}
 
-		//인기 음악 조회
-		public PopularSongDto(int albumId, int memberId, String memberNickname, String songName, int songId) {
-			super();
-			this.albumId = albumId;
-			this.memberId = memberId;
-			this.memberNickname = memberNickname;
-			this.songName = songName;
-			this.songId = songId;
-		}
+	// 인기 음악 조회
+	public PopularSongDto(int albumId, int memberId, String memberNickname, String songName, int songId) {
+		super();
+		this.albumId = albumId;
+		this.memberId = memberId;
+		this.memberNickname = memberNickname;
+		this.songName = songName;
+		this.songId = songId;
+	}
 
 }
