@@ -103,6 +103,7 @@ public class RootDao {
 	public ArrayList<PopularPlaylistDto> showPopularPlaylists() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
+
 			String sql = "SELECT * " + "FROM ( " + "    SELECT " + "        p.id AS playlist_id, "
 					+ "        m.id AS member_id, " + "        p.name AS playlist_name, "
 					+ "        p.created_at AS created_at, " + "        COUNT(DISTINCT ps.song_id) AS song_count, "

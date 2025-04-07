@@ -54,7 +54,7 @@ header {
 
 /*로고 세팅*/
 .logo {
-	height: 30px;
+	height: 40px;
 	margin-right: 30px;
 }
 
@@ -62,7 +62,7 @@ header {
 .search-wrapper {
 	position: relative;
 	width: 300px;
-	margin-left: 60px;
+	margin-left: 50px;
 }
 
 .search-wrapper input[type="text"] {
@@ -91,8 +91,21 @@ header {
 
 /*로그인 세팅*/
 .login {
+	display: flex;
 	margin-left: auto;
 	font-size: 12px;
+	align-items: center;
+	gap: 10px;
+}
+
+.login a:hover {
+	color: #ff2dac;
+}
+
+.login-profile-image {
+	width: 40px;
+	object-fit: cover;
+	border-radius: 50%;
 }
 
 /*공통요소*/
@@ -101,6 +114,13 @@ header {
 .main-banner {
 	width: 995px;
 	height: 350px;
+	border-radius: 6px;
+	background: black;
+	margin-bottom: 30px;
+}
+
+.main-banner img {
+	width: 995px;
 	border-radius: 6px;
 	background: black;
 	margin-bottom: 30px;
@@ -128,8 +148,11 @@ header {
 }
 
 /*이미지,텍스트 요소 카드 div*/
-.gallery-card {
+.gallery-card,.gallery-card-last {
 	margin-right: 30px;
+}
+.gallery-card-last{
+	margin-bottom: 30px;
 }
 
 /*카드 내 앨범 커버 이미지*/
@@ -199,6 +222,10 @@ header {
 /*카드 내 아티스트 이름 색상*/
 .gallery-card-artist-name a {
 	color: #a7a7a7;
+}
+
+.gallery-card-playlist-name {
+	margin-bottom: 40px;
 }
 
 /*리스트 형식 세팅*/
@@ -363,10 +390,10 @@ table.song-list .song-list-body {
 	font-size: 13px;
 	margin-bottom: 20px;
 }
-.detail-card-info-song-artist-name{
-	font-size: 13px;
-	margin-bottom:10px;
 
+.detail-card-info-song-artist-name {
+	font-size: 13px;
+	margin-bottom: 10px;
 }
 
 /*디테일 카드 정보 장르 세팅*/
@@ -387,23 +414,25 @@ table.song-list .song-list-body {
 	gap: 15px;
 	align-items: left;
 }
-.detail-card-info-album{
+
+.detail-card-info-album {
 	font-size: 13px;
-	margin-bottom:45px;
+	margin-bottom: 45px;
 }
 
 /*디테일 카드 정보 오른쪽 요소 세팅*/
 .detail-card-rating {
 	margin-left: auto;
 }
-.album-description{
-	margin-top:50px;
+
+.album-description {
+	margin-top: 50px;
 	font-size: 20px;
 	font-weight: bold;
 }
 
-.album-released{
-	margin-top:5px;
+.album-released {
+	margin-top: 5px;
 	font-size: 11px;
 	color: #666666;
 }
@@ -411,12 +440,13 @@ table.song-list .song-list-body {
 /*댓글 등록 세팅*/
 
 /*댓글 등록 배경 세팅*/
-.album-comment-count{
-	margin-top:100px;
+.album-comment-count {
+	margin-top: 100px;
 	font-size: 20px;
 	font-weight: bold;
 }
-.comment-add,comment {
+
+.comment-add, comment {
 	background: black;
 	border-radius: 6px;
 	padding: 10px 10px 10px 10px;
@@ -424,7 +454,7 @@ table.song-list .song-list-body {
 }
 
 /*댓글 등록 테이블 세팅*/
-.commnet-add-table,.commnet-table {
+.commnet-add-table, .commnet-table {
 	width: 995px;
 	height: 150px;
 	border-collapse: collapse;
@@ -438,7 +468,7 @@ table.song-list .song-list-body {
 }
 
 /*댓글 등록 프로필이미지 세팅*/
-.comment-add-profile-image,.comment-profile-image {
+.comment-add-profile-image, .comment-profile-image {
 	width: 70px;
 	object-fit: cover;
 	border-radius: 50%;
@@ -456,7 +486,7 @@ table.song-list .song-list-body {
 	font-family: 'Noto Sans KR';
 	border: none;
 	border-radius: 6px;
-		resize: none;
+	resize: none;
 }
 
 /*댓글 등록 버튼 세팅*/
@@ -477,44 +507,49 @@ table.song-list .song-list-body {
 	color: #ff2dac;
 }
 
-.comment-row{
-	height:180px;
+.comment-row {
+	height: 180px;
 	padding: 10px 10px 10px 10px;
 	border-top: 1px solid #262626;
 	border-bottom: 1px solid #262626;
 }
 
-
-.comment-profile{
+.comment-profile {
 	width: 250px;
 	height: 100px;
 	text-align: center;
 }
-.comment-profile-answer{
+
+.comment-profile-answer {
 	width: 250px;
 	height: 100px;
 	text-align: center;
 	padding-left: 100px;
 }
-.comment-content{
-	width: 680px;	
+
+.comment-content {
+	width: 680px;
 }
-.comment-content-date{
-	margin-top:10px;
+
+.comment-content-date {
+	margin-top: 10px;
 	font-size: 8px;
 	color: #666666;
 }
-.comment-content-answer{
+
+.comment-content-answer {
 	padding-left: 50px;
 }
-.comment-add-answer-content{
+
+.comment-add-answer-content {
 	text-align: left;
-	padding-left:40px;
+	padding-left: 40px;
 }
-.comment-content-answer-date{
-	margin-top:10px;
+
+.comment-content-answer-date {
+	margin-top: 10px;
 	font-size: 8px;
-	padding-left:50px;
+	padding-left: 50px;
 	color: #666666;
 }
 
@@ -525,20 +560,19 @@ table.song-list .song-list-body {
 	font-family: 'Noto Sans KR';
 	border: none;
 	border-radius: 6px;
-		resize: none;
+	resize: none;
 }
 
-.song-detail-table{
-	width:300px;
+.song-detail-table {
+	width: 300px;
 	margin-bottom: 30px;
 }
 
-.song-detail-table th{
+.song-detail-table th {
 	text-align: left;
-	width:50px;
+	width: 50px;
 }
 
-.song-detail-table td{
+.song-detail-table td {
 	text-align: left;
 }
- 
