@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.plick.mypage.MypageDao" %>
-<%@ page import="com.plick.signedin.signedinDto" %>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+<%@ page import="com.plick.signedin.SignedinDto" %>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
 <%
 MypageDao mypageDao = new MypageDao();
 String nickname = request.getParameter("editNickname");

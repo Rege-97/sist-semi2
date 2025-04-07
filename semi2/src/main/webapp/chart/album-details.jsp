@@ -5,7 +5,6 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
