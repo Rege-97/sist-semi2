@@ -396,7 +396,7 @@ public class ChartDao {
 	}
 
 	// 댓글 리스트 조회
-	public ArrayList<commentDto> commentList(int cp, int listSize,int albumId) {
+	public ArrayList<CommentDto> commentList(int cp, int listSize,int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (cp - 1) * listSize + 1;
@@ -410,7 +410,7 @@ public class ChartDao {
 			ps.setInt(3, end);
 
 			rs = ps.executeQuery();
-			ArrayList<commentDto> arr = new ArrayList<commentDto>();
+			ArrayList<CommentDto> arr = new ArrayList<CommentDto>();
 
 			while (rs.next()) {
 				int id = rs.getInt("id");
@@ -420,7 +420,7 @@ public class ChartDao {
 				int parentId = rs.getInt("parent_id");
 				String nickname = rs.getString("nickname");
 
-				commentDto dto = new commentDto(id, memberId, albumId, content, createdAt, parentId, nickname);
+				CommentDto dto = new CommentDto(id, memberId, albumId, content, createdAt, parentId, nickname);
 				arr.add(dto);
 			}
 

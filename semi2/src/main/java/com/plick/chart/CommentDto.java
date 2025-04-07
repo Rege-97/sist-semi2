@@ -2,7 +2,7 @@ package com.plick.chart;
 
 import java.sql.Timestamp;
 
-public class commentDto {
+public class CommentDto {
 	private int id;
 	private int memberId;
 	private int albumId;
@@ -11,11 +11,11 @@ public class commentDto {
 	private int parentId;
 	private String nickname;
 
-	public commentDto() {
+	public CommentDto() {
 
 	}
 
-	public commentDto(int id, int memberId, int albumId, String content, Timestamp createdAt, int parentId,
+	public CommentDto(int id, int memberId, int albumId, String content, Timestamp createdAt, int parentId,
 			String nickname) {
 		super();
 		this.id = id;

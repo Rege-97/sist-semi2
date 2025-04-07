@@ -268,8 +268,8 @@ if (cp % pageSize == 0)
 			<table class="commnet-table">
 				<tbody>
 					<%
-					ArrayList<commentDto> arr2 = cdao.commentList(cp, listSize,id);
-					if (arr2 == null || arr2.size() == 0) {
+					ArrayList<CommentDto> arr2 = cdao.commentList(cp, listSize,id);
+								if (arr2 == null || arr2.size() == 0) {
 					%>
 					<tr>
 						<td colspan="2" align="center">등록된 댓글이 없습니다.
