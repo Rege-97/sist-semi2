@@ -62,13 +62,13 @@ public class QuestionDao {
 			int end = currentPage*10;
 			String sql = "select q.*,members.nickname,members.email  "
 					+ "from(select rownum rn, n.* "
-					+ "    from (select * from question order by parent_id desc,id asc) n) q,members "
-					+ "where members.id=q.member_id and rn>=? and rn<=? and q.member_id=?";
+					+ "    from (select * from question where member_id=? order by parent_id desc,id asc) n) q,members "
+					+ "where members.id=q.member_id and rn>=? and rn<=?";
 			
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
-			ps.setInt(3, memberId);
+			ps.setInt(1, memberId);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 			rs=ps.executeQuery();
 			ArrayList<QuestionDto> arr = new ArrayList<QuestionDto>();
 			if(!rs.next()) {
