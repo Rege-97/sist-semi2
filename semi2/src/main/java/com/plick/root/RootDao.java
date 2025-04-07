@@ -106,7 +106,7 @@ public class RootDao {
 					+ "    select a.like_count,playlists.id,playlists.name,playlists.mood1,playlists.mood2 "
 					+ "    from (select playlist_id,count(*) like_count   " + "        from likes  "
 					+ "        group by playlist_id  " + "        order by like_count desc) a, playlists "
-					+ "where playlists.id = a.playlist_id " + "order by a.like_count desc) t";
+					+ "where playlists.id = a.playlist_id and rownum<=10 " + "order by a.like_count desc) t";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			ArrayList<PopularPlaylistDto> arr = new ArrayList<PopularPlaylistDto>();
