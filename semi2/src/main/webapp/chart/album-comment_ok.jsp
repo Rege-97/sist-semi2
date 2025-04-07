@@ -4,13 +4,24 @@
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 
 <%
+
+if (signedinDto==null||signedinDto.getMemberId()==0) {
+%>
+<script>
+	window.alert('로그인 후 이용해주세요.');
+	window.location.href = document.referrer+'#comment';
+</script>
+<%
+return;
+}
+
 String albumId_s= request.getParameter("albumid");
 
 if (albumId_s == null || albumId_s.equals("")) {
 %>
 <script>
 	window.alert('잘못된 접근입니다.');
-	location.href = '/semi2/membership/main.jsp';
+	window.location.href = document.referrer+'#comment';
 </script>
 <%
 }

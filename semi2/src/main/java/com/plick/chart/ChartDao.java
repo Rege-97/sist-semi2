@@ -364,11 +364,12 @@ public class ChartDao {
 		}
 
 	// 총 댓글 수 구하기
-	public int getTotalCnt() {
+	public int getTotalCnt(int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select count(*) from ALBUM_COMMENTS";
+			String sql = "select count(*) from ALBUM_COMMENTS WHERE ALBUM_ID=?";
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, albumId);
 			rs = ps.executeQuery();
 
 			rs.next();
@@ -395,31 +396,31 @@ public class ChartDao {
 	}
 
 	// 댓글 리스트 조회
-	public ArrayList<commentDto> commentList(int cp, int listSize) {
+	public ArrayList<CommentDto> commentList(int cp, int listSize,int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (cp - 1) * listSize + 1;
 			int end = cp * listSize;
 			String sql = "SELECT b.*,m.NICKNAME FROM  " + "(SELECT rownum AS rnum,a.* from  "
-					+ "(SELECT * FROM ALBUM_COMMENTS ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m  "
+					+ "(SELECT * FROM ALBUM_COMMENTS WHERE ALBUM_ID =? ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m  "
 					+ "WHERE b.MEMBER_ID=m.ID AND rnum >=? AND rnum<=?";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
+			ps.setInt(1, albumId);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 
 			rs = ps.executeQuery();
-			ArrayList<commentDto> arr = new ArrayList<commentDto>();
+			ArrayList<CommentDto> arr = new ArrayList<CommentDto>();
 
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				int memberId = rs.getInt("member_id");
-				int albumId = rs.getInt("album_id");
 				String content = rs.getString("content");
 				Timestamp createdAt = rs.getTimestamp("created_at");
 				int parentId = rs.getInt("parent_id");
 				String nickname = rs.getString("nickname");
 
-				commentDto dto = new commentDto(id, memberId, albumId, content, createdAt, parentId, nickname);
+				CommentDto dto = new CommentDto(id, memberId, albumId, content, createdAt, parentId, nickname);
 				arr.add(dto);
 			}
 

@@ -1,0 +1,544 @@
+@charset "UTF-8";
+
+/*폰트 세팅*/
+@font-face {
+	font-family: 'Noto Sans KR';
+	src: url('/semi2/resources/fonts/NotoSansKR-Regular.ttf')
+		format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*기본 세팅*/
+body {
+	background: #131313;
+	color: white;
+	width: 995px;
+	margin: 0px auto;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+/*링크 세팅*/
+a {
+	color: white;
+	text-decoration: none;
+}
+
+/*헤더 세팅*/
+
+/*헤더 공통 세팅*/
+header {
+	position: relative;
+	padding-top: 30px;
+	background: #131313;
+	width: 995px;
+}
+
+/*메뉴 리스트*/
+.menu-list {
+	display: flex;
+	margin-bottom: 30px;
+	align-items: center;
+}
+
+/*메뉴 요소*/
+.menu {
+	margin-right: 20px;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.menu a:hover {
+	color: #ff2dac;
+}
+
+/*로고 세팅*/
+.logo {
+	height: 30px;
+	margin-right: 30px;
+}
+
+/*검색창 세팅*/
+.search-wrapper {
+	position: relative;
+	width: 300px;
+	margin-left: 60px;
+}
+
+.search-wrapper input[type="text"] {
+	width: 100%;
+	padding: 10px 40px 10px 15px;
+	border-radius: 999px;
+	border: 2px solid black;
+	font-size: 16px;
+	box-sizing: border-box;
+	font-size: 16px;
+}
+
+.search-wrapper input[type="text"]:hover {
+	border-color: #ff2dac;
+}
+
+.search-wrapper input[type="image"] {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	height: 20px;
+	width: auto;
+	cursor: pointer;
+}
+
+/*로그인 세팅*/
+.login {
+	margin-left: auto;
+	font-size: 12px;
+}
+
+/*공통요소*/
+
+/*메인 배너 세팅*/
+.main-banner {
+	width: 995px;
+	height: 350px;
+	border-radius: 6px;
+	background: black;
+	margin-bottom: 30px;
+}
+
+/*카테고리 이름*/
+.categorey-name {
+	font-weight: bold;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	font-size: 20px;
+}
+
+/*갤러리타입 앨범*/
+
+/*갤러리 구역 div*/
+.gallery {
+	width: 1025px;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0px;
+	padding-right: 0px;
+	background: #111111;
+}
+
+/*이미지,텍스트 요소 카드 div*/
+.gallery-card {
+	margin-right: 30px;
+}
+
+/*카드 내 앨범 커버 이미지*/
+.gallery-card-album-image-group {
+	position: relative;
+}
+
+.gallery-card-album-image {
+	width: 175px;
+	margin-bottom: 5px;
+	border-radius: 6px;
+	transition: filter 0.3s ease;
+	display: block;
+}
+
+.gallery-card-album-image-play {
+	position: absolute;
+	bottom: 50px;
+	right: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.play-hover {
+	position: absolute;
+	opacity: 0;
+}
+
+.play-default {
+	position: absolute;
+	opacity: 1;
+}
+
+.gallery-card-album-image:hover {
+	filter: brightness(50%);
+}
+
+.gallery-card-album-image-play:hover .play-hover {
+	opacity: 1;
+}
+
+.gallery-card-album-image-play:hover .play-default {
+	opacity: 0;
+}
+
+/*카드 내 앨범 이름*/
+.gallery-card-album-name {
+	margin-bottom: 5px;
+}
+
+.gallery-card-album-name a:hover {
+	color: #ff2dac;
+}
+
+/*카드 내 아티스트 이름 세팅*/
+.gallery-card-artist-name {
+	font-size: 13px;
+	margin-bottom: 20px;
+}
+
+.gallery-card-artist-name a:hover {
+	color: #ff2dac;
+}
+
+/*카드 내 아티스트 이름 색상*/
+.gallery-card-artist-name a {
+	color: #a7a7a7;
+}
+
+/*리스트 형식 세팅*/
+
+/*서브 메뉴세팅*/
+.detail-menu {
+	list-style: none;
+	display: flex;
+	padding-left: 0px;
+	border-bottom: 1px solid #262626;
+	justify-content: space-between;
+}
+/*서브 메뉴 활성화 시 세팅*/
+.detail-menu-active {
+	color: #ff2dac;
+	font-weight: bold;
+	font-size: 14px;
+	padding: 10px 0;
+	border-bottom: 2px solid #ff2dac;
+}
+
+/*서브 메뉴 요소 세팅*/
+.detail-menu li {
+	flex: 1;
+	font-size: 13px;
+	padding: 10px 0;
+	text-align: center;
+	cursor: pointer;
+}
+
+.detail-menu li a:hover {
+	color: #ff2dac;
+}
+
+/*리스트 형식 테이블 세팅*/
+table.song-list {
+	width: 995px;
+	border-collapse: collapse;
+	border-top: 1px solid #262626;
+}
+
+/*리스트 형식 헤드 세팅*/
+table.song-list th {
+	color: #666666;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+table.song-list .song-list-head {
+	border-bottom: 1px solid #262626;
+	height: 40px;
+}
+
+/*리스트 형식 바디 세팅*/
+table.song-list .song-list-body {
+	border-bottom: 1px solid #262626;
+	height: 85px;
+}
+
+/*리스트 형식 컬럼 정렬 세팅*/
+.song-list th:nth-child(1), .song-list th:nth-child(2), .song-list th:nth-child(3)
+	{
+	text-align: left;
+}
+
+/*리스트 형식 순번 세팅*/
+.song-list-row {
+	font-weight: bold;
+	width: 10px;
+}
+
+/*리스트 형식 앨범 이미지 세팅*/
+.song-list-album-image {
+	width: 60px;
+	border-radius: 6px;
+}
+
+/*리스트 형식 앨범 이름 세팅*/
+.song-list-album-name a {
+	font-size: 13px;
+	color: #a7a7a7;
+}
+
+/*리스트 형식 아이콘 세팅*/
+.icon-group {
+	width: 30px;
+	height: 30px;
+	margin: 0px auto;
+	position: relative;
+}
+
+.icon-group img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.icon-hover {
+	opacity: 0;
+}
+
+.icon-group:hover .icon-dafault {
+	opacity: 0;
+}
+
+.icon-group:hover .icon-hover {
+	opacity: 1;
+}
+
+/*공용 둥근 버튼 세팅*/
+.bt_div {
+	text-align: center;
+	margin-top: 30px;
+}
+
+.bt {
+	display: inline-block;
+	border-radius: 999px;
+	margin: 0px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 30px;
+	background: transparent;
+	color: white;
+	box-shadow: none;
+	border: 1px solid #262626;
+	cursor: pointer;
+}
+
+.bt:hover {
+	border-color: #ff2dac;
+	color: #ff2dac;
+}
+
+/*가로 형식 디테일 세팅*/
+
+/*디테일 카드 세팅*/
+.detail-card {
+	display: flex;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+/*디테일 카드 이미지 세팅*/
+.detail-card-image {
+	width: 200px;
+	border-radius: 6px;
+}
+/*디테일 카드 정보 공간 세팅*/
+.detail-card-info {
+	margin-left: 30px;
+}
+
+/*디테일 카드 정보 이름 세팅*/
+.detail-card-info-name h2 {
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+/*디테일 카드 정보 아티스트 세팅*/
+.detail-card-info-artist-name {
+	font-size: 13px;
+	margin-bottom: 20px;
+}
+.detail-card-info-song-artist-name{
+	font-size: 13px;
+	margin-bottom:10px;
+
+}
+
+/*디테일 카드 정보 장르 세팅*/
+.detail-card-info-genre {
+	font-size: 13px;
+}
+
+/*디테일 카드 정보 날짜 세팅*/
+.detail-card-info-date {
+	font-size: 11px;
+	margin-bottom: 20px;
+	color: #a7a7a7;
+}
+
+/*디테일 카드 정보 아이콘 세팅*/
+.detail-card-info-icon {
+	display: flex;
+	gap: 15px;
+	align-items: left;
+}
+.detail-card-info-album{
+	font-size: 13px;
+	margin-bottom:45px;
+}
+
+/*디테일 카드 정보 오른쪽 요소 세팅*/
+.detail-card-rating {
+	margin-left: auto;
+}
+.album-description{
+	margin-top:50px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.album-released{
+	margin-top:5px;
+	font-size: 11px;
+	color: #666666;
+}
+
+/*댓글 등록 세팅*/
+
+/*댓글 등록 배경 세팅*/
+.album-comment-count{
+	margin-top:100px;
+	font-size: 20px;
+	font-weight: bold;
+}
+.comment-add,comment {
+	background: black;
+	border-radius: 6px;
+	padding: 10px 10px 10px 10px;
+	margin-top: 20px;
+}
+
+/*댓글 등록 테이블 세팅*/
+.commnet-add-table,.commnet-table {
+	width: 995px;
+	height: 150px;
+	border-collapse: collapse;
+}
+
+/*댓글 등록 프로필구간 세팅*/
+.comment-add-profile {
+	width: 150px;
+	height: 100px;
+	text-align: center;
+}
+
+/*댓글 등록 프로필이미지 세팅*/
+.comment-add-profile-image,.comment-profile-image {
+	width: 70px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+/*댓글 등록 내용 세팅*/
+.comment-add-content {
+	text-align: left;
+}
+
+.comment-add-content textarea {
+	height: 100px;
+	background: #131313;
+	color: white;
+	font-family: 'Noto Sans KR';
+	border: none;
+	border-radius: 6px;
+		resize: none;
+}
+
+/*댓글 등록 버튼 세팅*/
+.comment-bt input {
+	width: 100px;
+	height: 100px;
+	margin-right: 30px;
+	border-radius: 6px;
+	background: transparent;
+	color: white;
+	box-shadow: none;
+	border: 1px solid #262626;
+	cursor: pointer;
+}
+
+.comment-bt input:hover {
+	border-color: #ff2dac;
+	color: #ff2dac;
+}
+
+.comment-row{
+	height:180px;
+	padding: 10px 10px 10px 10px;
+	border-top: 1px solid #262626;
+	border-bottom: 1px solid #262626;
+}
+
+
+.comment-profile{
+	width: 250px;
+	height: 100px;
+	text-align: center;
+}
+.comment-profile-answer{
+	width: 250px;
+	height: 100px;
+	text-align: center;
+	padding-left: 100px;
+}
+.comment-content{
+	width: 680px;	
+}
+.comment-content-date{
+	margin-top:10px;
+	font-size: 8px;
+	color: #666666;
+}
+.comment-content-answer{
+	padding-left: 50px;
+}
+.comment-add-answer-content{
+	text-align: left;
+	padding-left:40px;
+}
+.comment-content-answer-date{
+	margin-top:10px;
+	font-size: 8px;
+	padding-left:50px;
+	color: #666666;
+}
+
+.comment-add-answer-content textarea {
+	height: 100px;
+	background: black;
+	color: white;
+	font-family: 'Noto Sans KR';
+	border: none;
+	border-radius: 6px;
+		resize: none;
+}
+
+.song-detail-table{
+	width:300px;
+	margin-bottom: 30px;
+}
+
+.song-detail-table th{
+	text-align: left;
+	width:50px;
+}
+
+.song-detail-table td{
+	text-align: left;
+}
+ 

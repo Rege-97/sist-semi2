@@ -38,7 +38,7 @@ for (int i = 0; i < 3; i++) {
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 String releasedAt = sdf.format(dto.getReleasedAt());
 
-int totalCnt = cdao.getTotalCnt();
+int totalCnt = cdao.getTotalCnt(id);
 int listSize = 10;
 
 int pageSize = 5;
@@ -78,59 +78,76 @@ if (cp % pageSize == 0)
 		}
 	}
 </script>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
 	<section>
 		<article>
-			<table>
-				<tr>
-					<td rowspan="4">
-						<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" width="200">
-					</td>
-					<td colspan="2"><%=dto.getName()%></td>
-					<td rowspan="2">별점</td>
-				</tr>
-				<tr>
-					<td colspan="2">
+			<div class="detail-card">
+				<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" class="detail-card-image">
+				<div class="detail-card-info">
+					<div class="detail-card-info-name">
+						<h2><%=dto.getName()%></h2>
+					</div>
+					<div class="detail-card-info-artist-name">
 						<a href="/semi2/artist/main.jsp?memberid=<%=dto.getMemberId()%>"><%=dto.getArtist()%></a>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3"><%=genre%></td>
-				</tr>
-				<tr>
-					<td>
-						<a href="#">모두재생</a>
-					</td>
-					<!-- 재생버튼 -->
-					<td>
-						<a href="#">담기</a>
-					</td>
-					<!-- 플리담기버튼 -->
-					<td>
-						<a href="#">다운로드</a>
-					</td>
-					<!-- 플리담기버튼 -->
-				</tr>
-			</table>
+					</div>
+					<div class="detail-card-info-genre"><%=genre%></div>
+					<div class="detail-card-info-date">
+						<%=releasedAt%>
+					</div>
+					<div class="detail-card-info-icon">
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">						
+							</a>
+						</div>
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="detail-card-rating">별점</div>
+			</div>
 		</article>
 		<article>
-			<h1>수록곡</h1>
-			<table width="600">
-				<thead align="left">
-					<tr>
-						<th>번호</th>
+<div class="categorey-name">수록곡</div>
+			<table class="song-list">
+				<colgroup>
+					<col style="width: 40px;">
+					<!-- 순위 -->
+					<col style="width: 50px;">
+					<!-- 앨범 이미지 -->
+					<col style="width: 270px;">
+					<!-- 곡/앨범 -->
+					<col style="width: 120px;">
+					<!-- 아티스트 -->
+					<col style="width: 40px;">
+					<!-- 듣기 -->
+					<col style="width: 40px;">
+					<!-- 리스트 -->
+					<col style="width: 40px;">
+					<!-- 다운로드 -->
+				</colgroup>
+				<thead>
+					<tr class="song-list-head">
+						<th>순위</th>
 						<th colspan="2">곡/앨범</th>
 						<th>아티스트</th>
 						<th>듣기</th>
 						<th>내 리스트</th>
 						<th>다운로드</th>
-					</tr>
-					<tr>
-						<td colspan="7">
-							<hr>
-						</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -140,39 +157,57 @@ if (cp % pageSize == 0)
 					if (arr == null || arr.size() == 0) {
 					%>
 					<tr>
-						<td colspan="7">수록곡이 존재하지 않습니다.</td>
+						<td colspan="6">수록곡이 존재하지 않습니다.</td>
 					</tr>
 					<%
 					} else {
 					for (int i = 0; i < arr.size(); i++) {
 					%>
-					<tr>
-						<td rowspan="2"><%=arr.get(i).getRnum()%></td>
-						<td rowspan="2">
-							<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" width="50">
+					<tr class="song-list-body">
+						<td>
+							<div class="song-list-row"><%=arr.get(i).getRnum()%></div>
 						</td>
 						<td>
-							<a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a>
+							<div class="song-list-album-image">
+								<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
+							</div>
 						</td>
-						<td rowspan="2">
-							<a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a>
+						<td>
+							<div class="song-list-song-name">
+								<a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a>
+							</div>
+							<div class="song-list-album-name">
+								<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><%=arr.get(i).getAlbumName()%></a>
+							</div>
 						</td>
-						<td rowspan="2">
-							<a href="#">듣기</a>
+						<td>
+							<div class="song-list-artist-name">
+								<a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a>
+							</div>
 						</td>
-						<td rowspan="2">
-							<a href="#">담기</a>
+						<td>
+							<div class="icon-group">
+								<a href="#"> 
+								<img src="/semi2/resources/images/design/play-icon.png" class="icon-default">
+								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+								</a>
+							</div>
 						</td>
-						<td rowspan="2">
-							<a href="#">다운로드</a>
+						<td>
+							<div class="icon-group">
+								<a href="#">
+								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-default">
+								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">
+								</a>
+							</div>
 						</td>
-					</tr>
-					<tr>
-						<td><%=arr.get(i).getAlbumName()%></td>
-					</tr>
-					<tr>
-						<td colspan="7">
-							<hr>
+						<td>
+							<div class="icon-group">
+								<a href="#">
+								<img src="/semi2/resources/images/design/download-icon.png" class="icon-default">
+								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+								</a>
+							</div>
 						</td>
 					</tr>
 
@@ -187,46 +222,54 @@ if (cp % pageSize == 0)
 		<article>
 			<table>
 				<tr>
-					<td>앨범소개</td>
+					<td><div class="album-description">앨범 소개</div></td>
 				</tr>
 				<tr>
-					<td><%=releasedAt%></td>
+					<td class="album-released"><%=releasedAt%></td>
 				</tr>
 				<tr>
-					<td>
-						<br><%=dto.getDescription().replaceAll("\n", "<br>")%></td>
+					<td><br><%=dto.getDescription().replaceAll("\n", "<br>")%></td>
 				</tr>
 			</table>
 		</article>
 		<article>
-			<hr>
-			<h1>댓글&#40;<%=totalCnt %>&#41;</h1>
+			<div class="album-comment-count">댓글&#40;<%=totalCnt %>&#41;</div>
 			<form name="album-comment" action="album-comment_ok.jsp" id="comment">
 				<input type="hidden" name="albumid" value="<%=dto.getId()%>">
 				<div class="comment-add">
 					<table class="commnet-add-table">
 						<tr>
 							<td class="comment-add-profile">
-								<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>.jpg" width="50" class="comment-add-profile-image">
-								<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+								<%
+								if(signedinDto==null||signedinDto.getMemberId()==0){
+									%>
+									<img src="/semi2/resources/images/member/default-profile.jpg" class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname">비회원</div>
+									<%
+								}else{
+									%>
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+									<%
+								}
+								%>
 							</td>
 							<td class="comment-add-content">
 								<textarea name="content" rows="3" cols="96" required></textarea>
 							</td>
-							<td class="comment-add-submit">
+							<td class="comment-bt">
 								<input type="submit" value="등록">
 							</td>
 						</tr>
 					</table>
 				</div>
 			</form>
-			<hr>
-
-			<table>
+			<div>
+			<table class="commnet-table">
 				<tbody>
 					<%
-					ArrayList<commentDto> arr2 = cdao.commentList(cp, listSize);
-					if (arr2 == null || arr2.size() == 0) {
+					ArrayList<CommentDto> arr2 = cdao.commentList(cp, listSize,id);
+								if (arr2 == null || arr2.size() == 0) {
 					%>
 					<tr>
 						<td colspan="2" align="center">등록된 댓글이 없습니다.
@@ -234,35 +277,62 @@ if (cp % pageSize == 0)
 					<%
 					} else {
 					for (int i = 0; i < arr2.size(); i++) {
+						SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						String createAt = sdf2.format(arr2.get(i).getCreatedAt());
 					%>
-					<tr>
-						<%
+					<tr class="comment-row">
+					<%
 						if (i != 0) {
 							if (arr2.get(i - 1).getParentId() == arr2.get(i).getParentId()) {
 						%>
-						<td>&nbsp;&nbsp;</td>
-						<%
-						}
-						}
-						%>
-
-						<td>
-							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-add-profile-image">
-							<div class="comment-add-profile-nickname"><%=arr2.get(i).getNickname()%></div>
+						<td class="comment-profile-answer">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
+							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 						</td>
-						<td><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></td>
 						<%
+						}else{
+							%>
+							<td class="comment-profile">
+								<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
+								<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
+							</td>
+							<%
+						}
+						}else{
+								%>
+						<td class="comment-profile">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
+							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
+						</td>
+						<%
+						}
+						
 						if (i != 0) {
 							if (arr2.get(i - 1).getParentId() != arr2.get(i).getParentId()) {
 						%>
 						<td>
+						<div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
+						<div class="comment-content-date"><%=createAt%></div>
+						</td>
+						<td class="comment-bt">
 							<input type="button" id="answer-bt-<%=arr2.get(i).getId()%>" value="답글" onclick="answer(<%=arr2.get(i).getId()%>)">
 						</td>
 						<%
+						}else{
+							%>
+							<td colspan="2">
+							<div class="comment-content-answer"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
+							<div class="comment-content-answer-date"><%=createAt%></div>
+							</td>
+							<%
 						}
 						} else {
 						%>
 						<td>
+						<div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
+						<div class="comment-content-date"><%=createAt%></div>
+						</td>
+						<td class="comment-bt">
 							<input type="button" id="answer-bt-<%=arr2.get(i).getId()%>" value="답글" onclick="answer(<%=arr2.get(i).getId()%>)">
 						</td>
 						<%
@@ -270,19 +340,30 @@ if (cp % pageSize == 0)
 						%>
 
 					</tr>
-					<tr id="answer-<%=arr2.get(i).getId()%>" style="display: none">
+					<tr class="comment-row" id="answer-<%=arr2.get(i).getId()%>" style="display: none">
 						<form name="album-comment-answer" action="album-comment-answer_ok.jsp">
-							<td class="comment-add-profile">
-								<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>.jpg" width="50" class="comment-add-profile-image">
-								<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+							<td class="comment-profile-answer">
+								<%
+								if(signedinDto==null||signedinDto.getMemberId()==0){
+									%>
+									<img src="/semi2/resources/images/member/default-profile.jpg" class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname">비회원</div>
+									<%
+								}else{
+									%>
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+									<%
+								}
+								%>
 							</td>
-							<td class="comment-add-content">
+							<td class="comment-add-answer-content">
 								<input type="hidden" name="albumid" value="<%=dto.getId()%>">
 								<input type="hidden" name="commentid" value="<%=arr2.get(i).getId()%>">
 								<input type="hidden" name="parentid" value="<%=arr2.get(i).getParentId()%>">
-								<textarea name="content" rows="3" cols="96" required></textarea>
+								<textarea name="content" rows="3" cols="85" required></textarea>
 							</td>
-							<td class="comment-add-submit">
+							<td class="comment-bt">
 								<input type="submit" value="등록">
 							</td>
 						</form>
@@ -305,11 +386,11 @@ if (cp % pageSize == 0)
 							<%
 							for (int i = (userGroup * pageSize + 1); i <= (userGroup * pageSize + pageSize); i++) {
 							%>&nbsp;&nbsp; <a href="album-details.jsp?albumid=<%=dto.getId()%>&cp=<%=i%>#comment"><%=i%></a>&nbsp;&nbsp;<%
- if (i == totalPage) {
- 	break;
- }
- }
- %>
+							 if (i == totalPage) {
+							 	break;
+							 }
+							 }
+							 %>
 							<%
 							if (((totalPage / pageSize) - (totalPage % pageSize == 0 ? 1 : 0)) != userGroup) {
 							%>
@@ -321,7 +402,7 @@ if (cp % pageSize == 0)
 					</tr>
 				</tfoot>
 			</table>
-
+</div>
 		</article>
 	</section>
 	<%@include file="/footer.jsp"%>
