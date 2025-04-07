@@ -10,6 +10,20 @@ request.setCharacterEncoding("UTF-8");
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+function sendRequest(){
+	let title = document.writeForm.title.value;
+	let content = document.writeForm.content.value;
+	console.log(content);
+	if(title==""||title==null){
+		window.alert('제목을 입력하세요.');
+	}else if(content==""||content==null){
+		window.alert('내용을 입력하세요.')
+	}else{
+		document.writeForm.submit();
+	}
+}
+</script>
 </head>
 <body>
 <%@ include file="/header.jsp" %>
@@ -36,7 +50,7 @@ if(!accessType.equals("admin")){
 window.alert('<%=signedinDto.getMemberId() %>')
 window.alert('parentId:<%=request.getParameter("id") %>')
 </script>
-<input type="submit" value="글쓰기">
+<input type="button" value="글쓰기" onclick="sendRequest();">
 </form>
 
 

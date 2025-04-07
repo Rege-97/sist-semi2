@@ -9,7 +9,7 @@
 response.setContentType("text/html; charset=UTF-8");
 response.setCharacterEncoding("UTF-8");
 int result = questionDao.addQuestion(questionDto);
-String msg = result>0? "공지사항 올리기 성공!":"글 올리기 실패요";
+String msg = result>0? "1대1질문 올리기 성공!":"1대1질문 올리기 실패요";
 %>   
 <script>
 window.alert('<%=msg%>');
