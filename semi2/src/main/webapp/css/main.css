@@ -387,25 +387,42 @@ table.song-list .song-list-body {
 .detail-card-rating {
 	margin-left: auto;
 }
+.album-description{
+	margin-top:50px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.album-released{
+	margin-top:5px;
+	font-size: 11px;
+	color: #666666;
+}
 
 /*댓글 등록 세팅*/
 
 /*댓글 등록 배경 세팅*/
+.album-comment-count{
+	margin-top:100px;
+	font-size: 20px;
+	font-weight: bold;
+}
 .comment-add,comment {
 	background: black;
 	border-radius: 6px;
 	padding: 10px 10px 10px 10px;
-	margin-top: 50px;
+	margin-top: 20px;
 }
 
 /*댓글 등록 테이블 세팅*/
 .commnet-add-table,.commnet-table {
 	width: 995px;
 	height: 150px;
+	border-collapse: collapse;
 }
 
 /*댓글 등록 프로필구간 세팅*/
-.comment-add-profile,.comment-profile {
+.comment-add-profile {
 	width: 150px;
 	height: 100px;
 	text-align: center;
@@ -452,15 +469,53 @@ table.song-list .song-list-body {
 }
 
 .comment-row{
-	height:150px;
+	height:180px;
 	padding: 10px 10px 10px 10px;
+	border-top: 1px solid #262626;
 	border-bottom: 1px solid #262626;
 }
 
+
+.comment-profile{
+	width: 250px;
+	height: 100px;
+	text-align: center;
+}
+.comment-profile-answer{
+	width: 250px;
+	height: 100px;
+	text-align: center;
+	padding-left: 100px;
+}
 .comment-content{
-	width:700px;
-	
+	width: 680px;	
+}
+.comment-content-date{
+	margin-top:10px;
+	font-size: 8px;
+	color: #666666;
+}
+.comment-content-answer{
+	padding-left: 50px;
+}
+.comment-add-answer-content{
+	text-align: left;
+	padding-left:40px;
+}
+.comment-content-answer-date{
+	margin-top:10px;
+	font-size: 8px;
+	padding-left:50px;
+	color: #666666;
 }
 
-
+.comment-add-answer-content textarea {
+	height: 100px;
+	background: black;
+	color: white;
+	font-family: 'Noto Sans KR';
+	border: none;
+	border-radius: 6px;
+		resize: none;
+}
  

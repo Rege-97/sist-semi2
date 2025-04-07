@@ -222,10 +222,10 @@ if (cp % pageSize == 0)
 		<article>
 			<table>
 				<tr>
-					<td><div class="categorey-name">앨범 소개</div></td>
+					<td><div class="album-description">앨범 소개</div></td>
 				</tr>
 				<tr>
-					<td><%=releasedAt%></td>
+					<td class="album-released"><%=releasedAt%></td>
 				</tr>
 				<tr>
 					<td><br><%=dto.getDescription().replaceAll("\n", "<br>")%></td>
@@ -233,8 +233,7 @@ if (cp % pageSize == 0)
 			</table>
 		</article>
 		<article>
-			<hr>
-			<div class="categorey-name">댓글&#40;<%=totalCnt %>&#41;</div>
+			<div class="album-comment-count">댓글&#40;<%=totalCnt %>&#41;</div>
 			<form name="album-comment" action="album-comment_ok.jsp" id="comment">
 				<input type="hidden" name="albumid" value="<%=dto.getId()%>">
 				<div class="comment-add">
@@ -254,7 +253,6 @@ if (cp % pageSize == 0)
 					</table>
 				</div>
 			</form>
-			<hr>
 			<div>
 			<table class="commnet-table">
 				<tbody>
@@ -268,39 +266,61 @@ if (cp % pageSize == 0)
 					<%
 					} else {
 					for (int i = 0; i < arr2.size(); i++) {
+						SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						String createAt = sdf2.format(arr2.get(i).getCreatedAt());
 					%>
 					<tr class="comment-row">
-						<td class="comment-profile">
-						<%
+					<%
 						if (i != 0) {
 							if (arr2.get(i - 1).getParentId() == arr2.get(i).getParentId()) {
 						%>
-						<div>&nbsp;</div>
-						
-						<%
-						}
-						}
-						%>
+						<td class="comment-profile-answer">
 							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-profile-image">
 							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 						</td>
 						<%
+						}else{
+							%>
+							<td class="comment-profile">
+								<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-profile-image">
+								<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
+							</td>
+							<%
+						}
+						}else{
+								%>
+						<td class="comment-profile">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-profile-image">
+							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
+						</td>
+						<%
+						}
+						
 						if (i != 0) {
 							if (arr2.get(i - 1).getParentId() != arr2.get(i).getParentId()) {
 						%>
-						<td><div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div></td>
+						<td>
+						<div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
+						<div class="comment-content-date"><%=createAt%></div>
+						</td>
 						<td class="comment-bt">
 							<input type="button" id="answer-bt-<%=arr2.get(i).getId()%>" value="답글" onclick="answer(<%=arr2.get(i).getId()%>)">
 						</td>
 						<%
 						}else{
 							%>
-							<td colspan="2"><div class="comment-content-answer"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div></td>
+							<td colspan="2">
+							<div class="comment-content-answer"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
+							<div class="comment-content-answer-date"><%=createAt%></div>
+							</td>
 							<%
 						}
 						} else {
 						%>
-						<td><div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div></td>
+						<td>
+						<div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
+						<div class="comment-content-date"><%=createAt%></div>
+						</td>
 						<td class="comment-bt">
 							<input type="button" id="answer-bt-<%=arr2.get(i).getId()%>" value="답글" onclick="answer(<%=arr2.get(i).getId()%>)">
 						</td>
@@ -309,17 +329,17 @@ if (cp % pageSize == 0)
 						%>
 
 					</tr>
-					<tr id="answer-<%=arr2.get(i).getId()%>" style="display: none">
+					<tr class="comment-row" id="answer-<%=arr2.get(i).getId()%>" style="display: none">
 						<form name="album-comment-answer" action="album-comment-answer_ok.jsp">
-							<td class="comment-add-profile">
+							<td class="comment-profile-answer">
 								<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>.jpg" width="50" class="comment-add-profile-image">
 								<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
 							</td>
-							<td class="comment-add-content">
+							<td class="comment-add-answer-content">
 								<input type="hidden" name="albumid" value="<%=dto.getId()%>">
 								<input type="hidden" name="commentid" value="<%=arr2.get(i).getId()%>">
 								<input type="hidden" name="parentid" value="<%=arr2.get(i).getParentId()%>">
-								<textarea name="content" rows="3" cols="96" required></textarea>
+								<textarea name="content" rows="3" cols="85" required></textarea>
 							</td>
 							<td class="comment-bt">
 								<input type="submit" value="등록">
