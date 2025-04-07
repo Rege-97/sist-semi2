@@ -1,12 +1,11 @@
-<%@page import="com.plick.playlist.main.PlaylistPreviewDto"%>
+<%@page import="com.plick.playlist.PlaylistPreviewDto"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.plick.playlist.main.PlaylistMainDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%!
-// 각 리스트(최신순, 인기순)에 최대 몇개를 가져올지 설정
-static final int PREVIEW_MAX_COUNT = 10;%>
+<%!// 각 리스트(최신순, 인기순)에 최대 몇개를 가져올지 설정
+	static final int PREVIEW_MAX_COUNT = 10;%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +26,7 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 	<h2>
 		<label>인기급상승</label>|<label>플리 만들기</label>
 	</h2>
-	
+
 
 	<%@include file="/footer.jsp"%>
 </body>
