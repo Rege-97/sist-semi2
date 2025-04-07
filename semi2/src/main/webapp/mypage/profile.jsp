@@ -10,9 +10,6 @@
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
 <jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
 <body>
-<%
-System.out.println(signedinDto.getMemberNickname());
-%>
 <%@ include file="/header.jsp" %>
 <h2>마이페이지</h2>
 <label>이용권 정보:</label><img src = "">
@@ -26,14 +23,14 @@ System.out.println(signedinDto.getMemberNickname());
 <fieldset>
 	<img src = "/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), signedinDto.getMemberId())%>">
 	<label onclick = "window.open('edit-profile-img.jsp?memberId=<%=signedinDto.getMemberId() %>', '프로필 사진 변경', 'width=300, height=200');">사진 변경</label>
+	<!-- 화면 비전환으로 구현예정 추가 브랜치 열어서 작업 예정 -->
 	<label>사진 삭제</label>
 	<br>
 	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberNickname() %>" readonly onchange = "checkDuplicateNickname();">
 	<input type = "button" id = "nicknameEditButton" value = "닉네임 변경"  onclick = "changeNickname();" >
 	<label id = "duplicateNickname"></label>
 	<input type = "hidden" id = "nicknamecheck" value = "true">
-	<input type = "text" id = "nickname" name = "tel" value = "<%=signedinDto.getMemberTel() %>" readonly>
-	<input type = "button" id = "telEditButton" value = "번호 변경"  onclick = "changeTel();">
+	<input type = "text" id = "tel" name = "tel" value = "<%=signedinDto.getMemberTel() %>" readonly>
 </fieldset>
 <input type = "button" value = "아티스트 등록">
 <%@ include file="/footer.jsp" %>
@@ -55,10 +52,6 @@ function changeNickname() {
 		nickname.setAttribute("readonly", true);
 		nicknameEditButton.value = "닉네임 변경";
 	}
-}
-// 전화 번호 변경 정책이 정해지면 구현할 부분
-function changeTel() {
-	
 }
 // 닉네임 중복 실시간 검수 함수
 function checkDuplicateNickname() {

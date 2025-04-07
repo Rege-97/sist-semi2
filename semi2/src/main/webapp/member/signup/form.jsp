@@ -36,7 +36,6 @@ function assembleEmail() {
 	var email = emailHead+"@"+emailTail;
 	document.getElementById("assembleEmail").value = email;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?email="+email;
-	window.alert(document.getElementById("assembleEmail").value);
 }
 function testPassword() {
 	var pwd = document.getElementById("pwd").value;
