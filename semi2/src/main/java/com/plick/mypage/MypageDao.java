@@ -3,6 +3,7 @@ package com.plick.mypage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.io.File;
 
 public class MypageDao {
 	Connection conn;

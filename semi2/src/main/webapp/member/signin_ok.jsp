@@ -7,8 +7,6 @@ request.setCharacterEncoding("UTF-8");
 <jsp:setProperty property="*" name="signedinDto"/>	
 <jsp:useBean id="signedinDao" class="com.plick.signedin.signedinDao"></jsp:useBean>
 <%
-System.out.println(signedinDto.getMemberEmail());
-System.out.println(signedinDto.getMemberPassword());
 int result = signedinDao.verifySignin(signedinDto);
 String msg = "";
 String path = "";
