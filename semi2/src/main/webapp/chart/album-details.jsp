@@ -240,8 +240,19 @@ if (cp % pageSize == 0)
 					<table class="commnet-add-table">
 						<tr>
 							<td class="comment-add-profile">
-								<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>.jpg" width="50" class="comment-add-profile-image">
-								<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+								<%
+								if(signedinDto==null||signedinDto.getMemberId()==0){
+									%>
+									<img src="/semi2/resources/images/member/default-profile.jpg" class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname">비회원</div>
+									<%
+								}else{
+									%>
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+									<%
+								}
+								%>
 							</td>
 							<td class="comment-add-content">
 								<textarea name="content" rows="3" cols="96" required></textarea>
@@ -332,8 +343,19 @@ if (cp % pageSize == 0)
 					<tr class="comment-row" id="answer-<%=arr2.get(i).getId()%>" style="display: none">
 						<form name="album-comment-answer" action="album-comment-answer_ok.jsp">
 							<td class="comment-profile-answer">
-								<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>.jpg" width="50" class="comment-add-profile-image">
-								<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+								<%
+								if(signedinDto==null||signedinDto.getMemberId()==0){
+									%>
+									<img src="/semi2/resources/images/member/default-profile.jpg" class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname">비회원</div>
+									<%
+								}else{
+									%>
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
+									<%
+								}
+								%>
 							</td>
 							<td class="comment-add-answer-content">
 								<input type="hidden" name="albumid" value="<%=dto.getId()%>">
