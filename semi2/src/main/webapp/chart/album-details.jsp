@@ -286,14 +286,14 @@ if (cp % pageSize == 0)
 							if (arr2.get(i - 1).getParentId() == arr2.get(i).getParentId()) {
 						%>
 						<td class="comment-profile-answer">
-							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-profile-image">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
 							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 						</td>
 						<%
 						}else{
 							%>
 							<td class="comment-profile">
-								<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-profile-image">
+								<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
 								<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 							</td>
 							<%
@@ -301,7 +301,7 @@ if (cp % pageSize == 0)
 						}else{
 								%>
 						<td class="comment-profile">
-							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId()%>.jpg" width="50" class="comment-profile-image">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
 							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 						</td>
 						<%
