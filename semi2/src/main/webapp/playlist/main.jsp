@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%!// 각 리스트(최신순, 인기순)에 최대 몇개를 가져올지 설정
-static final int PREVIEW_MAX_COUNT = 10;%>
+	static final int PREVIEW_MAX_COUNT = 10;%>
 
 <!DOCTYPE html>
 <html>
@@ -24,9 +24,93 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 %>
 <body>
 	<%@include file="/header.jsp"%>
-	<h2>
-		<label>인기급상승</label>|<label><a href="/semi2/playlist/mylist/main.jsp">플리 만들기</a></label>
-	</h2>
+	<label><a href="/semi2/playlist/mylist/main.jsp">내 플레이리스트</a></label>
+
+
+	<article>
+		<div>
+			<label> 인기 플레이리스트 </label>
+		</div>
+		<div class="gallery">
+			<%
+			if (popularPreviews == null || popularPreviews.size() == 0) {
+			%>
+			불러올 정보가 없습니다.
+			<%
+			} else {
+
+			for (PlaylistPreviewDto popularPreview : popularPreviews) {
+			%>
+			<div>
+				<div>
+					<a
+						href="/semi2/playlist/details.jsp?playlistid=<%=popularPreview.getPlaylistId()%>">
+						<img
+						src="/semi2/resources/images/<%=popularPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
+		: "album/" + popularPreview.getFirstAlbumId() + "/cover.jpg"%>"
+						width="100" />
+					</a>
+					<div></div>
+				</div>
+				<div>
+					<label><a
+						href="/semi2/playlist/details.jsp?playlistid=<%=popularPreview.getPlaylistId()%>"><%=popularPreview.getPlaylistName()%></a></label>
+				</div>
+				<div>
+					<%=popularPreview.getMemberNickname()%>
+					|
+					<%=popularPreview.getSongCount()%>곡
+				</div>
+			</div>
+			<%
+			}
+			}
+			%>
+		</div>
+	</article>
+
+	<article>
+		<div>
+			<label> 최신 플레이리스트 </label>
+		</div>
+		<div class="gallery">
+			<%
+			if (latestPreviews == null || latestPreviews.size() == 0) {
+			%>
+			불러올 정보가 없습니다.
+			<%
+			} else {
+
+			for (PlaylistPreviewDto latestPreview : latestPreviews) {
+			%>
+			<div>
+				<div>
+					<a
+						href="/semi2/playlist/details.jsp?playlistid=<%=latestPreview.getPlaylistId()%>">
+						<img
+						src="/semi2/resources/images/<%=latestPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
+		: "album/" + latestPreview.getFirstAlbumId() + "/cover.jpg"%>"
+						width="100" />
+					</a>
+					<div></div>
+				</div>
+				<div>
+					<label><a
+						href="/semi2/playlist/details.jsp?playlistid=<%=latestPreview.getPlaylistId()%>"><%=latestPreview.getPlaylistName()%></a></label>
+				</div>
+				<div>
+					<%=latestPreview.getMemberNickname()%>
+					|
+					<%=latestPreview.getSongCount()%>곡
+				</div>
+			</div>
+			<%
+			}
+			}
+			%>
+		</div>
+	</article>
+
 
 
 	<%@include file="/footer.jsp"%>
