@@ -25,7 +25,7 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 <body>
 	<%@include file="/header.jsp"%>
 	<h2>
-		<label>인기급상승</label>|<label>플리 만들기</label>
+		<label>인기급상승</label>|<label><a href="/semi2/playlist/mylist/main.jsp">플리 만들기</a></label>
 	</h2>
 
 

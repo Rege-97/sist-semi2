@@ -41,4 +41,39 @@ public class PlaylistMylistDao {
 
 	}
 
+	public boolean addPlaylistByMemberId(int memberId) {
+		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
+				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
+
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			int playlistCount = findCountPlaylistByMemberId(memberId, conn);
+			pstmt.setString(2, playlistCount + 1 + "번 플레이리스트");
+			pstmt.setString(3, null);
+			pstmt.setString(4, null);
+
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private int findCountPlaylistByMemberId(int memberId, Connection conn) {
+		String sql = "SELECT COUNT(*) AS playlist_count " + "FROM playlists p " + "WHERE p.member_id = ? ";
+
+		int playlistCount = -1;
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				if (rs.next()) {
+					playlistCount = rs.getInt("playlist_count");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playlistCount;
+	}
+
 }

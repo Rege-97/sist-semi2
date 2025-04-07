@@ -73,7 +73,7 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 			<table>
 				<tr>
 					<td rowspan="4"><img
-						src="/semi2/resources/images/<%=firstAlbumId != 0 ? "playlist/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"
+						src="/semi2/resources/images/<%=firstAlbumId != 0 ? "album/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"
 						width="200"></td>
 					<td colspan="2"><%=playlist.getName()%></td>
 					<td rowspan="2"><%=likeCount%> likes</td>
