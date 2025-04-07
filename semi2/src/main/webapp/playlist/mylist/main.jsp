@@ -1,7 +1,7 @@
 <%@page import="com.plick.playlist.PlaylistPreviewDto"%>
 <%@page import="java.util.List"%>
 <%@page import="com.plick.playlist.mylist.PlaylistMylistDao"%>
-<%@page import="com.plick.signedin.signedinDto"%>
+<%@page import="com.plick.signedin.SignedinDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -18,7 +18,7 @@
 </script>
 </head>
 <%
-signedinDto loggedinUser = (signedinDto) session.getAttribute("signedinDto");
+SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
 if (loggedinUser == null) {
 %>
 <script>
