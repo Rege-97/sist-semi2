@@ -2,7 +2,7 @@ package com.plick.signedin;
 
 import java.sql.Timestamp;
 
-public class signedinDto {
+public class SignedinDto {
 	private int membershipMemberId;
 	private int memberId;
 	private int membershipId;
@@ -17,12 +17,12 @@ public class signedinDto {
 	private Timestamp membershipStarted_at;
 	private Timestamp membershipStopped_at;
 
-	public  signedinDto() {
+	public  SignedinDto() {
 	}
 
 	
 
-	public signedinDto(int id, int memberId, int membershipId, String memberName, String memberNickname,
+	public SignedinDto(int id, int memberId, int membershipId, String memberName, String memberNickname,
 			String memberTel, String memberEmail, String memberPassword, String memberAccessType,
 			Timestamp memberCreatedAt, String memberDescription, Timestamp membershipStarted_at,
 			Timestamp membershipStopped_at) {

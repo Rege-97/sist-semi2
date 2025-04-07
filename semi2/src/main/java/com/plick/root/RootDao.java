@@ -1,19 +1,22 @@
 package com.plick.root;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class RootDao {
-	
+
 	Connection conn;
 	PreparedStatement ps;
 	ResultSet rs;
-	
+
 	public RootDao() {
 		// TODO Auto-generated constructor stub
 	}
-	//최신 앨범 보여주기
-	public ArrayList<RecentAlbumDto> showRecentAlbums(){
+
+	// 최신 앨범 보여주기
+	public ArrayList<RecentAlbumDto> showRecentAlbums() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "select alb.id, alb.name albname,alb.member_id, members.nickname memnickname, rownum "
@@ -22,88 +25,92 @@ public class RootDao {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			ArrayList<RecentAlbumDto> arr = new ArrayList<RecentAlbumDto>();
-			if(!rs.next()) {
+			if (!rs.next()) {
 				return null;
 			}
-			do{
+			do {
 				int albumId = rs.getInt("id");
 				String albumName = rs.getString("albname");
 				int memberId = rs.getInt("member_id");
 				String memberNickname = rs.getString("memnickname");
-				
+
 				RecentAlbumDto dto = new RecentAlbumDto(albumId, albumName, memberId, memberNickname);
 				arr.add(dto);
-			}while(rs.next());
+			} while (rs.next());
 			return arr;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}finally {
+		} finally {
 			try {
-				if(rs!=null)rs.close();
-				if(ps!=null)ps.close();
-				if(conn!=null)conn.close();
-			}catch(Exception e2){e2.printStackTrace();}
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
-	//인기 음악 보여주기
+
+	// 인기 음악 보여주기
 	public ArrayList<PopularSongDto> showPopularSongs() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "select s.view_count,rownum,alb.id,s.name songname,s.id song_id,alb.memnickname,alb.member_id "
-					+ "from (select *  "
-					+ "    from songs "
-					+ "    order by view_count desc) s, "
-					+ "     (select albums.id,albums.member_id,members.name memnickname "
-					+ "     from albums,members "
-					+ "     where albums.member_id = members.id) alb "
-					+ "where s.album_id = alb.id and rownum<=10 "
+					+ "from (select *  " + "    from songs " + "    order by view_count desc) s, "
+					+ "     (select albums.id,albums.member_id,members.name memnickname " + "     from albums,members "
+					+ "     where albums.member_id = members.id) alb " + "where s.album_id = alb.id and rownum<=10 "
 					+ "order by rownum ";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			ArrayList<PopularSongDto> arr = new ArrayList<PopularSongDto>();
-			if(!rs.next()) {
+			if (!rs.next()) {
 				return null;
 			}
 			do {
-				int albumId = rs.getInt("id");//앨범id
+				int albumId = rs.getInt("id");// 앨범id
 				int memberId = rs.getInt("member_id");
 				String memberNickname = rs.getString("memnickname");
 				String songName = rs.getString("songname");
 				int songId = rs.getInt("song_id");
-				PopularSongDto dto= new PopularSongDto(albumId, memberId, memberNickname, songName, songId);
+				PopularSongDto dto = new PopularSongDto(albumId, memberId, memberNickname, songName, songId);
 				arr.add(dto);
-			}while(rs.next());
+			} while (rs.next());
 			return arr;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}finally {
+		} finally {
 			try {
-				if(rs!=null)rs.close();
-				if(ps!=null)ps.close();
-				if(conn!=null)conn.close();
-			}catch(Exception e2) {e2.printStackTrace();}
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
-		
+
 	}
-	//인기 플리 보여주기
-	public ArrayList<PopularPlaylistDto> showPopularPlaylists(){
+
+	// 인기 플리 보여주기
+	public ArrayList<PopularPlaylistDto> showPopularPlaylists() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select rownum , t.*  "
-					+ "from(  "
+			String sql = "select rownum , t.*  " + "from(  "
 					+ "    select a.like_count,playlists.id,playlists.name,playlists.mood1,playlists.mood2 "
-					+ "    from (select playlist_id,count(*) like_count   "
-					+ "        from likes  "
-					+ "        group by playlist_id  "
-					+ "        order by like_count desc) a, playlists "
-					+ "where playlists.id = a.playlist_id "
-					+ "order by a.like_count desc) t";
+					+ "    from (select playlist_id,count(*) like_count   " + "        from likes  "
+					+ "        group by playlist_id  " + "        order by like_count desc) a, playlists "
+					+ "where playlists.id = a.playlist_id " + "order by a.like_count desc) t";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
-			ArrayList<PopularPlaylistDto> arr= new ArrayList<PopularPlaylistDto>();
-			if(!rs.next()) {
+			ArrayList<PopularPlaylistDto> arr = new ArrayList<PopularPlaylistDto>();
+			if (!rs.next()) {
 				return null;
 			}
 			do {
@@ -113,48 +120,23 @@ public class RootDao {
 				String playlsitMood2 = rs.getString("mood2");
 				PopularPlaylistDto dto = new PopularPlaylistDto(playlistId, playlistName, playlistName, playlistName);
 				arr.add(dto);
-			}while(rs.next());
+			} while (rs.next());
 			return arr;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}finally {
+		} finally {
 			try {
-				if(rs!=null)rs.close();
-				if(ps!=null)ps.close();
-				if(conn!=null)conn.close();
-			}catch(Exception e2) {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 	}
-	
-	//로그인 완료 화면
-	public SignedinHeaderDto signedinHeader(int memberId) {
-		try {
-			conn = com.plick.db.DBConnector.getConn();
-			String sql="select mms.*, memberships.name "
-					+ "from(select members.id member_id, members.nickname, mm.membership_id,mm.stopped_at  "
-					+ "    from members,membership_members mm "
-					+ "    where members.id = mm.member_id) mms, memberships "
-					+ "where mms.membership_id = memberships.id and stopped_at=(SELECT max(stopped_at) FROM MEMBERSHIP_MEMBERS WHERE member_id=?)";
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, memberId);
-			rs = ps.executeQuery();
-			if(!rs.next())return null;
-			String nickname = rs.getString("nickname");
-			int membershipId = rs.getInt("membership_id");
-			Timestamp stoppedAt = rs.getTimestamp("stopped_at");
-			String membershipName = rs.getString("name");
-			SignedinHeaderDto dto = new SignedinHeaderDto(memberId, nickname, membershipId, stoppedAt, membershipName);
-			return dto;
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
+
 }

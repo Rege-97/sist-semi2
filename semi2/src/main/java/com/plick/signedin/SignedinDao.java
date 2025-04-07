@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 
 import com.plick.member.MemberDto;
-import com.plick.signedin.signedinDto;
+import com.plick.signedin.SignedinDto;
 
-public class signedinDao {
+public class SignedinDao {
 
 	Connection conn;
 	PreparedStatement pstmt;
@@ -21,7 +21,7 @@ public class signedinDao {
 	static final int SIGNIN_SUCCESS = 0;
 	public static final int COOKIE_LIFE_30DAYS = 3600 * 24 * 30;
 
-	public int verifySignin(signedinDto dto) {
+	public int verifySignin(SignedinDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT name, nickname, tel, email, password, access_type, created_at, "
@@ -67,7 +67,7 @@ public class signedinDao {
 		}
 	}
 
-	public int hasActiveMembership(signedinDto dto) {
+	public int hasActiveMembership(SignedinDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT stopped_at,membership_id FROM MEMBERSHIP_MEMBERS WHERE stopped_at=(SELECT max(stopped_at) FROM MEMBERSHIP_MEMBERS WHERE member_id=?)";
