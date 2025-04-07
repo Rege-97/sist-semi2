@@ -6,6 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+function sendRequest(){
+	let title = document.writeForm.title.value;
+	let content = document.writeForm.content.value;
+	console.log(content);
+	if(title==""||title==null){
+		window.alert('제목을 입력하세요.');
+	}else if(content==""||content==null){
+		window.alert('내용을 입력하세요.')
+	}else{
+		document.writeForm.submit();
+	}
+}
+</script>
 </head>
 <body>
 <%@ include file="/header.jsp" %>
@@ -23,12 +37,12 @@ if(!accessType.equals("admin")){
 	<%
 }
 %>
-<h1>공지사항 글쓰기</h1>
+<h1>FAQ 글쓰기</h1>
 <form name="writeForm" action="/semi2/support/faq/write_ok.jsp" method="post">
 <label>제목</label><input name="title" type="text" placeholder="제목을 입력하세요."><br>
 <textarea name="content"></textarea>
 <input type="hidden" name="memberId" value="<%=signedinDto.getMemberId()%>">
-<input type="submit" value="글쓰기">
+<input type="button" value="글쓰기" onclick="sendRequest();">
 </form>
 
 
