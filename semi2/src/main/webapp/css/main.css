@@ -391,7 +391,7 @@ table.song-list .song-list-body {
 /*댓글 등록 세팅*/
 
 /*댓글 등록 배경 세팅*/
-.comment-add {
+.comment-add,comment {
 	background: black;
 	border-radius: 6px;
 	padding: 10px 10px 10px 10px;
@@ -399,20 +399,20 @@ table.song-list .song-list-body {
 }
 
 /*댓글 등록 테이블 세팅*/
-.commnet-add-table {
+.commnet-add-table,.commnet-table {
 	width: 995px;
 	height: 150px;
 }
 
 /*댓글 등록 프로필구간 세팅*/
-.comment-add-profile {
+.comment-add-profile,.comment-profile {
 	width: 150px;
 	height: 100px;
 	text-align: center;
 }
 
 /*댓글 등록 프로필이미지 세팅*/
-.comment-add-profile-image {
+.comment-add-profile-image,.comment-profile-image {
 	width: 70px;
 	object-fit: cover;
 	border-radius: 50%;
@@ -434,7 +434,7 @@ table.song-list .song-list-body {
 }
 
 /*댓글 등록 버튼 세팅*/
-.comment-add-submit input {
+.comment-bt input {
 	width: 100px;
 	height: 100px;
 	margin-right: 30px;
@@ -446,7 +446,21 @@ table.song-list .song-list-body {
 	cursor: pointer;
 }
 
-.comment-add-submit input:hover {
+.comment-bt input:hover {
 	border-color: #ff2dac;
 	color: #ff2dac;
 }
+
+.comment-row{
+	height:150px;
+	padding: 10px 10px 10px 10px;
+	border-bottom: 1px solid #262626;
+}
+
+.comment-content{
+	width:700px;
+	
+}
+
+
+ 
