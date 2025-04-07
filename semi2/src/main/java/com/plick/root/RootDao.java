@@ -13,7 +13,7 @@ public class RootDao {
 	ResultSet rs;
 
 	public RootDao() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	// 최신 앨범 보여주기
@@ -103,30 +103,18 @@ public class RootDao {
 	public ArrayList<PopularPlaylistDto> showPopularPlaylists() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT * "
-					+ "FROM ( "
-					+ "    SELECT "
-					+ "        p.id AS playlist_id, "
-					+ "        m.id AS member_id, "
-					+ "        p.name AS playlist_name, "
-					+ "        p.created_at AS created_at, "
-					+ "        COUNT(DISTINCT ps.song_id) AS song_count, "
-					+ "        COUNT(DISTINCT l.member_id) AS like_count, "
-					+ "        m.nickname AS member_nickname, "
-					+ "        s.album_id AS first_album_id "
-					+ "    FROM playlists p "
+			String sql = "SELECT * " + "FROM ( " + "    SELECT " + "        p.id AS playlist_id, "
+					+ "        m.id AS member_id, " + "        p.name AS playlist_name, "
+					+ "        p.created_at AS created_at, " + "        COUNT(DISTINCT ps.song_id) AS song_count, "
+					+ "        COUNT(DISTINCT l.member_id) AS like_count, " + "        m.nickname AS member_nickname, "
+					+ "        s.album_id AS first_album_id " + "    FROM playlists p "
 					+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
 					+ "    LEFT JOIN likes l ON p.id = l.playlist_id "
 					+ "    LEFT JOIN members m ON p.member_id = m.id "
 					+ "    LEFT JOIN playlist_songs ps2 ON p.id = ps2.playlist_id AND ps2.turn = 1 "
-					+ "    LEFT JOIN songs s ON ps2.song_id = s.id "
-					+ "    GROUP BY "
-					+ "        p.id, p.name, p.created_at, "
-					+ "        m.id, m.nickname, "
-					+ "        s.album_id "
-					+ "    ORDER BY like_count DESC "
-					+ ") "
-					+ "WHERE ROWNUM <= 10;";
+					+ "    LEFT JOIN songs s ON ps2.song_id = s.id " + "    GROUP BY "
+					+ "        p.id, p.name, p.created_at, " + "        m.id, m.nickname, " + "        s.album_id "
+					+ "    ORDER BY like_count DESC " + ") " + "WHERE ROWNUM <= 10;";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			ArrayList<PopularPlaylistDto> arr = new ArrayList<PopularPlaylistDto>();
@@ -138,13 +126,14 @@ public class RootDao {
 				int MemberId = rs.getInt("playlist_id");
 				String playlistName = rs.getString("playlist_name");
 				Timestamp createdAt = rs.getTimestamp("created_at");
-				int songCount = rs.getInt("song_count");;
+				int songCount = rs.getInt("song_count");
+				;
 				int likeCount = rs.getInt("like_count");
 				String memberNickname = rs.getString("member_nickname");
 				int firstAlbumId = rs.getInt("first_album_id");
-				
-				PopularPlaylistDto dto 
-					= new PopularPlaylistDto(playlistId, MemberId, playlistName, createdAt, songCount, likeCount, memberNickname, firstAlbumId);
+
+				PopularPlaylistDto dto = new PopularPlaylistDto(playlistId, MemberId, playlistName, createdAt,
+						songCount, likeCount, memberNickname, firstAlbumId);
 				arr.add(dto);
 			} while (rs.next());
 			return arr;
