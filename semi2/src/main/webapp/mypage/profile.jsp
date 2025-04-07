@@ -8,13 +8,11 @@
 <title>Insert title here</title>
 </head>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
-<%
-String standardPath = "resources/member"+signedinDto.getMemberId();
-File profileImg = new File(request.getRealPath(standardPath+"/profileImg.jpg"));
-System.out.println(profileImg.getPath());
-String profileImgPath = profileImg.exists() ? standardPath+"defaultImg.jpg":profileImg.getPath();%>
-
+<jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
 <body>
+<%
+System.out.println(signedinDto.getMemberNickname());
+%>
 <%@ include file="/header.jsp" %>
 <h2>마이페이지</h2>
 <label>이용권 정보:</label><img src = "">
@@ -26,8 +24,8 @@ String profileImgPath = profileImg.exists() ? standardPath+"defaultImg.jpg":prof
 <input type = "button" value = "프로필 변경" onclick = "location.href = '/semi2/mypage/profile.jsp'"> 
 <input type = "button" value = "앨범 등록" onclick = "location.href = '/semi2/mypage/album-management/main.jsp'"> 
 <fieldset>
-	<img src = "<%=profileImgPath%>">
-	<label onclick = "window.open('edit-profile-img.jsp?standardPath=<%=standardPath %>', '프로필 사진 변경', 'width=300, height=200');">사진 변경</label>
+	<img src = "/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), signedinDto.getMemberId())%>">
+	<label onclick = "window.open('edit-profile-img.jsp?memberId=<%=signedinDto.getMemberId() %>', '프로필 사진 변경', 'width=300, height=200');">사진 변경</label>
 	<label>사진 삭제</label>
 	<br>
 	<input type = "text" id = "nickname" name = "nickname" value = "<%=signedinDto.getMemberNickname() %>" readonly onchange = "checkDuplicateNickname();">

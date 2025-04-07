@@ -3,16 +3,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.signedinDto" scope="session"></jsp:useBean>
+<jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
 <%
-String totalPath = request.getRealPath("resources/images/design/member/"+signedinDto.getMemberId());
 request.setCharacterEncoding("UTF-8");
-MultipartRequest mulrequest = new MultipartRequest(request, totalPath, 200, "UTF-8");
-File TempImg = new File(totalPath+"/"+mulrequest.getFileNames());
-File profileImg = new File(totalPath+"/profileImg.jpg");
-String profileImgName = profileImg.exists() ? "/profileImg.jpg" : "/editerImg.jpg";
-profileImg.delete();
-TempImg.renameTo(profileImg);
+MultipartRequest mulrequest = new MultipartRequest(request, request.getRealPath("resources/member/"+request.getParameter("memberId")), 10000, "UTF-8");
+//저장된 파일을 "profileImg.jpg로 이름 변경
+System.out.println(request.getRealPath("resources/member/"+request.getParameter("memberId"))+"/"+mulrequest.getFilesystemName("editProfileImg"));
+File originFile = new File(request.getRealPath("resources/member/"+request.getParameter("memberId"))+"/"+mulrequest.getFilesystemName("editProfileImg"));
+File newFile = new File(request.getRealPath("resources/member/"+request.getParameter("memberId"))+"/profileImg.jpg");
+String msg = originFile.renameTo(newFile) ? "변경성공":"변경실패" ;
 %>
 <script>
-location.href = "profile.jsp"
+window.alert("<%=msg %>");
+window.close();
 </script>

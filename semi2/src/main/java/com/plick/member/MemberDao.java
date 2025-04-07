@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.io.File;
 
 public class MemberDao {
 
@@ -164,5 +165,43 @@ public class MemberDao {
 				e2.printStackTrace();
 			}
 		}
+	}
+	public int searchId(String email) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT * FROM members WHERE email = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				do {
+					return rs.getInt("id");
+				}while(rs.next());
+			}
+			return 0;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {	
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	public String loadProfileImg(String realPath, int memberId) {
+		File profileImg = new File(realPath+"resources/member/"+memberId+"/profileImg.jpg");
+		if (profileImg.exists()) {
+			return("resources/member/"+memberId+"/profileImg.jpg");
+		}else return "resources/member/defaultImg.jpg";
+	}
+	public String loadEditerImg(String realPath, int memberId) {
+		File profileImg = new File(realPath+"resources/member/"+memberId+"/profileImg.jpg");
+		if (profileImg.exists()) {
+			return("resources/member/"+memberId+"/profileImg.jpg");
+		}else return "resources/member/editerImg.jpg";
 	}
 }

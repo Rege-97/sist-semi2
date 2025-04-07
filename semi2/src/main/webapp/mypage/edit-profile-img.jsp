@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>프로필 사진 변경</title>
+<jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
 </head>
 <%
 File profileImg = new File(request.getParameter("standardPath")+"/profileImg.jpg");
@@ -18,8 +19,8 @@ function imgChange() {
 }
 </script>
 <body>
-<img id = editProfileImg src = "<%=request.getParameter("standardPath")+profileImgPath %>"> 
-<form action = "edit_profile-img_ok.jsp" method = "post" enctype= "multipart/form-data">
+<img id = editProfileImg src = "/semi2/<%=memberDao.loadEditerImg(request.getRealPath(""), Integer.parseInt(request.getParameter("memberId"))) %>"> 
+<form action = "edit_profile-img_ok.jsp?memberId=<%=request.getParameter("memberId") %>" method = "post" enctype= "multipart/form-data">
 <input style = "display: none;" type = "file" id = "editNewProfileImg" name = "editProfileImg">
 <input type = "button" value = "이미지 변경하기" onclick = "imgChange();">
 <input type = "submit" value = "저장하기">

@@ -34,9 +34,9 @@ function assembleEmail() {
 	var emailHead = document.getElementById("emailHead").value;
 	var emailTail = document.getElementById("emailTail").value;
 	var email = emailHead+"@"+emailTail;
-	
 	document.getElementById("assembleEmail").value = email;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?email="+email;
+	window.alert(document.getElementById("assembleEmail").value);
 }
 function testPassword() {
 	var pwd = document.getElementById("pwd").value;
@@ -51,12 +51,11 @@ function testPassword() {
 }
 function testNickname() {
 	var nickname = document.getElementById("nickname").value;
-	window.alert(nickname);
 	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
 }
 function formCheck(event) {
 	var a = true;
-	if (pwdsame == false){ 
+	if (pwdsame == false){ 	
 		event.preventDefault();
 		a = false;
 	}
