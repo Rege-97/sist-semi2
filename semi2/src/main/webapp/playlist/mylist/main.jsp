@@ -19,7 +19,8 @@
 </head>
 <%
 SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
-if (loggedinUser == null) {
+
+if (loggedinUser == null || loggedinUser.getMemberId()==0) {
 %>
 <script>
 	showAlertAndGoLoginPage("로그인이 필요합니다");
@@ -60,7 +61,7 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 	}
 	%>
 	<div>
-	<a href="/semi2/playlist/mylist/add-form.jsp"><img
+	<a href="/semi2/playlist/mylist/add_ok.jsp"><img
 			src="/semi2/resources/images/playlist/add-playlist.jpg" width="100"/></a>
 	</div>
 
