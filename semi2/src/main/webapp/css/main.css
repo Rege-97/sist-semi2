@@ -363,6 +363,11 @@ table.song-list .song-list-body {
 	font-size: 13px;
 	margin-bottom: 20px;
 }
+.detail-card-info-song-artist-name{
+	font-size: 13px;
+	margin-bottom:10px;
+
+}
 
 /*디테일 카드 정보 장르 세팅*/
 .detail-card-info-genre {
@@ -381,6 +386,10 @@ table.song-list .song-list-body {
 	display: flex;
 	gap: 15px;
 	align-items: left;
+}
+.detail-card-info-album{
+	font-size: 13px;
+	margin-bottom:45px;
 }
 
 /*디테일 카드 정보 오른쪽 요소 세팅*/
@@ -517,5 +526,19 @@ table.song-list .song-list-body {
 	border: none;
 	border-radius: 6px;
 		resize: none;
+}
+
+.song-detail-table{
+	width:300px;
+	margin-bottom: 30px;
+}
+
+.song-detail-table th{
+	text-align: left;
+	width:50px;
+}
+
+.song-detail-table td{
+	text-align: left;
 }
  
