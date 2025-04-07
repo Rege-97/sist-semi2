@@ -12,6 +12,12 @@ import java.util.Map;
 import com.plick.db.DBConnector;
 
 public class PlaylistMainDao {
+	/**
+	 * @param limit 몇개를 가져올지 설정함
+	 * @return 예외 발생시 빈 map 객체를 반환할 수 있음. 
+	 * 정상작동시 "latest" 키에는 limit 만큼 최신순 PlaylistPreviewDto가 List 에 들어있음.
+	 * 정상작동시 "popular" 키에는 limit 만큼 좋아요순 PlaylistPreviewDto가 List 에 들어있음.
+	 * */
 	public Map<String, List<PlaylistPreviewDto>> findRecommendedPlaylistsByLimit(int limit) {
 		Map<String, List<PlaylistPreviewDto>> result = new HashMap<>();
 
