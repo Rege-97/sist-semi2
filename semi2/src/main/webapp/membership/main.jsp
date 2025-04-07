@@ -14,7 +14,7 @@
 <body>
 	<section>
 		<article>
-			<a href="/semi2/membership/payment.jsp?membership_id=3"><img src="/semi2/resources/images/design/banner/banner-membership.jpg" width="1300"></a>
+			<a href="/semi2/membership/payment.jsp?membershipid=3"><img src="/semi2/resources/images/design/banner/banner-membership.jpg" width="1300"></a>
 			<hr>
 			<table width="900">
 				<tr>
@@ -24,7 +24,7 @@
 						<del>정가 9,900원</del>
 					</td>
 					<td>7,990원</td>
-					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membership_id=1">구매</a></td>
+					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membershipid=1">구매</a></td>
 				</tr>
 				<tr>
 					<td>모든 곡 스트리밍</td>
@@ -40,7 +40,7 @@
 						<del>정가 9,900원</del>
 					</td>
 					<td>7,990원</td>
-					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membership_id=2">구매</a></td>
+					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membershipid=2">구매</a></td>
 				</tr>
 				<tr>
 					<td>모든 곡 다운로드</td>
@@ -56,7 +56,7 @@
 						<del>정가 19,800원</del>
 					</td>
 					<td>13,990원</td>
-					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membership_id=3">구매</a></td>
+					<td rowspan="2"><a href="/semi2/membership/payment.jsp?membershipid=3">구매</a></td>
 				</tr>
 				<tr>
 					<td>모든 곡 스트리밍 + 다운로드</td>

@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.plick.db.DBConnector;
-import com.plick.dto.PlaylistDto;
-import com.plick.dto.SongDto;
+import com.plick.dto.Playlist;
+import com.plick.dto.Song;
 
 public class ArtistDao {
 	public ArtistDto findArtistDetailsByMemberId(int memberId) {
@@ -51,7 +51,7 @@ public class ArtistDao {
 					int albumId = rs.getInt("album_id");
 					ArtistAlbumDto albumDto = albumMap.get(albumId);
 					if (albumDto == null) {
-						com.plick.dto.AlbumDto albumData = new com.plick.dto.AlbumDto(albumId,
+						com.plick.dto.Album albumData = new com.plick.dto.Album(albumId,
 								rs.getInt("album_member_id"), rs.getString("album_name"),
 								rs.getString("album_description"), rs.getString("album_genre1"),
 								rs.getString("album_genre2"), rs.getString("album_genre3"),
@@ -62,7 +62,7 @@ public class ArtistDao {
 					}
 					int songId = rs.getInt("song_id");
 					if (!rs.wasNull()) {
-						SongDto songDto = new SongDto(songId, rs.getInt("song_album_id"), rs.getString("song_name"),
+						Song songDto = new Song(songId, rs.getInt("song_album_id"), rs.getString("song_name"),
 								rs.getString("song_composer"), rs.getString("song_lyricist"),
 								rs.getString("song_lyrics"), rs.getInt("song_view_count"));
 						albumDto.getSongDtos().add(songDto);
@@ -92,11 +92,11 @@ public class ArtistDao {
 				String nickname = rs.getString("nickname");
 				String description = rs.getString("description");
 
-				List<PlaylistDto> playlists = new ArrayList<>();
+				List<Playlist> playlists = new ArrayList<>();
 				do {
 					int playlistId = rs.getInt("playlist_id");
 					if (!rs.wasNull()) {
-						playlists.add(new PlaylistDto(playlistId, rs.getInt("playlist_member_id"),
+						playlists.add(new Playlist(playlistId, rs.getInt("playlist_member_id"),
 								rs.getString("playlist_name"), rs.getTimestamp("created_at"), rs.getString("mood1"),
 								rs.getString("mood2")));
 					}

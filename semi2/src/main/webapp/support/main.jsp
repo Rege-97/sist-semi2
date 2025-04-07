@@ -1,13 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>	
+<%@ page import="com.plick.support.*" %>
+<jsp:useBean id="ndao" class="com.plick.support.NoticeDao"></jsp:useBean>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+function write(){
+	console.log('write함수 실행')
+	location.href='/semi2/support/noticeWrite.jsp';
+}
+</script>
 </head>
 <body>
 <%@ include file="/header.jsp" %>
+<%
+String accessType=signedinDto.getMemberAccessType();
+if(accessType==null){
+	accessType="";
+}
+
+int totalNotice = ndao.showTotalNotices();
+int pageSize = 10;
+int totalPage = (totalNotice-1)/pageSize+1;
+int pageGroupSize = 5;
+String currentPage_str = request.getParameter("page");
+if(currentPage_str==null||currentPage_str.equals(""))currentPage_str="1";
+int currentPage = Integer.parseInt(currentPage_str);
+int pageGroupCount = (totalPage-1)/pageGroupSize+1;
+int currentGroup = (currentPage-1)/pageGroupSize+1;
+%>
 	<section>
 		<article>
 			<h2>고객센터</h2>
@@ -26,8 +52,53 @@
 					</tr>
 				</thead>
 				<tbody>
-				
+				<%
+				ArrayList<NoticeDto> arr= ndao.showNotices(currentPage);
+						if(arr==null){
+				%>
+					<tr>
+					<td>보여줄 정보가 없습니다.
+					<%
+				}else{
+					for(int i=0;i<arr.size();i++){
+						%>
+						<tr>
+						<td><%=arr.get(i).getId() %>
+						<td>
+						<a href="/semi2/support/notice/showContent.jsp?id=<%=arr.get(i).getId()%>">
+						<%=arr.get(i).getTitle() %></a>
+						<td><%=arr.get(i).getCreatedAt() %>
+						<%
+					}
+				}
+				%>
 				</tbody>
+				<tfoot>
+					<tr>
+					<td colspan="2">
+					<%String lt = currentGroup==1?"":"&lt;&lt;"; %>
+					<%String gt = currentGroup==pageGroupCount?"":"&gt;&gt;"; %>
+					<a href="/semi2/support/main.jsp?page=<%=(currentGroup-1)*5%>"><%=lt %></a>
+					<%
+					
+					int startPageNum = (currentGroup-1) * 5 + 1;
+					int endPageNum = currentGroup==pageGroupCount?totalPage:(currentGroup-1) * 5 + 5;
+					for (int i=startPageNum; i<=endPageNum;i++){
+						%>
+						<a href="/semi2/support/main.jsp?page=<%=i%>"><%=i %></a>
+						<%
+					}
+					%>
+					<a href="/semi2/support/main.jsp?page=<%=currentGroup*5+1%>"><%=gt %></a>
+					<td>
+					<%
+					if(accessType.equals("admin")){
+						%>
+						<input type="button" value="글쓰기" onclick='location.href="/semi2/support/notice/write.jsp"'>						
+						<%
+					}
+					%>
+				</tfoot>
 			</table>
 		</article>
 	</section>

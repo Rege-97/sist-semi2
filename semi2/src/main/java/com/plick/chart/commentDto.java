@@ -1,26 +1,30 @@
-package com.plick.dto;
+package com.plick.chart;
 
 import java.sql.Timestamp;
 
-public class PlaylistCommnetDto {
+public class commentDto {
 	private int id;
 	private int memberId;
-	private int playlistId;
+	private int albumId;
 	private String content;
 	private Timestamp createdAt;
 	private int parentId;
+	private String nickname;
 
-	public PlaylistCommnetDto() {
+	public commentDto() {
+
 	}
 
-	public PlaylistCommnetDto(int id, int memberId, int playlistId, String content, Timestamp createdAt, int parentId) {
+	public commentDto(int id, int memberId, int albumId, String content, Timestamp createdAt, int parentId,
+			String nickname) {
 		super();
 		this.id = id;
 		this.memberId = memberId;
-		this.playlistId = playlistId;
+		this.albumId = albumId;
 		this.content = content;
 		this.createdAt = createdAt;
 		this.parentId = parentId;
+		this.nickname = nickname;
 	}
 
 	public int getId() {
@@ -39,12 +43,12 @@ public class PlaylistCommnetDto {
 		this.memberId = memberId;
 	}
 
-	public int getPlaylistId() {
-		return playlistId;
+	public int getAlbumId() {
+		return albumId;
 	}
 
-	public void setPlaylistId(int playlistId) {
-		this.playlistId = playlistId;
+	public void setAlbumId(int albumId) {
+		this.albumId = albumId;
 	}
 
 	public String getContent() {
@@ -71,4 +75,13 @@ public class PlaylistCommnetDto {
 		this.parentId = parentId;
 	}
 
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
+	
 }

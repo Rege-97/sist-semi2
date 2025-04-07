@@ -13,15 +13,15 @@ public class RootDao {
 		// TODO Auto-generated constructor stub
 	}
 	//최신 앨범 보여주기
-	public ArrayList<RootDto> recentAlbumShow(){
+	public ArrayList<RecentAlbumDto> showRecentAlbums(){
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select alb.id, alb.name albname,alb.member_id, members.name memname, rownum "
+			String sql = "select alb.id, alb.name albname,alb.member_id, members.nickname memnickname, rownum "
 					+ "from (select * from albums order by released_at desc) alb,members "
 					+ "where alb.member_id = members.id and rownum <=10";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
-			ArrayList<RootDto> arr = new ArrayList<RootDto>();
+			ArrayList<RecentAlbumDto> arr = new ArrayList<RecentAlbumDto>();
 			if(!rs.next()) {
 				return null;
 			}
@@ -29,9 +29,9 @@ public class RootDao {
 				int albumId = rs.getInt("id");
 				String albumName = rs.getString("albname");
 				int memberId = rs.getInt("member_id");
-				String memberName = rs.getString("memname");
+				String memberNickname = rs.getString("memnickname");
 				
-				RootDto dto = new RootDto(albumId, albumName, memberId, memberName);
+				RecentAlbumDto dto = new RecentAlbumDto(albumId, albumName, memberId, memberNickname);
 				arr.add(dto);
 			}while(rs.next());
 			return arr;
@@ -47,31 +47,31 @@ public class RootDao {
 		}
 	}
 	//인기 음악 보여주기
-	public ArrayList<RootDto> popularSongShow() {
+	public ArrayList<PopularSongDto> showPopularSongs() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select s.view_count,rownum,alb.id,s.name songname,s.id song_id,alb.memname,alb.member_id "
+			String sql = "select s.view_count,rownum,alb.id,s.name songname,s.id song_id,alb.memnickname,alb.member_id "
 					+ "from (select *  "
 					+ "    from songs "
 					+ "    order by view_count desc) s, "
-					+ "     (select albums.id,albums.member_id,members.name memname "
+					+ "     (select albums.id,albums.member_id,members.name memnickname "
 					+ "     from albums,members "
 					+ "     where albums.member_id = members.id) alb "
 					+ "where s.album_id = alb.id and rownum<=10 "
 					+ "order by rownum ";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
-			ArrayList<RootDto> arr = new ArrayList<RootDto>();
+			ArrayList<PopularSongDto> arr = new ArrayList<PopularSongDto>();
 			if(!rs.next()) {
 				return null;
 			}
 			do {
 				int albumId = rs.getInt("id");//앨범id
 				int memberId = rs.getInt("member_id");
-				String memberName = rs.getString("memname");
+				String memberNickname = rs.getString("memnickname");
 				String songName = rs.getString("songname");
 				int songId = rs.getInt("song_id");
-				RootDto dto= new RootDto(albumId, memberId, memberName, songName, songId);
+				PopularSongDto dto= new PopularSongDto(albumId, memberId, memberNickname, songName, songId);
 				arr.add(dto);
 			}while(rs.next());
 			return arr;
@@ -86,9 +86,9 @@ public class RootDao {
 			}catch(Exception e2) {e2.printStackTrace();}
 		}
 		
-		//인기 플리 보여주기
 	}
-	public ArrayList<RootDto> popularPlaylistShow(){
+	//인기 플리 보여주기
+	public ArrayList<PopularPlaylistDto> showPopularPlaylists(){
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "select rownum , t.*  "
@@ -102,7 +102,7 @@ public class RootDao {
 					+ "order by a.like_count desc) t";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
-			ArrayList<RootDto> arr= new ArrayList<RootDto>();
+			ArrayList<PopularPlaylistDto> arr= new ArrayList<PopularPlaylistDto>();
 			if(!rs.next()) {
 				return null;
 			}
@@ -111,7 +111,7 @@ public class RootDao {
 				String playlistName = rs.getString("name");
 				String playlsitMood1 = rs.getString("mood1");
 				String playlsitMood2 = rs.getString("mood2");
-				RootDto dto = new RootDto(playlistId, playlistName, playlistName, playlistName);
+				PopularPlaylistDto dto = new PopularPlaylistDto(playlistId, playlistName, playlistName, playlistName);
 				arr.add(dto);
 			}while(rs.next());
 			return arr;
@@ -128,4 +128,33 @@ public class RootDao {
 			}
 		}
 	}
+	
+	//로그인 완료 화면
+	public SignedinHeaderDto signedinHeader(int memberId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql="select mms.*, memberships.name "
+					+ "from(select members.id member_id, members.nickname, mm.membership_id,mm.stopped_at  "
+					+ "    from members,membership_members mm "
+					+ "    where members.id = mm.member_id) mms, memberships "
+					+ "where mms.membership_id = memberships.id and stopped_at=(SELECT max(stopped_at) FROM MEMBERSHIP_MEMBERS WHERE member_id=?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, memberId);
+			rs = ps.executeQuery();
+			if(!rs.next())return null;
+			String nickname = rs.getString("nickname");
+			int membershipId = rs.getInt("membership_id");
+			Timestamp stoppedAt = rs.getTimestamp("stopped_at");
+			String membershipName = rs.getString("name");
+			SignedinHeaderDto dto = new SignedinHeaderDto(memberId, nickname, membershipId, stoppedAt, membershipName);
+			return dto;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 }
