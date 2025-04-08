@@ -21,23 +21,37 @@ for(int i = 0; i < cookies.length; i++){
 
 %>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body onload = "checkRememberMe();">
 <%@ include file="/header.jsp" %>
-<fieldset>
+<div class="login-box">
+<div class="login-input">
 	<form action = "signin_ok.jsp" method = "post">
-		<input type="email" name = "memberEmail" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
+		<input type="email" name = "memberEmail" class="login-text" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
 		<br>
-		<input type="password" name = "memberPassword" placeholder="비밀번호">
+		<input type="password" name = "memberPassword" class="login-text" placeholder="비밀번호">
 		<br>
-		<input type="checkbox" id="remeberMe" name="rememberMe" <%=rememberEmail!=null?"checked":"" %>>아이디 저장
-		<br>
-		<input type="submit" value = "로그인">
-		<br>
-		<label onclick="location.href = '/semi2/member/find/id.jsp'">아이디 찾기</label>|
+		<div class="id-checkbox">
+		<input type="checkbox" id="remeberMe" name="rememberMe" <%=rememberEmail!=null?"checked":"" %>><div class="id-remember">아이디 저장</div>
+		</div>
+<div class="login-bt-box">
+		<input type="submit" value = "로그인" class="login-bt">
+</div>
+<div class="login-sub-box">
+	<div class="login-find">
+		<label onclick="location.href = '/semi2/member/find/id.jsp'">아이디 찾기</label>
+		</div>
+		 <div class="login-find-line"> | </div>
+			<div class="login-find">
 		<label onclick="location.href = '/semi2/member/find/password.jsp'">비밀번호 찾기</label>
+				</div>
+		<div class="login-signup">
 		<label onclick="location.href = '/semi2/member/signup/terms.jsp'">회원가입</label>
+		</div>
+	</div>
 	</form>
-</fieldset>
+	</div>
+	</div>
 <%@ include file="/footer.jsp" %>
 </body>
 </html>
