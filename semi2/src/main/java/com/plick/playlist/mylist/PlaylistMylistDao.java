@@ -115,12 +115,13 @@ public class PlaylistMylistDao {
 	}
 
 	private boolean existsBySongId(int songId, Connection conn) {
-		String sql = "SELECT COUNT(*) FROM songs WHERE id = ? ";
+		String sql = "SELECT COUNT(*) AS count FROM songs WHERE id = ? ";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, songId);
 			try (ResultSet rs = pstmt.executeQuery();) {
-				return rs.next();
+				rs.next();
+				return rs.getInt("count") > 0;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
