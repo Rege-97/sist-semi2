@@ -13,50 +13,62 @@ String search = request.getParameter("search");
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
-	<h1>
-		"<%=search %>" 검색결과
-	</h1>
+<h2>"<%=search %>" 검색결과</h2>
 	<section>
 		<article>
-			<ul>
-				<li>전체
-				<li><a href="/semi2/search/searchSong.jsp?search=<%=search%>">곡</a>
-				<li><a href="/semi2/search/searchAlbum.jsp?search=<%=search%>">앨범</a>
-				<li><a href="/semi2/search/searchArtist.jsp?search=<%=search%>">아티스트</a>
-				<li><a
-					href="/semi2/search/searchPlaylist.jsp?search=<%=search%>">플레이리스트</a>
-			</ul>
+				<div>
+		<input type="button" value="전체" class="bt" onclick="location.href='/semi2/search/main.jsp?search=<%=search%>'">
+		<input type="button" value="곡" class="bt" onclick="location.href='/semi2/search/searchSong.jsp?search=<%=search%>'">
+		<input type="button" value="앨범" class="bt" onclick="location.href='/semi2/search/searchAlbum.jsp?search=<%=search%>'">
+		<input type="button" value="아티스트" class="bt" onclick="location.href='/semi2/search/searchArtist.jsp?search=<%=search%>'">
+		<input type="button" value="플레이리스트" class="bt_clicked" onclick="location.href='/semi2/search/searchPlaylist.jsp?search=<%=search%>'">
+	</div>
 		</article>
 		<article>
-			<h2>플레이리스트 &gt;</h2>
-			<%
+	<div class="footer-line"></div>
+	<div class="search-title">
+		<a href="/semi2/search/searchPlaylist.jsp?search=<%=search%>">플레이리스트 &gt;</a>
+		</div>
+		<%
 			int searchCount = 10;
-			ArrayList<SearchPlaylistDto> arr = searchDao.searchPlaylists(search, searchCount);
+			ArrayList<SearchPlaylistDto> playlsitArr = searchDao.searchPlaylists(search, searchCount);
 			%>
-			<div>
+			<div class="gallery">
 				<%
-				if (arr == null || arr.size() == 0) {
+				if (playlsitArr == null || playlsitArr.size() == 0) {
 				%>
 				<div>보여줄 정보가 없습니다</div>
 				<%
 				} else {
-				for (int i = 0; i < arr.size(); i++) {
+				for (int i = 0; i < playlsitArr.size(); i++) {
 				%>
-
-				<div>
-					<img src="/semi2/resources/images/album/<%=arr.get(i).getFirstAlbumId() %>/cover.jpg"> 
-					<a><%=arr.get(i).getPlaylistName() %></a>
-					<a><%=arr.get(i).getNickname() %></a>
-					<label>(<%=arr.get(i).getSongCount() %>)</label>
+				<div class="gallery-card">
+					<div class="gallery-card-album-image-group">
+				<a href="/semi2/playlist/details.jsp?playlistid=<%=playlsitArr.get(i).getPlaylistId()%>">
+						<!-- <img src="/semi2/resources/images/playlist/<%=playlsitArr.get(i).getPlaylistId()%>/cover.jpg" class="gallery-card-album-image"> -->
+				<img src="/semi2/resources/images/album/1/cover.jpg" class="gallery-card-album-image">
+				</a>
+				<div class="gallery-card-album-image-play">
+				<a href="#">
+					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
+					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+				</a>
 				</div>
+				</div>
+				<div class="gallery-card-playlist-name">
+				<label><a href="/semi2/playlist/details.jsp?playlistid=<%=playlsitArr.get(i).getPlaylistId()%>"><%=playlsitArr.get(i).getPlaylistName() %></a></label>
+				</div>
+					</div>
+
 				<%
 				}
 				}
 				%>
 			</div>
-		</article>
+	</article>
 	</section>
 	<%@include file="/footer.jsp"%>
 </body>

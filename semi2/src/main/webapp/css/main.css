@@ -366,6 +366,23 @@ table.song-list .song-list-body {
 	box-shadow: none;
 	border: 1px solid #262626;
 	cursor: pointer;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+.bt_clicked {
+	display: inline-block;
+	border-radius: 999px;
+	margin: 0px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 30px;
+	background: transparent;
+	color: #ff2dac;
+	box-shadow: none;
+	border: 1px solid #ff2dac;
+	cursor: pointer;
+	font-family: 'Noto Sans KR', sans-serif;
+
 }
 
 .bt:hover {
@@ -522,6 +539,7 @@ table.song-list .song-list-body {
 	box-shadow: none;
 	border: 1px solid #262626;
 	cursor: pointer;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .comment-bt input:hover {
@@ -810,6 +828,7 @@ table.song-list .song-list-body {
 	box-shadow: none;
 	border: 1px solid #262626;
 	cursor: pointer;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .login-bt:hover {
@@ -995,3 +1014,93 @@ table.song-list .song-list-body {
 	height: 30px;
 	opacity: 30%;
 }
+
+.search-gallery {
+	width: 1025px;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0px;
+	padding-right: 0px;
+}
+
+.search-card-image {
+	width: 150px;
+	height:150px;
+	border-radius: 6px;
+		transition: filter 0.3s ease;
+}
+
+.search-card-image:hover {
+	filter: brightness(50%);
+}
+
+/*디테일 카드 세팅*/
+.search-card {
+	display: flex;
+	margin-bottom: 40px;
+	margin-right:50px;
+}
+
+/*디테일 카드 이미지 세팅*/
+.detail-card-image {
+	width: 200px;
+	border-radius: 6px;
+}
+/*디테일 카드 정보 공간 세팅*/
+.search-card-info {
+	margin-left: 20px;
+}
+
+/*디테일 카드 정보 이름 세팅*/
+.search-card-info-name h2 {
+	font-size:18px;
+	margin-top:0px;
+	margin-bottom: 8px;
+}
+
+/*디테일 카드 정보 아티스트 세팅*/
+.search-card-info-artist-name {
+	font-size: 13px;
+	margin-bottom: 15px;
+}
+
+/*디테일 카드 정보 장르 세팅*/
+.search-card-info-genre {
+	font-size: 13px;
+}
+
+
+/*디테일 카드 정보 날짜 세팅*/
+.search-card-info-date {
+	font-size: 10px;
+	margin-bottom: 20px;
+	color: #a7a7a7;
+}
+
+.artist-image {
+	width: 175px;
+	margin-bottom: 5px;
+	border-radius: 999px;
+	transition: filter 0.3s ease;
+	display: block;
+}
+
+.artist-image:hover {
+	filter: brightness(50%);
+}
+
+.artist-name{
+	text-align:center;
+	margin-top:10px;
+}
+.search-title{
+	font-size:20px;
+	font-weight:bold;
+	margin-bottom:30px;
+}
+
+.search-title a:hover{
+	color:#ff2dac;
+
+	}

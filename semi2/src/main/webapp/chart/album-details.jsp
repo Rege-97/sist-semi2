@@ -141,7 +141,7 @@ if (cp % pageSize == 0)
 				</colgroup>
 				<thead>
 					<tr class="song-list-head">
-						<th>순위</th>
+						<th>순번</th>
 						<th colspan="2">곡/앨범</th>
 						<th>아티스트</th>
 						<th>듣기</th>
