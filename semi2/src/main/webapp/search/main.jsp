@@ -5,14 +5,6 @@
 <jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
-
-//아래 id는 앨범디테일의 수록곡 관련 코드를 가져와서 임시로 복붙한 코드임.. 
-//검색결과에 따라 결과 보이도록 새로운 dao 작성 필요 + 검색한 단어를 파라미터로 받아야 함  
-String id_s = request.getParameter("albumid");
-if (id_s == null || id_s.equals("")) {
-	id_s = "0";
-}
-int id = Integer.parseInt(id_s);
 %>    
 <!DOCTYPE html>
 <html>
