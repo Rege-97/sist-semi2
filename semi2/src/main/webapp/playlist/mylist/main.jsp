@@ -15,12 +15,15 @@
 		window.alert(message);
 		window.location.href = "/semi2/member/signin.jsp";
 	}
+	function confirmAction(message) {
+		return confirm(message);
+	}
 </script>
 </head>
 <%
 SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
 
-if (loggedinUser == null || loggedinUser.getMemberId()==0) {
+if (loggedinUser == null || loggedinUser.getMemberId() == 0) {
 %>
 <script>
 	showAlertAndGoLoginPage("로그인이 필요합니다");
@@ -37,20 +40,29 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 	<%@include file="/header.jsp"%>
 	<h1>내 플레이리스트</h1>
 	<%
+	// 플레이리스트 하나씩 나열
 	for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
 	%>
 	<div>
+
 		<a
 			href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>">
 			<img
 			src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
 		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"
-			onerror="this.style.backgroundColor='lightgray';" width="100">
+			width="100">
 		</a>
+
 		<h3>
 			<a
 				href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
 		</h3>
+		<div>
+			<a
+				href="/semi2/playlist/mylist/delete_ok.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"
+				onclick="return confirmAction('정말 삭제하시겠습니까?');">조그맣고귀엽게생긴삭제기능사진넣어주세요</a>
+		</div>
+
 		<h3><%=playlistPreview.getMemberNickname()%>
 			|
 			<%=playlistPreview.getSongCount()%>곡
@@ -61,10 +73,13 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 	}
 	%>
 	<div>
-	<a href="/semi2/playlist/mylist/add_ok.jsp"><img
-			src="/semi2/resources/images/playlist/add-playlist.jpg" width="100"/></a>
+		<a href="/semi2/playlist/mylist/add_ok.jsp"><img
+			src="/semi2/resources/images/playlist/add-playlist.jpg" width="100" /></a>
+
+		<a href="/semi2/playlist/mylist/add_ok.jsp">새로운 플레이리스트 만들기</a>
 	</div>
 
 	<%@include file="/footer.jsp"%>
+
 </body>
 </html>

@@ -25,15 +25,15 @@ return;
 }
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-if(!playlistMylistDao.addPlaylistByMemberId(loggedinUserId)){
-	%>
-	<script>
+if (!playlistMylistDao.addPlaylistByMemberId(loggedinUserId)) {
+%>
+<script>
 	showAlertAndGoBack('오류가 발생했습니다');
-	</script>
-	<%
-	return;
+</script>
+<%
+return;
 }
-
-response.sendRedirect("/semi2/playlist/mylist/main.jsp");
+String referer = request.getHeader("referer");
+response.sendRedirect(referer == null ? "/semi2/playlist/mylist/main.jsp" : referer);
 %>
 
