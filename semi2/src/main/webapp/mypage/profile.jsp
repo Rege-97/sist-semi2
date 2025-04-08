@@ -1,3 +1,8 @@
+<%@page import="java.util.concurrent.TimeUnit"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.Timestamp"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="com.plick.mypage.MypageDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -9,15 +14,36 @@
 <title>Insert title here</title>
 </head>
 <jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
-<%
-MypageDao mdao = new MypageDao();
-%>
+
 <body>
 <%@ include file="/header.jsp" %>
+<%
+MypageDao mdao = new MypageDao();
+// Dao에서 이용권 이름, 만료 기간을 가져와서 남은 일자 계산 후 출력
+HashMap<String, Timestamp> map = mdao.getMembershipName(signedinDto.getMemberId());
+ArrayList<String> list = mdao.getMembershipType();
+%>
 <h2>마이페이지</h2>
-<label>이용권 정보:<%=mdao.getMembershipName(signedinDto.getMemberId()) %></label><img src = "">
-<input type = "button" value = "이용권구매" onclick = "location.href = '/semi2/membership/payment.jsp'">
-<input type = "button" value = "이용권변경" onclick = "location.href = '/semi2/membership/payment.jsp'">
+
+<%
+// 모든 이용권을 반복문으로 돌려 사용자가 가지고 있는 이용권들을 화면에 표시
+for (int i = 0; i < list.size(); i++){
+	Calendar now = Calendar.getInstance();
+	Calendar now2 = Calendar.getInstance();
+	if (map.get(list.get(i))==null) continue;
+	now2.setTimeInMillis(map.get(list.get(i)).getTime());
+	long timeLeft = now2.getTimeInMillis()-now.getTimeInMillis();
+	long dayLeft = TimeUnit.MILLISECONDS.toDays(timeLeft);
+%>
+<label>
+<%=list.get(i) %> 남은 일자: <%=dayLeft > 0 ? dayLeft:0 %> 일 
+</label>
+<%	
+}
+%>
+<img src = "">
+<input type = "button" value = "이용권구매" onclick = "location.href = '/semi2/membership/main.jsp'">
+<input type = "button" value = "이용권변경" onclick = "location.href = '/semi2/membership/main.jsp'">
 
 <br>
 <input type = "button" value = "비밀번호 변경" onclick = "location.href = '/semi2/mypage/password-check.jsp'"> 

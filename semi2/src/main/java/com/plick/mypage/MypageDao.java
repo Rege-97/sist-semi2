@@ -3,6 +3,9 @@ package com.plick.mypage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.File;
 
 public class MypageDao {
@@ -61,20 +64,50 @@ public class MypageDao {
 		}
 	}
 	
-	public String getMembershipName(int memberId) {
+	public  HashMap<String, Timestamp> getMembershipName(int memberId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT name FROM memberships WHERE id = (SELECT membership_id FROM membership_members WHERE member_id = ?)";
+			String sql = "SELECT name, stopped_at FROM membership_members mm LEFT JOIN memberships m ON mm.membership_id = m.id WHERE mm.membership_id IN (SELECT membership_id FROM membership_members WHERE member_id = ?)";
+			System.out.println("sql1");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, memberId);
 			rs = pstmt.executeQuery();
+			HashMap<String, Timestamp> map = new HashMap<String, Timestamp>();
 			if(rs.next()) {
 				do {
-					return rs.getString("name");
+					System.out.println(rs.getString("name"));
+					map.put(rs.getString("name"), rs.getTimestamp("stopped_at"));
 				}while(rs.next());
-			}else {
-				return "";
 			}
+				return map;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public  ArrayList<String> getMembershipType() {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT name FROM memberships";
+			pstmt = conn.prepareStatement(sql);
+			System.out.println("sql2");
+			rs = pstmt.executeQuery();
+			ArrayList<String> list = new ArrayList<String>();
+			if(rs.next()) {
+				do {
+					list.add(rs.getString("name"));
+				}while(rs.next());
+			}
+				return list;
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
