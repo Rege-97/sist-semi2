@@ -30,17 +30,30 @@
 
 </head>
 <%
-String memberId = request.getParameter("memberid");
-if (memberId == null || memberId.isEmpty()) {
+String memberIdParam = request.getParameter("memberid");
+int memberId = -1;
+if (memberIdParam == null || memberIdParam.isEmpty()) {
 %>
 <script>
-	showAlertAndGoBack("아티스트 번호를 request에 전달해주세요.");
+	showAlertAndGoBack("파라미터가 유효하지 않습니다.");
 </script>
 <%
 return;
 }
+
+try {
+memberId = Integer.parseInt(memberIdParam);
+} catch (NumberFormatException e) {
+%>
+<script>
+	showAlertAndGoBack("<%=e.getMessage()%>
+	");
+</script>
+<%
+}
+
 ArtistDao artistDao = new ArtistDao();
-ArtistDto artistDto = artistDao.findArtistDetailsByMemberId(Integer.parseInt(memberId));
+ArtistDto artistDto = artistDao.findArtistDetailsByMemberId(memberId);
 if (artistDto == null) {
 %>
 <script>
