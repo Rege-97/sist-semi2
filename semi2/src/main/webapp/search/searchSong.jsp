@@ -1,18 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.plick.chart.*" %>    
-<%@ page import="java.util.*" %>    
-<jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
+<%@ page import="com.plick.search.*"%>
+<%@ page import="java.util.*"%>
+<jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
 
-//아래 id는 앨범디테일의 수록곡 관련 코드를 가져와서 임시로 복붙한 코드임.. 
-//검색결과에 따라 결과 보이도록 새로운 dao 작성 필요 + 검색한 단어를 파라미터로 받아야 함  
-String id_s = request.getParameter("albumid");
-if (id_s == null || id_s.equals("")) {
-	id_s = "0";
-}
-int id = Integer.parseInt(id_s);
+ 
+
 %>    
 <!DOCTYPE html>
 <html>
@@ -55,7 +50,7 @@ int id = Integer.parseInt(id_s);
 				</colgroup>
 				<thead>
 					<tr class="song-list-head">
-						<th>번호</th>
+						
 						<th colspan="2">곡/앨범</th>
 						<th>아티스트</th>
 						<th>듣기</th>
@@ -65,7 +60,8 @@ int id = Integer.parseInt(id_s);
 				</thead>
 				<tbody>
 					<%
-					ArrayList<TrackDto> arr = cdao.trackList(id);
+					int searchCount = 10;
+					ArrayList<SearchSongDto> arr = searchDao.searchSongs(search, searchCount);
 
 					if (arr == null || arr.size() == 0) {
 					%>
@@ -77,9 +73,7 @@ int id = Integer.parseInt(id_s);
 					for (int i = 0; i < arr.size(); i++) {
 					%>
 					<tr class="song-list-body">
-						<td>
-							<div class="song-list-row"><%=arr.get(i).getRnum()%></div>
-						</td>
+						
 						<td>
 							<div class="song-list-album-image">
 								<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
@@ -87,7 +81,7 @@ int id = Integer.parseInt(id_s);
 						</td>
 						<td>
 							<div class="song-list-song-name">
-								<a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a>
+								<a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getSongId()%>"><%=arr.get(i).getSongName()%></a>
 							</div>
 							<div class="song-list-album-name">
 								<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><%=arr.get(i).getAlbumName()%></a>
@@ -95,7 +89,7 @@ int id = Integer.parseInt(id_s);
 						</td>
 						<td>
 							<div class="song-list-artist-name">
-								<a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a>
+								<a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getNickname()%></a>
 							</div>
 						</td>
 						<td>
