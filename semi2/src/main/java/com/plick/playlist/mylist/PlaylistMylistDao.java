@@ -71,14 +71,13 @@ public class PlaylistMylistDao {
 		return false;
 	}
 
-	public boolean addPlaylistByMemberId(int memberId) {
+	public boolean addPlaylistByMemberId(int memberId, String playlistName) {
 		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
 				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
 
 		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, memberId);
-			int playlistCount = findCountPlaylistByMemberId(memberId, conn);
-			pstmt.setString(2, playlistCount + 1 + "번 플레이리스트");
+			pstmt.setString(2, playlistName);
 			pstmt.setString(3, null);
 			pstmt.setString(4, null);
 
@@ -108,7 +107,21 @@ public class PlaylistMylistDao {
 
 	public boolean addSongIntoPlaylist(int songId, int playlistId) {
 		try (Connection conn = DBConnector.getConn();) {
-			return insertSongToTopInTransaction(songId, playlistId, conn);
+			return existsBySongId(songId, conn) ? insertSongToTopInTransaction(songId, playlistId, conn) : false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean existsBySongId(int songId, Connection conn) {
+		String sql = "SELECT COUNT(*) FROM songs WHERE id = ? ";
+
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, songId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				return rs.next();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

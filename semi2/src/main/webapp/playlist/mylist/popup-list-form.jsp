@@ -68,10 +68,16 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 <body>
 	<h1>내 플레이리스트</h1>
 	<div>
-		<a href="popup-list-form.jsp?songid=<%=songId%>"><img
-			src="/semi2/resources/images/playlist/add-playlist.jpg" width="50" /></a>
-
-		<a href="popup-list-form.jsp?songid=<%=songId%>">새로운 플레이리스트 만들기</a>
+		<form action="add_ok.jsp" method="get">
+			<input type="text" id="playlistNameText" name="playlistName"
+				placeholder="플레이리스트 이름을 정해주세요."
+				value="<%=playlistPreviews.size() + 1%>번 플레이리스트" /> <input
+				type="button" value="X"
+				onclick="document.getElementById('playlistNameText').value = '';" />
+			<br /> <input type="button"
+				onclick="window.location.href='popup-list.jsp?songid=<%=songId%>';"
+				value="취소" /> <input type="submit" value="확인" />
+		</form>
 	</div>
 	<%
 	// 플레이리스트 하나씩 나열

@@ -39,12 +39,20 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 <body>
 	<%@include file="/header.jsp"%>
 	<h1>내 플레이리스트</h1>
+	<div>
+		<a
+			href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트"><img
+			src="/semi2/resources/images/playlist/add-playlist.jpg" width="100" /></a>
+
+		<a
+			href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트">새로운
+			플레이리스트 만들기</a>
+	</div>
 	<%
 	// 플레이리스트 하나씩 나열
 	for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
 	%>
 	<div>
-
 		<a
 			href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>">
 			<img
@@ -72,12 +80,6 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 	<%
 	}
 	%>
-	<div>
-		<a href="/semi2/playlist/mylist/add_ok.jsp"><img
-			src="/semi2/resources/images/playlist/add-playlist.jpg" width="100" /></a>
-
-		<a href="/semi2/playlist/mylist/add_ok.jsp">새로운 플레이리스트 만들기</a>
-	</div>
 
 	<%@include file="/footer.jsp"%>
 
