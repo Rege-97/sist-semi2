@@ -17,9 +17,9 @@
 			<a href="/semi2/membership/main.jsp">이용권</a>
 		</div>
 		<div class="menu">
-		<form>
+		<form action="/semi2/search/main.jsp">
 			<div class=search-wrapper>
-				<input type="text" placeholder="검색어를 입력해 주세요."> <input type="image" src="/semi2/resources/images/design/search-icon.png">
+				<input name="search" type="text" placeholder="검색어를 입력해 주세요."> <input type="image" src="/semi2/resources/images/design/search-icon.png">
 			</div>
 			</form>
 		</div>
