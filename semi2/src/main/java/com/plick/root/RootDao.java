@@ -115,7 +115,7 @@ public class RootDao {
 					+ "    LEFT JOIN playlist_songs ps2 ON p.id = ps2.playlist_id AND ps2.turn = 1 "
 					+ "    LEFT JOIN songs s ON ps2.song_id = s.id " + "    GROUP BY "
 					+ "        p.id, p.name, p.created_at, " + "        m.id, m.nickname, " + "        s.album_id "
-					+ "    ORDER BY like_count DESC " + ") " + "WHERE ROWNUM <= 10;";
+					+ "    ORDER BY like_count DESC " + ") " + "WHERE ROWNUM <= 10";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			ArrayList<PopularPlaylistDto> arr = new ArrayList<PopularPlaylistDto>();
@@ -123,8 +123,8 @@ public class RootDao {
 				return null;
 			}
 			do {
-				int playlistId = rs.getInt("id");
-				int MemberId = rs.getInt("playlist_id");
+				int playlistId = rs.getInt("playlist_id");
+				int MemberId = rs.getInt("member_id");
 				String playlistName = rs.getString("playlist_name");
 				Timestamp createdAt = rs.getTimestamp("created_at");
 				int songCount = rs.getInt("song_count");
