@@ -41,6 +41,19 @@ public class PlaylistMylistDao {
 
 	}
 
+	public boolean deletePlaylistByPlaylistIdAndMemberId(int playlistId, int memberId) {
+		String sql = "DELETE FROM playlists WHERE id= ? AND member_id = ?";
+
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, playlistId);
+			pstmt.setInt(2, memberId);
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public boolean addPlaylistByMemberId(int memberId) {
 		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
 				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";

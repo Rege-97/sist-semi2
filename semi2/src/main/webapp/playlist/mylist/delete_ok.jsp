@@ -14,6 +14,7 @@
 	}
 </script>
 <%
+// 로그인 검증
 SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
 if (loggedinUser == null || loggedinUser.getMemberId() == 0) {
 %>
@@ -25,14 +26,22 @@ return;
 }
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-if (!playlistMylistDao.addPlaylistByMemberId(loggedinUserId)) {
+
+// get으로 지울 플레이리스트 가져옴
+String playlistId = request.getParameter("playlistid");
+if (playlistId == null || playlistId.isEmpty()) {
+playlistId = "0";
+}
+
+if (!playlistMylistDao.deletePlaylistByPlaylistIdAndMemberId(Integer.parseInt(playlistId), loggedinUserId)) {
 %>
 <script>
-	showAlertAndGoBack('오류가 발생했습니다');
+	showAlertAndGoBack('잘못된 접근입니다');
 </script>
 <%
 return;
 }
+
 String referer = request.getHeader("referer");
 response.sendRedirect(referer == null ? "/semi2/playlist/mylist/main.jsp" : referer);
 %>
