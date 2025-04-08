@@ -54,6 +54,23 @@ public class PlaylistMylistDao {
 		return false;
 	}
 
+	public boolean addPlaylistByMemberIdAndPlaylistName(int memberId, String playlistName) {
+		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
+				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
+
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			pstmt.setString(2, playlistName);
+			pstmt.setString(3, null);
+			pstmt.setString(4, null);
+
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public boolean addPlaylistByMemberId(int memberId) {
 		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
 				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
@@ -87,6 +104,48 @@ public class PlaylistMylistDao {
 			e.printStackTrace();
 		}
 		return playlistCount;
+	}
+
+	public boolean addSongIntoPlaylist(int songId, int playlistId) {
+		try (Connection conn = DBConnector.getConn();) {
+			return insertSongToTopInTransaction(songId, playlistId, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean insertSongToTopInTransaction(int songId, int playlistId, Connection conn) throws SQLException {
+
+		String updateSql = "UPDATE playlist_songs SET turn = turn + 1 WHERE playlist_id = ?";
+		String insertSql = "INSERT INTO playlist_songs (id, song_id, playlist_id, turn) VALUES (seq_playlist_songs_id.NEXTVAL, ?, ?, 1)";
+
+		try (PreparedStatement updatePstmt = conn.prepareStatement(updateSql);
+				PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+			// 트랜잭션시작
+			conn.setAutoCommit(false);
+
+			updatePstmt.setInt(1, playlistId);
+			updatePstmt.executeUpdate();
+
+			insertPstmt.setInt(1, songId);
+			insertPstmt.setInt(2, playlistId);
+			insertPstmt.executeUpdate();
+
+			// 트랜잭션끝
+			conn.commit();
+			return true;
+
+		} catch (Exception e) {
+			// 예외발생시 롤백
+			conn.rollback();
+			e.printStackTrace();
+			return false;
+
+		} finally {
+			// 오토커밋시작
+			conn.setAutoCommit(true);
+		}
 	}
 
 }
