@@ -67,20 +67,21 @@ function formCheck(event) {
 
 </script>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@ include file="/header.jsp" %>
-<fieldset>
+<div class="signin-box">
 	<form action = "form_ok.jsp" method = "post" onsubmit="formCheck(event);">
-		<h2>회원가입</h2>
+		<div class="signup-title">회원가입</div>
+		<div class="blank"></div>
 		<input type = "hidden" name = "name" value = "<%=request.getParameter("name") %>">
 		<input type = "hidden" name = "tel" value = "<%=request.getParameter("tel") %>"> 
 		<input type = "hidden" name = "access_type" value = "listener">
-		
-		이름:<%=request.getParameter("name") %> 전화번호:<%=request.getParameter("tel") %>
-		
-		<input type="text" id = "emailHead" placeholder="이메일">@
-		<input type="text" id = "emailTail" value = "선택" readonly>
-		<select onchange="changeDirectInput(this);">
+		<div class="signup-text-name">성함 : <%=request.getParameter("name") %> 님</div>
+		<div class="signup-text-name">전화번호 : <%=request.getParameter("tel") %></div>
+		<input type="text" id = "emailHead" placeholder="이메일" class="signup-text-email">@
+		<input type="text" id = "emailTail" value = "선택" readonly class="signup-text-email">
+		<select class="signup-select" onchange="changeDirectInput(this);">
 		<option disabled selected>선택</option>
 <%
 for (int i = 0; i < emailForms.size(); i++) {
@@ -91,18 +92,31 @@ for (int i = 0; i < emailForms.size(); i++) {
 %>
 		<option>직접입력</option>
 		</select>
+		<div class="signin-hidden">
 		<label id = "checkEmailDuplicate"></label>
+		</div>
 		<input type = "email" id = "assembleEmail" name = "email" style = "display: none;"> 
-		<input type="text" id = "nickname" name = "nickname" placeholder="닉네임" onchange = "testNickname();">
+		<div>
+		<input type="text" id = "nickname" name = "nickname" class="signup-text"placeholder="닉네임" onchange = "testNickname();">
+		</div>
+		<div class="signin-hidden">
 		<label id = "checkNicknameDuplicate"></label>
-		<br>
-		<input type="password" id = "pwd" name = "password" placeholder="비밀번호" onchange="testPassword();">
-		<input type="password" id = "pwdTest" placeholder="비밀번호 확인" onchange="testPassword();">
+		</div>
+		<div>
+		<input type="password" id = "pwd" name = "password" class="signup-text" placeholder="비밀번호" onchange="testPassword();">
+		</div>
+		<div>
+		<input type="password" id = "pwdTest" class="signup-text" placeholder="비밀번호 확인" onchange="testPassword();">
+		</div>
+		<div class="signin-hidden">
 		<label id = "pwdCheck"></label>
-		<br>
-		<input type="submit" value="가입하기">
+		</div>
+		<div>
+		<div class="blank"></div>
+		<input type="submit" value="가입하기" class="bt">
+		</div>
 	</form>
-</fieldset>
+</div>
 <iframe id = "form_hidden" style = "display: none;"></iframe>
 <%@ include file="/footer.jsp" %>
 </body>

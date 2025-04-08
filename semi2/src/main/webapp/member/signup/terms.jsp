@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <script>
 	function undisabled(){	
 		var b = document.getElementById("termsAgree");
@@ -15,12 +16,16 @@
 </script>
 <body>
 	<jsp:include page="/header.jsp"></jsp:include>
-	<fieldset>
-		<h2>이용약관</h2>
-		<iframe src="useterms.jsp"></iframe>
-		<input type="checkbox" onchange="undisabled();"> 약관동의 
-		<input type="button" id = "termsAgree" value="다음" disabled  onclick="location.href = 'verification.jsp'">
-	</fieldset>
+	<div class="login-box">
+		<div class="signup-title">이용약관</div>
+		<iframe src="useterms.jsp"  class="terms"></iframe>
+		<div class= "terms-checkbox">
+		<div class="terms-checkbox-in">
+		<input type="checkbox" onchange="undisabled();"> <div class="id-remember">약관에 동의합니다.</div> 
+		</div>
+		</div>
+		<input type="button" id = "termsAgree" value="다음" class="bt"disabled  onclick="location.href = 'verification.jsp'">
+		</div>
 	<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

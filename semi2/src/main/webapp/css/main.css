@@ -765,6 +765,24 @@ table.song-list .song-list-body {
 	margin-right: 5px;
 }
 
+.terms-checkbox {
+	margin-top:20px;
+	margin-bottom:20px;
+	text-align: center;
+}
+.terms-checkbox-in{
+width:130px;
+	color: #666666;
+	font-size: 13px;
+	margin: 0px auto;
+	display: flex;
+}
+.terms-checkbox-in input {
+	width: 12px;
+	accent-color: #ff2dac;
+	margin-right: 5px;
+}
+
 .id-remember {
 	margin-bottom: 2px;
 }
@@ -818,4 +836,91 @@ table.song-list .song-list-body {
 .login-signup {
 	margin-left: auto;
 	font-size: 11px;
+}
+.signup-title{
+	font-size: 25px;
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+.terms{
+	width:400px;
+	border: 1px solid #262626;
+}
+
+.useterms{
+	font-size: 11px;
+	width:380px;
+	overflow-x:hidden;
+}
+.signup-check{
+	margin-top:60px;
+	margin-bottom:50px;
+}
+.signin-box{
+	width: 600px;
+	height: 550px;
+	border: 1px solid #262626;
+	border-radius: 6px; text-align : center;
+	margin: 50px auto 50px auto;
+	padding: 30px;
+	text-align: center;
+}
+.signup-text{
+	width: 490px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	text-align: center;
+}
+
+.signup-text-name{
+	width: 490px;
+	height: 30px;
+	margin-left:55px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+}
+.signup-text-email{
+	width: 150px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	text-align: center;
+}
+.signin-hidden{
+	margin-bottom:10px;
+	color: #666666;
+	font-size: 13px;
+}
+.signup-select{
+	width: 150px;
+	height: 30px;
+	margin-left:10px;
+	border: 1px solid #262626;
+	background: #131313;
+	color:white;
+}
+.blank{
+	margin:40px;
+}
+.blank1{
+	margin:80px;
 }
