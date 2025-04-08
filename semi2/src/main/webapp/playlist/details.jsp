@@ -26,6 +26,7 @@
 	}
 </script>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <%
 String playlistId = request.getParameter("playlistid");
 if (playlistId == null || playlistId.isEmpty()) {
@@ -70,42 +71,78 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 	<%@include file="/header.jsp"%>
 	<section>
 		<article>
-			<table>
-				<tr>
-					<td rowspan="4"><img
-						src="/semi2/resources/images/<%=firstAlbumId != 0 ? "album/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"
-						width="200"></td>
-					<td colspan="2"><%=playlist.getName()%></td>
-					<td rowspan="2"><%=likeCount%> likes</td>
-				</tr>
-				<tr>
-					<td colspan="2"><a
-						href="/semi2/artist/main.jsp?memberid=<%=author.getId()%>"><%=author.getNickname()%></a></td>
-				</tr>
-				<tr>
-					<td colspan="3"><%=mood.toString().trim()%></td>
-				</tr>
-				<tr>
-					<td><a href="#">모두재생</a></td>
-					<td><a href="#">담기</a></td>
-					<td><a href="#">다운로드</a></td>
-				</tr>
-			</table>
+					<div class="detail-card">
+					<img src="/semi2/resources/images/<%=firstAlbumId != 0 ? "album/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"  class="detail-card-image">
+				<div class="detail-card-info">
+					<div class="detail-card-info-name">
+						<h2><%=playlist.getName()%></h2>
+					</div>
+					<div class="detail-card-info-artist-name">
+						<a href="/semi2/artist/main.jsp?memberid=<%=author.getId()%>"><%=author.getNickname()%></a>
+					</div>
+					<div class="detail-card-info-genre"><%=mood.toString().trim()%></div>
+					<div class="detail-card-info-date">
+						생성일 : <%=formattedCreatedAt%>
+					</div>
+					<div class="detail-card-info-icon">
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">						
+							</a>
+						</div>
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+						<div class="icon-group-likes">
+					<a href="#">
+						<img src="/semi2/resources/images/design/likes-icon.png" class="likes-icon">
+					</a>
+					<div class="likes-count">
+					<%=likeCount%> 
+					</div>
+				</div>
+					</div>
+				</div>
+				
+			</div>
 		</article>
 		<article>
-			<h1>수록곡</h1>
-			<table width="600">
-				<thead align="left">
-					<tr>
-						<th>번호</th>
+		<div class="categorey-name">수록곡</div>
+			<table class="song-list">
+				<colgroup>
+					<col style="width: 40px;">
+					<!-- 순위 -->
+					<col style="width: 50px;">
+					<!-- 앨범 이미지 -->
+					<col style="width: 270px;">
+					<!-- 곡/앨범 -->
+					<col style="width: 120px;">
+					<!-- 아티스트 -->
+					<col style="width: 40px;">
+					<!-- 듣기 -->
+					<col style="width: 40px;">
+					<!-- 리스트 -->
+					<col style="width: 40px;">
+					<!-- 다운로드 -->
+				</colgroup>
+				<thead>
+					<tr class="song-list-head">
+						<th>순번</th>
 						<th colspan="2">곡/앨범</th>
 						<th>아티스트</th>
 						<th>듣기</th>
 						<th>내 리스트</th>
 						<th>다운로드</th>
-					</tr>
-					<tr>
-						<td colspan="7"><hr></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -113,31 +150,58 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 					if (sortedSongs == null || sortedSongs.size() == 0) {
 					%>
 					<tr>
-						<td colspan="7">수록곡이 존재하지 않습니다.</td>
+						<td colspan="6">수록곡이 존재하지 않습니다.</td>
 					</tr>
 					<%
 					} else {
 					for (int i = 0; i < sortedSongs.size(); i++) {
 					%>
-					<tr>
-						<td rowspan="2"><%=i + 1%></td>
-						<td rowspan="2"><a href="#"><img
-								src="/semi2/resources/images/album/<%=sortedSongs.get(i).getSong().getAlbumId()%>/cover.jpg"
-								width="50"></a></td>
-						<td><a
-							href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getSong().getId()%>"><%=sortedSongs.get(i).getSong().getName()%></a></td>
-						<td rowspan="2"><a
-							href="/semi2/artist/main.jsp?memberid=<%=sortedSongs.get(i).getMemberId()%>"><%=sortedSongs.get(i).getMemberNickname()%></a></td>
-						<td rowspan="2"><a href="#">듣기</a></td>
-						<td rowspan="2"><a href="#">담기</a></td>
-						<td rowspan="2"><a href="#">다운로드</a></td>
-					</tr>
-					<tr>
-						<td><a
-							href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"><%=sortedSongs.get(i).getAlbumName()%></a></td>
-					</tr>
-					<tr>
-						<td colspan="7"><hr></td>
+					<tr class="song-list-body">
+						<td>
+							<div class="song-list-row"><%=i + 1%></div>
+						</td>
+						<td>
+							<div class="song-list-album-image">
+							<a href="#"><img src="/semi2/resources/images/album/<%=sortedSongs.get(i).getSong().getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
+							</div>
+						</td>
+						<td>
+							<div class="song-list-song-name">
+								<a href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getSong().getId()%>"><%=sortedSongs.get(i).getSong().getName()%></a>
+							</div>
+							<div class="song-list-album-name">
+								<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"><%=sortedSongs.get(i).getAlbumName()%></a>
+							</div>
+						</td>
+						<td>
+							<div class="song-list-artist-name">
+								<a href="/semi2/artist/main.jsp?memberid=<%=sortedSongs.get(i).getMemberId()%>"><%=sortedSongs.get(i).getMemberNickname()%></a>
+							</div>
+						</td>
+						<td>
+							<div class="icon-group">
+								<a href="#"> 
+								<img src="/semi2/resources/images/design/play-icon.png" class="icon-default">
+								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+								</a>
+							</div>
+						</td>
+						<td>
+							<div class="icon-group">
+								<a href="#">
+								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-default">
+								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">
+								</a>
+							</div>
+						</td>
+						<td>
+							<div class="icon-group">
+								<a href="#">
+								<img src="/semi2/resources/images/design/download-icon.png" class="icon-default">
+								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+								</a>
+							</div>
+						</td>
 					</tr>
 
 					<%
@@ -146,16 +210,6 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 					}
 					%>
 				</tbody>
-			</table>
-		</article>
-		<article>
-			<table>
-				<tr>
-					<td>플리 생성일</td>
-				</tr>
-				<tr>
-					<td><%=formattedCreatedAt%></td>
-				</tr>
 			</table>
 		</article>
 		<article>
