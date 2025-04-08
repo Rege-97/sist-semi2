@@ -31,8 +31,9 @@ ArrayList<SongsDto> arr = aDto.getSongsDtos();
 for (int i = 0; i < arr.size(); i++){
 	arr.get(i).setAlbum_id(albumId);
 	result += aDao.addSongs(arr.get(i));
-	System.out.println(result+":"+i);
 }
+session.removeAttribute("albumDto");
+session.removeAttribute("SongsDtos");
 String msg = result > 0 ? result-1+"앨범 추가 성공" : result-1+"앨범 추가 실패";
 %>
 <script>
