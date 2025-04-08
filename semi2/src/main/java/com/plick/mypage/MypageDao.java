@@ -53,6 +53,33 @@ public class MypageDao {
 			return ERROR;
 		}finally {
 			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public String getMembershipName(int memberId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT name FROM memberships WHERE id = (SELECT membership_id FROM membership_members WHERE member_id = ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, memberId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				do {
+					return rs.getString("name");
+				}while(rs.next());
+			}else {
+				return "";
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}finally {
+			try {
 				if(rs!=null)rs.close();
 				if(pstmt!=null)pstmt.close();
 				if(conn!=null)conn.close();

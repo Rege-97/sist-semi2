@@ -1,3 +1,4 @@
+<%@page import="com.plick.mypage.MypageDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "java.io.File" %>
@@ -8,10 +9,13 @@
 <title>Insert title here</title>
 </head>
 <jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
+<%
+MypageDao mdao = new MypageDao();
+%>
 <body>
 <%@ include file="/header.jsp" %>
 <h2>마이페이지</h2>
-<label>이용권 정보:</label><img src = "">
+<label>이용권 정보:<%=mdao.getMembershipName(signedinDto.getMemberId()) %></label><img src = "">
 <input type = "button" value = "이용권구매" onclick = "location.href = '/semi2/membership/payment.jsp'">
 <input type = "button" value = "이용권변경" onclick = "location.href = '/semi2/membership/payment.jsp'">
 
