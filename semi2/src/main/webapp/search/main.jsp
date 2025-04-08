@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.plick.chart.*" %>    
-<%@ page import="java.util.*" %>    
-<jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
+<%@ page import="com.plick.search.*"%>
+<%@ page import="java.util.*"%>
+<jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
 
@@ -35,39 +35,32 @@ int id = Integer.parseInt(id_s);
 	</article>
 	<article>
 		<h2><a href="/semi2/search/searchAlbum.jsp?search=<%=search%>">앨범 &gt;</a></h2>
-		<div>
+		<%
+			int searchCount = 10;
+			ArrayList<SearchAlbumDto> albumArr = searchDao.searchAlbums(search, searchCount);
+			%>
 			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>앨범명</a>
-			<a>아티스트명</a>
-			<a>장르명</a>
-			<label>출시일</label>
-			<img>추가이미지
-			<img>재생이미지
+				<%
+				if (albumArr == null || albumArr.size() == 0) {
+				%>
+				<div>보여줄 정보가 없습니다</div>
+				<%
+				} else {
+				for (int i = 0; i < albumArr.size(); i++) {
+				%>
+				<div>
+					<img
+						src="/semi2/resources/images/album/<%=albumArr.get(i).getAlbumId()%>/cover.jpg">
+					<a><%=albumArr.get(i).getName()%></a> <a><%=albumArr.get(i).getNickname()%></a>
+					<a><%=albumArr.get(i).getGenre1()%></a> <a><%=albumArr.get(i).getGenre2()%></a>
+					<a><%=albumArr.get(i).getGenre3()%></a> <label><%=albumArr.get(i).getReleasedAt()%></label>
+					<img>추가이미지 <img>재생이미지
+				</div>
+				<%
+				}
+				}
+				%>
 			</div>
-		</div>
-		<div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>앨범명</a>
-			<a>아티스트명</a>
-			<a>장르명</a>
-			<label>출시일</label>
-			<img>추가이미지
-			<img>재생이미지
-			</div>
-		</div>
-		<div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>앨범명</a>
-			<a>아티스트명</a>
-			<a>장르명</a>
-			<label>출시일</label>
-			<img>추가이미지
-			<img>재생이미지
-			</div>
-		</div>
 	</article>
 	<article>
 		<h2 class="categorey-name"><a href="/semi2/search/searchSong.jsp?search=<%=search%>">곡 &gt;</a></h2>
@@ -90,7 +83,7 @@ int id = Integer.parseInt(id_s);
 				</colgroup>
 				<thead>
 					<tr class="song-list-head">
-						<th>번호</th>
+						
 						<th colspan="2">곡/앨범</th>
 						<th>아티스트</th>
 						<th>듣기</th>
@@ -100,37 +93,36 @@ int id = Integer.parseInt(id_s);
 				</thead>
 				<tbody>
 					<%
-					ArrayList<TrackDto> arr = cdao.trackList(id);
+					searchCount = 10;
+					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search, searchCount);
 
-					if (arr == null || arr.size() == 0) {
+					if (songArr == null || songArr.size() == 0) {
 					%>
 					<tr>
 						<td colspan="6">수록곡이 존재하지 않습니다.</td>
 					</tr>
 					<%
 					} else {
-					for (int i = 0; i < arr.size(); i++) {
+					for (int i = 0; i < songArr.size(); i++) {
 					%>
 					<tr class="song-list-body">
-						<td>
-							<div class="song-list-row"><%=arr.get(i).getRnum()%></div>
-						</td>
+						
 						<td>
 							<div class="song-list-album-image">
-								<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
+								<a href="/semi2/chart/album-details.jsp?albumid=<%=songArr.get(i).getAlbumId()%>"><img src="/semi2/resources/images/album/<%=songArr.get(i).getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
 							</div>
 						</td>
 						<td>
 							<div class="song-list-song-name">
-								<a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(i).getId()%>"><%=arr.get(i).getName()%></a>
+								<a href="/semi2/chart/song-details.jsp?songid=<%=songArr.get(i).getSongId()%>"><%=songArr.get(i).getSongName()%></a>
 							</div>
 							<div class="song-list-album-name">
-								<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(i).getAlbumId()%>"><%=arr.get(i).getAlbumName()%></a>
+								<a href="/semi2/chart/album-details.jsp?albumid=<%=songArr.get(i).getAlbumId()%>"><%=songArr.get(i).getAlbumName()%></a>
 							</div>
 						</td>
 						<td>
 							<div class="song-list-artist-name">
-								<a href="/semi2/artist/main.jsp?memberid=<%=arr.get(i).getMemberId()%>"><%=arr.get(i).getArtist()%></a>
+								<a href="/semi2/artist/main.jsp?memberid=<%=songArr.get(i).getMemberId()%>"><%=songArr.get(i).getNickname()%></a>
 							</div>
 						</td>
 						<td>
@@ -169,66 +161,59 @@ int id = Integer.parseInt(id_s);
 	</article>
 	<article>
 		<h2><a href="/semi2/search/searchPlaylist.jsp?search=<%=search%>">플레이리스트 &gt;</a></h2>
-		<div>
+		<%
+			searchCount = 10;
+			ArrayList<SearchPlaylistDto> playlsitArr = searchDao.searchPlaylists(search, searchCount);
+			%>
 			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>플레이리스트 이름</a>
-			<a>만든사람</a>
-			<label>몇곡</label>
+				<%
+				if (playlsitArr == null || playlsitArr.size() == 0) {
+				%>
+				<div>보여줄 정보가 없습니다</div>
+				<%
+				} else {
+				for (int i = 0; i < playlsitArr.size(); i++) {
+				%>
+
+				<div>
+					<img src="/semi2/resources/images/album/<%=playlsitArr.get(i).getFirstAlbumId() %>/cover.jpg"> 
+					<a><%=playlsitArr.get(i).getPlaylistName() %></a>
+					<a><%=playlsitArr.get(i).getNickname() %></a>
+					<label>(<%=playlsitArr.get(i).getSongCount() %>)</label>
+				</div>
+				<%
+				}
+				}
+				%>
 			</div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>플레이리스트 이름</a>
-			<a>만든사람</a>
-			<label>몇곡</label>
-			</div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>플레이리스트 이름</a>
-			<a>만든사람</a>
-			<label>몇곡</label>
-			</div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>플레이리스트 이름</a>
-			<a>만든사람</a>
-			<label>몇곡</label>
-			</div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>플레이리스트 이름</a>
-			<a>만든사람</a>
-			<label>몇곡</label>
-			</div>
-			<div>
-			<img src="/semi2/resources/images/album//cover.jpg">
-			<a>플레이리스트 이름</a>
-			<a>만든사람</a>
-			<label>몇곡</label>
-			</div>
-		</div>
 	</article>
 	<article>
 		<h2><a href="/semi2/search/searchArtist.jsp?search=<%=search%>">아티스트 &gt;</a></h2>
-		<div>
+		<%
+			searchCount = 10;
+			ArrayList<SearchArtistDto> aritstArr = searchDao.searchAritists(search, searchCount);
+			%>
 			<div>
-			<img src="/semi2/resources/images/member//cover.jpg">
-			<a>아티스트 이름</a>
-			
-			</div>
-			<div>
-			<img src="/semi2/resources/images/member//cover.jpg">
-			<a>아티스트 이름</a>
-			
-			</div>
-			<div>
-			<img src="/semi2/resources/images/member//cover.jpg">
-			<a>아티스트 이름</a>
-			
-			</div>
-			
-			
-		</div>
+				<%
+				if (aritstArr == null || aritstArr.size() == 0) {
+				%>
+				<div>보여줄 정보가 없습니다</div>
+				<%
+				} else {
+				for (int i = 0; i < aritstArr.size(); i++) {
+				%>
+				<div>
+					<div>
+						<img src="/semi2/resources/images/member/<%=aritstArr.get(i).getMemberId()%>/profile.jpg">
+						<a><%=aritstArr.get(i).getNickname()%></a>
+
+					</div>
+					<%
+					}
+					}
+					%>
+
+				</div>
 	</article>
 </section>
 <%@include file="/footer.jsp" %>
