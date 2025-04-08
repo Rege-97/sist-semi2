@@ -374,7 +374,7 @@ if (cp % pageSize == 0)
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="4" align="center">
+						<td colspan="4" align="center" class="comment-page">
 							<%
 							if (userGroup != 0) {
 							%>

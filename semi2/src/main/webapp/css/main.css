@@ -602,6 +602,9 @@ table.song-list .song-list-body {
 	border-radius: 6px;
 	resize: none;
 }
+.comment-page{
+	padding-top:30px;
+}
 
 .song-detail-table {
 	width: 300px;
