@@ -8,6 +8,10 @@
 		window.alert(message);
 		window.location.href = "/semi2/member/signin.jsp";
 	}
+	function showAlertAndGoBack(message) {
+		window.alert(message);
+		history.back();
+	}
 </script>
 <%
 SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
@@ -21,7 +25,14 @@ return;
 }
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-playlistMylistDao.addPlaylistByMemberId(loggedinUserId);
+if(!playlistMylistDao.addPlaylistByMemberId(loggedinUserId)){
+	%>
+	<script>
+	showAlertAndGoBack('오류가 발생했습니다');
+	</script>
+	<%
+	return;
+}
 
 response.sendRedirect("/semi2/playlist/mylist/main.jsp");
 %>
