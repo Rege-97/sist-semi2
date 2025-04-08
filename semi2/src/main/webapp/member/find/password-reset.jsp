@@ -44,19 +44,23 @@ function formCheck(event) {
 	if (!a) window.alert("form에 잘못된 부분 있음 확인바람");
 }
 </script>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@ include file="/header.jsp" %>
-<fieldset>
+<div class="login-box">
 	<form action = "password-reset_ok.jsp?email=<%=request.getParameter("email") %>" method = "post" onsubmit = "formCheck(event)">
-		<h2>비밀번호 찾기</h2>
-		<input type="password" id = "pwd" name = "password" placeholder="새 비밀번호" onchange = "testPassword()">
-		<br>
-		<input type="password" id = "pwdTest" placeholder="새 비밀번호 확인" onchange = "testPassword()">
+		<div class="blank"></div>
+		<div class="signup-title">비밀번호 찾기</div>
+		<div class="blank3"></div>
+		<input type="password" id = "pwd" name = "password" class="login-text" placeholder="새 비밀번호" onchange = "testPassword()">
+		<input type="password" id = "pwdTest" class="login-text" placeholder="새 비밀번호 확인" onchange = "testPassword()">
+		<div>
 		<label id = pwdCheck></label>
-		<br>
-		<input type="submit" value="비밀번호 변경">
+		</div class="signin-hidden">
+		<div class="blank3"></div>
+		<input type="submit" value="비밀번호 변경" class="bt">
 	</form>
-</fieldset>
+</div>
 <%@ include file="/footer.jsp" %>
 </body>
 <%

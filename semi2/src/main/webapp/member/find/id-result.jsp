@@ -28,25 +28,27 @@ if (memberEmails == null) {
 <%
 }
 %>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<jsp:include page="/header.jsp"></jsp:include>
-	<fieldset>
+<div class="login-box">
 		<form>
-			<h2>아이디 찾기</h2>
+	<div class="blank2"></div>
+		<div class="signup-title">아이디 찾기</div>
 			<h3><%=request.getParameter("name")%>님의 아이디는
 			</h3>
 			<%
 			for (int i = 0; i < memberEmails.size(); i++) {
 			%>
-			<h3><%=memberEmails.get(i)%>입니다
+			<h3><%=memberEmails.get(i)%> 입니다
 			</h3>
 			<%
 			}
 			%>
 			<br> <input type="button" value="로그인하러 가기"
-				onclick="location.href = '/semi2/member/signin.jsp'">
+				class="bt" onclick="location.href = '/semi2/member/signin.jsp'">
 		</form>
-	</fieldset>
+	</div>
 	<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>

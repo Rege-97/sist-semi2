@@ -6,20 +6,22 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@ include file="/header.jsp" %>
-<fieldset>
+<div class="login-box">
 	<form action = "password-reset.jsp" method = "post">
-		<h2>비밀번호 찾기</h2>
-		<input type="text" name = "email" placeholder="아이디">
+		<div class="blank"></div>
+		<div class="signup-title">비밀번호 찾기</div>
+		<input type="text" name = "email" class="login-text" placeholder="아이디">
 		<br>
-		<input type="text" name = "name" placeholder="이름">
+		<input type="text" name = "name" class="login-text" placeholder="이름">
 		<br>
-		<input type="text" name = "tel" placeholder="전화번호">
+		<input type="text" name = "tel" class="login-text" placeholder="전화번호">
 		<br>
-		<input type="submit" value="다음">
+		<input type="submit" class="bt" value="다음">
 	</form>
-</fieldset>
+</div>
 <%@ include file="/footer.jsp" %>
 </body>
 </html>

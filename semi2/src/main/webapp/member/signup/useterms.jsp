@@ -15,7 +15,9 @@ try{
 
 %>
 </head>
-<body>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
+<body class="useterms">
+
 <%
 	while((terms = br.readLine()) !=null){
 		%>
@@ -27,5 +29,6 @@ try{
 	e.printStackTrace();
 }
 %>
+
 </body>
 </html>

@@ -324,13 +324,14 @@ table.song-list .song-list-body {
 }
 
 .icon-group-likes {
-	display:flex;
-	width: 30px;
+	display: flex; width : 30px;
 	height: 30px;
 	margin: 0px auto;
+	width: 30px;
 }
-.likes-count{
-	margin-left:5px;
+
+.likes-count {
+	margin-left: 5px;
 	font-size: 18px;
 }
 
@@ -411,7 +412,8 @@ table.song-list .song-list-body {
 .detail-card-info-genre {
 	font-size: 13px;
 }
-.detail-card-info-mood{
+
+.detail-card-info-mood {
 	font-size: 13px;
 	margin-bottom: 45px;
 }
@@ -439,8 +441,9 @@ table.song-list .song-list-body {
 .detail-card-rating {
 	margin-left: auto;
 }
-.likes-icon{
-	width:30px;
+
+.likes-icon {
+	width: 30px;
 }
 
 .album-description {
@@ -598,7 +601,7 @@ table.song-list .song-list-body {
 .membership-banner {
 	width: 100%;
 	border-radius: 6px;
-	margin-top:30px;
+	margin-top: 30px;
 }
 
 .membership-table {
@@ -613,11 +616,11 @@ table.song-list .song-list-body {
 
 .membership-title-col {
 	width: 480px;
-
 }
-.membership-title-box{
-		border-right: 1px solid #262626;
-	padding:10px;
+
+.membership-title-box {
+	border-right: 1px solid #262626;
+	padding: 10px;
 }
 
 .membership-name {
@@ -632,11 +635,11 @@ table.song-list .song-list-body {
 }
 
 .membership-day {
-	font-size:12px;
-	text-align: left;
-	margin-left:10px;
+	font-size: 12px; text-align : left;
+	margin-left: 10px;
 	margin-bottom: 10px;
 	color: #a7a7a7;
+	text-align: left;
 }
 
 .membership-real-price {
@@ -656,58 +659,276 @@ table.song-list .song-list-body {
 	font-size: 25px;
 	color: #ff2dac;
 	text-align: right;
-	margin-right:40px;
+	margin-right: 40px;
 }
 
 .membership-price-detail {
 	font-size: 10px;
 	color: #a7a7a7;
 	text-align: right;
-	margin-right:42px;
+	margin-right: 42px;
 }
 
 .membership-pay-col {
 	width: 100px;
 }
-.membership-caution-title{
+
+.membership-caution-title {
 	color: #a7a7a7;
 	font-weight: bold;
 	font-size: 13px;
-	margin-top:50px;
+	margin-top: 50px;
 }
-.membership-caution{
+
+.membership-caution {
 	font-size: 12px;
 	color: #a7a7a7;
 	padding-left: 15px;
 }
-.payment-card{
-	margin-top:80px;
-	margin-bottom:80px;
-}
-.payment-table{
-	width:50%;
-	padding:30px;
-	border-radius:6px;
-	background: black;
-	margin:0px auto;
-	text-align: center;
-}
-.payment-table tr{
-	height:50px;
+
+.payment-card {
+	margin-top: 80px;
+	margin-bottom: 80px;
 }
 
-.payment-title{
+.payment-table {
+	width: 50%;
+	padding: 30px;
+	border-radius: 6px;
+	background: black;
+	margin: 0px auto;
+	text-align: center;
+}
+
+.payment-table tr {
+	height: 50px;
+}
+
+.payment-title {
 	font-size: 25px;
+}
+
+.card-number-text {
+	width: 70px;
+	text-align: center;
+}
+
+.card-number-text-cvc {
+	width: 160px;
+	text-align: center;
+}
+
+.login-box {
+	width: 400px;
+	height: 300px;
+	border: 1px solid #262626;
+	border-radius: 6px; text-align : center;
+	margin: 50px auto 50px auto;
+	padding: 30px;
+	text-align: center;
+}
+.login-input{
+	width:250px;
+	margin: 30px auto 0 auto;
 	
 }
 
-.card-number-text{
-	width:70px;
+.login-text::placeholder {
+	color: #666666;
+}
+
+.login-text {
+	width: 250px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+}
+
+.id-checkbox {
+	width: 250px;
+	text-align: left;
+	color: #666666;
+	font-size: 13px;
+	margin: 0px auto;
+	display: flex;
+}
+
+.id-checkbox input {
+	width: 12px;
+	accent-color: #ff2dac;
+	margin-right: 5px;
+}
+
+.terms-checkbox {
+	margin-top:20px;
+	margin-bottom:20px;
+	text-align: center;
+}
+.terms-checkbox-in{
+width:130px;
+	color: #666666;
+	font-size: 13px;
+	margin: 0px auto;
+	display: flex;
+}
+.terms-checkbox-in input {
+	width: 12px;
+	accent-color: #ff2dac;
+	margin-right: 5px;
+}
+
+.id-remember {
+	margin-bottom: 2px;
+}
+
+.login-bt-box {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.login-bt {
+	display: inline-block;
+	border-radius: 6px;
+	margin: 0px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 250px;
+	height: 40px;
+	background: transparent;
+	color: white;
+	box-shadow: none;
+	border: 1px solid #262626;
+	cursor: pointer;
+}
+
+.login-bt:hover {
+	border-color: #ff2dac;
+	color: #ff2dac;
+}
+
+.login-sub-box {
+	width: 100%;
+	margin-top: 20px;
+	margin: 0px auto;
+	display: flex;
+}
+
+.login-find, .login-find-line {
+	color: #666666;
+	font-size: 11px;
+}
+
+.login-find:hover {
+	color: #ff2dac;
+}
+
+.login-find-line {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.login-signup {
+	margin-left: auto;
+	font-size: 11px;
+}
+.signup-title{
+	font-size: 25px;
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+.terms{
+	width:400px;
+	border: 1px solid #262626;
+}
+
+.useterms{
+	font-size: 11px;
+	width:380px;
+	overflow-x:hidden;
+}
+.signup-check{
+	margin-top:60px;
+	margin-bottom:50px;
+}
+.signin-box{
+	width: 600px;
+	height: 550px;
+	border: 1px solid #262626;
+	border-radius: 6px; text-align : center;
+	margin: 50px auto 50px auto;
+	padding: 30px;
+	text-align: center;
+}
+.signup-text{
+	width: 490px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
 	text-align: center;
 }
 
-.card-number-text-cvc{
-	width:160px;
+.signup-text-name{
+	width: 490px;
+	height: 30px;
+	margin-left:55px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+}
+.signup-text-email{
+	width: 150px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
 	text-align: center;
 }
+.signin-hidden{
+	margin-bottom:10px;
+	color: #666666;
+	font-size: 13px;
+}
+.signup-select{
+	width: 150px;
+	height: 30px;
+	margin-left:10px;
+	border: 1px solid #262626;
+	background: #131313;
+	color:white;
+}
+.blank{
+	margin:40px;
+}
+.blank1{
+	margin:80px;
+}
+.blank2{
+	margin:60px;
+}
+.blank3{
+	margin:20px;
+}
+
 
