@@ -95,7 +95,8 @@ public class ChartDao {
 				String artist = rs.getString("artist");
 				double rating = rs.getDouble("rating");
 
-				dto = new AlbumDetailDto(id, memberId, name, description, genre1, genre2, genre3, releasedAt, createdAt, artist, rating);
+				dto = new AlbumDetailDto(id, memberId, name, description, genre1, genre2, genre3, releasedAt, createdAt,
+						artist, rating);
 
 			}
 
@@ -333,37 +334,37 @@ public class ChartDao {
 			}
 		}
 	}
-	
+
 	// 답글 등록 메서드
-		public int addCommentAnswer(int memberId, int albumId, String content,int parentId) {
+	public int addCommentAnswer(int memberId, int albumId, String content, int parentId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "INSERT " + "INTO ALBUM_COMMENTS "
+					+ "values(seq_album_comments_id.nextval,?,?,?,systimestamp,?)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, memberId);
+			ps.setInt(2, albumId);
+			ps.setString(3, content);
+			ps.setInt(4, parentId);
+
+			int count = ps.executeUpdate();
+
+			return count;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		} finally {
 			try {
-				conn = com.plick.db.DBConnector.getConn();
-				String sql = "INSERT " + "INTO ALBUM_COMMENTS "
-						+ "values(seq_album_comments_id.nextval,?,?,?,systimestamp,?)";
-				ps = conn.prepareStatement(sql);
-				ps.setInt(1, memberId);
-				ps.setInt(2, albumId);
-				ps.setString(3, content);
-				ps.setInt(4, parentId);
-
-				int count = ps.executeUpdate();
-
-				return count;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			} finally {
-				try {
-					if (ps != null)
-						ps.close();
-					if (conn != null)
-						conn.close();
-				} catch (Exception e2) {
-					e2.printStackTrace();
-				}
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
 		}
+	}
 
 	// 총 댓글 수 구하기
 	public int getTotalCnt(int albumId) {
@@ -398,7 +399,7 @@ public class ChartDao {
 	}
 
 	// 댓글 리스트 조회
-	public ArrayList<CommentDto> commentList(int cp, int listSize,int albumId) {
+	public ArrayList<CommentDto> commentList(int cp, int listSize, int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (cp - 1) * listSize + 1;
@@ -441,6 +442,99 @@ public class ChartDao {
 					conn.close();
 			} catch (Exception e2) {
 
+			}
+		}
+	}
+
+	// 현재 나의 앨범 평점
+	public int getMyRating(int memberId, int albumId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "select score from ratings where member_id=? and album_id=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, memberId);
+			ps.setInt(2, albumId);
+			rs = ps.executeQuery();
+
+			int score = 0;
+
+			if (rs.next()) {
+				score = rs.getInt(1);
+			}
+
+			return score;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+
+			}
+		}
+	}
+
+	// 앨범 평점 등록
+	public int insertRating(int memberId, int albumId, int score) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "insert into ratings values(?,?,?,systimestamp)";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, memberId);
+			ps.setInt(2, albumId);
+			ps.setInt(3, score);
+
+			int count = ps.executeUpdate();
+
+			return count;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	// 앨범 평점 수정
+	public int updateRating(int memberId, int albumId, int score) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "update ratings set score=? where member_id=? and album_id=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, score);
+			ps.setInt(2, memberId);
+			ps.setInt(3, albumId);
+
+			int count = ps.executeUpdate();
+
+			return count;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
 		}
 	}

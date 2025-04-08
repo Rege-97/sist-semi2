@@ -1,16 +1,42 @@
-<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.plick.chart.*"%>
 <%@ page import="com.plick.dto.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
+
 <jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%
+
+<script>
+	function answer(commentId) {
+		const answerRow = document.getElementById("answer-" + commentId);
+		if (answerRow) {
+			if (answerRow.style.display == "none" || answerRow.style.display == "") {
+				answerRow.style.display = "table-row";
+			} else {
+				answerRow.style.display = "none";
+			}
+		}
+		
+		const answerBt = document.getElementById('answer-bt-'+commentId);
+
+		if (answerBt.value == '답글') {
+			answerBt.value = '답글 접기';
+		} else {
+			answerBt.value = '답글';
+		}
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
+</head>
+<body>
+	<%@include file="/header.jsp"%>
+	<%
 String id_s = request.getParameter("albumid");
 if (id_s == null || id_s.equals("")) {
 	id_s = "0";
@@ -37,6 +63,14 @@ for (int i = 0; i < 3; i++) {
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 String releasedAt = sdf.format(dto.getReleasedAt());
 
+int memberId=signedinDto.getMemberId();
+
+int myScore=cdao.getMyRating(memberId, id);
+
+DecimalFormat df = new DecimalFormat("#.##");
+String ratingScore =df.format(dto.getRating());
+
+
 int totalCnt = cdao.getTotalCnt(id);
 int listSize = 10;
 
@@ -56,31 +90,7 @@ int userGroup = cp / pageSize;
 if (cp % pageSize == 0)
 	userGroup--;
 %>
-
-<script>
-	function answer(commentId) {
-		const answerRow = document.getElementById("answer-" + commentId);
-		if (answerRow) {
-			if (answerRow.style.display == "none" || answerRow.style.display == "") {
-				answerRow.style.display = "table-row";
-			} else {
-				answerRow.style.display = "none";
-			}
-		}
-		
-		const answerBt = document.getElementById('answer-bt-'+commentId);
-
-		if (answerBt.value == '답글') {
-			answerBt.value = '답글 접기';
-		} else {
-			answerBt.value = '답글';
-		}
-	}
-</script>
-<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
-</head>
-<body>
-	<%@include file="/header.jsp"%>
+	
 	<section>
 		<article>
 			<div class="detail-card">
@@ -123,17 +133,22 @@ if (cp % pageSize == 0)
 				<div>
 					<img src="/semi2/resources/images/design/star.png">
 				</div>
-				<div class="now-rating-score"><%=dto.getRating() %></div>
+				<div class="now-rating-score"><%=ratingScore %></div>
 			</div>
 			<div class="rating-title">평가하기</div>
+			<form name="update_rating" action="album-rating_ok.jsp" target="hiddenFrame">
 				<div class="star-rating">
-				<input type="radio" class="star" name="rating" value="1">
-				<input type="radio" class="star" name="rating" value="2">
-				<input type="radio" class="star" name="rating" value="3">
-				<input type="radio" class="star" name="rating" value="4">
-				<input type="radio" class="star" name="rating" value="5">
+					<input type="hidden" name="memberid" value="<%=memberId%>">
+					<input type="hidden" name="albumid" value="<%=id%>">
+					<input type="radio" class="star" name="score" value="1" <%=(myScore==1)?"checked":"" %> onchange="this.form.submit()">
+					<input type="radio" class="star" name="score" value="2" <%=(myScore==2)?"checked":"" %> onchange="this.form.submit()">
+					<input type="radio" class="star" name="score" value="3" <%=(myScore==3)?"checked":"" %> onchange="this.form.submit()">
+					<input type="radio" class="star" name="score" value="4" <%=(myScore==4)?"checked":"" %> onchange="this.form.submit()">
+					<input type="radio" class="star" name="score" value="5" <%=(myScore==5)?"checked":"" %> onchange="this.form.submit()">
 			</div>
+			</form>
 			</div>
+			<iframe name="hiddenFrame" style="display: none;"></iframe>
 		</article>
 		<article>
 <div class="categorey-name">수록곡</div>
