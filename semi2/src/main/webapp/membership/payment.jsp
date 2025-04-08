@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
@@ -52,38 +53,42 @@
 	%>
 	<section>
 		<article>
-			<h2>이용권 구매</h2>
 			<form name="payment" action="payment_ok.jsp" method="post">
 				<input type="hidden" name="memberid" value="<%=signedinDto.getMemberId()%>">
 				<input type="hidden" name="membershipid" value="<%=membershipId%>">
-				<fieldset>
-				<h2><%=dto.getName() %></h2>
-					<table>
+					<div class="payment-card">
+					<table class="payment-table">
+					<tr>
+					<th colspan="4">
+					<div class="payment-title"><%=dto.getName() %> 결제 요청</div>
+					</th>
+					</tr>
 						<tr>
 							<th colspan="4">카드번호</th>
 						</tr>
 						<tr>
-							<td><input type="text" name="card_number1" minlength="4" maxlength="4" required></td>
-							<td><input type="text" name="card_number2" minlength="4" maxlength="4" required></td>
-							<td><input type="text" name="card_number3" minlength="4" maxlength="4" required></td>
-							<td><input type="text" name="card_number4" minlength="4" maxlength="4" required></td>
+							<td><input type="text" name="card_number1" minlength="4" maxlength="4" required class="card-number-text"></td>
+							<td><input type="text" name="card_number2" minlength="4" maxlength="4" required class="card-number-text"></td>
+							<td><input type="text" name="card_number3" minlength="4" maxlength="4" required class="card-number-text"></td>
+							<td><input type="text" name="card_number4" minlength="4" maxlength="4" required class="card-number-text"></td>
 						</tr>
+						<tr>
 						<th colspan="2">유효기간</th>
 						<th colspan="2">CVC</th>
 						</tr>
 						<tr>
-							<td><input type="text" name="card_month" minlength="2" maxlength="2" required></td>
-							<td><input type="text" name="card_year" minlength="2" maxlength="2" required></td>
-							<td colspan="2"><input type="text" name="card_cvc" minlength="3" maxlength="3" required></td>
+							<td><input type="text" name="card_month" minlength="2" maxlength="2" required class="card-number-text"></td>
+							<td><input type="text" name="card_year" minlength="2" maxlength="2" required class="card-number-text"></td>
+							<td colspan="2"><input type="text" name="card_cvc" minlength="3" maxlength="3" required class="card-number-text-cvc"></td>
 						</tr>
 						<tr>
 							<th colspan="4">결제금액 : <%=price %>원</th>
 						</tr>
 						<tr>
-							<td colspan="4"><input type="submit" value="결제하기"></td>
+							<td colspan="4"><input type="submit" value="결제하기" class="bt"></td>
 						</tr>
 					</table>
-				</fieldset>
+					</div>
 			</form>
 		</article>
 	</section>
