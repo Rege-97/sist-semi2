@@ -58,7 +58,15 @@ playlistId = Integer.parseInt(playlistIdParam);
 <%
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-playlistMylistDao.addSongIntoPlaylist(songId, playlistId);
+if (!playlistMylistDao.addSongIntoPlaylist(songId, playlistId)) {
+%>
+<script>
+	showAlertAndGoBack("플레이리스트에 노래 넣기를 실패했습니다.");
+</script>
+<%
+return;
+}
 
-
+String referer = request.getHeader("referer");
+response.sendRedirect(referer == null ? "/semi2/playlist/mylist/main.jsp" : referer);
 %>
