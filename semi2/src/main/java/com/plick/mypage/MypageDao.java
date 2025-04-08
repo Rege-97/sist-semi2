@@ -68,14 +68,12 @@ public class MypageDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT name, stopped_at FROM membership_members mm LEFT JOIN memberships m ON mm.membership_id = m.id WHERE mm.membership_id IN (SELECT membership_id FROM membership_members WHERE member_id = ?)";
-			System.out.println("sql1");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, memberId);
 			rs = pstmt.executeQuery();
 			HashMap<String, Timestamp> map = new HashMap<String, Timestamp>();
 			if(rs.next()) {
 				do {
-					System.out.println(rs.getString("name"));
 					map.put(rs.getString("name"), rs.getTimestamp("stopped_at"));
 				}while(rs.next());
 			}
@@ -99,7 +97,6 @@ public class MypageDao {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT name FROM memberships";
 			pstmt = conn.prepareStatement(sql);
-			System.out.println("sql2");
 			rs = pstmt.executeQuery();
 			ArrayList<String> list = new ArrayList<String>();
 			if(rs.next()) {
@@ -111,6 +108,27 @@ public class MypageDao {
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	public int changeMemberAccessType(int memberId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE members SET access_type = 'applicant' WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, memberId);
+			int result = pstmt.executeUpdate();
+			return result;
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
 		}finally {
 			try {
 				if(rs!=null)rs.close();
