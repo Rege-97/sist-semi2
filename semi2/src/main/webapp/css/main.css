@@ -1107,3 +1107,48 @@ table.song-list .song-list-body {
 	color:#ff2dac;
 
 	}
+	
+.rating-card{
+	margin-left:auto;
+	text-align: center;
+}
+.star-rating {
+  display: flex;
+  height:43px;
+}
+
+.star {
+  appearance: none;
+}
+
+.star::after {
+  content: url("/semi2/resources/images/design/star-empty.png");
+}
+
+.star:hover::after {
+   content: url("/semi2/resources/images/design/star.png");
+}
+
+.star:has(~ .star:hover)::after {
+  content: url("/semi2/resources/images/design/star.png");
+}
+
+.star:checked::after,
+.star:has(~ .star:checked)::after {
+  content: url("/semi2/resources/images/design/star.png");
+}
+.rating-title{
+	margin-top:8px;
+	font-size: 13px;
+	text-align: center;
+}
+.now-rating-box{
+	display: inline-flex;
+	align-items: center;
+	
+}
+
+.now-rating-score{
+	font-size:30px;
+	margin-left:10px;
+}

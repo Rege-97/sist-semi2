@@ -71,11 +71,13 @@ public class ChartDao {
 	public AlbumDetailDto findAlbum(int id) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT a.*, m.NICKNAME AS \"artist\" " + "FROM MEMBERS m, ALBUMS a "
+			String sql = "SELECT a.*, m.NICKNAME AS \"artist\",r.RATING "
+					+ "FROM MEMBERS m, ALBUMS a,(SELECT avg(score) AS rating FROM RATINGS WHERE album_id=?)r "
 					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = ?";
 
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
+			ps.setInt(2, id);
 
 			rs = ps.executeQuery();
 
@@ -91,9 +93,9 @@ public class ChartDao {
 				Timestamp releasedAt = rs.getTimestamp("released_at");
 				Timestamp createdAt = rs.getTimestamp("created_at");
 				String artist = rs.getString("artist");
+				double rating = rs.getDouble("rating");
 
-				dto = new AlbumDetailDto(id, memberId, name, description, genre1, genre2, genre3, releasedAt, createdAt,
-						artist);
+				dto = new AlbumDetailDto(id, memberId, name, description, genre1, genre2, genre3, releasedAt, createdAt, artist, rating);
 
 			}
 

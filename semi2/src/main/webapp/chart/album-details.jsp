@@ -117,7 +117,22 @@ if (cp % pageSize == 0)
 						</div>
 					</div>
 				</div>
-				<div class="detail-card-rating">별점</div>
+				<div class="rating-card">
+				<div class="rating-title">현재 평점</div>
+				<div class="now-rating-box">
+				<div>
+					<img src="/semi2/resources/images/design/star.png">
+				</div>
+				<div class="now-rating-score"><%=dto.getRating() %></div>
+			</div>
+			<div class="rating-title">평가하기</div>
+				<div class="star-rating">
+				<input type="radio" class="star" name="rating" value="1">
+				<input type="radio" class="star" name="rating" value="2">
+				<input type="radio" class="star" name="rating" value="3">
+				<input type="radio" class="star" name="rating" value="4">
+				<input type="radio" class="star" name="rating" value="5">
+			</div>
 			</div>
 		</article>
 		<article>
