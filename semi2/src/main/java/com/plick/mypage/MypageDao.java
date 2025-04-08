@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.plick.member.MemberDto;
+
 import java.io.File;
 
 public class MypageDao {
@@ -129,6 +132,39 @@ public class MypageDao {
 		}catch(Exception e){
 			e.printStackTrace();
 			return ERROR;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public  ArrayList<MypageDto> getapplicantInfo(int firstNum, int lastNum) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT id, name, rnum FROM (SELECT rownum AS rnum, id, name FROM members WHERE access_type = 'applicant' ORDER BY rnum DESC) WHERE rnum BETWEEN ? AND ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, firstNum);
+			pstmt.setInt(2, lastNum);
+			rs = pstmt.executeQuery();
+			ArrayList<MypageDto> list = new ArrayList<MypageDto>();
+			if(rs.next()) {
+				do {
+					MypageDto dto = new MypageDto();
+					dto.setRnum(rs.getInt("rnum"));
+					dto.setId(rs.getInt("id"));
+					dto.setName(rs.getString("name"));
+					list.add(dto);
+				}while(rs.next());
+			}
+				return list;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}finally {
 			try {
 				if(rs!=null)rs.close();

@@ -68,16 +68,12 @@ if (signedinDto.getMemberAccessType().equals("listener")){
 }else if (signedinDto.getMemberAccessType().equals("admin")){	
 	%>
 	<input type="button" value="아티스트 요청 처리"
-		onclick="location.href = '/semi2/mypage/album-management/main.jsp'">
+		onclick="location.href = '/semi2/mypage/request/request-processing.jsp'">
 	<%
 }
 %>	
-		<input type="button" value="아티스트 신청"
-		onclick="location.href = '/semi2/mypage/album-management/main.jsp'">
-		<input type="button" value="앨범 등록"
-		onclick="location.href = '/semi2/mypage/album-management/main.jsp'">
 		<input type="button" value="아티스트 요청 처리"
-		onclick="location.href = '/semi2/mypage/album-management/main.jsp'">
+		onclick="location.href = '/semi2/mypage/request/request-processing.jsp'">
 
 	<fieldset>
 		<img
