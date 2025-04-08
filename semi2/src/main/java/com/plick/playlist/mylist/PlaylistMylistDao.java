@@ -15,7 +15,7 @@ public class PlaylistMylistDao {
 		String sql = "SELECT   " + "        p.id AS playlist_id, " + "        m.id AS member_id, "
 				+ "        p.name AS playlist_name, " + "        p.created_at AS created_at, "
 				+ "        COUNT(DISTINCT l.member_id) AS like_count, "
-				+ "        COUNT(DISTINCT ps.song_id) AS song_count, " + "        m.nickname AS member_nickname, "
+				+ "        COUNT(DISTINCT ps.id) AS song_count, " + "        m.nickname AS member_nickname, "
 				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
 				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
 				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
