@@ -323,6 +323,17 @@ table.song-list .song-list-body {
 	left: 0;
 }
 
+.icon-group-likes {
+	display:flex;
+	width: 30px;
+	height: 30px;
+	margin: 0px auto;
+}
+.likes-count{
+	margin-left:5px;
+	font-size: 18px;
+}
+
 .icon-hover {
 	opacity: 0;
 }
@@ -400,6 +411,10 @@ table.song-list .song-list-body {
 .detail-card-info-genre {
 	font-size: 13px;
 }
+.detail-card-info-mood{
+	font-size: 13px;
+	margin-bottom: 45px;
+}
 
 /*디테일 카드 정보 날짜 세팅*/
 .detail-card-info-date {
@@ -423,6 +438,9 @@ table.song-list .song-list-body {
 /*디테일 카드 정보 오른쪽 요소 세팅*/
 .detail-card-rating {
 	margin-left: auto;
+}
+.likes-icon{
+	width:30px;
 }
 
 .album-description {
