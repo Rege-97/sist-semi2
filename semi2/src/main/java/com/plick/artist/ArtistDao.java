@@ -12,6 +12,7 @@ import java.util.Map;
 import com.plick.db.DBConnector;
 import com.plick.dto.Playlist;
 import com.plick.dto.Song;
+import com.plick.playlist.PlaylistPreviewDto;
 
 public class ArtistDao {
 	public ArtistDto findArtistDetailsByMemberId(int memberId) {
@@ -51,11 +52,11 @@ public class ArtistDao {
 					int albumId = rs.getInt("album_id");
 					ArtistAlbumDto albumDto = albumMap.get(albumId);
 					if (albumDto == null) {
-						com.plick.dto.Album albumData = new com.plick.dto.Album(albumId,
-								rs.getInt("album_member_id"), rs.getString("album_name"),
-								rs.getString("album_description"), rs.getString("album_genre1"),
-								rs.getString("album_genre2"), rs.getString("album_genre3"),
-								rs.getTimestamp("album_released_at"), rs.getTimestamp("album_created_at"));
+						com.plick.dto.Album albumData = new com.plick.dto.Album(albumId, rs.getInt("album_member_id"),
+								rs.getString("album_name"), rs.getString("album_description"),
+								rs.getString("album_genre1"), rs.getString("album_genre2"),
+								rs.getString("album_genre3"), rs.getTimestamp("album_released_at"),
+								rs.getTimestamp("album_created_at"));
 
 						albumDto = new ArtistAlbumDto(albumData, new ArrayList<>());
 						albumMap.put(albumId, albumDto);
@@ -77,35 +78,51 @@ public class ArtistDao {
 	}
 
 	private ArtistMemberDto findMemberDetailsByMemberId(int memberId, Connection conn) {
-		String sql = "SELECT m.id, m.nickname, m.description, "
-				+ "p.id AS playlist_id, p.member_id AS playlist_member_id, "
-				+ "p.name AS playlist_name, p.created_at, p.mood1, p.mood2 FROM members m "
-				+ "LEFT JOIN playlists p ON m.id = p.member_id WHERE m.id = ?";
+		String sql = "SELECT m.id, m.nickname, m.description, m.access_type " + " FROM members m " + " WHERE m.id = ? ";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, memberId);
 			try (ResultSet rs = pstmt.executeQuery()) {
 
-				if (!rs.next()) {
-					return null;
+				if (rs.next()) {
+					return new ArtistMemberDto(memberId, rs.getString("nickname"), rs.getString("description"),
+							rs.getString("access_type"),
+							findPlaylistPreviewsOrderByCreatedAtByMemberId(memberId, conn));
 				}
-				String nickname = rs.getString("nickname");
-				String description = rs.getString("description");
-
-				List<Playlist> playlists = new ArrayList<>();
-				do {
-					int playlistId = rs.getInt("playlist_id");
-					if (!rs.wasNull()) {
-						playlists.add(new Playlist(playlistId, rs.getInt("playlist_member_id"),
-								rs.getString("playlist_name"), rs.getTimestamp("created_at"), rs.getString("mood1"),
-								rs.getString("mood2")));
-					}
-				} while (rs.next());
-				return new ArtistMemberDto(memberId, nickname, description, playlists);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private List<PlaylistPreviewDto> findPlaylistPreviewsOrderByCreatedAtByMemberId(int memberId, Connection conn) {
+		String sql = "SELECT   " + "        p.id AS playlist_id, " + "        m.id AS member_id, "
+				+ "        p.name AS playlist_name, " + "        p.created_at AS created_at, "
+				+ "        COUNT(DISTINCT l.member_id) AS like_count, "
+				+ "        COUNT(DISTINCT ps.song_id) AS song_count, " + "        m.nickname AS member_nickname, "
+				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
+				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
+				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
+				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
+				+ "    LEFT JOIN likes l ON p.id = l.playlist_id " + "    LEFT JOIN members m ON p.member_id = m.id "
+				+ "    WHERE m.id = ? " + "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname "
+				+ "    ORDER BY p.created_at DESC";
+
+		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				while (rs.next()) {
+					playlistPreviewDtos.add(new PlaylistPreviewDto(rs.getInt("playlist_id"), rs.getInt("member_id"),
+							rs.getString("playlist_name"), rs.getTimestamp("created_at"), rs.getInt("like_count"),
+							rs.getInt("song_count"), rs.getString("member_nickname"), rs.getInt("first_album_id")));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playlistPreviewDtos;
+
 	}
 }

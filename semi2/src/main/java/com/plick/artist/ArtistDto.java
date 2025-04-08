@@ -9,10 +9,10 @@ public class ArtistDto extends com.plick.artist.ArtistMemberDto {
 	public ArtistDto(ArtistMemberDto memberDto, List<ArtistAlbumDto> albums) {
 		super(memberDto);
 		this.albums = albums;
+
 	}
 
 	public List<ArtistAlbumDto> getAlbums() {
 		return albums;
 	}
-
 }
