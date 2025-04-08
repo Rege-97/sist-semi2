@@ -14,7 +14,7 @@ public class AlbumDto {
 	private String genre3;
 	private Timestamp releasedAt;
 	private Timestamp createdAt;
-	private ArrayList<SongsDto> songsDtos = new ArrayList<SongsDto>();
+	private ArrayList<SongsDto> songsDtos;
 
 	public AlbumDto() {
 	}
@@ -115,12 +115,12 @@ public class AlbumDto {
 		this.createdAt = createdAt;
 	}
 
-	public ArrayList<SongsDto> getSongsdto() {
+	public ArrayList<SongsDto> getSongsDtos() {
 		return songsDtos;
 	}
 
-	public void setSongsdto(SongsDto songsDtos) {
-		this.songsDtos.add(songsDtos);
+	public void setSongsDtos(ArrayList<SongsDto> songsDtos) {
+		this.songsDtos = songsDtos;
 	}
 	
 }
