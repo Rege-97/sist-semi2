@@ -121,4 +121,33 @@ public class SignedinDao {
 			return (long) 0;
 		}
 	}
+	
+	public int verifyPasswordReset(SignedinDto dto, String pwd) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT * FROM members WHERE email = ? AND password = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMemberEmail());
+			pstmt.setString(2, pwd);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if (!rs.getString("password").equals(pwd)) return INVALID_PWD;
+				return SIGNIN_SUCCESS;
+			} else return INVALID_ID;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
 }

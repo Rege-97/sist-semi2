@@ -16,7 +16,7 @@
 <input type = "button" value = "이용권변경" onclick = "location.href = '/semi2/membership/payment.jsp'">
 
 <br>
-<input type = "button" value = "비밀번호 변경" onclick = "location.href = '/semi2/member/find/password-reset.jsp'"> 
+<input type = "button" value = "비밀번호 변경" onclick = "location.href = '/semi2/mypage/password-check.jsp'"> 
 <input type = "button" value = "프로필 변경" onclick = "location.href = '/semi2/mypage/profile.jsp'"> 
 <input type = "button" value = "앨범 등록" onclick = "location.href = '/semi2/mypage/album-management/main.jsp'"> 
 <fieldset>
