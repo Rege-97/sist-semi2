@@ -26,7 +26,6 @@ String search = request.getParameter("search");
 		<input type="button" value="아티스트" class="bt" onclick="location.href='/semi2/search/searchArtist.jsp?search=<%=search%>'">
 		<input type="button" value="플레이리스트" class="bt" onclick="location.href='/semi2/search/searchPlaylist.jsp?search=<%=search%>'">
 	</div>
-
 	</article>
 	<article>
 	<div class="footer-line"></div>
@@ -79,7 +78,7 @@ String search = request.getParameter("search");
 					</div>
 					<div class="search-card-info-genre"><%=genre%></div>
 					<div class="search-card-info-date">
-						<%=releasedAt%>
+						<%=releasedAt %>
 					</div>
 					<div class="detail-card-info-icon">
 						<div class="icon-group">

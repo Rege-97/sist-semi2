@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.plick.search.*"%>
 <%@ page import="java.util.*"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
@@ -12,52 +13,102 @@ String search = request.getParameter("search");
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
-	<h1>
-		"<%=search%>" 검색결과
-	</h1>
+<h2>"<%=search %>" 검색결과</h2>
 	<section>
 		<article>
-			<ul>
-				<li>전체
-				<li><a href="/semi2/search/searchSong.jsp?search=<%=search%>">곡</a>
-				<li><a href="/semi2/search/searchAlbum.jsp?search=<%=search%>">앨범</a>
-				<li><a href="/semi2/search/searchArtist.jsp?search=<%=search%>">아티스트</a>
-				<li><a
-					href="/semi2/search/searchPlaylist.jsp?search=<%=search%>">플레이리스트</a>
-			</ul>
-		</article>
-		<article>
-			<h2>앨범 &gt;</h2>
-			<%
-			int searchCount = 10;
-			ArrayList<SearchAlbumDto> arr = searchDao.searchAlbums(search, searchCount);
-			%>
 			<div>
+		<input type="button" value="전체" class="bt" onclick="location.href='/semi2/search/main.jsp?search=<%=search%>'">
+		<input type="button" value="곡" class="bt" onclick="location.href='/semi2/search/searchSong.jsp?search=<%=search%>'">
+		<input type="button" value="앨범" class="bt_clicked" onclick="location.href='/semi2/search/searchAlbum.jsp?search=<%=search%>'">
+		<input type="button" value="아티스트" class="bt" onclick="location.href='/semi2/search/searchArtist.jsp?search=<%=search%>'">
+		<input type="button" value="플레이리스트" class="bt" onclick="location.href='/semi2/search/searchPlaylist.jsp?search=<%=search%>'">
+	</div>
+		</article>
+	<article>
+	<div class="footer-line"></div>
+	<div class="search-title">
+		앨범 검색결과
+		</div>
+		<%
+			int searchCount = 6;
+			ArrayList<SearchAlbumDto> albumArr = searchDao.searchAlbums(search, searchCount);
+			%>
+			<div class="search-gallery">
 				<%
-				if (arr == null || arr.size() == 0) {
+				if (albumArr == null || albumArr.size() == 0) {
 				%>
 				<div>보여줄 정보가 없습니다</div>
 				<%
 				} else {
-				for (int i = 0; i < arr.size(); i++) {
+				for (int i = 0; i < albumArr.size(); i++) {
+					String genres[] = {albumArr.get(i).getGenre1(), albumArr.get(i).getGenre2(), albumArr.get(i).getGenre3()};
+					StringBuffer genre = new StringBuffer();
+
+					for (int j = 0; j < 3; j++) {
+						if (genres[j] != null) {
+							if (!genres[j].equals("")) {
+						if (j == 0) {
+							genre.append(genres[j]);
+						} else {
+							genre.append(" | " + genres[j]);
+						}
+							}
+						}
+					}
+
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+					String releasedAt = sdf.format(albumArr.get(i).getReleasedAt());
+		
 				%>
-				<div>
-					<img
-						src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg">
-					<a><%=arr.get(i).getName()%></a> <a><%=arr.get(i).getNickname()%></a>
-					<a><%=arr.get(i).getGenre1()%></a> <a><%=arr.get(i).getGenre2()%></a>
-					<a><%=arr.get(i).getGenre3()%></a> <label><%=arr.get(i).getReleasedAt()%></label>
-					<img>추가이미지 <img>재생이미지
+				<div class="search-card">
+				<a href="/semi2/chart/album-details.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>">
+				<img src="/semi2/resources/images/album/<%=albumArr.get(i).getAlbumId()%>/cover.jpg" class="search-card-image">
+				</a>
+				<div class="search-card-info">
+					<div class="search-card-info-name">
+					<a href="/semi2/chart/album-details.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>">
+						<h2><%=albumArr.get(i).getName()%></h2>
+						</a>
+					</div>
+					<div class="search-card-info-artist-name">
+						<a href="/semi2/artist/main.jsp?memberid=<%=albumArr.get(i).getMemberId()%>"><%=albumArr.get(i).getNickname()%></a>
+					</div>
+					<div class="search-card-info-genre"><%=genre%></div>
+					<div class="search-card-info-date">
+						<%=releasedAt%>
+					</div>
+					<div class="detail-card-info-icon">
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">						
+							</a>
+						</div>
+						<div class="icon-group">
+							<a href="#">
+								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+					</div>
 				</div>
+			</div>
+		
 				<%
 				}
 				}
 				%>
 			</div>
-		</article>
-
+	</article>
 	</section>
 	<%@include file="/footer.jsp"%>
 </body>
