@@ -151,19 +151,19 @@
 			</div>
 			<div class="gallery">
 			<div class="gallery-card">
-				<a href="#"><img src="/semi2/resources/images/design/mood/mood1.jpg"  class="gallery-card-album-image" alt="신나는"></a>
+				<a href="/semi2/search/searchMood.jsp?mood=신나는"><img src="/semi2/resources/images/design/mood/mood1.jpg"  class="gallery-card-album-image" alt="신나는"></a>
 			</div>
 			<div class="gallery-card">
-				<a href="#"><img src="/semi2/resources/images/design/mood/mood2.jpg"  class="gallery-card-album-image" alt="잔잔한"></a>
+				<a href="/semi2/search/searchMood.jsp?mood=잔잔한"><img src="/semi2/resources/images/design/mood/mood2.jpg"  class="gallery-card-album-image" alt="잔잔한"></a>
 			</div>
 			<div class="gallery-card">
-				<a href="#"><img src="/semi2/resources/images/design/mood/mood4.jpg"  class="gallery-card-album-image" alt="슬플 때"></a>
+				<a href="/semi2/search/searchMood.jsp?mood=슬플때"><img src="/semi2/resources/images/design/mood/mood4.jpg"  class="gallery-card-album-image" alt="슬플 때"></a>
 			</div>
 			<div class="gallery-card">
-				<a href="#"><img src="/semi2/resources/images/design/mood/mood5.jpg"  class="gallery-card-album-image" alt="달달한"></a>
+				<a href="/semi2/search/searchMood.jsp?mood=달달한"><img src="/semi2/resources/images/design/mood/mood5.jpg"  class="gallery-card-album-image" alt="달달한"></a>
 			</div>
 			<div class="gallery-card-last">
-				<a href="#"><img src="/semi2/resources/images/design/mood/mood7.jpg"  class="gallery-card-album-image" alt="몽환적인"></a>
+				<a href="/semi2/search/searchMood.jsp?mood=몽환적인"><img src="/semi2/resources/images/design/mood/mood7.jpg"  class="gallery-card-album-image" alt="몽환적인"></a>
 			</div>
 			</div>
 		</article>
