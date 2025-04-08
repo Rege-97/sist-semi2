@@ -27,6 +27,7 @@ ArrayList<String> list = mdao.getMembershipType();
 
 <%
 // 모든 이용권을 반복문으로 돌려 사용자가 가지고 있는 이용권들을 화면에 표시
+boolean a = false;
 for (int i = 0; i < list.size(); i++){
 	Calendar now = Calendar.getInstance();
 	Calendar now2 = Calendar.getInstance();
@@ -34,6 +35,7 @@ for (int i = 0; i < list.size(); i++){
 	now2.setTimeInMillis(map.get(list.get(i)).getTime());
 	long timeLeft = now2.getTimeInMillis()-now.getTimeInMillis();
 	long dayLeft = TimeUnit.MILLISECONDS.toDays(timeLeft);
+	if(dayLeft > 0) a = true;
 %>
 <label>
 <%=list.get(i) %> 남은 일자: <%=dayLeft > 0 ? dayLeft:0 %> 일 
@@ -42,8 +44,7 @@ for (int i = 0; i < list.size(); i++){
 }
 %>
 <img src = "">
-<input type = "button" value = "이용권구매" onclick = "location.href = '/semi2/membership/main.jsp'">
-<input type = "button" value = "이용권변경" onclick = "location.href = '/semi2/membership/main.jsp'">
+<input type = "button" value = "<%=a ? "이용권변경":"이용권구매" %>" onclick = "location.href = '/semi2/membership/main.jsp'">
 
 <br>
 <input type = "button" value = "비밀번호 변경" onclick = "location.href = '/semi2/mypage/password-check.jsp'"> 
