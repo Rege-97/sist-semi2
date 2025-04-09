@@ -11,12 +11,32 @@
 <title>Insert title here</title>
 </head>
 <%
+MypageDao mdao = new MypageDao();
 String yesParam = request.getParameter("yes");
 if (yesParam != null){
+	yesParam = yesParam.substring(0, yesParam.length()-1);
 	String yp[] = yesParam.split(",");
-	
+	mdao.requestYes(yp);
+%>
+<script>
+window.alert("처리완료");
+</script>
+<%
+}
+String noParam = request.getParameter("no");
+if (noParam != null){
+	noParam = noParam.substring(0, noParam.length()-1);
+	String np[] = noParam.split(",");
+	mdao.requestNo(np);
+	%>
+	<script>
+	window.alert("처리완료");
+	</script>
+	<%
 }
 %>
+
+
 <body>
 	<jsp:include page="/header.jsp"></jsp:include>
 	<fieldset>
@@ -27,7 +47,7 @@ if (yesParam != null){
 					<td>열번호</td>
 					<td>유저번호</td>
 					<td>유저명</td>
-					<td><input type = "button" value = "모두 선택"></td>
+					<td><input type = "button" id = "selectB" value = "모두 선택" onclick = "selectAll();"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,8 +55,7 @@ if (yesParam != null){
 				// 현재 페이지 정보 생성
 				String temp = request.getParameter("thisPage");
 				int thisPage = temp != null ? Integer.parseInt(temp) : 1;
-				int firstRow = 0, lastRow = 2, pageLate = 5;
-				MypageDao mdao = new MypageDao();
+				int firstRow = 0, lastRow = 5, pageLate = 5;
 				ArrayList<MypageDto> mypageDtos = mdao.getapplicantInfo((thisPage-1)*lastRow, (thisPage-1)*lastRow+lastRow);
 				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
@@ -53,7 +72,7 @@ if (yesParam != null){
 				<td><%=mypageDtos.get(i).getRnum()%></td>
 				<td><%=mypageDtos.get(i).getId()%></td>
 				<td><%=mypageDtos.get(i).getName()%></td>
-				<td><input type="checkbox" id="<%=mypageDtos.get(i).getRnum()%>"></td>
+				<td><input type="checkbox" id="<%=mypageDtos.get(i).getRnum() %>" name = "<%=mypageDtos.get(i).getId() %>"></td>
 				</tr>
 				<%
 					}
@@ -88,18 +107,50 @@ if (yesParam != null){
 function requestYes(){
 	var rqStr = "";
 	for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+		
 		if(i > <%=(thisPage) * lastRow%>) break;
 		var checkbox = document.getElementById(i);
 		if (checkbox != null){
 			if (checkbox.checked){
-				rqStr = rqStr+checkbox.id+",";
+				rqStr += checkbox.name+",";
 			}
 		}
 	}
-	location.href = "request-procession.jsp?yes="+rqStr;
+	location.href = "request-processing.jsp?thisPage=<%=thisPage %>&yes="+rqStr;
 }
 function requestNo(){
-	
+	var rqStr = "";
+	for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+		if(i > <%=(thisPage) * lastRow%>) break;
+		var checkbox = document.getElementById(i);
+		if (checkbox != null){
+			if (checkbox.checked){
+				rqStr += checkbox.name+",";
+			}
+		}
+	}
+	location.href = "request-processing.jsp?thisPage=<%=thisPage %>&no="+rqStr;
+}
+function selectAll(){
+	var sb = document.getElementById("selectB");
+	if (sb.value == "모두 선택"){
+		for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+			if(i > <%=(thisPage) * lastRow%>) break;
+			var checkbox = document.getElementById(i);
+			if (checkbox != null){
+			checkbox.checked = true;
+			}
+		}
+	}else if(sb.value == "모두 해제"){
+		for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+			if(i > <%=(thisPage) * lastRow%>) break;
+			var checkbox = document.getElementById(i);
+			if (checkbox != null){
+				checkbox.checked = false;
+			}	
+		}
+	}
+	sb.value = sb.value == "모두 선택" ? "모두 해제" : "모두 선택";
 }
 </script>
 </body>
