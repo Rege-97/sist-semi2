@@ -16,11 +16,11 @@ String search = request.getParameter("search");
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
-<h2>"<%=search %>" 검색결과</h2>
+<div class="subtitle"><h2>"<%=search %>" 검색결과</h2></div>
 	<section>
 		<article>
 		<iframe name="hiddenFrame" style="display: none;"></iframe>
-			<div>
+			<div class="submenu-box">
 		<input type="button" value="전체" class="bt" onclick="location.href='/semi2/search/main.jsp?search=<%=search%>'">
 		<input type="button" value="곡" class="bt" onclick="location.href='/semi2/search/searchSong.jsp?search=<%=search%>'">
 		<input type="button" value="앨범" class="bt_clicked" onclick="location.href='/semi2/search/searchAlbum.jsp?search=<%=search%>'">
