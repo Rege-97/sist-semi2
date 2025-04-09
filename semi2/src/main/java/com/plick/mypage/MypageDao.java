@@ -206,25 +206,51 @@ public class MypageDao {
 	public  int requestYes(String[] yp) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "UPDATE members SET access_type = 'artist' WHERE id = ";
+			String sql = "UPDATE members SET access_type = 'artist' WHERE id in (";
 			for (int i = 0; i < yp.length; i++) {
-				sql += "? ";
+				sql += "?";
+				if(i!=yp.length-1) sql += ", ";
 			}
+			sql += ")";
 			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			ArrayList<MypageDto> list = new ArrayList<MypageDto>();
-			if(rs.next()) {
-				do {
-					return rs.getInt("maxrow");
-				}while(rs.next());
+			for (int i = 1; i <= yp.length; i++) {
+				pstmt.setString(i, yp[i-1]);
 			}
-				return 0;
+			int result = pstmt.executeUpdate();
+			return result;
 		}catch(Exception e){
 			e.printStackTrace();
 			return ERROR;
 		}finally {
 			try {
-				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public  int requestNo(String[] np) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE members SET access_type = 'listener' WHERE id in (";
+			for (int i = 0; i < np.length; i++) {
+				sql += "?";
+				if(i!=np.length-1) sql += ", ";
+			}
+			sql += ")";
+			pstmt = conn.prepareStatement(sql);
+			for (int i = 1; i <= np.length; i++) {
+				pstmt.setString(i, np[i-1]);
+			}
+			int result = pstmt.executeUpdate();
+			return result;
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
 				if(pstmt!=null)pstmt.close();
 				if(conn!=null)conn.close();
 			}catch(Exception e2) {
