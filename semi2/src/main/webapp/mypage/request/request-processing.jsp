@@ -10,6 +10,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<%
+String yesParam = request.getParameter("yes");
+if (yesParam != null){
+	String yp[] = yesParam.split(",");
+	
+}
+%>
 <body>
 	<jsp:include page="/header.jsp"></jsp:include>
 	<fieldset>
@@ -20,6 +27,7 @@
 					<td>열번호</td>
 					<td>유저번호</td>
 					<td>유저명</td>
+					<td><input type = "button" value = "모두 선택"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,7 +38,6 @@
 				int firstRow = 0, lastRow = 2, pageLate = 5;
 				MypageDao mdao = new MypageDao();
 				ArrayList<MypageDto> mypageDtos = mdao.getapplicantInfo((thisPage-1)*lastRow, (thisPage-1)*lastRow+lastRow);
-				System.out.println(thisPage);
 				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
 				%>
@@ -46,7 +53,7 @@
 				<td><%=mypageDtos.get(i).getRnum()%></td>
 				<td><%=mypageDtos.get(i).getId()%></td>
 				<td><%=mypageDtos.get(i).getName()%></td>
-				<td><input type="checkbox" id="<%=i+1%>"></td>
+				<td><input type="checkbox" id="<%=mypageDtos.get(i).getRnum()%>"></td>
 				</tr>
 				<%
 					}
@@ -54,8 +61,8 @@
 				%>
 			</tbody>
 		</table>
-		<input type="button" value="아티스트 등록"> <input type="button"
-			value="요청 거절">
+		<input type="button" value="아티스트 등록" onclick = "requestYes();"> 
+		<input type="button" value="요청 거절" onclick = "requestNo();">
 		<%
 		if (thisPage > pageLate / 2 + pageLate % 2) {
 		%>
@@ -77,5 +84,23 @@
 		%>
 	</fieldset>
 	<jsp:include page="/footer.jsp"></jsp:include>
+	<script>
+function requestYes(){
+	var rqStr = "";
+	for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+		if(i > <%=(thisPage) * lastRow%>) break;
+		var checkbox = document.getElementById(i);
+		if (checkbox != null){
+			if (checkbox.checked){
+				rqStr = rqStr+checkbox.id+",";
+			}
+		}
+	}
+	location.href = "request-procession.jsp?yes="+rqStr;
+}
+function requestNo(){
+	
+}
+</script>
 </body>
 </html>

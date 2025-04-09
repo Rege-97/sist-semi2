@@ -124,7 +124,7 @@ public class MypageDao {
 	public int changeMemberAccessType(int memberId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "UPDATE members SET access_type = 'applicant' WHERE id = ?";
+			String sql = "UPDATE members SET access_type = 'applicant' WHERE id = ? ORDER BY started_at DESC";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, memberId);
 			int result = pstmt.executeUpdate();
@@ -180,6 +180,36 @@ public class MypageDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT MAX(rnum) AS maxrow FROM (SELECT id, name, rnum FROM (SELECT rownum AS rnum, id, name FROM members WHERE access_type = 'applicant') ORDER BY rnum DESC)";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			ArrayList<MypageDto> list = new ArrayList<MypageDto>();
+			if(rs.next()) {
+				do {
+					return rs.getInt("maxrow");
+				}while(rs.next());
+			}
+				return 0;
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public  int requestYes(String[] yp) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE members SET access_type = 'artist' WHERE id = ";
+			for (int i = 0; i < yp.length; i++) {
+				sql += "? ";
+			}
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			ArrayList<MypageDto> list = new ArrayList<MypageDto>();
