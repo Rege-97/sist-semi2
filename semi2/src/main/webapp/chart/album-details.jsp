@@ -151,7 +151,7 @@ if (cp % pageSize == 0)
 			<iframe name="hiddenFrame" style="display: none;"></iframe>
 		</article>
 		<article>
-<div class="categorey-name">수록곡</div>
+		<div class="categorey-name">수록곡</div>
 			<table class="song-list">
 				<colgroup>
 					<col style="width: 40px;">
@@ -232,7 +232,7 @@ if (cp % pageSize == 0)
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#">
+								<a href="/semi2/chart/download-song.jsp?songid=<%=arr.get(i).getId()%>&songname=<%=arr.get(i).getName() %>&albumid=<%=arr.get(i).getAlbumId()%>&artist=<%=arr.get(i).getArtist()%>" target="hiddenFrame">
 								<img src="/semi2/resources/images/design/download-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
 								</a>
