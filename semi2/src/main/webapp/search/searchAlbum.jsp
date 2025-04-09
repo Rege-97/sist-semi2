@@ -19,6 +19,7 @@ String search = request.getParameter("search");
 <h2>"<%=search %>" 검색결과</h2>
 	<section>
 		<article>
+		<iframe name="hiddenFrame" style="display: none;"></iframe>
 			<div>
 		<input type="button" value="전체" class="bt" onclick="location.href='/semi2/search/main.jsp?search=<%=search%>'">
 		<input type="button" value="곡" class="bt" onclick="location.href='/semi2/search/searchSong.jsp?search=<%=search%>'">
@@ -94,7 +95,7 @@ String search = request.getParameter("search");
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
+							<a href="/semi2/chart/download-album.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>" target="hiddenFrame">
 								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
 							</a>

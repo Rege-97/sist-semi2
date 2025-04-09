@@ -27,6 +27,7 @@ SongDetailDto dto = sdao.findSong(id);
 	<%@include file="/header.jsp"%>
 	<section>
 		<article>
+		<iframe name="hiddenFrame" style="display: none;"></iframe>
 			<div class="detail-card">
 				<img src="/semi2/resources/images/album/<%=dto.getAlbumId()%>/cover.jpg" class="detail-card-image">
 				<div class="detail-card-info">
@@ -51,7 +52,7 @@ SongDetailDto dto = sdao.findSong(id);
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
+							<a href="/semi2/chart/download-song.jsp?songid=<%=dto.getId()%>&songname=<%=dto.getName() %>&albumid=<%=dto.getAlbumId()%>&artist=<%=dto.getArtist()%>" target="hiddenFrame">
 								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
 							</a>

@@ -93,6 +93,7 @@ if (cp % pageSize == 0)
 	
 	<section>
 		<article>
+		<iframe name="hiddenFrame" style="display: none;"></iframe>
 			<div class="detail-card">
 				<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" class="detail-card-image">
 				<div class="detail-card-info">
@@ -120,7 +121,7 @@ if (cp % pageSize == 0)
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
+							<a href="/semi2/chart/download-album.jsp?albumid=<%=dto.getId()%>" target="hiddenFrame">
 								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
 							</a>
@@ -148,10 +149,10 @@ if (cp % pageSize == 0)
 			</div>
 			</form>
 			</div>
-			<iframe name="hiddenFrame" style="display: none;"></iframe>
+			
 		</article>
 		<article>
-<div class="categorey-name">수록곡</div>
+		<div class="categorey-name">수록곡</div>
 			<table class="song-list">
 				<colgroup>
 					<col style="width: 40px;">
@@ -232,7 +233,7 @@ if (cp % pageSize == 0)
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#">
+								<a href="/semi2/chart/download-song.jsp?songid=<%=arr.get(i).getId()%>&songname=<%=arr.get(i).getName() %>&albumid=<%=arr.get(i).getAlbumId()%>&artist=<%=arr.get(i).getArtist()%>" target="hiddenFrame">
 								<img src="/semi2/resources/images/design/download-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
 								</a>
@@ -277,7 +278,7 @@ if (cp % pageSize == 0)
 									<%
 								}else{
 									%>
-									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';" class="comment-add-profile-image">
 									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
 									<%
 								}
