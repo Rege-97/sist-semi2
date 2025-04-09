@@ -88,7 +88,7 @@
 					<img src="/semi2/resources/images/album/<%=arrPopularSong.get(i).getAlbumId()%>/cover.jpg" class="gallery-card-album-image">
 				</a>
 				<div class="gallery-card-album-image-play">
-				<a href="#">
+				<a href="/semi2/player/version-nam.jsp?songId=<%=arrPopularSong.get(i).getSongId()%>">
 					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
 					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 				</a>
