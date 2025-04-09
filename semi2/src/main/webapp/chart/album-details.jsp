@@ -278,7 +278,7 @@ if (cp % pageSize == 0)
 									<%
 								}else{
 									%>
-									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';" class="comment-add-profile-image">
 									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
 									<%
 								}
