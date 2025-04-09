@@ -146,7 +146,7 @@ public class MypageDao {
 	public  ArrayList<MypageDto> getapplicantInfo(int firstNum, int lastNum) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT id, name, rnum FROM (SELECT rownum AS rnum, id, name FROM members WHERE access_type = 'applicant' ORDER BY rnum DESC) WHERE rnum BETWEEN ? AND ?";
+			String sql = "SELECT id, name, rnum FROM (SELECT id, name, rnum FROM (SELECT rownum AS rnum, id, name FROM members WHERE access_type = 'applicant') ORDER BY rnum DESC)WHERE rnum BETWEEN ?+1 AND ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, firstNum);
 			pstmt.setInt(2, lastNum);
@@ -165,6 +165,33 @@ public class MypageDao {
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public  int getMaxRow() {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT MAX(rnum) AS maxrow FROM (SELECT id, name, rnum FROM (SELECT rownum AS rnum, id, name FROM members WHERE access_type = 'applicant') ORDER BY rnum DESC)";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			ArrayList<MypageDto> list = new ArrayList<MypageDto>();
+			if(rs.next()) {
+				do {
+					return rs.getInt("maxrow");
+				}while(rs.next());
+			}
+				return 0;
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
 		}finally {
 			try {
 				if(rs!=null)rs.close();

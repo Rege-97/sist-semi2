@@ -27,10 +27,11 @@
 				// 현재 페이지 정보 생성
 				String temp = request.getParameter("thisPage");
 				int thisPage = temp != null ? Integer.parseInt(temp) : 1;
-				int firstRow = 0, lastRow = 20, pageLate = 5;
+				int firstRow = 0, lastRow = 2, pageLate = 5;
 				MypageDao mdao = new MypageDao();
 				ArrayList<MypageDto> mypageDtos = mdao.getapplicantInfo((thisPage-1)*lastRow, (thisPage-1)*lastRow+lastRow);
-				int maxRow = mypageDtos.get(0).getRnum();
+				System.out.println(thisPage);
+				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
 				%>
 				<tr>
@@ -42,7 +43,7 @@
 					for (int i = 0; i < mypageDtos.size(); i++) {
 					%>
 				<tr>
-				<td><%=i+1%></td>
+				<td><%=mypageDtos.get(i).getRnum()%></td>
 				<td><%=mypageDtos.get(i).getId()%></td>
 				<td><%=mypageDtos.get(i).getName()%></td>
 				<td><input type="checkbox" id="<%=i+1%>"></td>
@@ -62,13 +63,13 @@
 		<%
 		}
 		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
-		for (int i = pageStart; i <= pageLate; i++) {
-		if ((i-1) * lastRow > maxRow) break;
+		for (int i = pageStart; i < pageStart+pageLate; i++) {
+			if (i * lastRow > maxRow) break;
 		%>
-		<a href="request-processing.jsp?<%=i %>"><label><%=i%> </label></a>
+		<a href="request-processing.jsp?thisPage=<%=i %>"><label><%=i%> </label></a>
 		<%
 		}
-		if (thisPage < maxRow/pageLate-pageLate/2) {
+		if (thisPage+pageLate/2 < maxRow/lastRow) {
 		%>
 		<label> >></label>
 		<%
