@@ -37,5 +37,5 @@ default: msg = "위험! 알 수 없는 오류 발생";
 %>
 <script>
 window.alert("<%=msg %>");
-location.href = "<%=path %>";
+location.href = "<%=request.getParameter("ref") %>";
 </script>
