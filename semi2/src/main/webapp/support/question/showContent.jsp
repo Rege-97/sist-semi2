@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.plick.support.*" %>    
+<%@page import="java.text.*"%>
 <jsp:useBean id="questionDao" class="com.plick.support.QuestionDao"></jsp:useBean>
 <!DOCTYPE html>
 <html>
@@ -8,6 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@include file="/header.jsp" %>
 <%
@@ -23,17 +25,17 @@ if(id_str==null||id_str.equals("")){
 	}
 	int	id = Integer.parseInt(id_str);
 	QuestionDto dto = questionDao.showContent(id);
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String createAt = sdf.format(dto.getCreatedAt());
 	%>
 <section>
 	<article>
-		<table>
-			<tr>
-			<th><label>제목</label>
-			<td><%=dto.getTitle() %>
-			<%System.out.println(dto.getContent()); %>
-			<tr>
-			<td colspan="2"><%=dto.getContent().replaceAll("\n", "<br>") %>
-			
+	<div class="support-view-box-answer">
+<div class="support-view-title"><%=dto.getTitle() %></div>
+<div class="support-view-content"><%=dto.getContent().replaceAll("\n", "<br>") %></div>
+<div class="support-view-date-box">
+<div class="support-view-date">작성일자 : <%=createAt%></div>
 			<%
 			String accessType=signedinDto.getMemberAccessType();
 			if(accessType==null){
@@ -41,19 +43,18 @@ if(id_str==null||id_str.equals("")){
 			}
 			if(accessType.equals("admin")&&swAnswer.equals("false")){
 				%>
-				<tr>
-				<td>
 				<form action="/semi2/support/question/answer.jsp" method="post">
 				<input type="hidden" name="title" value="<%=dto.getTitle() %>">
 				<input type="hidden" name="id" value="<%=dto.getParentId() %>">
-				<input type="submit" value="답글">
+				<div class="bt-answer"><input type="submit" value="답글" class="bt"></div>
 				
 				</form>
 				<%
 			}
 			%>
-			<td>
-		</table>
+			</div>
+</div>
+
 	</article>
 </section>
 <%@include file="/footer.jsp" %>
