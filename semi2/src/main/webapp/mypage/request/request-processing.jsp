@@ -66,7 +66,7 @@ if (yesParam != null){
 		<%
 		if (thisPage > pageLate / 2 + pageLate % 2) {
 		%>
-		<label> << </label>
+		<a href="request-processing.jsp?thisPage=<%=thisPage-pageLate/2 %>"><label> << </label></a>
 		<%
 		}
 		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
@@ -78,7 +78,7 @@ if (yesParam != null){
 		}
 		if (thisPage+pageLate/2 < maxRow/lastRow) {
 		%>
-		<label> >></label>
+		<a href="request-processing.jsp?thisPage=<%=thisPage+pageLate/2 %>"><label> >></label></a>
 		<%
 		}
 		%>
