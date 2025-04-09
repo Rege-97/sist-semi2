@@ -93,6 +93,7 @@ if (cp % pageSize == 0)
 	
 	<section>
 		<article>
+		<iframe name="hiddenFrame" style="display: none;"></iframe>
 			<div class="detail-card">
 				<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" class="detail-card-image">
 				<div class="detail-card-info">
@@ -120,7 +121,7 @@ if (cp % pageSize == 0)
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
+							<a href="/semi2/chart/download-album.jsp?albumid=<%=dto.getId()%>" target="hiddenFrame">
 								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
 							</a>
@@ -148,7 +149,7 @@ if (cp % pageSize == 0)
 			</div>
 			</form>
 			</div>
-			<iframe name="hiddenFrame" style="display: none;"></iframe>
+			
 		</article>
 		<article>
 		<div class="categorey-name">수록곡</div>
