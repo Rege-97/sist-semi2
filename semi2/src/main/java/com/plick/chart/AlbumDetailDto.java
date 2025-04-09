@@ -13,13 +13,14 @@ public class AlbumDetailDto {
 	private Timestamp releasedAt;
 	private Timestamp createdAt;
 	private String artist;
+	private double rating;
 	
 	public AlbumDetailDto() {
 
 	}
 
 	public AlbumDetailDto(int id, int memberId, String name, String description, String genre1, String genre2,
-			String genre3, Timestamp releasedAt, Timestamp createdAt, String artist) {
+			String genre3, Timestamp releasedAt, Timestamp createdAt, String artist, double rating) {
 		super();
 		this.id = id;
 		this.memberId = memberId;
@@ -31,6 +32,7 @@ public class AlbumDetailDto {
 		this.releasedAt = releasedAt;
 		this.createdAt = createdAt;
 		this.artist = artist;
+		this.rating = rating;
 	}
 
 	public int getId() {
@@ -112,6 +114,14 @@ public class AlbumDetailDto {
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-	
-	
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+
 }
