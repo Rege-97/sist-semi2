@@ -12,6 +12,7 @@ import com.plick.member.MemberDto;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 public class MypageDao {
 	Connection conn;
@@ -274,6 +275,22 @@ public class MypageDao {
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public boolean addFileToBase64(String base64, String path) {
+		try {
+			base64 = base64.replace("data:image/jpeg;base64,", "");
+			File newFile = new File(path);
+			byte[] filedata = Base64.getDecoder().decode(base64);
+			try (FileOutputStream Fos = new FileOutputStream(newFile)) {
+                Fos.write(filedata);
+                Fos.close();
+			}
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

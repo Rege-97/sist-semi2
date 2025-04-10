@@ -83,24 +83,99 @@
 	}
 	%>
 <fieldset>
-	<canvas id = "profileCanvas" onclick = "imgChange();"></canvas> 
+	<canvas id = "profileCanvas"></canvas> 
+	<canvas id = "profileCanvasEditer"></canvas>
 	<form action = "edit_profile-img_ok.jsp" method = "post">
 		<input style = "display: none;" type = "file" id = "editNewProfileImg" name = "editProfileImg" onchange = "changeEditImg();" accept="image/png, image/jpeg">
+		<input type = "hidden" id = "img64" name = "img64">
 		<input type = "button" value = "이미지 변경하기" onclick = "imgChange();">
-		<input type = "submit" value = "저장하기">
+		<input type = "submit" value = "저장하기" onclick = "canvasToBase64();">
 	</form>
 </fieldset>
 <iframe id="profile_hidden" name="profile_hidden" style="display: none;"></iframe>
 	<%@ include file="/footer.jsp"%>
 <script>
-//해당 부분에서 처리해야 하는 일
-//1. 사용자에게 받은 이미지 파일을 base64로 변환 <--
-//2. base64인 문자열을 인코딩 하여 canvas에 그려줘야 함
-//3. canvas에서 사용자의 조작에 따라 사진의 노출 부위를 변경해줘야 함
-//4. canvas에서 자른 이미지를 파일 형태로 저장 해야 함
-
+//canvas에서 사용자의 조작에 따라 사진의 노출 부위를 변경해줘야 함
+// 사용자가 드래그를 시작 했을 때만 컴포넌트 위의 마우스 상대 좌표를 가지고 있어야 함
 var canvas = document.getElementById("profileCanvas");
 var	ctx = canvas.getContext("2d");
+var canvasEXs = 0;
+var canvasEYs = 0;
+var canvasE = document.getElementById("profileCanvasEditer");
+var	ctxE = canvasE.getContext("2d");
+var canvasEX = 0;
+var canvasEY = 0;
+
+var newImg;
+var eventPermit = false;
+var areaDiv = -1;
+
+canvas.width = 300;
+canvas.height = 300;
+
+
+// 에디터 캔버스 마스킹 이미지
+var width = (canvasE.width = canvas.width);
+var height = (canvasE.height = canvas.height);
+const centerX = width / 2;
+const centerY = height / 2;
+const radius = Math.min(width, height) / 2.5;
+
+//1. 전체 회색 배경
+ctxE.fillStyle = "#808080";
+ctxE.fillRect(0, 0, width, height);
+// 2. 원형 투명 영역 만들기
+ctxE.globalCompositeOperation = "destination-out";
+ctxE.beginPath();
+ctxE.arc(centerX, centerY, radius, 0, Math.PI * 2);
+ctxE.fill();
+
+	// canvas 에디터 제어 함수
+	// 에디터는 실제 사진과 같은 크기로 시작해서 
+	canvasE.addEventListener("mousedown", function(event){
+		canvasEX = event.offsetX; 
+        canvasEY = event.offsetY;
+		if(canvasEX < 8 && canvasEY < 8){
+			areaDiv = 1;
+			eventPermit = true;
+		}else if(canvasEX < 8 && canvasEY > canvasE.height-8){
+			areaDiv = 2;
+			eventPermit = true;
+		}else if(canvasEX > canvasE.width-8 && canvasEY < 8){
+			areaDiv = 3;
+			eventPermit = true;
+		}else if(canvasEX > canvasE.width-8 && canvasEY > canvasE.height-8){
+			areaDiv = 4;
+			eventPermit = true;
+		}
+	})
+	canvasE.addEventListener("mousemove", function(event){
+		if(eventPermit){
+	        const rect = canvas.getBoundingClientRect();
+	        canvasEX = event.offsetX; 
+	        canvasEY = event.offsetY;  
+	        console.log("X:"+canvasXE+"Y:"+canvasEY);
+	        
+	        switch(areaDiv){
+	    	case 1: 
+	    		ctxE.width += 
+	    		ctxX.height
+	    	}    
+	        // drowImage의 속성은 img, x, y
+	})
+	canvasE.addEventListener("mouseup", function(event){
+		eventPermit = false;
+		if(eventPermit){
+	        const rect = canvasE.getBoundingClientRect();
+	        canvasEX = event.offsetX; 
+	        canvasEY = event.offsetY;  
+	        // drowImage의 속성은 img, x, y
+	        ctx.drawImage(newImg, canvasEX, canvasEY, canvasE.width, canvasE.height, 0, 0, canvas.width, canvas.height);
+		}
+		
+	})
+
+
 // canvas 시작 이미지 설정
 function loadCanvas() {
 	var oldImg = new Image();
@@ -117,7 +192,7 @@ function imgChange() {
 
 //사용자가 선택한 이미지를 Filereader()로 읽어와 canvas에 다시 그려줌 
 function changeEditImg() {
-	var newImg = document.getElementById('editNewProfileImg').files[0];
+	newImg = document.getElementById('editNewProfileImg').files[0];
 	if (newImg){ 
 		var reader = new FileReader();
 		reader.onload = function(e) {
@@ -131,6 +206,10 @@ function changeEditImg() {
 	}else{
 		window.alert("잘못된 이미지를 선택하셨습니다.");
 	}
+}
+
+function canvasToBase64() {
+	document.getElementById("img64").value = canvas.toDataURL("image/jpeg");
 }
 </script>
 </body>
