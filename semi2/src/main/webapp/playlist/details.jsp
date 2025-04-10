@@ -1,10 +1,8 @@
 <%@page import="com.plick.dto.Playlist"%>
-<%@page import="com.plick.playlist.MemDto"%>
 <%@page import="com.plick.playlist.PlaylistSongDto"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="com.plick.dto.Song"%>
 <%@page import="com.plick.playlist.PlaylistCommentDto"%>
-<%@page import="com.plick.playlist.PlaylistDto"%>
 <%@page import="com.plick.playlist.PlaylistDao"%>
 <%@page import="com.plick.playlist.PlaylistDetailDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -45,24 +43,20 @@ return;
 }
 // 댓글 리스트
 List<PlaylistCommentDto> commentDtos = playlistDetailDto.getPlaylistCommentDtos();//갯수를 지정해서 가져와야함.
-PlaylistDto playlistDto = playlistDetailDto.getPlaylistDto();
-// 플리 생성자 정보
-MemDto author = playlistDto.getMemberDto();
-// 플리 정보
-Playlist playlist = playlistDto.getPlaylist();
+
 // 플레이리스트 순서대로 정렬한 플리 노래 리스트
-List<PlaylistSongDto> sortedSongs = playlistDto.getPlaylistSongDtos().stream()
+List<PlaylistSongDto> sortedSongs = playlistDetailDto.getPlaylistSongDtos().stream()
 		.sorted((s1, s2) -> Long.compare(s1.getTurn(), s2.getTurn())).collect(Collectors.toList());
 //
-long likeCount = playlistDto.getLikeCount();
+long likeCount = playlistDetailDto.getLikeCount();
 // 생성일자
 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-String formattedCreatedAt = simpleDateFormat.format(playlistDto.getPlaylist().getCreatedAt());
+String formattedCreatedAt = simpleDateFormat.format(playlistDetailDto.getCreatedAt());
 // 무드 한줄 문자열로
 StringBuffer mood = new StringBuffer();
-mood.append(playlist.getMood1() == null ? "" : playlist.getMood1());
+mood.append(playlistDetailDto.getMood1() == null ? "" : playlistDetailDto.getMood1());
 mood.append(" ");
-mood.append(playlist.getMood2() == null ? "" : playlist.getMood2());
+mood.append(playlistDetailDto.getMood2() == null ? "" : playlistDetailDto.getMood2());
 // 플레이리스트 사진을 위한 첫번째 곡 앨범아이디, 없으면 0
 int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orElse(0);
 %>
@@ -71,53 +65,64 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 	<%@include file="/header.jsp"%>
 	<section>
 		<article>
-					<div class="detail-card">
-					<img src="/semi2/resources/images/<%=firstAlbumId != 0 ? "album/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"  class="detail-card-image">
+			<div class="detail-card">
+				<img
+					src="/semi2/resources/images/<%=firstAlbumId != 0 ? "album/" + firstAlbumId + "/cover.jpg" : "playlist/default-cover.jpg"%>"
+					class="detail-card-image">
 				<div class="detail-card-info">
 					<div class="detail-card-info-name">
-						<h2><%=playlist.getName()%></h2>
+						<h2><%=playlistDetailDto.getPlaylistName()%></h2>
 					</div>
 					<div class="detail-card-info-artist-name">
-						<a href="/semi2/artist/main.jsp?memberid=<%=author.getId()%>"><%=author.getNickname()%></a>
+						<a
+							href="/semi2/artist/main.jsp?memberid=<%=playlistDetailDto.getMemberId()%>"><%=playlistDetailDto.getNickname()%></a>
 					</div>
 					<div class="detail-card-info-genre"><%=mood.toString().trim()%></div>
 					<div class="detail-card-info-date">
-						생성일 : <%=formattedCreatedAt%>
+						생성일 :
+						<%=formattedCreatedAt%>
 					</div>
 					<div class="detail-card-info-icon">
 						<div class="icon-group">
-							<a href="#">
-								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
-								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+							<a href="#"> <img
+								src="/semi2/resources/images/design/play-icon.png"
+								class="icon-dafault"> <img
+								src="/semi2/resources/images/design/play-icon-hover.png"
+								class="icon-hover">
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
-								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-dafault">
-								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">						
+							<a href="#"> <img
+								src="/semi2/resources/images/design/add-list-icon.png"
+								class="icon-dafault"> <img
+								src="/semi2/resources/images/design/add-list-icon-hover.png"
+								class="icon-hover">
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
-								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
-								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+							<a href="#"> <img
+								src="/semi2/resources/images/design/download-icon.png"
+								class="icon-dafault"> <img
+								src="/semi2/resources/images/design/download-icon-hover.png"
+								class="icon-hover">
 							</a>
 						</div>
 						<div class="icon-group-likes">
-					<a href="#">
-						<img src="/semi2/resources/images/design/likes-icon.png" class="likes-icon">
-					</a>
-					<div class="likes-count">
-					<%=likeCount%> 
+							<a href="#"> <img
+								src="/semi2/resources/images/design/likes-icon.png"
+								class="likes-icon">
+							</a>
+							<div class="likes-count">
+								<%=likeCount%>
+							</div>
+						</div>
 					</div>
 				</div>
-					</div>
-				</div>
-				
+
 			</div>
 		</article>
 		<article>
-		<div class="categorey-name">수록곡</div>
+			<div class="categorey-name">수록곡</div>
 			<table class="song-list">
 				<colgroup>
 					<col style="width: 40px;">
@@ -162,43 +167,54 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 						</td>
 						<td>
 							<div class="song-list-album-image">
-							<a href="#"><img src="/semi2/resources/images/album/<%=sortedSongs.get(i).getSong().getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
+								<a href="#"><img
+									src="/semi2/resources/images/album/<%=sortedSongs.get(i).getAlbumId()%>/cover.jpg"
+									class="song-list-album-image"></a>
 							</div>
 						</td>
 						<td>
 							<div class="song-list-song-name">
-								<a href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getSong().getId()%>"><%=sortedSongs.get(i).getSong().getName()%></a>
+								<a
+									href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getId()%>"><%=sortedSongs.get(i).getSongName()%></a>
 							</div>
 							<div class="song-list-album-name">
-								<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"><%=sortedSongs.get(i).getAlbumName()%></a>
+								<a
+									href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"><%=sortedSongs.get(i).getAlbumName()%></a>
 							</div>
 						</td>
 						<td>
 							<div class="song-list-artist-name">
-								<a href="/semi2/artist/main.jsp?memberid=<%=sortedSongs.get(i).getMemberId()%>"><%=sortedSongs.get(i).getMemberNickname()%></a>
+								<a
+									href="/semi2/artist/main.jsp?memberid=<%=sortedSongs.get(i).getArtistId()%>"><%=sortedSongs.get(i).getArtistNickname()%></a>
 							</div>
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> 
-								<img src="/semi2/resources/images/design/play-icon.png" class="icon-default">
-								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+								<a href="#"> <img
+									src="/semi2/resources/images/design/play-icon.png"
+									class="icon-default"> <img
+									src="/semi2/resources/images/design/play-icon-hover.png"
+									class="icon-hover">
 								</a>
 							</div>
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#">
-								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-default">
-								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">
+								<a href="#"> <img
+									src="/semi2/resources/images/design/add-list-icon.png"
+									class="icon-default"> <img
+									src="/semi2/resources/images/design/add-list-icon-hover.png"
+									class="icon-hover">
 								</a>
 							</div>
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#">
-								<img src="/semi2/resources/images/design/download-icon.png" class="icon-default">
-								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+								<a href="#"> <img
+									src="/semi2/resources/images/design/download-icon.png"
+									class="icon-default"> <img
+									src="/semi2/resources/images/design/download-icon-hover.png"
+									class="icon-hover">
 								</a>
 							</div>
 						</td>
