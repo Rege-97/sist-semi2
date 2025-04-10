@@ -1353,3 +1353,14 @@ table.support-table .support-table-foot {
 #playlist-{
 	text-align:center;
 }
+.paging{
+	margin-top:30px;
+	display:flex;
+	gap:20px;
+	justify-content: center;
+}
+.page-number-bold a{
+	color: #ff2dac;
+	font-weight: bold;
+	
+}
