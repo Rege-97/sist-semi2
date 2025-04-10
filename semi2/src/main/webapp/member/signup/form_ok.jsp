@@ -19,8 +19,10 @@ int result = memberDao.addMember(memberDto);
 String msg = result > 0 ? "회원가입 성공" : "오류 발생!";
 
 int memberId = memberDao.searchId(memberDto.getEmail());
+System.out.println(memberId+"memberId");
 File profile = new File(request.getRealPath("resources/images/member/"+memberId));
 profile.mkdirs();
+System.out.println(profile.exists()+"!memberId");
 %>
 
 <script>

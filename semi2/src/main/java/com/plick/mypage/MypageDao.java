@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 
 import com.plick.member.MemberDto;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 public class MypageDao {
 	Connection conn;
@@ -256,6 +258,22 @@ public class MypageDao {
 			}catch(Exception e2) {
 				e2.printStackTrace();
 			}
+		}
+	}
+	
+	public String fileExportBase64(String path) {
+		try {
+			File f1 = new File(path);
+			FileInputStream Fis = new FileInputStream(f1);
+			byte[] fileData = new byte[(int) f1.length()];
+			Fis.read(fileData);
+			Fis.close();
+			
+			String fileBase64 = Base64.getEncoder().encodeToString(fileData);
+			return "data:image/jpeg;base64,"+fileBase64;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
