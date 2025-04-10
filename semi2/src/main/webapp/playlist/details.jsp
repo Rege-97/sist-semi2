@@ -87,7 +87,8 @@ return;
 }
 //로그인 한 유저가 이 플레이리스트의 소유자인지 확인, 수정권한을 부여하기 위함
 SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
-boolean isOwnedPlaylist = loggedinUser.getMemberId() == playlistDetailDto.getMemberId() ? true : false;
+int loggedinUserId = loggedinUser == null || loggedinUser.getMemberId() == 0 ? -1 : loggedinUser.getMemberId();
+boolean isOwnedPlaylist = loggedinUserId == playlistDetailDto.getMemberId() ? true : false;
 // 댓글 리스트
 List<PlaylistCommentDto> commentDtos = playlistDetailDto.getPlaylistCommentDtos();//갯수를 지정해서 가져와야함.
 
@@ -320,8 +321,9 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 						<td>
 							<div class="icon-group">
 								<a
-									href="song-delete_ok.jsp?playlistid=<%=sortedSongs.get(i).getPlaylistId()%>&playlistsongid=<%=sortedSongs.get(i).getId()%>&turn=<%=sortedSongs.get(i).getTurn()%>">
-									<img src="/semi2/resources/images/design/playlist-delete.png"
+									href="song-delete_ok.jsp?playlistid=<%=sortedSongs.get(i).getPlaylistId()%>&playlistsongid=<%=sortedSongs.get(i).getId()%>&turn=<%=sortedSongs.get(i).getTurn()%>"
+									onclick="return confirm('정말 삭제하시겠습니까?');"> <img
+									src="/semi2/resources/images/design/playlist-delete.png"
 									class="icon-default"> <img
 									src="/semi2/resources/images/design/playlist-delete-hover.png"
 									class="icon-hover">
