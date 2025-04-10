@@ -68,12 +68,13 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 <body>
 	<h1>내 플레이리스트</h1>
 	<div>
-		<form action="add_ok.jsp" method="get">
+		<form action="popup-list-form_ok.jsp" method="get">
 			<input type="text" id="playlistNameText" name="playlistName"
 				placeholder="플레이리스트 이름을 정해주세요."
 				value="<%=playlistPreviews.size() + 1%>번 플레이리스트" /> <input
 				type="button" value="X"
 				onclick="document.getElementById('playlistNameText').value = '';" />
+				<input type="hidden" id="songid" name="songid" value="<%=request.getParameter("songid") %>"/>
 			<br /> <input type="button"
 				onclick="window.location.href='popup-list.jsp?songid=<%=songId%>';"
 				value="취소" /> <input type="submit" value="확인" />

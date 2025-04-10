@@ -53,6 +53,7 @@ playlistId = Integer.parseInt(playlistIdParam);
 	");
 </script>
 <%
+return;
 }
 %>
 <%
@@ -66,7 +67,7 @@ if (!playlistMylistDao.addSongIntoPlaylist(songId, playlistId)) {
 <%
 return;
 }
-
-String referer = request.getHeader("referer");
-response.sendRedirect(referer == null ? "/semi2/playlist/mylist/main.jsp" : referer);
 %>
+<script>
+	window.close();
+</script>
