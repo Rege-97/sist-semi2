@@ -193,4 +193,18 @@ public class PlaylistDao {
 		}
 	}
 
+	public boolean updatePlaylistNameByPlaylistId(int playlistId, String playlistName, int memberId) {
+		String sql = "UPDATE playlists SET name = ? WHERE id = ? AND member_id = ? ";
+
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setString(1, playlistName);
+			pstmt.setInt(2, playlistId);
+			pstmt.setInt(3, memberId);
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

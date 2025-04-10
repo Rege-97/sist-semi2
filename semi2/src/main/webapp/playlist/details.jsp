@@ -126,12 +126,12 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 							<%
 							if (isOwnedPlaylist) {
 							%>
-							<form id="edit-form" method="post"
-								action="/semi2/playlist/editName" style="display: inline;">
+							<form id="edit-form" method="get" action="name-update_ok.jsp"
+								style="display: inline;">
 								<span id="name-text" style="color: white;"><%=playlistName%></span>
-								<input type="text" name="newName" id="name-input"
+								<input type="text" name="playlistname" id="name-input"
 									value="<%=playlistName%>" style="display: none;" /> <input
-									type="hidden" name="playlistId" value="<%=playlistId%>" />
+									type="hidden" name="playlistid" value="<%=playlistId%>" />
 
 								<!-- 확인/취소 버튼 -->
 								<button type="submit" id="confirm-btn" style="display: none;">확인</button>
@@ -158,7 +158,38 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 						<a
 							href="/semi2/artist/main.jsp?memberid=<%=playlistDetailDto.getMemberId()%>"><%=playlistDetailDto.getNickname()%></a>
 					</div>
-					<div class="detail-card-info-genre"><%=mood.toString().trim()%></div>
+					<div class="detail-card-info-genre">
+						<%
+						if (isOwnedPlaylist) {
+						%>
+						<form id="edit-form" method="get" action="name-update_ok.jsp"
+							style="display: inline;">
+							<span id="name-text" style="color: white;"><%=mood.toString().trim()%></span>
+							<input type="text" name="playlistname" id="name-input"
+								value="<%=playlistName%>" style="display: none;" /> <input
+								type="hidden" name="playlistid" value="<%=playlistId%>" />
+
+							<!-- 확인/취소 버튼 -->
+							<button type="submit" id="confirm-btn" style="display: none;">확인</button>
+							<button type="button" id="cancel-btn" style="display: none;"
+								onclick="cancelEdit()">취소</button>
+
+							<!-- 편집 아이콘 -->
+							<a href="#" id="edit-icon-link" onclick="toggleEdit(event)">
+								<img id="edit-icon"
+								src="/semi2/resources/images/design/playlist-edit.png"
+								width="20" height="20" />
+							</a>
+						</form>
+						<%
+						} else {
+						%>
+						<%=mood.toString().trim()%>
+						<%
+						}
+						%>
+
+					</div>
 					<div class="detail-card-info-date">
 						생성일 :
 						<%=formattedCreatedAt%>
