@@ -119,4 +119,27 @@ public class FaqDao {
 		}
 		
 	}
+	//글 수정
+	public int updateFaq(FaqDto dto) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "update faq set title=?,content=? where id=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, dto.getTitle());
+			ps.setString(2, dto.getContent());
+			ps.setInt(3, dto.getId());
+			return ps.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return -1;
+		}finally {
+			try {
+				if(ps!=null)ps.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {e2.printStackTrace();}
+		}
+	}
+		
+		
 }
