@@ -43,12 +43,85 @@ if (genre == null) {
 			more.value = '더보기';
 		}
 	}
+	// 아래부터 모달창 관련
+	function openModal(songId) {
+		const iframe = document.getElementById('playlistIframe');
+		iframe.src = 'popup-list.jsp?songid=' + songId;
+		document.getElementById('myModal').style.display = 'block';
+	}
+
+	function closeModal() {
+		document.getElementById('myModal').style.display = 'none';
+		document.getElementById('playlistIframe').src = ''; // iframe 초기화
+	}
+
+	// 모달 바깥 클릭 시 닫기
+	window.onclick = function(event) {
+		const modal = document.getElementById("myModal");
+		if (event.target === modal) {
+			closeModal();
+		}
+	}
 </script>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
+<style>
+/* 모달 배경 */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 999;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 모달 박스 */
+.modal-content {
+	background-color: #fff;
+	margin: 5% auto;
+	border-radius: 10px;
+	width: 400px;
+	height: 600px;
+	position: relative;
+}
+
+/* 닫기 버튼 */
+.close {
+	position: absolute;
+	right: 15px;
+	top: 10px;
+	font-size: 25px;
+	font-weight: bold;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+/* iframe 스타일 */
+.modal-iframe {
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-radius: 10px;
+}
+</style>
 </head>
 <body>
 	<%@include file="/header.jsp"%>
 	<h1>팝업 테스트 화면</h1>
+	
+	<!-- 모달창 div -->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close" onclick="closeModal()">×</span>
+
+			<!-- iframe으로 JSP 페이지를 삽입 -->
+			<iframe class="modal-iframe" id="playlistIframe" src=""></iframe>
+		</div>
+	</div>
+	
+	
 	<section>
 		<article>
 			<ul class="detail-menu">
@@ -163,8 +236,19 @@ if (genre == null) {
 								<a href="#"
 									onclick="window.open('/semi2/playlist/mylist/popup-list.jsp?songid=<%=arr.get(i).getId()%>'
 									, 'popup', 'width=600,height=400 '); 
-									return false;"> <img
-									src="/semi2/resources/images/design/add-list-icon.png"
+									return false;">
+									<img src="/semi2/resources/images/design/add-list-icon.png"
+									class="icon-default"> <img
+									src="/semi2/resources/images/design/add-list-icon-hover.png"
+									class="icon-hover">
+								</a>
+							</div>
+						</td>
+						<td>
+							<div class="icon-group">
+								<a href="#"
+									onclick="openModal(<%=arr.get(i).getId()%>); return false;">
+									<img src="/semi2/resources/images/design/add-list-icon.png"
 									class="icon-default"> <img
 									src="/semi2/resources/images/design/add-list-icon-hover.png"
 									class="icon-hover">

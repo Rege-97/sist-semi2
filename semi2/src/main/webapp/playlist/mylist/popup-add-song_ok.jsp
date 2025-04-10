@@ -69,5 +69,10 @@ return;
 }
 %>
 <script>
+if (window.parent && typeof window.parent.closeModal === 'function') {
+  window.parent.closeModal();
+}
+else{
 	window.close();
+}
 </script>
