@@ -9,7 +9,7 @@
     <div class="footer-support">
       <div class="footer-support-title">고객센터</div>
          <div class="footer-support-link"><a href="/semi2/support/main.jsp" >공지사항</a></div>
-         <div class="footer-support-link"><a href="/semi2/support/faq" >자주 묻는 질문</a></div>
+         <div class="footer-support-link"><a href="/semi2/support/faq.jsp" >자주 묻는 질문</a></div>
          <div class="footer-support-link"><a href="/semi2/support/question.jsp" >1:1 게시판</a></div>
     </div>
 

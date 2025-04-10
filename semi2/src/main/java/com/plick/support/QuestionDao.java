@@ -60,15 +60,17 @@ public class QuestionDao {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (currentPage-1)*10+1;
 			int end = currentPage*10;
-			String sql = "select q.*,members.nickname,members.email  "
-					+ "from(select rownum rn, n.* "
-					+ "    from (select * from question where member_id=? order by parent_id desc,id asc) n) q,members "
-					+ "where members.id=q.member_id and rn>=? and rn<=?";
+				String sql = "select q.*,members.nickname,members.email  "
+						+ "from(select rownum rn, n.* "
+						+ "    from (select * from question where member_id=? "
+						+ " 	or parent_id = any (select parent_id from question where member_id =?) order by parent_id desc,id asc) n) q,members "
+						+ "where members.id=q.member_id and rn>=? and rn<=?";
 			
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, memberId);
-			ps.setInt(2, start);
-			ps.setInt(3, end);
+			ps.setInt(2, memberId);
+			ps.setInt(3, start);
+			ps.setInt(4, end);
 			rs=ps.executeQuery();
 			ArrayList<QuestionDto> arr = new ArrayList<QuestionDto>();
 			if(!rs.next()) {
