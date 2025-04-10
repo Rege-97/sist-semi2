@@ -11,10 +11,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-	function showAlertAndGoLoginPage(message) {
-		window.alert(message);
-		window.location.href = "/semi2/member/signin.jsp";
+function showAlertAndGoLoginPage(message) {
+	window.alert(message);
+	if (window.parent && typeof window.parent.closeModal === 'function') {
+	  	window.parent.closeModal();
+	}else{
+		window.close();
 	}
+}
 	function showAlertAndGoBack(message) {
 		window.alert(message);
 		window.history.back();

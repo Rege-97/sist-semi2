@@ -1,36 +1,40 @@
 package com.plick.playlist;
 
-import com.plick.dto.Song;
-
 public class PlaylistSongDto {
 	private int id;
-	private Song song;
+	private int songId;
+	private String songName;
 	private int playlistId;
 	private int turn;
 	private int albumId;
 	private String albumName;
-	private String memberNickname;
-	private int memberId;
+	private String artistNickname;
+	private int artistId;
 
-	public PlaylistSongDto(int id, Song song, int playlistId, int turn, int albumId, String albumName,
-			String memberNickname, int memberId) {
+	public PlaylistSongDto(int id, int songId, String songName, int playlistId, int turn, int albumId, String albumName,
+			String artistNickname, int artistId) {
 		super();
 		this.id = id;
-		this.song = song;
+		this.songId = songId;
+		this.songName = songName;
 		this.playlistId = playlistId;
 		this.turn = turn;
 		this.albumId = albumId;
 		this.albumName = albumName;
-		this.memberNickname = memberNickname;
-		this.memberId = memberId;
+		this.artistNickname = artistNickname;
+		this.artistId = artistId;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public Song getSong() {
-		return song;
+	public int getSongId() {
+		return songId;
+	}
+
+	public String getSongName() {
+		return songName;
 	}
 
 	public int getPlaylistId() {
@@ -49,12 +53,12 @@ public class PlaylistSongDto {
 		return albumName;
 	}
 
-	public String getMemberNickname() {
-		return memberNickname;
+	public String getArtistNickname() {
+		return artistNickname;
 	}
 
-	public int getMemberId() {
-		return memberId;
+	public int getArtistId() {
+		return artistId;
 	}
 
 }

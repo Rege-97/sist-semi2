@@ -5,10 +5,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
-	function showAlertAndGoLoginPage(message) {
-		window.alert(message);
-		window.location.href = "/semi2/member/signin.jsp";
+function showAlertAndGoLoginPage(message) {
+	window.alert(message);
+	if (window.parent && typeof window.parent.closeModal === 'function') {
+	  	window.parent.closeModal();
+	}else{
+		window.close();
 	}
+}
 	function showAlertAndGoBack(message) {
 		window.alert(message);
 		window.history.back();
