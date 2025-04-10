@@ -24,8 +24,14 @@ if (loggedinUser == null || loggedinUser.getMemberId() == 0) {
 return;
 }
 int loggedinUserId = loggedinUser.getMemberId();
+
+String playlistName = request.getParameter("playlistName");
+if (playlistName == null || playlistName.isEmpty()) {
+playlistName = "default name";
+}
+
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-if (!playlistMylistDao.addPlaylistByMemberId(loggedinUserId)) {
+if (!playlistMylistDao.addPlaylistByMemberId(loggedinUserId, playlistName)) {
 %>
 <script>
 	showAlertAndGoBack('오류가 발생했습니다');

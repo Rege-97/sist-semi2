@@ -15,7 +15,7 @@ public class PlaylistMylistDao {
 		String sql = "SELECT   " + "        p.id AS playlist_id, " + "        m.id AS member_id, "
 				+ "        p.name AS playlist_name, " + "        p.created_at AS created_at, "
 				+ "        COUNT(DISTINCT l.member_id) AS like_count, "
-				+ "        COUNT(DISTINCT ps.song_id) AS song_count, " + "        m.nickname AS member_nickname, "
+				+ "        COUNT(DISTINCT ps.id) AS song_count, " + "        m.nickname AS member_nickname, "
 				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
 				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
 				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
@@ -54,14 +54,30 @@ public class PlaylistMylistDao {
 		return false;
 	}
 
-	public boolean addPlaylistByMemberId(int memberId) {
+	public boolean addPlaylistByMemberIdAndPlaylistName(int memberId, String playlistName) {
 		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
 				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
 
 		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, memberId);
-			int playlistCount = findCountPlaylistByMemberId(memberId, conn);
-			pstmt.setString(2, playlistCount + 1 + "번 플레이리스트");
+			pstmt.setString(2, playlistName);
+			pstmt.setString(3, null);
+			pstmt.setString(4, null);
+
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean addPlaylistByMemberId(int memberId, String playlistName) {
+		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
+				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
+
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			pstmt.setString(2, playlistName);
 			pstmt.setString(3, null);
 			pstmt.setString(4, null);
 
@@ -87,6 +103,63 @@ public class PlaylistMylistDao {
 			e.printStackTrace();
 		}
 		return playlistCount;
+	}
+
+	public boolean addSongIntoPlaylist(int songId, int playlistId) {
+		try (Connection conn = DBConnector.getConn();) {
+			return existsBySongId(songId, conn) ? insertSongToTopInTransaction(songId, playlistId, conn) : false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean existsBySongId(int songId, Connection conn) {
+		String sql = "SELECT COUNT(*) AS count FROM songs WHERE id = ? ";
+
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, songId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				rs.next();
+				return rs.getInt("count") > 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean insertSongToTopInTransaction(int songId, int playlistId, Connection conn) throws SQLException {
+
+		String updateSql = "UPDATE playlist_songs SET turn = turn + 1 WHERE playlist_id = ?";
+		String insertSql = "INSERT INTO playlist_songs (id, song_id, playlist_id, turn) VALUES (seq_playlist_songs_id.NEXTVAL, ?, ?, 1)";
+
+		try (PreparedStatement updatePstmt = conn.prepareStatement(updateSql);
+				PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+			// 트랜잭션시작
+			conn.setAutoCommit(false);
+
+			updatePstmt.setInt(1, playlistId);
+			updatePstmt.executeUpdate();
+
+			insertPstmt.setInt(1, songId);
+			insertPstmt.setInt(2, playlistId);
+			insertPstmt.executeUpdate();
+
+			// 트랜잭션끝
+			conn.commit();
+			return true;
+
+		} catch (Exception e) {
+			// 예외발생시 롤백
+			conn.rollback();
+			e.printStackTrace();
+			return false;
+
+		} finally {
+			// 오토커밋시작
+			conn.setAutoCommit(true);
+		}
 	}
 
 }

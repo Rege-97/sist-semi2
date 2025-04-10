@@ -3,8 +3,6 @@
 <%
 request.setCharacterEncoding("UTF-8");
 %>      
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +23,7 @@ function sendRequest(){
 }
 </script>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@ include file="/header.jsp" %>
 <%
@@ -40,17 +39,21 @@ if(!accessType.equals("admin")){
 	
 }
 %>
-<h1>질문 답글쓰기</h1>
+<div class="subtitle"><h2>답변 게시글 작성</h2></div>
 <form name="writeForm" action="/semi2/support/question/answer_ok.jsp" method="post">
-<label>제목</label><input name="title" type="text" value="re:<%=title%>"><br>
-<textarea name="content"></textarea>
+<div class="support-write-box">
+<div class="support-write-title">
+<input name="title" type="text" placeholder="제목을 입력하세요." value="re:<%=title%>">
+</div>
+<div class="support-write-content">
+<textarea name="content" placeholder="본문을 입력하세요."></textarea>
+</div>
+<div class="support-write-bt">
+<input type="button" value="글쓰기" class="bt" onclick="sendRequest();">
+</div>
+</div>
 <input type="hidden" name="memberId" value="<%=signedinDto.getMemberId()%>">
 <input type="hidden" name="parentId" value="<%=request.getParameter("id") %>">
-<script>
-window.alert('<%=signedinDto.getMemberId() %>')
-window.alert('parentId:<%=request.getParameter("id") %>')
-</script>
-<input type="button" value="글쓰기" onclick="sendRequest();">
 </form>
 
 

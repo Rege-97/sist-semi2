@@ -17,16 +17,22 @@ for(int i = 0; i < cookies.length; i++){
 	}
 }
 
-
-
 %>
+<script>
+function goSubmit(button){
+	
+	var form = button.closest("form");
+	form.action = "signin_ok.jsp?ref="+document.referrer;
+	form.submit();
+}
+</script>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body onload = "checkRememberMe();">
 <%@ include file="/header.jsp" %>
 <div class="login-box">
 <div class="login-input">
-	<form action = "signin_ok.jsp" method = "post">
+	<form method = "post">
 		<input type="email" name = "memberEmail" class="login-text" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
 		<br>
 		<input type="password" name = "memberPassword" class="login-text" placeholder="비밀번호">
@@ -35,7 +41,7 @@ for(int i = 0; i < cookies.length; i++){
 		<input type="checkbox" id="remeberMe" name="rememberMe" <%=rememberEmail!=null?"checked":"" %>><div class="id-remember">아이디 저장</div>
 		</div>
 <div class="login-bt-box">
-		<input type="submit" value = "로그인" class="login-bt">
+		<input type="button" value = "로그인" class="login-bt" onclick = "goSubmit(this);">
 </div>
 <div class="login-sub-box">
 	<div class="login-find">

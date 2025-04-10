@@ -20,9 +20,9 @@ int currentPage = Integer.parseInt(currentPage_str);
 </head>
 <body>
 	<%@include file="/header.jsp"%>
-	<h1>
+	<div class="subtitle"><h1>
 		"<%=moodSearch %>" 검색결과
-	</h1>
+	</h1></div>
 	<section>
 		<article>
 			<ul>

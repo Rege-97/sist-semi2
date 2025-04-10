@@ -27,23 +27,19 @@ int currentGroup = (currentPage - 1) / pageGroupSize + 1;
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
-	<h2>
-		"<%=search%>" 검색결과
-	</h2>
+
+<div class="subtitle"><h2>"<%=search %>" 검색결과</h2></div>
 	<section>
 		<article>
-			<div>
-				<input type="button" value="전체" class="bt"
-					onclick="location.href='/semi2/search/main.jsp?search=<%=search%>'">
-				<input type="button" value="곡" class="bt"
-					onclick="location.href='/semi2/search/searchSong.jsp?search=<%=search%>'">
-				<input type="button" value="앨범" class="bt_clicked"
-					onclick="location.href='/semi2/search/searchAlbum.jsp?search=<%=search%>'">
-				<input type="button" value="아티스트" class="bt"
-					onclick="location.href='/semi2/search/searchArtist.jsp?search=<%=search%>'">
-				<input type="button" value="플레이리스트" class="bt"
-					onclick="location.href='/semi2/search/searchPlaylist.jsp?search=<%=search%>'">
-			</div>
+		<iframe name="hiddenFrame" style="display: none;"></iframe>
+			<div class="submenu-box">
+		<input type="button" value="전체" class="bt" onclick="location.href='/semi2/search/main.jsp?search=<%=search%>'">
+		<input type="button" value="곡" class="bt" onclick="location.href='/semi2/search/searchSong.jsp?search=<%=search%>'">
+		<input type="button" value="앨범" class="bt_clicked" onclick="location.href='/semi2/search/searchAlbum.jsp?search=<%=search%>'">
+		<input type="button" value="아티스트" class="bt" onclick="location.href='/semi2/search/searchArtist.jsp?search=<%=search%>'">
+		<input type="button" value="플레이리스트" class="bt" onclick="location.href='/semi2/search/searchPlaylist.jsp?search=<%=search%>'">
+	</div>
+
 		</article>
 		<article>
 			<div class="footer-line"></div>
@@ -96,7 +92,8 @@ int currentGroup = (currentPage - 1) / pageGroupSize + 1;
 							<a
 								href="/semi2/artist/main.jsp?memberid=<%=albumArr.get(i).getMemberId()%>"><%=albumArr.get(i).getNickname()%></a>
 						</div>
-						<div class="search-card-info-genre"><%=genre%></div>
+            
+            <div class="search-card-info-genre"><%=genre%></div>
 						<div class="search-card-info-date">
 							<%=releasedAt%>
 						</div>
@@ -117,14 +114,13 @@ int currentGroup = (currentPage - 1) / pageGroupSize + 1;
 									class="icon-hover">
 								</a>
 							</div>
-							<div class="icon-group">
-								<a href="#"> <img
-									src="/semi2/resources/images/design/download-icon.png"
-									class="icon-dafault"> <img
-									src="/semi2/resources/images/design/download-icon-hover.png"
-									class="icon-hover">
-								</a>
-							</div>
+
+						<div class="icon-group">
+							<a href="/semi2/chart/download-album.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>" target="hiddenFrame">
+								<img src="/semi2/resources/images/design/download-icon.png" class="icon-dafault">
+								<img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+							</a>
+
 						</div>
 					</div>
 				</div>

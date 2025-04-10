@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.plick.support.*" %>    
+<%@page import="java.text.*"%>
 <jsp:useBean id="faqDao" class="com.plick.support.FaqDao"></jsp:useBean>
 <%
 String id_str = request.getParameter("id"); 
@@ -14,6 +15,8 @@ if(id_str==null||id_str.equals("")){
 	}
 	int	id = Integer.parseInt(id_str);
 	FaqDto dto = faqDao.showContent(id);
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String createAt = sdf.format(dto.getCreatedAt());
 	%>
 <!DOCTYPE html>
 <html>
@@ -21,17 +24,16 @@ if(id_str==null||id_str.equals("")){
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@include file="/header.jsp" %>
 <section>
 	<article>
-		<table>
-			<tr>
-			<th><label>제목</label>
-			<td><%=dto.getTitle() %>
-			<tr>
-			<td colspan="2"><%=dto.getContent().replaceAll("\n", "<br>") %>
-		</table>
+		<div class="support-view-box">
+<div class="support-view-title"><%=dto.getTitle() %></div>
+<div class="support-view-content"><%=dto.getContent().replaceAll("\n", "<br>") %></div>
+<div class="support-view-date">작성일자 : <%=createAt%></div>
+</div>
 	</article>
 </section>
 <%@include file="/footer.jsp" %>

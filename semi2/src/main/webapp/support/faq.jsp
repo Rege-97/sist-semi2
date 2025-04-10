@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>	
+<%@page import="java.text.*"%>
 <%@ page import="com.plick.support.*" %>
 <jsp:useBean id="faqDao" class="com.plick.support.FaqDao"></jsp:useBean>
-
 
 <!DOCTYPE html>
 <html>
@@ -17,6 +17,7 @@ function write(){
 }
 </script>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 <%@ include file="/header.jsp" %>
 <%
@@ -40,16 +41,31 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 %>
 	<section>
 		<article>
-			<h2>고객센터</h2>
-			<ul>
-				<li><a href="main.jsp">공지사항</a></li>
-				<li><a href="faq.jsp">자주 묻는 질문</a></li>
-				<li><a href="question.jsp">1대1 질문</a></li>
-			</ul>
-			<hr>
-			<table>
+			<div class="subtitle"><h2>자주 묻는 질문</h2></div>
+			<div class="submenu-box">
+		<input type="button" value="공지사항" class="bt" onclick="location.href='/semi2/support/main.jsp'">
+
+		<input type="button" value="자주 묻는 질문" class="bt_clicked" onclick="location.href='/semi2/support/faq.jsp'">
+
+		<input type="button" value="1 : 1 문의" class="bt" onclick="location.href='/semi2/support/question.jsp'">
+	</div>
+					<%
+					if(accessType.equals("admin")){
+						%>
+						<div class="support-bt">
+						<input type="button" value="글쓰기" class="bt" onclick='location.href="/semi2/support/faq/write.jsp"'>						
+						</div>
+						<%
+					}
+					%>
+			<table class="support-table">
+				<colgroup>
+					<col style="width: 40px;">
+					<col style="width: 500px;">
+					<col style="width: 70px;">
+				</colgroup>
 				<thead>
-					<tr>
+					<tr class="support-table-head">
 						<th>번호</th>
 						<th>제목</th>
 						<th>작성일</th>
@@ -61,25 +77,27 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 				if(arr==null){
 					%>
 					<tr>
-					<td>보여줄 정보가 없습니다.
+					<td colspan="3">보여줄 정보가 없습니다.
 					<%
 				}else{
 					for(int i=0;i<arr.size();i++){
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						String createAt = sdf.format(arr.get(i).getCreatedAt());
 						%>
-						<tr>
-						<td><%=arr.get(i).getId() %>
-						<td>
+						<tr class="support-table-body">
+						<td class="support-table-num"><%=arr.get(i).getId() %></td>
+						<td class="support-table-title">
 						<a href="/semi2/support/faq/showContent.jsp?id=<%=arr.get(i).getId()%>">
-						<%=arr.get(i).getTitle() %></a>
-						<td><%=arr.get(i).getCreatedAt() %>
+						<%=arr.get(i).getTitle() %></a></td>
+						<td class="support-table-create"><%=createAt %></td>
 						<%
 					}
 				}
 				%>
 				</tbody>
 				<tfoot>
-					<tr>
-					<td colspan="2">
+					<tr class="support-table-foot">
+					<td colspan="3">
 					<%String lt = currentGroup==1?"":"&lt;&lt;"; %>
 					<%String gt = currentGroup==pageGroupCount?"":"&gt;&gt;"; %>
 					<a href="/semi2/support/faq.jsp?page=<%=(currentGroup-1)*5%>"><%=lt %></a>
@@ -94,14 +112,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					}
 					%>
 					<a href="/semi2/support/faq.jsp?page=<%=currentGroup*5+1%>"><%=gt %></a>
-					<td>
-					<%
-					if(accessType.equals("admin")){
-						%>
-						<input type="button" value="글쓰기" onclick='location.href="/semi2/support/faq/write.jsp"'>						
-						<%
-					}
-					%>
+					
 				</tfoot>
 			</table>
 		</article>
