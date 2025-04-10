@@ -163,7 +163,7 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 						생성일 :
 						<%=formattedCreatedAt%>
 					</div>
-					<div class="detail-card-info-icon">
+					<div class="detail-card-info-icon-playlist">
 						<div class="icon-group">
 							<a href="#"> <img
 								src="/semi2/resources/images/design/play-icon.png"
