@@ -5,6 +5,11 @@
 <jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String moodSearch = request.getParameter("mood");
+String currentPage_str = request.getParameter("page");
+if(currentPage_str==null||currentPage_str.equals("")){
+	currentPage_str="1";
+}
+int currentPage = Integer.parseInt(currentPage_str);
 
 %>
 <!DOCTYPE html>
@@ -33,7 +38,7 @@ String moodSearch = request.getParameter("mood");
 			<h2>플레이리스트 &gt;</h2>
 			<%
 			int searchCount = 10;
-			ArrayList<SearchMoodDto> arr = searchDao.searchMood(moodSearch, searchCount);
+			ArrayList<SearchMoodDto> arr = searchDao.searchMood(moodSearch,currentPage,  searchCount);
 			%>
 			<div>
 				<%

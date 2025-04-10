@@ -5,6 +5,17 @@
 <jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
+String currentPage_str = request.getParameter("page");
+if(currentPage_str==null||currentPage_str.equals("")){
+	currentPage_str="1";
+}
+int currentPage = Integer.parseInt(currentPage_str);
+int totalResults = searchDao.showTotalResults("songs", "name", search);
+int pageSize = 10;
+int totalPage = (totalResults-1)/pageSize+1;
+int pageGroupSize = 5;
+int pageGroupCount = (totalPage-1)/pageGroupSize+1;
+int currentGroup = (currentPage-1)/pageGroupSize+1;
 
  
 
@@ -65,7 +76,7 @@ String search = request.getParameter("search");
 				<tbody>
 					<%
 					int searchCount = 10;
-					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search, searchCount);
+					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search,currentPage,  searchCount);
 
 					if (songArr == null || songArr.size() == 0) {
 					%>
