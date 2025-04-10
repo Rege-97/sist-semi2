@@ -77,17 +77,15 @@
 	<%
 	}
 	%>
-	<input type="button" value="아티스트 요청 처리"
-		onclick="location.href = '/semi2/mypage/request/request-processing.jsp'">
-
 	<fieldset>
 		<img
 			src="/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), signedinDto.getMemberId())%>">
 		<label
-			onclick="window.open('edit-profile-img.jsp?memberId=<%=signedinDto.getMemberId()%>', '프로필 사진 변경', 'width=300, height=200');">사진
+			onclick="location.href = 'edit-profile-img.jsp?memberId=<%=signedinDto.getMemberId()%>';">사진
 			변경</label>
 		<!-- 화면 비전환으로 구현예정 추가 브랜치 열어서 작업 예정 -->
-		<label>사진 삭제</label> <br> <input type="text" id="nickname"
+		<label onclick="delProfileImg();">
+		사진 삭제</label>	 <br> <input type="text" id="nickname"
 			name="nickname" value="<%=signedinDto.getMemberNickname()%>"
 			readonly onchange="checkDuplicateNickname();"> <input
 			type="button" id="nicknameEditButton" value="닉네임 변경"
@@ -96,23 +94,23 @@
 			type="text" id="tel" name="tel"
 			value="<%=signedinDto.getMemberTel()%>" readonly>
 	</fieldset>
-	<input type="button" value="아티스트 등록">
 	<%@ include file="/footer.jsp"%>
 	<iframe id="profile_hidden" style="display: none;"></iframe>
-	<script>
-	var nicknameEditButton = document.getElementById("nicknameEditButton");
-	var nickname = document.getElementById("nickname");
-	var profileHidden = document.getElementById("profile_hidden");
+
+<script>
+var nicknameEditButton = document.getElementById("nicknameEditButton");
+var nickname = document.getElementById("nickname");
+var profileHidden = document.getElementById("profile_hidden");
 // 닉네임 변경 dom 제어/ ifarame으로 중복 검사 요청
 function changeNickname() {
+	
 	if (nicknameEditButton.value == "닉네임 변경"){
 		nickname.removeAttribute("readonly");
 		nicknameEditButton.value = "수정완료";
 	}else if (nicknameEditButton.value == "수정완료"){	
 		var effectiveness = document.getElementById("nicknamecheck").value == "true" ? true : false;
 		if (effectiveness){
-			profileHidden.src = "profile_hidden.jsp?editNickname="+nickname.value+"&memberId=<%=signedinDto.getMemberId()%>
-		";
+			profileHidden.src = "profile_hidden.jsp?editNickname="+nickname.value+"&memberId=<%=signedinDto.getMemberId()%>";
 				}
 				nickname.setAttribute("readonly", true);
 				nicknameEditButton.value = "닉네임 변경";
@@ -126,6 +124,10 @@ function changeNickname() {
 		// 서밋 전 최종 데이터 검수
 		function checkForm() {
 
+		}
+		// 프로필 사진 삭제
+		function delProfileImg() {
+			document.getElementById('profile_hidden').src = "del-profile-img.jsp?memberId=<%=signedinDto.getMemberId()%>";
 		}
 	</script>
 </body>
