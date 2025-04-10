@@ -6,6 +6,11 @@
 <jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
+String currentPage_str = request.getParameter("page");
+if(currentPage_str==null||currentPage_str.equals("")){
+	currentPage_str="1";
+}
+int currentPage = Integer.parseInt(currentPage_str);
 %>    
 <!DOCTYPE html>
 <html>
@@ -34,8 +39,9 @@ String search = request.getParameter("search");
 		<a href="/semi2/search/searchAlbum.jsp?search=<%=search%>">앨범 &gt;</a>
 		</div>
 		<%
+			
 			int searchCount = 6;
-			ArrayList<SearchAlbumDto> albumArr = searchDao.searchAlbums(search, searchCount);
+			ArrayList<SearchAlbumDto> albumArr = searchDao.searchAlbums(search,currentPage, searchCount);
 			%>
 			<div class="search-gallery">
 				<%
@@ -145,7 +151,7 @@ String search = request.getParameter("search");
 				<tbody>
 					<%
 					searchCount = 10;
-					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search, searchCount);
+					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search,currentPage, searchCount);
 
 					if (songArr == null || songArr.size() == 0) {
 					%>
@@ -220,7 +226,7 @@ String search = request.getParameter("search");
 		</div>
 		<%
 			searchCount = 10;
-			ArrayList<SearchPlaylistDto> playlsitArr = searchDao.searchPlaylists(search, searchCount);
+			ArrayList<SearchPlaylistDto> playlsitArr = searchDao.searchPlaylists(search,currentPage, searchCount);
 			%>
 			<div class="gallery">
 				<%
@@ -262,7 +268,7 @@ String search = request.getParameter("search");
 		</div>
 		<%
 			searchCount = 6;
-			ArrayList<SearchArtistDto> aritstArr = searchDao.searchAritists(search, searchCount);
+			ArrayList<SearchArtistDto> aritstArr = searchDao.searchAritists(search,currentPage, searchCount);
 			%>
 			<div class="gallery">
 				<%

@@ -13,19 +13,25 @@ public class SearchDao {
 	ResultSet rs;
 
 	// 앨범 검색 최신순
-	public ArrayList<SearchAlbumDto> searchAlbums(String search, int rownum) {
+	public ArrayList<SearchAlbumDto> searchAlbums(String search, int currentPage, int pageSize) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select *  " + "from (select rownum, alb.*,members.nickname "
+			int start = (currentPage-1)*pageSize+1;
+			int end = currentPage*pageSize;
+			String sql = "select *  " + "from (select rownum rn, alb.*,members.nickname "
 					+ "    from (select * from albums where name like ? order by released_at desc) alb "
-					+ "        left join members " + "        on alb.member_id = members.id ) " + "where rownum <=?";
+					+ "        left join members " + "        on alb.member_id = members.id ) " + "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
-			ps.setInt(2, rownum);
+			ps.setInt(2, start);
+			System.out.println("start:"+start);
+			ps.setInt(3, end);
+			System.out.println("end:"+end);
 			rs = ps.executeQuery();
 			ArrayList<SearchAlbumDto> arr = new ArrayList<SearchAlbumDto>();
 			while (rs.next()) {
 				int albumId = rs.getInt("id");
+				System.out.println("albumId:"+albumId);
 				int memberId = rs.getInt("member_id");
 				String name = rs.getString("name");
 				String description = rs.getString("description");
@@ -60,14 +66,17 @@ public class SearchDao {
 	}
 
 	// 아티스트 검색
-	public ArrayList<SearchArtistDto> searchAritists(String search, int rownum) {
+	public ArrayList<SearchArtistDto> searchAritists(String search, int currentPage,int pageSize) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select rownum, mem.id member_id, mem.name, mem.nickname memnickname, mem.email, mem.access_type  "
-					+ "    from (select * from members where members.nickname like ?) mem " + "where rownum<=?";
+			int start = (currentPage-1)*pageSize+1;
+			int end = currentPage*pageSize;
+			String sql = "select * from (select rownum rn, mem.id member_id, mem.name, mem.nickname memnickname, mem.email, mem.access_type  "
+					+ "    from (select * from members where members.nickname like ?) mem) " + "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
-			ps.setInt(2, rownum);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 			rs = ps.executeQuery();
 			ArrayList<SearchArtistDto> arr = new ArrayList<SearchArtistDto>();
 			while (rs.next()) {
@@ -101,18 +110,21 @@ public class SearchDao {
 	}
 
 	// 노래 검색 최신순
-	public ArrayList<SearchSongDto> searchSongs(String search, int rownum) {
+	public ArrayList<SearchSongDto> searchSongs(String search, int currentPage,int pageSize) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "select rownum, so.* "
+			int start = (currentPage-1)*pageSize+1;
+			int end = currentPage*pageSize;
+			String sql = "select * from (select rownum rn, so.* "
 					+ "    from (select songs.id song_id,songs.name song_name,albums.id album_id,albums.created_at, "
 					+ "            albums.name album_name,albums.member_id,members.nickname "
 					+ "        from songs,albums,members  "
 					+ "        where songs.album_id = albums.id and members.id=albums.member_id  "
-					+ "        and songs.name like ? " + "        order by created_at desc) so where rownum <= ?";
+					+ "        and songs.name like ? " + "        order by created_at desc) so) where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
-			ps.setInt(2, rownum);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 			rs = ps.executeQuery();
 			ArrayList<SearchSongDto> arr = new ArrayList<SearchSongDto>();
 			while (rs.next()) {
@@ -149,10 +161,12 @@ public class SearchDao {
 	}
 
 	// 플리 검색 최신순
-	public ArrayList<SearchPlaylistDto> searchPlaylists(String search, int rownum) {
+	public ArrayList<SearchPlaylistDto> searchPlaylists(String search, int currentPage,int pageSize) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT * FROM (SELECT p.id AS playlist_id, "
+			int start = (currentPage-1)*pageSize+1;
+			int end = currentPage*pageSize;
+			String sql = "SELECT * FROM (SELECT rownum rn,pl.* FROM (SELECT p.id AS playlist_id, "
 					+ "					m.id AS member_id,p.name AS playlist_name,  "
 					+ "					p.created_at AS created_at,COUNT(DISTINCT ps.song_id) AS song_count,  "
 					+ "					COUNT(DISTINCT l.member_id) AS like_count,m.nickname AS member_nickname,  "
@@ -163,11 +177,12 @@ public class SearchDao {
 					+ "					LEFT JOIN playlist_songs ps2 ON p.id = ps2.playlist_id AND ps2.turn = 1  "
 					+ "					LEFT JOIN songs s ON ps2.song_id = s.id GROUP BY  "
 					+ "					 p.id, p.name, p.created_at, m.id, m.nickname, s.album_id "
-					+ "					ORDER BY created_at DESC)  "
-					+ "WHERE playlist_name LIKE ? AND ROWNUM <= ?";
+					+ "					ORDER BY created_at DESC) pl)  "
+					+ "WHERE playlist_name LIKE ? AND rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
-			ps.setInt(2, rownum);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 			rs = ps.executeQuery();
 			ArrayList<SearchPlaylistDto> arr = new ArrayList<SearchPlaylistDto>();
 			while (rs.next()) {
@@ -203,10 +218,12 @@ public class SearchDao {
 
 	}
 	// 무드 검색 인기순
-		public ArrayList<SearchMoodDto> searchMood(String search, int rownum) {
+		public ArrayList<SearchMoodDto> searchMood(String search, int currentPage,int pageSize) {
 			try {
 				conn = com.plick.db.DBConnector.getConn();
-				String sql = "SELECT * FROM (SELECT p.id AS playlist_id,p.mood1,p.mood2, "
+				int start = (currentPage-1)*pageSize+1;
+				int end = currentPage*pageSize;
+				String sql = "SELECT * FROM (SELECT rownum rn, pl.* FROM (SELECT p.id AS playlist_id,p.mood1,p.mood2, "
 						+ "					m.id AS member_id,p.name AS playlist_name,  "
 						+ "					p.created_at AS created_at,COUNT(DISTINCT ps.song_id) AS song_count,  "
 						+ "					COUNT(DISTINCT l.member_id) AS like_count,m.nickname AS member_nickname,  "
@@ -217,12 +234,13 @@ public class SearchDao {
 						+ "					LEFT JOIN playlist_songs ps2 ON p.id = ps2.playlist_id AND ps2.turn = 1  "
 						+ "					LEFT JOIN songs s ON ps2.song_id = s.id GROUP BY  "
 						+ "					 p.id, p.name, p.created_at,p.mood1,p.mood2, m.id, m.nickname, s.album_id  "
-						+ "					ORDER BY like_count DESC)  "
-						+ "WHERE ROWNUM <= ? AND mood1 LIKE ? or mood2 LIKE ? ";
+						+ "					ORDER BY like_count DESC) pl) "
+						+ "WHERE rn >=? and rn <=? AND mood1 LIKE ? or mood2 LIKE ? ";
 				ps = conn.prepareStatement(sql);
-				ps.setInt(1, rownum);
-				ps.setString(2, "%" + search + "%");
+				ps.setInt(1, start);
+				ps.setInt(2, end);
 				ps.setString(3, "%" + search + "%");
+				ps.setString(4, "%" + search + "%");
 				rs = ps.executeQuery();
 				ArrayList<SearchMoodDto> arr = new ArrayList<SearchMoodDto>();
 				while (rs.next()) {
@@ -258,6 +276,34 @@ public class SearchDao {
 				}
 			}
 
+		}
+		//앨범 검색 전체 데이터 수
+		// "select count(*) from albums where name like ?"
+		//노래 검색 전체 데이터 수
+		//select count(*) from songs where name like '%스%'
+		//플리 검색 전체 데이터 수
+		//select count(*) from playlists where name like '%스%'
+		//아티스트 검색 전체 데이터 수
+		//select count(*) from members where nickname like '%스%'
+		public int showTotalResults(String table,String column,String search) {
+			try {
+				conn = com.plick.db.DBConnector.getConn();
+				String sql =  "select count(*) from "+table+" where "+column+" like ?";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, "%"+search+"%");
+				rs = ps.executeQuery();
+				if(!rs.next()) return -1;
+				return rs.getInt(1);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return -1;
+			}finally {
+				try {
+					if(rs!=null)rs.close();
+					if(ps!=null)ps.close();
+					if(conn!=null)conn.close();
+				}catch(Exception e2) {e2.printStackTrace();}
+			}
 		}
 
 }

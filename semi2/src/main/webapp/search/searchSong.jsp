@@ -5,6 +5,17 @@
 <jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%
 String search = request.getParameter("search");
+String currentPage_str = request.getParameter("page");
+if(currentPage_str==null||currentPage_str.equals("")){
+	currentPage_str="1";
+}
+int currentPage = Integer.parseInt(currentPage_str);
+int totalResults = searchDao.showTotalResults("songs", "name", search);
+int pageSize = 10;
+int totalPage = (totalResults-1)/pageSize+1;
+int pageGroupSize = 5;
+int pageGroupCount = (totalPage-1)/pageGroupSize+1;
+int currentGroup = (currentPage-1)/pageGroupSize+1;
 
  
 
@@ -65,8 +76,8 @@ String search = request.getParameter("search");
 				</thead>
 				<tbody>
 					<%
-					int searchCount = 10;
-					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search, searchCount);
+					int searchCount = pageSize;
+					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search,currentPage,  searchCount);
 
 					if (songArr == null || songArr.size() == 0) {
 					%>
@@ -79,7 +90,7 @@ String search = request.getParameter("search");
 					%>
 					<tr class="song-list-body">
 					<td>
-							<div class="song-list-row"><%=i+1 %></div>
+							<div class="song-list-row"><%=(currentPage-1)*10+i+1 %></div>
 						</td>
 						
 						<td>
@@ -133,6 +144,25 @@ String search = request.getParameter("search");
 					%>
 				</tbody>
 			</table>
+			<div>
+				<%
+				String lt = currentGroup == 1 ? "" : "&lt;&lt;";
+				%>
+				<%
+				String gt = currentGroup == pageGroupCount ? "" : "&gt;&gt;";
+				%>
+				<a href="/semi2/search/searchSong.jsp?search=<%=search %>&page=<%=(currentGroup - 1) * 5%>"><%=lt%></a>
+				<%
+				int startPageNum = (currentGroup - 1) * 5 + 1;
+				int endPageNum = currentGroup == pageGroupCount ? totalPage : (currentGroup - 1) * 5 + 5;
+				for (int i = startPageNum; i <= endPageNum; i++) {
+				%>
+				<a href="/semi2/search/searchSong.jsp?search=<%=search %>&page=<%=i%>"><%=i%></a>
+				<%
+				}
+				%>
+				<a href="/semi2/search/searchSong.jsp?search=<%=search %>&page=<%=currentGroup * 5 + 1%>"><%=gt%></a>
+			</div>
 	</article>
 	
 </section>
