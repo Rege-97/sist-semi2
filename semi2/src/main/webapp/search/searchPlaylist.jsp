@@ -44,7 +44,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 		<a href="/semi2/search/searchPlaylist.jsp?search=<%=search%>">플레이리스트 &gt;</a>
 		</div>
 		<%
-			int searchCount = 10;
+			int searchCount = pageSize;
 			ArrayList<SearchPlaylistDto> playlsitArr = searchDao.searchPlaylists(search,currentPage,  searchCount);
 			%>
 			<div class="gallery">
@@ -78,6 +78,25 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 				}
 				}
 				%>
+			</div>
+			<div>
+				<%
+				String lt = currentGroup == 1 ? "" : "&lt;&lt;";
+				%>
+				<%
+				String gt = currentGroup == pageGroupCount ? "" : "&gt;&gt;";
+				%>
+				<a href="/semi2/search/searchPlaylist.jsp?search=<%=search %>&page=<%=(currentGroup - 1) * 5%>"><%=lt%></a>
+				<%
+				int startPageNum = (currentGroup - 1) * 5 + 1;
+				int endPageNum = currentGroup == pageGroupCount ? totalPage : (currentGroup - 1) * 5 + 5;
+				for (int i = startPageNum; i <= endPageNum; i++) {
+				%>
+				<a href="/semi2/search/searchPlaylist.jsp?search=<%=search %>&page=<%=i%>"><%=i%></a>
+				<%
+				}
+				%>
+				<a href="/semi2/search/searchPlaylist.jsp?search=<%=search %>&page=<%=currentGroup * 5 + 1%>"><%=gt%></a>
 			</div>
 	</article>
 	</section>

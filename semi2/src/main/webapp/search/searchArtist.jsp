@@ -11,7 +11,7 @@ if(currentPage_str==null||currentPage_str.equals("")){
 }
 int currentPage = Integer.parseInt(currentPage_str);
 int totalResults = searchDao.showTotalResults("members", "nickname", search);
-int pageSize = 10;
+int pageSize = 6;
 int totalPage = (totalResults-1)/pageSize+1;
 int pageGroupSize = 5;
 int pageGroupCount = (totalPage-1)/pageGroupSize+1;
@@ -43,7 +43,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 		아티스트 검색결과
 		</div>
 		<%
-			int searchCount = 6;
+			int searchCount = pageSize;
 			ArrayList<SearchArtistDto> aritstArr = searchDao.searchAritists(search,currentPage, searchCount);
 			%>
 			<div class="gallery">
@@ -70,6 +70,25 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					%>
 
 				</div>
+				<div>
+				<%
+				String lt = currentGroup == 1 ? "" : "&lt;&lt;";
+				%>
+				<%
+				String gt = currentGroup == pageGroupCount ? "" : "&gt;&gt;";
+				%>
+				<a href="/semi2/search/searchArtist.jsp?search=<%=search %>&page=<%=(currentGroup - 1) * 5%>"><%=lt%></a>
+				<%
+				int startPageNum = (currentGroup - 1) * 5 + 1;
+				int endPageNum = currentGroup == pageGroupCount ? totalPage : (currentGroup - 1) * 5 + 5;
+				for (int i = startPageNum; i <= endPageNum; i++) {
+				%>
+				<a href="/semi2/search/searchArtist.jsp?search=<%=search %>&page=<%=i%>"><%=i%></a>
+				<%
+				}
+				%>
+				<a href="/semi2/search/searchArtist.jsp?search=<%=search %>&page=<%=currentGroup * 5 + 1%>"><%=gt%></a>
+			</div>
 	</article>
 	</section>
 	<%@include file="/footer.jsp"%>

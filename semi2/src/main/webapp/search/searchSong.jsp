@@ -75,7 +75,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 				</thead>
 				<tbody>
 					<%
-					int searchCount = 10;
+					int searchCount = pageSize;
 					ArrayList<SearchSongDto> songArr = searchDao.searchSongs(search,currentPage,  searchCount);
 
 					if (songArr == null || songArr.size() == 0) {
@@ -89,7 +89,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					%>
 					<tr class="song-list-body">
 					<td>
-							<div class="song-list-row"><%=i+1 %></div>
+							<div class="song-list-row"><%=(currentPage-1)*10+i+1 %></div>
 						</td>
 						
 						<td>
@@ -143,6 +143,25 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					%>
 				</tbody>
 			</table>
+			<div>
+				<%
+				String lt = currentGroup == 1 ? "" : "&lt;&lt;";
+				%>
+				<%
+				String gt = currentGroup == pageGroupCount ? "" : "&gt;&gt;";
+				%>
+				<a href="/semi2/search/searchSong.jsp?search=<%=search %>&page=<%=(currentGroup - 1) * 5%>"><%=lt%></a>
+				<%
+				int startPageNum = (currentGroup - 1) * 5 + 1;
+				int endPageNum = currentGroup == pageGroupCount ? totalPage : (currentGroup - 1) * 5 + 5;
+				for (int i = startPageNum; i <= endPageNum; i++) {
+				%>
+				<a href="/semi2/search/searchSong.jsp?search=<%=search %>&page=<%=i%>"><%=i%></a>
+				<%
+				}
+				%>
+				<a href="/semi2/search/searchSong.jsp?search=<%=search %>&page=<%=currentGroup * 5 + 1%>"><%=gt%></a>
+			</div>
 	</article>
 	
 </section>
