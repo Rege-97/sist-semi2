@@ -22,7 +22,51 @@
 		window.alert(message);
 		window.history.back();
 	}
+	function toggleEdit(event) {
+		event.preventDefault();
+		document.getElementById("name-text").style.display = "none";
+		document.getElementById("name-input").style.display = "inline";
+		document.getElementById("confirm-btn").style.display = "inline";
+		document.getElementById("cancel-btn").style.display = "inline";
+		document.getElementById("edit-icon-link").style.display = "none";
+		document.getElementById("name-input").focus();
+	}
+
+	function cancelEdit() {
+		const text = document.getElementById("name-text");
+		const input = document.getElementById("name-input");
+
+		input.value = text.innerText; // 원래 값 복원
+		input.style.display = "none";
+		text.style.display = "inline";
+		document.getElementById("confirm-btn").style.display = "none";
+		document.getElementById("cancel-btn").style.display = "none";
+		document.getElementById("edit-icon-link").style.display = "inline";
+	}
 </script>
+<style>
+#name-input {
+	background-color: black;
+	color: white;
+	border: none;
+	border-bottom: 1px solid white;
+	font-size: inherit;
+	width: auto;
+}
+
+#confirm-btn, #cancel-btn {
+	background: none;
+	border: none;
+	color: white;
+	font-size: 1rem;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+#edit-icon {
+	vertical-align: middle;
+}
+</style>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <%
@@ -41,6 +85,9 @@ if (playlistDetailDto == null) {
 <%
 return;
 }
+//로그인 한 유저가 이 플레이리스트의 소유자인지 확인, 수정권한을 부여하기 위함
+SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
+boolean isOwnedPlaylist = loggedinUser.getMemberId() == playlistDetailDto.getMemberId() ? true : false;
 // 댓글 리스트
 List<PlaylistCommentDto> commentDtos = playlistDetailDto.getPlaylistCommentDtos();//갯수를 지정해서 가져와야함.
 
@@ -71,7 +118,40 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 					class="detail-card-image">
 				<div class="detail-card-info">
 					<div class="detail-card-info-name">
-						<h2><%=playlistDetailDto.getPlaylistName()%></h2>
+						<%
+						String playlistName = playlistDetailDto.getPlaylistName();
+						%>
+						<h2 id="playlist-name">
+							<%
+							if (isOwnedPlaylist) {
+							%>
+							<form id="edit-form" method="post"
+								action="/semi2/playlist/editName" style="display: inline;">
+								<span id="name-text" style="color: white;"><%=playlistName%></span>
+								<input type="text" name="newName" id="name-input"
+									value="<%=playlistName%>" style="display: none;" /> <input
+									type="hidden" name="playlistId" value="<%=playlistId%>" />
+
+								<!-- 확인/취소 버튼 -->
+								<button type="submit" id="confirm-btn" style="display: none;">확인</button>
+								<button type="button" id="cancel-btn" style="display: none;"
+									onclick="cancelEdit()">취소</button>
+
+								<!-- 편집 아이콘 -->
+								<a href="#" id="edit-icon-link" onclick="toggleEdit(event)">
+									<img id="edit-icon"
+									src="/semi2/resources/images/design/playlist-edit.png"
+									width="25" height="25" />
+								</a>
+							</form>
+							<%
+							} else {
+							%>
+							<%=playlistName%>
+							<%
+							}
+							%>
+						</h2>
 					</div>
 					<div class="detail-card-info-artist-name">
 						<a
