@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-request.setCharacterEncoding("UTF-8");
-%>      
+<%request.setCharacterEncoding("UTF-8"); %>     
+<jsp:useBean id="questionDto" class="com.plick.support.QuestionDto"></jsp:useBean>    
+<jsp:setProperty property="*" name="questionDto"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +27,12 @@ function sendRequest(){
 <body>
 <%@ include file="/header.jsp" %>
 <%
+String swAnswer = request.getParameter("swAnswer");
+System.out.println("swAnswer:"+swAnswer);
 String accessType=signedinDto.getMemberAccessType();
-String title = request.getParameter("title");
+if(accessType==null){
+	accessType="";
+}
 if(!accessType.equals("admin")){
 	%>
 	<script>
@@ -36,7 +40,6 @@ if(!accessType.equals("admin")){
 	location.href='/semi2/support/main.jsp';
 	</script>
 	<%
-	
 }
 String page_str = request.getParameter("page");
 if (page_str == null || page_str.equals("")) {
@@ -44,23 +47,24 @@ if (page_str == null || page_str.equals("")) {
 }
 int previousPage = Integer.parseInt(page_str);
 %>
-<div class="subtitle"><h2>답변 게시글 작성</h2></div>
-<form name="writeForm" action="/semi2/support/question/answer_ok.jsp" method="post">
+<div class="subtitle"><h2>1대1 게시글 수정</h2></div>
+<form name="writeForm" action="/semi2/support/question/updateContent_ok.jsp" method="post">
 <div class="support-write-box">
 <div class="support-write-title">
-<input name="title" type="text" placeholder="제목을 입력하세요." value="re:<%=title%>">
+<input name="title" type="text" value="<%=questionDto.getTitle()%>">
+
 </div>
 <div class="support-write-content">
-<textarea name="content" placeholder="본문을 입력하세요."></textarea>
+<textarea name="content"><%=questionDto.getContent()%></textarea>
 </div>
 <div class="support-write-bt">
-<input type="button" value="글쓰기" class="bt" onclick="sendRequest();">
+<input type="button" value="수정" class="bt" onclick="sendRequest();">
 </div>
 </div>
 <input type="hidden" name="memberId" value="<%=signedinDto.getMemberId()%>">
-<input type="hidden" name="parentId" value="<%=request.getParameter("parentId") %>">
+<input type="hidden" name="id" value="<%=questionDto.getId()%>">
 <input name="page" type="hidden" value="<%=previousPage%>">
-<script>window.alert('<%=previousPage%>')</script>
+<input name="swAnswer" type="hidden" value="<%=swAnswer%>">
 </form>
 
 

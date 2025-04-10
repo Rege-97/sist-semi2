@@ -98,7 +98,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 						<%
 						boolean swAnswer = i>=1&&arr.get(i).getParentId()==arr.get(i-1).getParentId(); 
 						%>
-						<a href="/semi2/support/question/showContent.jsp?id=<%=arr.get(i).getId()%>&answer=<%=swAnswer%>">
+						<a href="/semi2/support/question/showContent.jsp?id=<%=arr.get(i).getId()%>&answer=<%=swAnswer%>&page=<%=currentPage%>">
 						<%
 						
 						//답글이면 true 담김

@@ -87,7 +87,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 						<tr class="support-table-body">
 						<td class="support-table-num"><%=arr.get(i).getId() %></td>
 						<td class="support-table-title">
-						<a href="/semi2/support/faq/showContent.jsp?id=<%=arr.get(i).getId()%>">
+						<a href="/semi2/support/faq/showContent.jsp?id=<%=arr.get(i).getId()%>&page=<%=currentPage%>">
 						<%=arr.get(i).getTitle() %></a></td>
 						<td class="support-table-create"><%=createAt %></td>
 						<%
