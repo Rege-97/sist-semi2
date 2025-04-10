@@ -382,7 +382,6 @@ table.song-list .song-list-body {
 	border: 1px solid #ff2dac;
 	cursor: pointer;
 	font-family: 'Noto Sans KR', sans-serif;
-
 }
 
 .bt:hover {
@@ -602,8 +601,9 @@ table.song-list .song-list-body {
 	border-radius: 6px;
 	resize: none;
 }
-.comment-page{
-	padding-top:30px;
+
+.comment-page {
+	padding-top: 30px;
 }
 
 .song-detail-table {
@@ -915,7 +915,8 @@ table.song-list .song-list-body {
 .signup-text-name {
 	width: 490px;
 	height: 30px;
-	margin-left: 55px; margin-bottom : 20px;
+	margin-left: 55px;
+	margin-bottom: 20px;
 	background: #131313;
 	border-top: none;
 	border-left: none;
@@ -973,7 +974,7 @@ table.song-list .song-list-body {
 
 .footer-line {
 	margin-top: 30px;
-	margin-bottom:20px;
+	margin-bottom: 20px;
 	width: 995px;
 	height: 10px;
 	border-top: 1px solid #262626;
@@ -981,7 +982,7 @@ table.song-list .song-list-body {
 
 .footer-support {
 	margin-top: 20px;
-	display : flex;
+	display: flex;
 	font-size: 12px;
 	display: flex;
 }
@@ -1029,9 +1030,9 @@ table.song-list .song-list-body {
 
 .search-card-image {
 	width: 150px;
-	height:150px;
+	height: 150px;
 	border-radius: 6px;
-		transition: filter 0.3s ease;
+	transition: filter 0.3s ease;
 }
 
 .search-card-image:hover {
@@ -1042,7 +1043,7 @@ table.song-list .song-list-body {
 .search-card {
 	display: flex;
 	margin-bottom: 40px;
-	margin-right:50px;
+	margin-right: 50px;
 }
 
 /*디테일 카드 이미지 세팅*/
@@ -1057,8 +1058,8 @@ table.song-list .song-list-body {
 
 /*디테일 카드 정보 이름 세팅*/
 .search-card-info-name h2 {
-	font-size:18px;
-	margin-top:0px;
+	font-size: 18px;
+	margin-top: 0px;
 	margin-bottom: 8px;
 }
 
@@ -1072,7 +1073,6 @@ table.song-list .song-list-body {
 .search-card-info-genre {
 	font-size: 13px;
 }
-
 
 /*디테일 카드 정보 날짜 세팅*/
 .search-card-info-date {
@@ -1093,84 +1093,86 @@ table.song-list .song-list-body {
 	filter: brightness(50%);
 }
 
-.artist-name{
-	text-align:center;
-	margin-top:10px;
-}
-.search-title{
-	font-size:20px;
-	font-weight:bold;
-	margin-bottom:30px;
+.artist-name {
+	text-align: center;
+	margin-top: 10px;
 }
 
-.search-title a:hover{
-	color:#ff2dac;
+.search-title {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 30px;
+}
 
-	}
-	
-.rating-card{
-	margin-left:auto;
+.search-title a:hover {
+	color: #ff2dac;
+}
+
+.rating-card {
+	margin-left: auto;
 	text-align: center;
 }
+
 .star-rating {
-  display: flex;
-  height:43px;
+	display: flex;
+	height: 43px;
 }
 
 .star {
-  appearance: none;
+	appearance: none;
 }
 
 .star::after {
-  content: url("/semi2/resources/images/design/star-empty.png");
+	content: url("/semi2/resources/images/design/star-empty.png");
 }
 
 .star:hover::after {
-   content: url("/semi2/resources/images/design/star.png");
+	content: url("/semi2/resources/images/design/star.png");
 }
 
-.star:has(~ .star:hover)::after {
-  content: url("/semi2/resources/images/design/star.png");
+.star:has( ~ .star:hover)::after {
+	content: url("/semi2/resources/images/design/star.png");
 }
 
-.star:checked::after,
-.star:has(~ .star:checked)::after {
-  content: url("/semi2/resources/images/design/star.png");
+.star:checked::after, .star:has( ~ .star:checked)::after {
+	content: url("/semi2/resources/images/design/star.png");
 }
-.rating-title{
-	margin-top:8px;
+
+.rating-title {
+	margin-top: 8px;
 	font-size: 13px;
 	text-align: center;
 }
-.now-rating-box{
+
+.now-rating-box {
 	display: inline-flex;
 	align-items: center;
-	
 }
 
-.now-rating-score{
-	font-size:30px;
-	margin-left:10px;
+.now-rating-score {
+	font-size: 30px;
+	margin-left: 10px;
 }
 
-.submenu-box{
-	
-	display:flex;
+.submenu-box {
+	display: flex;
 	justify-content: center;
 }
-.submenu-box input{
-	margin-left:10px;
-	margin-right:10px;
+
+.submenu-box input {
+	margin-left: 10px;
+	margin-right: 10px;
 }
-.subtitle{
+
+.subtitle {
 	text-align: center;
 }
 
-.support-table{
+.support-table {
 	width: 995px;
 	border-collapse: collapse;
 	border-top: 1px solid #262626;
-	margin-top:30px;
+	margin-top: 30px;
 }
 
 table.support-table th {
@@ -1187,37 +1189,41 @@ table.support-table .support-table-head {
 table.support-table .support-table-body {
 	border-bottom: 1px solid #262626;
 	height: 60px;
-	font-size:13px;
+	font-size: 13px;
 }
 
-.support-table th:nth-child(2)
-	{
+.support-table th:nth-child(2) {
 	text-align: left;
 }
-.support-table-num{
+
+.support-table-num {
 	text-align: center;
 }
-.support-table-create{
+
+.support-table-create {
 	text-align: center;
 }
 
 table.support-table .support-table-foot {
 	text-align: center;
-	height:50px;
+	height: 50px;
 }
-.support-bt{
+
+.support-bt {
 	text-align: right;
 }
-.support-write-box{
+
+.support-write-box {
 	border: 1px solid #262626;
 	border-radius: 6px;
-	width:600px;
-	height:500px;
-	margin:40px auto;
-	padding:40px;	
+	width: 600px;
+	height: 500px;
+	margin: 40px auto;
+	padding: 40px;
 	text-align: center;
 }
-.support-write-title input{
+
+.support-write-title input {
 	width: 100%;
 	height: 30px;
 	margin-bottom: 30px;
@@ -1228,69 +1234,76 @@ table.support-table .support-table-foot {
 	border-bottom: 1px solid #262626;
 	font-family: 'Noto Sans KR', sans-serif;
 	color: white;
-	font-weight:bold;
-	padding:10px;
-	  box-sizing: border-box;
+	font-weight: bold;
+	padding: 10px;
+	box-sizing: border-box;
 }
-.support-write-content textarea,.support-view-content{
+
+.support-write-content textarea, .support-view-content {
 	width: 100%;
-	height:400px;
+	height: 400px;
 	resize: none;
 	margin-bottom: 20px;
 	background: #131313;
 	border: 1px solid #262626;
-	border-radius:6px;
-	font-family: 'Noto Sans KR', sans-serif;
-	color: white;
-	padding:10px;
-	  box-sizing: border-box;
-}
-.support-write-bt{
-	text-align: center;
-	margin-bottom:20px;
-}
-.support-view-box{
-		border: 1px solid #262626;
 	border-radius: 6px;
-	width:600px;
-	height:490px;
-	margin:40px auto;
-	padding:40px;	
-	text-align: left;
-}
-.support-view-title{
-	width: 100%;
-	height: 30px;
-	margin-bottom:20px;
-	background: #131313;
-	font-size:20px;
 	font-family: 'Noto Sans KR', sans-serif;
 	color: white;
-	font-weight:bold;
-	padding-left:10px;
-	  box-sizing: border-box;
-	  
+	padding: 10px;
+	box-sizing: border-box;
 }
-.support-view-date{
-	color: #666666;
-	font-size: 12px;
-	margin-left:5px;
-	margin-bottom:20px;
+
+.support-write-bt {
+	text-align: center;
+	margin-bottom: 20px;
 }
-.support-view-date-box{
-	display:flex;
-}
-.support-view-box-answer{
+
+.support-view-box {
 	border: 1px solid #262626;
 	border-radius: 6px;
-	width:600px;
-	height:490px;
-	margin:40px auto;
-	padding:40px;	
+	width: 600px;
+	height: 490px;
+	margin: 40px auto;
+	padding: 40px;
 	text-align: left;
 }
-.bt-answer{
+
+.support-view-title {
+	width: 100%;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	font-size: 20px;
+	font-family : 'Noto Sans KR', sans-serif;
+	color: white;
+	font-weight: bold;
+	padding-left: 10px;
+	box-sizing: border-box;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+.support-view-date {
+	color: #666666;
+	font-size: 12px;
+	margin-left: 5px;
+	margin-bottom: 20px;
+}
+
+.support-view-date-box {
+	display: flex;
+}
+
+.support-view-box-answer {
+	border: 1px solid #262626;
+	border-radius: 6px;
+	width: 600px;
+	height: 490px;
+	margin: 40px auto;
+	padding: 40px;
+	text-align: left;
+}
+
+.bt-answer {
 	text-align: right;
-	margin-left:360px;
-	
+	margin-left: 360px;
 }
