@@ -11,10 +11,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-	function showAlertAndGoLoginPage(message) {
-		window.alert(message);
-		window.location.href = "/semi2/member/signin.jsp";
+function showAlertAndGoLoginPage(message) {
+	window.alert(message);
+	if (window.parent && typeof window.parent.closeModal === 'function') {
+	  	window.parent.closeModal();
+	}else{
+		window.close();
 	}
+}
 	function showAlertAndGoBack(message) {
 		window.alert(message);
 		window.history.back();
@@ -74,8 +78,9 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 				value="<%=playlistPreviews.size() + 1%>번 플레이리스트" /> <input
 				type="button" value="X"
 				onclick="document.getElementById('playlistNameText').value = '';" />
-				<input type="hidden" id="songid" name="songid" value="<%=request.getParameter("songid") %>"/>
-			<br /> <input type="button"
+			<input type="hidden" id="songid" name="songid"
+				value="<%=request.getParameter("songid")%>" /> <br /> <input
+				type="button"
 				onclick="window.location.href='popup-list.jsp?songid=<%=songId%>';"
 				value="취소" /> <input type="submit" value="확인" />
 		</form>
