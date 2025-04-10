@@ -149,6 +149,8 @@ header {
 /*이미지,텍스트 요소 카드 div*/
 .gallery-card, .gallery-card-last {
 	margin-right: 30px;
+	width:175px;
+	
 }
 
 .gallery-card-last {
@@ -203,6 +205,8 @@ header {
 /*카드 내 앨범 이름*/
 .gallery-card-album-name {
 	margin-bottom: 5px;
+	padding-left:5px;
+	padding-right:5px;
 }
 
 .gallery-card-album-name a:hover {
@@ -213,6 +217,8 @@ header {
 .gallery-card-artist-name {
 	font-size: 13px;
 	margin-bottom: 20px;
+		padding-left:5px;
+	padding-right:5px;
 }
 
 .gallery-card-artist-name a:hover {
@@ -1306,4 +1312,44 @@ table.support-table .support-table-foot {
 .bt-answer {
 	text-align: right;
 	margin-left: 360px;
+}
+.gallery-card-artist-name-myplaylist{
+		font-size: 13px;
+	margin-bottom: 20px;
+	display:flex;
+		padding-left:5px;
+	padding-right:5px;
+}
+.playlist-delete,.playlist-delete-hover{
+	margin-left:10px;
+	margin-top:2px;
+	height:18px;
+}
+
+.myplaylist-icon-group {
+	width: 30px;
+	height: 30px;
+	margin: 0px auto;
+	position: relative;
+}
+
+.myplaylist-icon-group img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.playlist-delete-hover {
+	opacity: 0;
+}
+
+.myplaylist-icon-group:hover .playlist-delete {
+	opacity: 0;
+}
+
+.myplaylist-icon-group:hover .playlist-delete-hover {
+	opacity: 1;
+}
+#playlist-{
+	text-align:center;
 }

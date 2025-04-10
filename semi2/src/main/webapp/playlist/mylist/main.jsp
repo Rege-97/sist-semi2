@@ -2,8 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.plick.playlist.mylist.PlaylistMylistDao"%>
 <%@page import="com.plick.signedin.SignedinDto"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -36,51 +35,59 @@ PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
 List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 		.findPlaylistPreviewsOrderByCreatedAtByMemberId(loggedinUserId);
 %>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
-	<h1>내 플레이리스트</h1>
-	<div>
-		<a
-			href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트"><img
-			src="/semi2/resources/images/playlist/add-playlist.jpg" width="100" /></a>
-
-		<a
-			href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트">새로운
-			플레이리스트 만들기</a>
+	<div class="categorey-name">
+			<label>내 플레이리스트</label>
+		</div>
+	
+	<div class="gallery">
+	<div class="gallery-card">
+		<a href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트">
+		<img src="/semi2/resources/images/playlist/add-playlist.jpg" class="gallery-card-album-image" /></a>
+		 <a href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트">
+		 </a><div class ="gallery-card-album-name" id="playlist-">플레이리스트 추가</div>
 	</div>
 	<%
 	// 플레이리스트 하나씩 나열
 	for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
 	%>
-	<div>
-		<a
-			href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>">
-			<img
-			src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
-		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"
-			width="100">
+	<div class="gallery-card">
+	<div class="gallery-card-album-image-group">
+		<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"> <img src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
+		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"  class="gallery-card-album-image">
 		</a>
-
-		<h3>
-			<a
-				href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
-		</h3>
-		<div>
-			<a
-				href="/semi2/playlist/mylist/delete_ok.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"
-				onclick="return confirmAction('정말 삭제하시겠습니까?');">조그맣고귀엽게생긴삭제기능사진넣어주세요</a>
+		<div class="gallery-card-album-image-play">
+			<a href="#">
+				<img src="/semi2/resources/images/design/album-play.png" class="play-default">
+				<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+			</a>
 		</div>
-
-		<h3><%=playlistPreview.getMemberNickname()%>
+	</div>
+		<div class ="gallery-card-album-name">
+			<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
+		</div>
+		
+	<div class="gallery-card-artist-name-myplaylist">
+		<div><%=playlistPreview.getMemberNickname()%>
 			|
 			<%=playlistPreview.getSongCount()%>곡
-		</h3>
-
+		</div>
+		<div>
+			<a href="/semi2/playlist/mylist/delete_ok.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>" onclick="return confirmAction('정말 삭제하시겠습니까?');">
+			<div class="myplaylist-icon-group">
+			<img src="/semi2/resources/images/design/playlist-delete.png" class="playlist-delete">
+			<img src="/semi2/resources/images/design/playlist-delete-hover.png" class="playlist-delete-hover">
+			</div>
+			</a>
+		</div>
+	</div>
 	</div>
 	<%
 	}
 	%>
-
+</div>
 	<%@include file="/footer.jsp"%>
 
 </body>
