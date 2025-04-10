@@ -99,81 +99,117 @@
 // 사용자가 드래그를 시작 했을 때만 컴포넌트 위의 마우스 상대 좌표를 가지고 있어야 함
 var canvas = document.getElementById("profileCanvas");
 var	ctx = canvas.getContext("2d");
-var canvasEXs = 0;
-var canvasEYs = 0;
 var canvasE = document.getElementById("profileCanvasEditer");
 var	ctxE = canvasE.getContext("2d");
 var canvasEX = 0;
 var canvasEY = 0;
+var canvasEXs = 0;
+var canvasEYs = 0;
+var Posx = 0;
+var Posy = 0;
+
 
 var newImg;
 var eventPermit = false;
 var areaDiv = -1;
 
-canvas.width = 300;
-canvas.height = 300;
+canvasE.width = (canvas.width = 300);
+canvasE.height = (canvas.height = 300);
 
 
-// 에디터 캔버스 마스킹 이미지
-var width = (canvasE.width = canvas.width);
-var height = (canvasE.height = canvas.height);
-const centerX = width / 2;
-const centerY = height / 2;
-const radius = Math.min(width, height) / 2.5;
 
-//1. 전체 회색 배경
-ctxE.fillStyle = "#808080";
-ctxE.fillRect(0, 0, width, height);
-// 2. 원형 투명 영역 만들기
-ctxE.globalCompositeOperation = "destination-out";
-ctxE.beginPath();
-ctxE.arc(centerX, centerY, radius, 0, Math.PI * 2);
-ctxE.fill();
+reloadCtxE(0, 0);
+
+// 에디터 캔버스 랜더링
+function reloadCtxE(w, h){
+	var width = (canvasE.width += w);
+	var height = (canvasE.height += h);
+	const centerX = width / 2;
+	const centerY = height / 2;
+	const radius = Math.min(width, height) / 2.5;
+	
+	//1. 전체 회색 배경
+	ctxE.fillStyle = "#808080";
+	ctxE.fillRect(0, 0, width, height);
+	// 2. 원형 투명 영역 만들기
+	ctxE.globalCompositeOperation = "destination-out";
+	ctxE.beginPath();
+	ctxE.arc(centerX, centerY, radius, 0, Math.PI * 2);
+	ctxE.fill();
+}
+
+// canvas 이동 함수 Css 작성하면서 같이 구현해야 할듯
+function moveCanvas(x, y) {
+    posX += x;
+    posY += y;
+    canvasE.style.transform = "translate("+posX+"px, "+posY+"px)";
+    
+}
 
 	// canvas 에디터 제어 함수
-	// 에디터는 실제 사진과 같은 크기로 시작해서 
 	canvasE.addEventListener("mousedown", function(event){
-		canvasEX = event.offsetX; 
-        canvasEY = event.offsetY;
-		if(canvasEX < 8 && canvasEY < 8){
+		const rect = canvasE.getBoundingClientRect();
+		canvasEXs = event.pageX; 
+		canvasEYs = event.pageY;
+		
+        if(canvasEXs <= rect.left+10 && canvasEYs <= rect.top+10){
+        	console.log("Div=1");
 			areaDiv = 1;
 			eventPermit = true;
-		}else if(canvasEX < 8 && canvasEY > canvasE.height-8){
+		}else if(canvasEXs <= rect.left+10 && canvasEYs >= rect.bottom-10){
+			console.log("Div=2");
 			areaDiv = 2;
 			eventPermit = true;
-		}else if(canvasEX > canvasE.width-8 && canvasEY < 8){
+		}else if(canvasEXs >= rect.right-10 && canvasEYs <= rect.top+10){
+			console.log("Div=3");
 			areaDiv = 3;
 			eventPermit = true;
-		}else if(canvasEX > canvasE.width-8 && canvasEY > canvasE.height-8){
+		}else if(canvasEXs >= rect.right-10 && canvasEYs >= rect.bottom-10){
+			console.log("Div=4");
 			areaDiv = 4;
 			eventPermit = true;
-		}
-	})
-	canvasE.addEventListener("mousemove", function(event){
-		if(eventPermit){
-	        const rect = canvas.getBoundingClientRect();
-	        canvasEX = event.offsetX; 
-	        canvasEY = event.offsetY;  
-	        console.log("X:"+canvasXE+"Y:"+canvasEY);
-	        
-	        switch(areaDiv){
-	    	case 1: 
-	    		ctxE.width += 
-	    		ctxX.height
-	    	}    
-	        // drowImage의 속성은 img, x, y
-	})
-	canvasE.addEventListener("mouseup", function(event){
-		eventPermit = false;
-		if(eventPermit){
-	        const rect = canvasE.getBoundingClientRect();
-	        canvasEX = event.offsetX; 
-	        canvasEY = event.offsetY;  
-	        // drowImage의 속성은 img, x, y
-	        ctx.drawImage(newImg, canvasEX, canvasEY, canvasE.width, canvasE.height, 0, 0, canvas.width, canvas.height);
+		}else{
+			console.log("Div=5");
+			eventPermit = true;
 		}
 		
 	})
+	canvas.addEventListener("mousemove", function(event){
+		if(eventPermit){
+	        const rect = canvas.getBoundingClientRect();
+	        canvasEX = event.pageX;
+	        canvasEY = event.pageY;  
+	        
+	        const deltaX = (canvasEXs - canvasEX)/2;
+	        const deltaY = (canvasEYs - canvasEY)/2;
+	
+	        switch(areaDiv){
+	    		case 1: 
+	    			reloadCtxE(deltaX, deltaY);
+	    			break;
+	    		case 2: 
+	    			reloadCtxE(deltaX, -deltaY);
+	    			break;
+	    		case 3:
+	    			reloadCtxE(-deltaX, deltaY);
+	    			break;
+	    		case 4:
+	    			reloadCtxE(-deltaX, -deltaY);
+	    			break;
+	    		case 5:
+	    			moveCanvas(deltaX, deltaY);
+	    			break;
+	    		default:
+	    	}    
+	        canvasEXs = canvasEX;
+			canvasEYs = canvasEY;
+	        console.log("X:"+deltaX+"Y:"+deltaY);
+		}
+	})
+	window.addEventListener("mouseup", function(event){
+		eventPermit = false;
+	})
+	
 
 
 // canvas 시작 이미지 설정
