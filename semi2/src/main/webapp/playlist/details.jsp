@@ -219,6 +219,15 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 					<!-- 리스트 -->
 					<col style="width: 40px;">
 					<!-- 다운로드 -->
+					<%
+					if (isOwnedPlaylist) {
+					%>
+					<col style="width: 40px;">
+					<!-- 삭제 -->
+					<%
+					}
+					%>
+
 				</colgroup>
 				<thead>
 					<tr class="song-list-head">
@@ -228,6 +237,13 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 						<th>듣기</th>
 						<th>내 리스트</th>
 						<th>다운로드</th>
+						<%
+						if (isOwnedPlaylist) {
+						%>
+						<th>삭제</th>
+						<%
+						}
+						%>
 					</tr>
 				</thead>
 				<tbody>
@@ -243,7 +259,7 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 					%>
 					<tr class="song-list-body">
 						<td>
-							<div class="song-list-row"><%=i + 1%></div>
+							<div class="song-list-row"><%=sortedSongs.get(i).getTurn()%></div>
 						</td>
 						<td>
 							<div class="song-list-album-image">
@@ -298,6 +314,23 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 								</a>
 							</div>
 						</td>
+						<%
+						if (isOwnedPlaylist) {
+						%>
+						<td>
+							<div class="icon-group">
+								<a
+									href="song-delete_ok.jsp?playlistid=<%=sortedSongs.get(i).getPlaylistId()%>&playlistsongid=<%=sortedSongs.get(i).getId()%>&turn=<%=sortedSongs.get(i).getTurn()%>">
+									<img src="/semi2/resources/images/design/playlist-delete.png"
+									class="icon-default"> <img
+									src="/semi2/resources/images/design/playlist-delete-hover.png"
+									class="icon-hover">
+								</a>
+							</div>
+						</td>
+						<%
+						}
+						%>
 					</tr>
 
 					<%
