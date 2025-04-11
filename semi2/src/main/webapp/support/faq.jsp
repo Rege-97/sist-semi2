@@ -107,7 +107,9 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					int endPageNum = currentGroup==pageGroupCount?totalPage:(currentGroup-1) * 5 + 5;
 					for (int i=startPageNum; i<=endPageNum;i++){
 						%>
+						<div class="<%=currentPage==i?"page-number-bold":"page-number" %>">
 						<a href="/semi2/support/faq.jsp?page=<%=i%>"><%=i %></a>
+						</div>
 						<%
 					}
 					%>

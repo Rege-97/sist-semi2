@@ -70,24 +70,30 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					%>
 
 				</div>
-				<div>
+			<div class="paging">
 				<%
 				String lt = currentGroup == 1 ? "" : "&lt;&lt;";
 				%>
 				<%
 				String gt = currentGroup == pageGroupCount ? "" : "&gt;&gt;";
 				%>
+				<div class="left-page">
 				<a href="/semi2/search/searchArtist.jsp?search=<%=search %>&page=<%=(currentGroup - 1) * 5%>"><%=lt%></a>
+				</div>
 				<%
 				int startPageNum = (currentGroup - 1) * 5 + 1;
 				int endPageNum = currentGroup == pageGroupCount ? totalPage : (currentGroup - 1) * 5 + 5;
 				for (int i = startPageNum; i <= endPageNum; i++) {
 				%>
+				<div class="<%=currentPage==i?"page-number-bold":"page-number" %>">
 				<a href="/semi2/search/searchArtist.jsp?search=<%=search %>&page=<%=i%>"><%=i%></a>
+				</div>
 				<%
 				}
 				%>
+				<div class="right-page">
 				<a href="/semi2/search/searchArtist.jsp?search=<%=search %>&page=<%=currentGroup * 5 + 1%>"><%=gt%></a>
+				</div>
 			</div>
 	</article>
 	</section>
