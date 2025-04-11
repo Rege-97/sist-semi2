@@ -15,6 +15,7 @@ public class PlaylistDetailDto {
 	private long likeCount;
 	private List<PlaylistSongDto> playlistSongDtos;
 	private List<PlaylistCommentDto> playlistCommentDtos;
+	private boolean isLiked;
 
 	public PlaylistDetailDto(int memberId, String nickname, String accessType, int playlistId, String playlistName,
 			Timestamp createdAt, String mood1, String mood2, long likeCount, List<PlaylistSongDto> playlistSongDtos,
@@ -75,6 +76,14 @@ public class PlaylistDetailDto {
 
 	public List<PlaylistCommentDto> getPlaylistCommentDtos() {
 		return playlistCommentDtos;
+	}
+
+	public void setIsLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+
+	public boolean getIsLiked() {
+		return isLiked;
 	}
 
 }

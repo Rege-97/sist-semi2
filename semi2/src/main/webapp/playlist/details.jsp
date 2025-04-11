@@ -85,8 +85,15 @@ String playlistId = request.getParameter("playlistid");
 if (playlistId == null || playlistId.isEmpty()) {
 	playlistId = "0";
 }
+
+// 로그인 검증
+SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
+int loggedinUserId = loggedinUser == null || loggedinUser.getMemberId() == 0 ? -1 : loggedinUser.getMemberId();
+
 PlaylistDao playlistDao = new PlaylistDao();
-PlaylistDetailDto playlistDetailDto = playlistDao.findPlaylistDetailByPlaylistId(Integer.parseInt(playlistId));
+PlaylistDetailDto playlistDetailDto = loggedinUserId > 0
+		? playlistDao.findPlaylistDetailByPlaylistId(Integer.parseInt(playlistId), loggedinUserId)
+		: playlistDao.findPlaylistDetailByPlaylistId(Integer.parseInt(playlistId));
 
 if (playlistDetailDto == null) {
 %>
@@ -97,8 +104,6 @@ if (playlistDetailDto == null) {
 return;
 }
 //로그인 한 유저가 이 플레이리스트의 소유자인지 확인, 수정권한을 부여하기 위함
-SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
-int loggedinUserId = loggedinUser == null || loggedinUser.getMemberId() == 0 ? -1 : loggedinUser.getMemberId();
 boolean isOwnedPlaylist = loggedinUserId == playlistDetailDto.getMemberId() ? true : false;
 // 댓글 리스트
 List<PlaylistCommentDto> commentDtos = playlistDetailDto.getPlaylistCommentDtos();//갯수를 지정해서 가져와야함.
@@ -118,6 +123,8 @@ mood.append(" ");
 mood.append(playlistDetailDto.getMood2() == null ? "" : playlistDetailDto.getMood2());
 // 플레이리스트 사진을 위한 첫번째 곡 앨범아이디, 없으면 0
 int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orElse(0);
+// 로그인 한 유저가 좋아요를 누른 상태면 true
+boolean isLiked = playlistDetailDto.getIsLiked();
 %>
 
 <body>
@@ -201,11 +208,10 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 
 								<input type="hidden" name="playlistid" value="<%=playlistId%>" />
 								<button type="submit" id="confirm-btn">확인</button>
-								<button type="button" id="cancel-btn"
-									onclick="cancelMoodEdit()">취소</button>
+								<button type="button" id="cancel-btn" onclick="cancelMoodEdit()">취소</button>
 							</div>
 						</form>
-		<script>
+						<script>
 	    // 최대 2개 선택 제한
 	    document.querySelectorAll('input[name="mood"]').forEach(cb => {
 	      cb.addEventListener('change', () => {
@@ -257,9 +263,15 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 							</a>
 						</div>
 						<div class="icon-group-likes">
-							<a href="#"> <img
-								src="/semi2/resources/images/design/likes-icon.png"
-								class="likes-icon">
+							<a href="likes_ok.jsp?playlistid=<%=playlistId%>"> <%
+ if (isLiked) {
+ %> <img src="/semi2/resources/images/design/likes-icon.png"
+								class="likes-icon" /> <%
+ } else {
+ %> <img src="/semi2/resources/images/design/likes-default-icon.png"
+								class="likes-icon" /> <%
+ }
+ %>
 							</a>
 							<div class="likes-count">
 								<%=likeCount%>
