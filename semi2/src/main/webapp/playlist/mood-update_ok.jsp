@@ -28,9 +28,17 @@ int loggedinUserId = loggedinUser.getMemberId();
 
 // get으로 플레이리스트에서 지울 노래 정보를 가져옴
 String playlistIdParam = request.getParameter("playlistid");
-String playlistName = request.getParameter("playlistname");
+String[] selectedMoods = request.getParameterValues("mood"); 
+String[] moods = new String[2];
+
+if (selectedMoods != null) {
+    for (int i = 0; i < selectedMoods.length && i < 2; i++) {
+        moods[i] = selectedMoods[i];
+    }
+}
+
 int playlistId = -1;
-if (playlistIdParam == null || playlistName == null || playlistIdParam.isEmpty() || playlistName.isEmpty()) {
+if (playlistIdParam == null || playlistIdParam.isEmpty()) {
 %>
 <script>
 	showAlertAndGoBack("파라미터가 유효하지 않습니다.");
@@ -51,10 +59,10 @@ return;
 }
 
 PlaylistDao playlistDao = new PlaylistDao();
-if (!playlistDao.updatePlaylistNameByPlaylistId(playlistId, playlistName, loggedinUserId)) {
+if (!playlistDao.updatePlaylistMoodsByPlaylistId(playlistId, moods[0], moods[1], loggedinUserId)) {
 %>
 <script>
-	showAlertAndGoBack('플레이리스트 이름 수정이 실패했습니다.');
+	showAlertAndGoBack('플레이리스트 분위기 수정이 실패했습니다.');
 </script>
 <%
 return;
