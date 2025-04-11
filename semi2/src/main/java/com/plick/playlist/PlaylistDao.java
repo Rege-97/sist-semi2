@@ -193,4 +193,37 @@ public class PlaylistDao {
 		}
 	}
 
+	public boolean updatePlaylistNameByPlaylistId(int playlistId, String playlistName, int memberId) {
+		String sql = "UPDATE playlists SET name = ? WHERE id = ? AND member_id = ? ";
+
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setString(1, playlistName);
+			pstmt.setInt(2, playlistId);
+			pstmt.setInt(3, memberId);
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * mood1 mood2 에는 null이 들어갈 수 있음.
+	 * */
+	public boolean updatePlaylistMoodsByPlaylistId(int playlistId, String mood1, String mood2, int memberId) {
+		String sql = "UPDATE playlists SET mood1 = ?, mood2 = ? WHERE id = ? AND member_id = ? ";
+		
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setString(1, mood1);
+			pstmt.setString(2, mood2);
+			pstmt.setInt(3, playlistId);
+			pstmt.setInt(4, memberId);
+			return pstmt.executeUpdate() > 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
 }

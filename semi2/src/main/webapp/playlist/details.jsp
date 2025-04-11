@@ -43,6 +43,17 @@
 		document.getElementById("cancel-btn").style.display = "none";
 		document.getElementById("edit-icon-link").style.display = "inline";
 	}
+    function toggleMoodEdit(e) {
+        e.preventDefault();
+        document.getElementById('mood-display').style.display = 'none';
+        document.getElementById('mood-edit-section').style.display = 'block';
+      }
+
+      function cancelMoodEdit() {
+        document.getElementById('mood-display').style.display = 'block';
+        document.getElementById('mood-edit-section').style.display = 'none';
+      }
+
 </script>
 <style>
 #name-input {
@@ -58,7 +69,7 @@
 	background: none;
 	border: none;
 	color: white;
-	font-size: 1rem;
+	font-size: 14px;
 	cursor: pointer;
 	margin-left: 5px;
 }
@@ -126,12 +137,12 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 							<%
 							if (isOwnedPlaylist) {
 							%>
-							<form id="edit-form" method="post"
-								action="/semi2/playlist/editName" style="display: inline;">
+							<form id="edit-form" method="get" action="name-update_ok.jsp"
+								style="display: inline;">
 								<span id="name-text" style="color: white;"><%=playlistName%></span>
-								<input type="text" name="newName" id="name-input"
+								<input type="text" name="playlistname" id="name-input"
 									value="<%=playlistName%>" style="display: none;" /> <input
-									type="hidden" name="playlistId" value="<%=playlistId%>" />
+									type="hidden" name="playlistid" value="<%=playlistId%>" />
 
 								<!-- 확인/취소 버튼 -->
 								<button type="submit" id="confirm-btn" style="display: none;">확인</button>
@@ -158,7 +169,64 @@ int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orE
 						<a
 							href="/semi2/artist/main.jsp?memberid=<%=playlistDetailDto.getMemberId()%>"><%=playlistDetailDto.getNickname()%></a>
 					</div>
-					<div class="detail-card-info-genre"><%=mood.toString().trim()%></div>
+					<div class="detail-card-info-genre">
+						<%
+						if (isOwnedPlaylist) {
+							String[] selectedMoods = mood.toString().trim().split(" ");
+							Set<String> selectedSet = new HashSet<>(Arrays.asList(selectedMoods));
+							String[] allMoods = {"신나는", "잔잔한", "감성적인", "슬플 때", "달달한", "상쾌한", "몽환적인"};
+						%>
+
+						<form id="mood-form" method="get" action="mood-update_ok.jsp"
+							style="display: inline;">
+							<div id="mood-display">
+								<%=mood.toString().trim()%>
+								<a href="#" id="edit-mood-link" onclick="toggleMoodEdit(event)">
+									<img src="/semi2/resources/images/design/playlist-edit.png"
+									width="20" height="20" />
+								</a>
+							</div>
+
+							<div id="mood-edit-section" style="display: none;">
+								<%
+								for (String m : allMoods) {
+								%>
+								<label style="color: white; margin-right: 8px;"> <input
+									type="checkbox" name="mood" value="<%=m%>"
+									<%=selectedSet.contains(m.trim()) ? "checked" : ""%> /> <%=m%>
+								</label>
+								<%
+								}
+								%>
+
+								<input type="hidden" name="playlistid" value="<%=playlistId%>" />
+								<button type="submit" id="confirm-btn">확인</button>
+								<button type="button" id="cancel-btn"
+									onclick="cancelMoodEdit()">취소</button>
+							</div>
+						</form>
+		<script>
+	    // 최대 2개 선택 제한
+	    document.querySelectorAll('input[name="mood"]').forEach(cb => {
+	      cb.addEventListener('change', () => {
+	        const checked = document.querySelectorAll('input[name="mood"]:checked');
+	        if (checked.length > 2) {
+	          alert("분위기는 최대 2개까지만 선택할 수 있습니다.");
+	          cb.checked = false;
+	        }
+	      });
+	    });
+	  </script>
+
+
+						<%
+						} else {
+						%>
+						<%=mood.toString().trim()%>
+						<%
+						}
+						%>
+					</div>
 					<div class="detail-card-info-date">
 						생성일 :
 						<%=formattedCreatedAt%>
