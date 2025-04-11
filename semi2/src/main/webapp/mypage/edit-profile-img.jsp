@@ -14,6 +14,21 @@
 <meta charset="UTF-8">
 <title>프로필 사진 변경</title>
 <jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
+<style>
+#imgEditer {
+	position: relative;
+	display: inline-block;
+}
+#imgEditer canvas:first-of-type{
+	display: block;
+}
+#imgEditer canvas:nth-of-type(2) {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	pointer-events: none;
+}
+</style>
 </head>
 <body onload = "loadCanvas();">
 	<%@ include file="/header.jsp"%>
@@ -83,8 +98,10 @@
 	}
 	%>
 <fieldset>
+<div id = "imgEditer">
 	<canvas id = "profileCanvas"></canvas> 
 	<canvas id = "profileCanvasEditer"></canvas>
+</div>
 	<form action = "edit_profile-img_ok.jsp" method = "post">
 		<input style = "display: none;" type = "file" id = "editNewProfileImg" name = "editProfileImg" onchange = "changeEditImg();" accept="image/png, image/jpeg">
 		<input type = "hidden" id = "img64" name = "img64">
@@ -105,8 +122,8 @@ var canvasEX = 0;
 var canvasEY = 0;
 var canvasEXs = 0;
 var canvasEYs = 0;
-var Posx = 0;
-var Posy = 0;
+var posX = 0;
+var posY = 0;
 
 
 var newImg;
@@ -115,8 +132,6 @@ var areaDiv = -1;
 
 canvasE.width = (canvas.width = 300);
 canvasE.height = (canvas.height = 300);
-
-
 
 reloadCtxE(0, 0);
 
@@ -142,46 +157,66 @@ function reloadCtxE(w, h){
 function moveCanvas(x, y) {
     posX += x;
     posY += y;
-    canvasE.style.transform = "translate("+posX+"px, "+posY+"px)";
-    
+    canvasE.style.left = posX+"px";
+    canvasE.style.top = posY+"px";
 }
 
 	// canvas 에디터 제어 함수
-	canvasE.addEventListener("mousedown", function(event){
-		const rect = canvasE.getBoundingClientRect();
-		canvasEXs = event.pageX; 
-		canvasEYs = event.pageY;
+	canvas.addEventListener("mousedown", function(event){
 		
-        if(canvasEXs <= rect.left+10 && canvasEYs <= rect.top+10){
+		var rect = canvas.getBoundingClientRect();
+		var rectE = canvasE.getBoundingClientRect();
+		
+		canvasEXs = event.clientX; 
+		canvasEYs = event.clientY;
+		
+        if((canvasEXs <= rectE.left+10 && canvasEYs <= rectE.top+10) && (canvasEXs > rectE.left && canvasEYs > rectE.top)){
         	console.log("Div=1");
 			areaDiv = 1;
 			eventPermit = true;
-		}else if(canvasEXs <= rect.left+10 && canvasEYs >= rect.bottom-10){
+		}else if((canvasEXs <= rectE.left+10 && canvasEYs >= rectE.bottom-10) && (canvasEXs > rectE.left && canvasEYs < rectE.bottom)){
 			console.log("Div=2");
 			areaDiv = 2;
 			eventPermit = true;
-		}else if(canvasEXs >= rect.right-10 && canvasEYs <= rect.top+10){
+		}else if((canvasEXs >= rectE.right-10 && canvasEYs <= rectE.top+10) && (canvasEXs < rectE.right && canvasEYs > rectE.top)){
 			console.log("Div=3");
 			areaDiv = 3;
 			eventPermit = true;
-		}else if(canvasEXs >= rect.right-10 && canvasEYs >= rect.bottom-10){
+		}else if((canvasEXs >= rectE.right-10 && canvasEYs >= rectE.bottom-10) && (canvasEXs < rectE.right && canvasEYs < rectE.bottom)){
 			console.log("Div=4");
 			areaDiv = 4;
 			eventPermit = true;
 		}else{
 			console.log("Div=5");
+			areaDiv = 5;
 			eventPermit = true;
 		}
 		
 	})
 	canvas.addEventListener("mousemove", function(event){
+		canvasE.style.pointerEvents = "auto";
 		if(eventPermit){
-	        const rect = canvas.getBoundingClientRect();
-	        canvasEX = event.pageX;
-	        canvasEY = event.pageY;  
+			
+			var rect = canvas.getBoundingClientRect();
+			var rectE = canvasE.getBoundingClientRect();
+			
+	        // canvasE의 사이즈와 좌표를 canvas 안으로 제한 너무 어려워따..
+	        canvasPaddingMinX = (canvasEXs - rectE.left);
+	        canvasPaddingMaxX = (canvasEXs - rectE.right);
+	        canvasPaddingMinY = (canvasEYs - rectE.top);
+	        canvasPaddingMaxY = (canvasEYs - rectE.bottom);
 	        
-	        const deltaX = (canvasEXs - canvasEX)/2;
-	        const deltaY = (canvasEYs - canvasEY)/2;
+	        // 크기 조절용
+	        canvasEX = Math.max(rect.left, Math.min(event.clientX, rect.right));
+	        canvasEY = Math.max(rect.top, Math.min(event.clientY, rect.bottom));
+	        const deltaX = canvasEXs - canvasEX;
+	        const deltaY = canvasEYs - canvasEY;
+	        
+	        // 이동용
+	        canvasEXMove = Math.max(rect.left + canvasPaddingMinX, Math.min(event.clientX, rect.right + canvasPaddingMaxX));
+	        canvasEYMove = Math.max(rect.top + canvasPaddingMinY, Math.min(event.clientY, rect.bottom + canvasPaddingMaxY));
+	        const deltaXMove = canvasEXs - canvasEXMove;
+	        const deltaYMove = canvasEYs - canvasEYMove;
 	
 	        switch(areaDiv){
 	    		case 1: 
@@ -197,18 +232,19 @@ function moveCanvas(x, y) {
 	    			reloadCtxE(-deltaX, -deltaY);
 	    			break;
 	    		case 5:
-	    			moveCanvas(deltaX, deltaY);
+	    			moveCanvas(-deltaXMove, -deltaYMove);
 	    			break;
 	    		default:
 	    	}    
 	        canvasEXs = canvasEX;
 			canvasEYs = canvasEY;
-	        console.log("X:"+deltaX+"Y:"+deltaY);
 		}
+		canvasE.style.pointerEvents = "none";
 	})
 	window.addEventListener("mouseup", function(event){
 		eventPermit = false;
 	})
+
 	
 
 
@@ -245,6 +281,7 @@ function changeEditImg() {
 }
 
 function canvasToBase64() {
+	ctx.drawImage(newImg, 0, 0, canvas.width, canvas.height, canvasEX, canvasEY, cnavasE.width, canvasE,height);
 	document.getElementById("img64").value = canvas.toDataURL("image/jpeg");
 }
 </script>
