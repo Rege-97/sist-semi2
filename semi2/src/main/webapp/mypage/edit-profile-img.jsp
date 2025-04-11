@@ -126,19 +126,33 @@ var posX = 0;
 var posY = 0;
 
 
+var rect = canvas.getBoundingClientRect();
+var rectE = canvasE.getBoundingClientRect();
+
 var newImg;
 var eventPermit = false;
 var areaDiv = -1;
 
+//부모 캔버스의 크기 설정
 canvasE.width = (canvas.width = 300);
 canvasE.height = (canvas.height = 300);
 
 reloadCtxE(0, 0);
 
 // 에디터 캔버스 랜더링
-function reloadCtxE(w, h){
+function reloadCtxE(w, h, div){
 	var width = (canvasE.width += w);
 	var height = (canvasE.height += h);
+	
+	if (div == 1){
+		moveCanvas(-w, -h);
+	}else if (div == 2){
+		moveCanvas(-w, 0);
+	}else if (div == 3){
+		moveCanvas(0, -h);
+	}
+	
+	
 	const centerX = width / 2;
 	const centerY = height / 2;
 	const radius = Math.min(width, height) / 2.5;
@@ -163,9 +177,7 @@ function moveCanvas(x, y) {
 
 	// canvas 에디터 제어 함수
 	canvas.addEventListener("mousedown", function(event){
-		
-		var rect = canvas.getBoundingClientRect();
-		var rectE = canvasE.getBoundingClientRect();
+		rectE = canvasE.getBoundingClientRect();
 		
 		canvasEXs = event.clientX; 
 		canvasEYs = event.clientY;
@@ -197,8 +209,8 @@ function moveCanvas(x, y) {
 		canvasE.style.pointerEvents = "auto";
 		if(eventPermit){
 			
-			var rect = canvas.getBoundingClientRect();
-			var rectE = canvasE.getBoundingClientRect();
+			rect = canvas.getBoundingClientRect();
+			rectE = canvasE.getBoundingClientRect();
 			
 	        // canvasE의 사이즈와 좌표를 canvas 안으로 제한 너무 어려워따..
 	        canvasPaddingMinX = (canvasEXs - rectE.left);
@@ -220,16 +232,16 @@ function moveCanvas(x, y) {
 	
 	        switch(areaDiv){
 	    		case 1: 
-	    			reloadCtxE(deltaX, deltaY);
+	    			reloadCtxE(deltaX, deltaY, areaDiv);
 	    			break;
 	    		case 2: 
-	    			reloadCtxE(deltaX, -deltaY);
+	    			reloadCtxE(deltaX, -deltaY, areaDiv);
 	    			break;
 	    		case 3:
-	    			reloadCtxE(-deltaX, deltaY);
+	    			reloadCtxE(-deltaX, deltaY, areaDiv);
 	    			break;
 	    		case 4:
-	    			reloadCtxE(-deltaX, -deltaY);
+	    			reloadCtxE(-deltaX, -deltaY, areaDiv);
 	    			break;
 	    		case 5:
 	    			moveCanvas(-deltaXMove, -deltaYMove);
@@ -273,6 +285,7 @@ function changeEditImg() {
 				ctx.drawImage(tempImg, 0, 0, canvas.width, canvas.height);
 			}
 			tempImg.src = e.target.result;
+			newImg = tempImg;
 		}
 		reader.readAsDataURL(newImg);
 	}else{
@@ -281,8 +294,21 @@ function changeEditImg() {
 }
 
 function canvasToBase64() {
-	ctx.drawImage(newImg, 0, 0, canvas.width, canvas.height, canvasEX, canvasEY, cnavasE.width, canvasE,height);
-	document.getElementById("img64").value = canvas.toDataURL("image/jpeg");
+	// 이미지와 캔버스의 크기가 다르므로 비율이 필요
+	const scaleX = newImg.width / canvas.width;
+	const scaleY = newImg.height / canvas.height;
+	
+	// 캔버스를 새로 만들어서 사용하지 않으면 자른 이미지가 기존 이미지 위에 덧붙여지기만 한다
+	const tempCanvas = document.createElement("canvas");
+	tempCanvas.width = canvasE.width;
+	tempCanvas.height = canvasE.height;
+	const tempCtx = tempCanvas.getContext("2d");
+	
+	
+	// 이미지 자를 영역과 그릴 영역
+	tempCtx.drawImage(newImg, parseInt(canvasE.style.left)*scaleX, parseInt(canvasE.style.top)*scaleY, canvasE.width*scaleX, canvasE.height*scaleY, 
+			0, 0, canvasE.width, canvasE.height);
+	document.getElementById("img64").value = tempCanvas.toDataURL("image/jpeg");
 }
 </script>
 </body>
