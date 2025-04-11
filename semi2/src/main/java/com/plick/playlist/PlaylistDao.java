@@ -9,14 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.plick.db.DBConnector;
-import com.plick.dto.Album;
-import com.plick.dto.Playlist;
-import com.plick.dto.PlaylistComment;
-import com.plick.dto.Song;
 
 public class PlaylistDao {
 
+	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId, int loggedInUserId) {
+		try (Connection conn = DBConnector.getConn();) {
+			PlaylistDetailDto playlistDetailDto = findPlaylistDetail(playlistId, conn);
+			if (playlistDetailDto != null && loggedInUserId > 0) {
+				playlistDetailDto.setIsLiked(hasLikeFromLikesByPlaylistIdAndMemberId(playlistId, loggedInUserId, conn));
+			}
+			return playlistDetailDto;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId) {
+		return findPlaylistDetailByPlaylistId(playlistId, -1);
+	}
+
+	private PlaylistDetailDto findPlaylistDetail(int playlistId, Connection conn) {
 		String sql = "SELECT  " + "    p.id AS playlist_id, " + "    p.member_id AS playlist_member_id, "
 				+ "    p.name AS playlist_name, " + "    p.created_at AS playlist_created_at, "
 				+ "    p.mood1 AS playlist_mood1, " + "    p.mood2 AS playlist_mood2, "
@@ -31,7 +44,7 @@ public class PlaylistDao {
 				+ "LEFT JOIN songs s ON ps.song_id = s.id " + "LEFT JOIN albums a ON a.id = s.album_id "
 				+ " LEFT JOIN members m2 ON m2.id = a.member_id " + "WHERE  " + "    p.id = ? ";
 
-		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
 			try (ResultSet rs = pstmt.executeQuery();) {
 				if (!rs.next()) {
@@ -66,6 +79,22 @@ public class PlaylistDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private boolean hasLikeFromLikesByPlaylistIdAndMemberId(int playlistId, int memberId, Connection conn) {
+		String sql = "SELECT * FROM likes WHERE playlist_id = ? AND member_id = ? ";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, playlistId);
+			pstmt.setInt(2, memberId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				if (rs.next()) {
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	private long findLikeCountByPlaylistId(int playlistId, Connection conn) {
@@ -209,10 +238,10 @@ public class PlaylistDao {
 
 	/**
 	 * mood1 mood2 에는 null이 들어갈 수 있음.
-	 * */
+	 */
 	public boolean updatePlaylistMoodsByPlaylistId(int playlistId, String mood1, String mood2, int memberId) {
 		String sql = "UPDATE playlists SET mood1 = ?, mood2 = ? WHERE id = ? AND member_id = ? ";
-		
+
 		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, mood1);
 			pstmt.setString(2, mood2);
@@ -224,6 +253,41 @@ public class PlaylistDao {
 			e.printStackTrace();
 		}
 		return false;
-
 	}
+
+	public boolean updateLikeByPlaylistIdAndMemberId(int playlistId, int memberId) {
+		try (Connection conn = DBConnector.getConn();) {
+			return hasLikeFromLikesByPlaylistIdAndMemberId(playlistId, memberId, conn)
+					? deleteLikeByPlaylistIdAndMemberId(playlistId, memberId, conn)
+					: addLikeByPlaylistIdAndMemberId(playlistId, memberId, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean deleteLikeByPlaylistIdAndMemberId(int playlistId, int memberId, Connection conn) {
+		String sql = "DELETE FROM likes WHERE playlist_id = ? AND member_id = ? ";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, playlistId);
+			pstmt.setInt(2, memberId);
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean addLikeByPlaylistIdAndMemberId(int playlistId, int memberId, Connection conn) {
+		String sql = "INSERT INTO likes (member_id, playlist_id, created_at) VALUES (?, ?, SYSTIMESTAMP)";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			pstmt.setInt(2, playlistId);
+			return pstmt.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
