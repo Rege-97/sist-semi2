@@ -165,6 +165,37 @@ function reloadCtxE(w, h, div){
 	ctxE.beginPath();
 	ctxE.arc(centerX, centerY, radius, 0, Math.PI * 2);
 	ctxE.fill();
+	
+	// 3. 그 이후 다시 겹칠 수 있도록 설정 복원
+	ctxE.globalCompositeOperation = "source-over";
+
+	// 4. 꼭짓점 점 그리기
+	const dotSize = 10;
+	const dotRadius = dotSize / 2;
+
+	const offset = dotRadius + 1; // 안쪽으로 들어오게 하기 위한 여백
+
+	ctxE.fillStyle = "#ff0000"; // 마커 색상
+
+	// 좌상단
+	ctxE.beginPath();
+	ctxE.arc(offset, offset, dotRadius, 0, Math.PI * 2);
+	ctxE.fill();
+
+	// 우상단
+	ctxE.beginPath();
+	ctxE.arc(width - offset, offset, dotRadius, 0, Math.PI * 2);
+	ctxE.fill();
+
+	// 좌하단
+	ctxE.beginPath();
+	ctxE.arc(offset, height - offset, dotRadius, 0, Math.PI * 2);
+	ctxE.fill();
+
+	// 우하단
+	ctxE.beginPath();
+	ctxE.arc(width - offset, height - offset, dotRadius, 0, Math.PI * 2);
+	ctxE.fill();
 }
 
 // canvas 이동 함수 Css 작성하면서 같이 구현해야 할듯
