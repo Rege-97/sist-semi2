@@ -5,7 +5,6 @@
 	pageEncoding="UTF-8"%>
 
 <script>
-	
 	function showAlertAndGoLoginPage(message) {
 		window.alert(message);
 		if (window.parent && typeof window.parent.closeModal === 'function') {
@@ -46,6 +45,7 @@ if (!playlistMylistDao.addPlaylistByMemberId(loggedinUserId, playlistName)) {
 return;
 }
 
-response.sendRedirect("/semi2/playlist/mylist/popup-list.jsp?songid="+request.getParameter("songid"));
+response.sendRedirect("/semi2/playlist/mylist/popup-list.jsp?"+request.getParameter("type") + "id="
+		+ request.getParameter("id"));
 %>
 

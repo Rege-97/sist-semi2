@@ -5,14 +5,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
-function showAlertAndGoLoginPage(message) {
-	window.alert(message);
-	if (window.parent && typeof window.parent.closeModal === 'function') {
-	  	window.parent.closeModal();
-	}else{
-		window.close();
+	function showAlertAndGoLoginPage(message) {
+		window.alert(message);
+		if (window.parent && typeof window.parent.closeModal === 'function') {
+			window.parent.closeModal();
+		} else {
+			window.close();
+		}
 	}
-}
 	function showAlertAndGoBack(message) {
 		window.alert(message);
 		window.history.back();
@@ -35,11 +35,14 @@ return;
 }
 %>
 <%
-String songIdParam = request.getParameter("songid");
+String type = request.getParameter("type");
+String idParam = request.getParameter("id");
 String playlistIdParam = request.getParameter("playlistid");
-int songId = -1;
 int playlistId = -1;
-if (songIdParam == null || playlistIdParam == null || songIdParam.isEmpty() || playlistIdParam.isEmpty()) {
+int id = -1;
+
+if (type == null || idParam == null || playlistIdParam == null || type.isEmpty() || idParam.isEmpty()
+		|| playlistIdParam.isEmpty()) {
 %>
 <script>
 	showAlertAndGoBack("파라미터가 유효하지 않습니다.");
@@ -47,23 +50,33 @@ if (songIdParam == null || playlistIdParam == null || songIdParam.isEmpty() || p
 <%
 return;
 }
+
 try {
-songId = Integer.parseInt(songIdParam);
+id = Integer.parseInt(idParam);
 playlistId = Integer.parseInt(playlistIdParam);
 } catch (NumberFormatException e) {
 %>
 <script>
-	showAlertAndGoBack("<%=e.getMessage()%>
-	");
+	showAlertAndGoBack("잘못된 접근: 파라미터에 정수만 전달가능합니다.");
 </script>
 <%
-return;
 }
-%>
-<%
+
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-if (!playlistMylistDao.addSongIntoPlaylist(songId, playlistId)) {
+
+boolean isAdded = false;
+
+if (type.equals("song")) {
+isAdded = playlistMylistDao.addSongIntoPlaylist(id, playlistId);
+} // TODO 앨범 플리 추가 만들어야함.
+else if (type.equals("album")) {
+isAdded = false;
+} else if (type.equals("playlist")) {
+isAdded = false;
+}
+
+if (!isAdded) {
 %>
 <script>
 	showAlertAndGoBack("플레이리스트에 노래 넣기를 실패했습니다.");
@@ -73,10 +86,9 @@ return;
 }
 %>
 <script>
-if (window.parent && typeof window.parent.closeModal === 'function') {
-  window.parent.closeModal();
-}
-else{
-	window.close();
-}
+	if (window.parent && typeof window.parent.closeModal === 'function') {
+		window.parent.closeModal();
+	} else {
+		window.close();
+	}
 </script>
