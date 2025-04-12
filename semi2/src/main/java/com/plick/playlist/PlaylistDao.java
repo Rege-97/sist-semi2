@@ -12,12 +12,13 @@ import com.plick.db.DBConnector;
 
 public class PlaylistDao {
 
-	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId, int loggedInUserId) {
+	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId, int loggedInUserId, int commentLimit) {
 		try (Connection conn = DBConnector.getConn();) {
-			PlaylistDetailDto playlistDetailDto = findPlaylistDetail(playlistId, conn);
+			PlaylistDetailDto playlistDetailDto = findPlaylistDetail(playlistId, conn, commentLimit);
 			if (playlistDetailDto != null && loggedInUserId > 0) {
 				playlistDetailDto.setIsLiked(hasLikeFromLikesByPlaylistIdAndMemberId(playlistId, loggedInUserId, conn));
 			}
+			playlistDetailDto.setCommentCount(findCommentCountByPlaylistId(playlistId, conn));
 			return playlistDetailDto;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -25,11 +26,11 @@ public class PlaylistDao {
 		return null;
 	}
 
-	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId) {
-		return findPlaylistDetailByPlaylistId(playlistId, -1);
+	public PlaylistDetailDto findPlaylistDetailByPlaylistId(int playlistId, int commentLimit) {
+		return findPlaylistDetailByPlaylistId(playlistId, -1, commentLimit);
 	}
 
-	private PlaylistDetailDto findPlaylistDetail(int playlistId, Connection conn) {
+	private PlaylistDetailDto findPlaylistDetail(int playlistId, Connection conn, int commentLimit) {
 		String sql = "SELECT  " + "    p.id AS playlist_id, " + "    p.member_id AS playlist_member_id, "
 				+ "    p.name AS playlist_name, " + "    p.created_at AS playlist_created_at, "
 				+ "    p.mood1 AS playlist_mood1, " + "    p.mood2 AS playlist_mood2, "
@@ -70,7 +71,7 @@ public class PlaylistDao {
 								rs.getString("album_member_nickname"), rs.getInt("album_member_id")));
 					}
 				} while (rs.next());
-				List<PlaylistCommentDto> playlistCommentDtos = findPlaylistCommentDtosByPlaylistId(playlistId, conn);
+				List<PlaylistCommentDto> playlistCommentDtos = findPlaylistCommentDtosByPlaylistId(playlistId, conn, commentLimit);
 
 				return new PlaylistDetailDto(memberId, nickname, accessType, playlistId, playlistName, createdAt, mood1,
 						mood2, likeCount, playlistSongDtos, playlistCommentDtos);
@@ -112,27 +113,43 @@ public class PlaylistDao {
 		return -1L;
 	}
 
-	private List<PlaylistCommentDto> findPlaylistCommentDtosByPlaylistId(int playlistId, Connection conn) {
-		String sql = "SELECT  " + "    pc.id AS playlist_comment_id, "
-				+ "    pc.member_id AS playlist_comment_member_id, "
-				+ "    pc.playlist_id AS playlist_comment_playlist_id, "
-				+ "    pc.content AS playlist_comment_content, " + "    pc.created_at AS playlist_comment_created_at, "
-				+ "    pc.parent_id AS playlist_comment_parent_id, " + "    m.id AS member_id, "
-				+ "    m.nickname AS member_nickname, " + "    m.access_type AS member_access_type " + "FROM "
-				+ "    playlist_comments pc " + "LEFT JOIN  " + "    members m ON pc.member_id = m.id " + "WHERE  "
-				+ "    pc.playlist_id = ?";
+	private int findCommentCountByPlaylistId(int playlistId, Connection conn) {
+		String sql = "SELECT COUNT(*) AS total_count " + "FROM playlist_comments WHERE playlist_id = ? ";
+
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, playlistId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+
+				return rs.next() ? rs.getInt("total_count") : -1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	private List<PlaylistCommentDto> findPlaylistCommentDtosByPlaylistId(int playlistId, Connection conn, int commentLimit) {
+		String sql = "SELECT ROWNUM, inner_result.* " + "FROM ( " + "    SELECT " + "        c.id AS comment_id, "
+				+ "        c.member_id AS member_id, " + "        c.playlist_id AS playlist_id, "
+				+ "        c.content AS content, " + "        c.created_at AS created_at, "
+				+ "        c.parent_id AS parent_id, " + "        m.nickname AS member_nickname "
+				+ "    FROM playlist_COMMENTS c " + "    JOIN MEMBERS m ON c.MEMBER_ID = m.ID "
+				+ "    WHERE c.PLAYLIST_ID = ? " + "    ORDER BY "
+				+ "        CASE WHEN c.PARENT_ID = 0 THEN c.ID ELSE c.PARENT_ID END DESC, "
+				+ "        CASE WHEN c.PARENT_ID = 0 THEN 0 ELSE 1 END, " + "        c.ID ASC " + ") inner_result "
+				+ "WHERE ROWNUM <= ? ";
 
 		List<PlaylistCommentDto> playlistCommentDtos = new ArrayList<PlaylistCommentDto>();
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
+			pstmt.setInt(2, commentLimit);
 
 			try (ResultSet rs = pstmt.executeQuery();) {
 
 				while (rs.next()) {
 					playlistCommentDtos.add(new PlaylistCommentDto(rs.getInt("member_id"),
-							rs.getString("member_nickname"), rs.getInt("playlist_comment_id"),
-							rs.getInt("playlist_comment_playlist_id"), rs.getString("playlist_comment_content"),
-							rs.getTimestamp("playlist_comment_created_at"), rs.getInt("playlist_comment_parent_id")));
+							rs.getString("member_nickname"), rs.getInt("comment_id"), rs.getInt("playlist_id"),
+							rs.getString("content"), rs.getTimestamp("created_at"), rs.getInt("parent_id")));
 				}
 
 			}
@@ -290,4 +307,20 @@ public class PlaylistDao {
 		return false;
 	}
 
+	public boolean addComment(int playlistId, int memberId, String content, int parentId) {
+		String sql = "INSERT " + "INTO playlist_comments "
+				+ "VALUES(seq_playlist_comments_id.NEXTVAL, ?, ?, ?, SYSTIMESTAMP, ? )";
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			pstmt.setInt(2, playlistId);
+			pstmt.setString(3, content);
+			pstmt.setInt(4, parentId);
+
+			return pstmt.executeUpdate() > 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

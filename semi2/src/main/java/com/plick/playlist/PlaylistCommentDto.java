@@ -2,8 +2,6 @@ package com.plick.playlist;
 
 import java.sql.Timestamp;
 
-import com.plick.dto.PlaylistComment;
-
 public class PlaylistCommentDto {
 	private int memberId;
 	private String nickname;
