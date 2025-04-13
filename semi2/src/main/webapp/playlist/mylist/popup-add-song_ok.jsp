@@ -73,7 +73,7 @@ isAdded = playlistMylistDao.addSongIntoPlaylist(id, playlistId);
 else if (type.equals("album")) {
 isAdded = playlistMylistDao.addAlbumIntoPlaylist(id, playlistId);
 } else if (type.equals("playlist")) {
-isAdded = false;
+isAdded = playlistMylistDao.addAnoterPlaylistIntoMyPlaylist(id, playlistId);
 }
 
 if (!isAdded) {
