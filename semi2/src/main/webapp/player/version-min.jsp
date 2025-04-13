@@ -10,12 +10,15 @@
 </head>
 <body>
 <%
+
+
 // 쿠키에서 로컬 플리 정보를 받아와서 매핑해야 함
+
 ArrayList<String> songs = new ArrayList<String>();
-songs.add("Adele - Skyfall.mp3");
-songs.add("Lady Gaga - Bloody Mary.mp3");
-songs.add("Matt Maltese - As the World.mp3");
-songs.add("The Weeknd - Die For You.mp3");
+songs.add("1.mp3");
+songs.add("2.mp3");
+songs.add("3.mp3");
+songs.add("4.mp3");
 
 StringBuilder sb = new StringBuilder();
 for (int i = 0; i < songs.size(); i++){
@@ -23,19 +26,18 @@ for (int i = 0; i < songs.size(); i++){
 	if (i < songs.size()-1) sb.append(",&");
 }
 String songsUrl = URLEncoder.encode(sb.toString(), "UTF-8");
-songsUrl = songsUrl.replaceAll("\\+", "%20");
-System.out.println(songsUrl);
+
 
 %>
 <label>앨범 커버</label>
 <label>곡 명</label>
 <label>아티스트</label>
-<audio id = "audio"></audio>
+<audio id = "audio" preload="auto"></audio>
 <input type = "button" value = "플레이 리스트에 추가">
-<input type = "button" value = "셔플ON" onclick = "addShuffle(this);">
-<input type = "button" value = "이전 곡">
+<input type = "button" value = "셔플ON" onclick = "addShuffle();">
+<input type = "button" value = "이전 곡" onclick = "palyPrevious();">
 <input type = "button" value = "재생" onclick = "musicPlay(this);">
-<input type = "button" value = "다음 곡">
+<input type = "button" value = "다음 곡" onclick = "playNext();">
 <input type = "button" value = "트랙 반복/한 곡 반복/반복 비활성화" onclick = "addLoop(this);">
 <label>재생 바</label>
 <input type = "button" value = "음소거">
@@ -49,14 +51,24 @@ System.out.println(songsUrl);
 var audios = [];
 var audiosStr = "<%=songsUrl %>";
 audios = audiosStr.split("%2C%26");
+
+for (var i = 0; i < audios.length; i++){
+	console.log(audios[i]);
+}
 var playingIdx = 0;
+
+
 
 //맴버 변수로 사용하는 오디오 인스터스
 var frontPath = "/semi2/player/audios/";
 var audio = document.getElementById("audio");
 audio.src = frontPath+audios[playingIdx];
+console.log("현재 재생 경로: " + audio.src);
 
 
+audio.addEventListener("canplaythrough", () => {
+	console.log('오디오 로드 완료');
+})
 
 // 해당 곡이 끝나면 트랙의 다음 곡 재생
 audio.addEventListener("ended", () => {
@@ -74,6 +86,7 @@ var looptypes = ["트랙 반복", "한 곡 반복", "반복 없음"];
 // 재생 버튼 로직
 function musicPlay(pb) {
 	if (pb.value == "재생"){
+		audio.load();
 		audio.play();
 		console.log(audio.src);
 	}
@@ -119,6 +132,18 @@ function addShuffle(sb) {
 		
 		sb.value = "셔플ON";
 	}
+}
+
+function playNext() {
+	playingIdx = playingIdx == audios.length-1 ? 0 : ++playingIdx;
+	audio.src = frontPath+audios[playingIdx];
+	audio.play();
+}
+
+function palyPrevious() {
+	playingIdx = playingIdx == 0 ? 0 : --playingIdx;
+	audio.src = frontPath+audios[playingIdx];
+	audio.play();
 }
 </script>
 </body>
