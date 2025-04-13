@@ -34,13 +34,13 @@ String songsUrl = URLEncoder.encode(sb.toString(), "UTF-8");
 <label>아티스트</label>
 <audio id = "audio" preload="auto"></audio>
 <input type = "button" value = "플레이 리스트에 추가">
-<input type = "button" value = "셔플ON" onclick = "addShuffle();">
+<input type = "button" value = "셔플ON" onclick = "addShuffle(this);">
 <input type = "button" value = "이전 곡" onclick = "palyPrevious();">
-<input type = "button" value = "재생" onclick = "musicPlay(this);">
+<input type = "button" id = "play" value = "재생" onclick = "musicPlay();">
 <input type = "button" value = "다음 곡" onclick = "playNext();">
-<input type = "button" value = "트랙 반복/한 곡 반복/반복 비활성화" onclick = "addLoop(this);">
+<input type = "button" id = "loop" value = "반복 없음" onclick = "addLoop();">
 <label>재생 바</label>
-<input type = "button" value = "음소거">
+<input type = "button" value = "음소거" onclick = "mute(this);">
 <input type = "button" value = "가사">
 <input type = "button" value = "재생목록">
 <label>음량 바</label>
@@ -51,11 +51,9 @@ String songsUrl = URLEncoder.encode(sb.toString(), "UTF-8");
 var audios = [];
 var audiosStr = "<%=songsUrl %>";
 audios = audiosStr.split("%2C%26");
-
-for (var i = 0; i < audios.length; i++){
-	console.log(audios[i]);
-}
 var playingIdx = 0;
+var playButton = document.getElementById("play");
+var loopButton = document.getElementById("loop");
 
 
 
@@ -63,74 +61,75 @@ var playingIdx = 0;
 var frontPath = "/semi2/player/audios/";
 var audio = document.getElementById("audio");
 audio.src = frontPath+audios[playingIdx];
-console.log("현재 재생 경로: " + audio.src);
+var volume = audio.volume;
 
+//반복 기능 설정
+var looptypes = ["트랙 반복", "한 곡 반복", "반복 없음"];
 
 audio.addEventListener("canplaythrough", () => {
 	console.log('오디오 로드 완료');
 })
 
-// 해당 곡이 끝나면 트랙의 다음 곡 재생
 audio.addEventListener("ended", () => {
-	console.log("현재 곡:"+audio.src);
-	console.log("재생 끝?:"+audio.ended);
-	console.log("일시정지 중?:"+audio.paused);
-	playingIdx = playingIdx == audios.length-1 ? 0 : ++playingIdx;
-	audio.src = frontPath+audios[playingIdx];
-	audio.play();
+	if(loopButton.value == looptypes[0]){
+		playingIdx = playingIdx == audios.length-1 ? 0 : ++playingIdx;
+		audio.src = frontPath+audios[playingIdx];
+		audio.play();
+	}else if(loopButton.value == looptypes[1]){
+		audio.play();
+	}else if(loopButton.value == looptypes[2]){
+		playButton.value = "재생";
+	}
+	
 })
 
-// 반복 기능 설정
-var looptypes = ["트랙 반복", "한 곡 반복", "반복 없음"];
+function mute(muteButton) {
+	if (muteButton.value == "음소거"){
+		audio.volume = 0.0;
+		muteButton.value = volume*10;
+	}else{
+		audio.volume = volume;
+		muteButton.value = "음소거";
+	}
+}
 
 // 재생 버튼 로직
-function musicPlay(pb) {
-	if (pb.value == "재생"){
+function musicPlay() {
+	if (playButton.value == "재생"){
 		audio.load();
 		audio.play();
 		console.log(audio.src);
 	}
-	if (pb.value == "일시정지") audio.pause();
-	pb.value = pb.value == "재생" ? "일시정지" : "재생";
+	if (playButton.value == "일시정지") audio.pause();
+	playButton.value = playButton.value == "재생" ? "일시정지" : "재생";
 }
 // 반복 기능 함수
-function addLoop(lb) {
-	// audios에 쿠키에 저장된 재생 목록을 저장해서 트랙 반복 시킴
-	if (lb.value == looptypes[0]) {
-		for (var i = 0; i < <%=0 %>; i++){
-			audios = push("세션에 저장된 src");
-		}
-	}
-	// audios에 한 곡의 정보만 저장해서 한 곡 반복 시킴
-	if (lb.value == looptypes[1]){
-		audios = push("세션에 저장된 src");
-	}
-	if (lb.value == looptypes[2]){
-		for (var i = 0; i < looptypes.length; i++){
-			if (lb.value == looptypes[i]) lb.value = looptypes[i+1 >= looptypes.length ? 0 : i+1];
+function addLoop() {
+	for (var i = 0; i < looptypes.length; i++){
+		if (loopButton.value == looptypes[i]) {
+			loopButton.value = looptypes[i+1 >= looptypes.length ? 0 : i+1];
+			break;
 		}
 	}
 }
+
 // 셔플 기능 함수
 function addShuffle(sb) {
 	tempAudios = [];
-	audios = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	
-	
-	if (sb.value == "셔플ON"){
+	if (sb.value == "셔플OFF"){
 		for (var i = audios.length-1; i >= 0; i--){
 			var randomNum = Math.floor(Math.random()*i);
-			//난수 생성 후 마지막 인덱스랑 난수 발생 부분을 변경 이후 숫자 중복 바지
+			//난수 생성 후 마지막 인덱스랑 난수 발생 부분을 변경 이후 숫자 중복 방지
 			var temp = audios[i];
 			audios[i] = audios[randomNum];
 			audios[randomNum] = temp;
 			tempAudios.push(audios[i]);
 		} 
 		audios = tempAudios;
-		sb.value = "셔플OFF";
-	}else{
-		
 		sb.value = "셔플ON";
+	}else{
+		sb.value = "셔플OFF";
 	}
 }
 
