@@ -1196,6 +1196,11 @@ table.song-list .song-list-body {
 .subtitle {
 	text-align: center;
 }
+.subtitle-sub {
+	text-align: center;
+	margin-bottom:20px;
+	margin-top:15px;
+}
 
 .support-table {
 	width: 995px;
@@ -1390,4 +1395,40 @@ table.support-table .support-table-foot {
 .page-number-bold a {
 	color: #ff2dac;
 	font-weight: bold;
+}
+
+.mypage-artist-image {
+	width: 140px;
+	margin-bottom: 5px;
+	border-radius: 999px;
+	transition: filter 0.3s ease;
+	display: block;
+	margin:20px auto;
+}
+.subtitle-sub label{
+	margin-right:10px;
+}
+.profile-change-card{
+	text-align: center;
+}
+
+.mypage-text {
+	width: 130px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	margin-right: 10px;
+}
+.profile-change-card-input{
+	margin-top:20px;
+}
+.img-edtior{
+	margin-bottom:30px;
+
 }
