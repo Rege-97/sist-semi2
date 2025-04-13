@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@page import="java.util.concurrent.TimeUnit"%>
+<%@page import="com.plick.mypage.MypageDao"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,8 @@
 	}
 </script>
 <body>
-	<jsp:include page="/header.jsp"></jsp:include>
+	<%@ include file="/header.jsp"%>
+	<%@ include file="/mypage/mypage-header.jsp"%>
 	<div class="login-box">
 		<div class="signup-title">이용약관</div>
 		<iframe src="useterms.jsp" class="terms"></iframe>

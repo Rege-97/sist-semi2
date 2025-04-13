@@ -6,23 +6,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
+
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
+	<%@ include file="/header.jsp"%>
+	<%@ include file="/mypage/mypage-header.jsp"%>
 <%
 Calendar now = Calendar.getInstance();
 %>
-<fieldset>
+	<div class=profile-change-card>
+	<div class="subtitle">
+			<h2>앨범 등록</h2>
+		</div>
 	<form action="song-form.jsp?first=true" method = "post">
 	<img name = "albumCover" onclick = "addAlbumCover();">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover">
 	<br>
-	<input type = "text" name = "name" placeholder="앨범제목">
-	<input type = "text" name = "description" placeholder="앨범소개">
-	<input type = "text" name = "memberName" value = "<%=signedinDto.getMemberNickname() %>">
+	<div>
+	<input type = "text" name = "name" placeholder="앨범제목" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "description" placeholder="앨범소개" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "memberName" value = "<%=signedinDto.getMemberNickname() %>" class="login-text">
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
-	<label>발매예정일</label>
-	<select id = "year" name = "year" onchange = "releaseMonthChanged();">
+	</div>
+	<div class="subtitle">
+	<h3>발매예정일</h3>
+	</div>
+	<div>
+	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
 <%
 for (int i = now.get(Calendar.YEAR); i <= now.get(Calendar.YEAR)+2; i++){
 %>
@@ -31,7 +46,7 @@ for (int i = now.get(Calendar.YEAR); i <= now.get(Calendar.YEAR)+2; i++){
 }
 %>
 	</select>
-	<select id = "month" name = "month" onchange = "releaseDateChanged();">
+	<select id = "month" name = "month" onchange = "releaseDateChanged();" class="album-select">
 <%
 for (int i = now.get(Calendar.MONTH)+1; i <= 12; i++){
 %>
@@ -40,7 +55,7 @@ for (int i = now.get(Calendar.MONTH)+1; i <= 12; i++){
 }
 %>
 	</select>
-	<select id = "date" name = "date">
+	<select id = "date" name = "date" class="album-select">
 <%
 for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF_MONTH); i++){
 %>
@@ -49,28 +64,57 @@ for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF
 }
 %>
 	</select>
+	</div>
+		<div class="subtitle">
+	<h3>장르 선택</h3>
+	</div>
 	<iframe style = "display: none;" src = "album-form_hidden.jsp" id = "releaseDateCal"></iframe>
-	<select id = "genre1" onchange = "inputGenre1();">
+	<div class="genre-select">
+	<select id = "genre1" onchange = "inputGenre1();" class="album-select">
 	<option disabled selected>장르선택</option>
-	<option>장르1</option>
-	<option>장르2</option>
-	<option>장르3</option>
+	<option>발라드</option>
+	<option>알앤비</option>
+	<option>힙합</option>
+	<option>아이돌</option>
+	<option>재즈</option>
+	<option>팝</option>
+	<option>클래식</option>
+	<option>댄스</option>
+	<option>인디</option>
+	<option>락</option>
 	</select>
-	<select id = "genre2" onchange = "inputGenre2();">
+	<select id = "genre2" onchange = "inputGenre2();" class="album-select">
 	<option disabled selected>장르선택</option>
-	<option>장르1</option>
-	<option>장르2</option>
-	<option>장르3</option>
+	<option>발라드</option>
+	<option>알앤비</option>
+	<option>힙합</option>
+	<option>아이돌</option>
+	<option>재즈</option>
+	<option>팝</option>
+	<option>클래식</option>
+	<option>댄스</option>
+	<option>인디</option>
+	<option>락</option>
 	</select>
-	<select id = "genre3" onchange = "inputGenre3();">
+	<select id = "genre3" onchange = "inputGenre3();" class="album-select">
 	<option disabled selected>장르선택</option>
-	<option>장르1</option>
-	<option>장르2</option>
-	<option>장르3</option>
+	<option>발라드</option>
+	<option>알앤비</option>
+	<option>힙합</option>
+	<option>아이돌</option>
+	<option>재즈</option>
+	<option>팝</option>
+	<option>클래식</option>
+	<option>댄스</option>
+	<option>인디</option>
+	<option>락</option>
 	</select>
-	<input type = "submit" value = "다음">
+	</div>
+	<div>
+	<input type = "submit" value = "다음" class="bt">
+	</div>
 	</form>
-</fieldset>
+</div>
 <script>
 function addAlbumCover() {
 	document.getElementById("inputAlbumCover").click();
@@ -116,5 +160,6 @@ function inputGenre3() {
 	genre.name = "genre"+(genre.selectedIndex+1);
 }
 </script>
+	<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>
