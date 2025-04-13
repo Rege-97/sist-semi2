@@ -1391,10 +1391,15 @@ table.support-table .support-table-foot {
 	justify-content: center;
 	display: flex;
 }
+.page-number{
+	margin-right:10px;
+	
+}
 
 .page-number-bold a {
 	color: #ff2dac;
 	font-weight: bold;
+	margin-right:10px;
 }
 
 .mypage-artist-image {
@@ -1430,5 +1435,48 @@ table.support-table .support-table-foot {
 }
 .img-edtior{
 	margin-bottom:30px;
+}
 
+.request-table {
+	width: 500px;
+	border-collapse: collapse;
+	border-top: 1px solid #262626;
+	margin:30px auto;
+}
+
+table.request-table th {
+	color: #666666;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+table.request-table .support-table-head {
+	border-bottom: 1px solid #262626;
+	height: 40px;
+}
+
+table.request-table .support-table-body {
+	border-bottom: 1px solid #262626;
+	height: 50px;
+	font-size: 13px;
+}
+
+
+.support-table-num {
+	text-align: center;
+}
+
+.support-table-create {
+	text-align: center;
+}
+
+table.request-table .support-table-foot {
+	text-align: center;
+	height: 50px;
+}
+
+.checkbox {
+	width: 12px;
+	accent-color: #ff2dac;
+	margin-right: 5px;
 }
