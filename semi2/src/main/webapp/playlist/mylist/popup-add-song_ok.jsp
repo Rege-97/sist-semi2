@@ -71,7 +71,7 @@ if (type.equals("song")) {
 isAdded = playlistMylistDao.addSongIntoPlaylist(id, playlistId);
 } // TODO 앨범 플리 추가 만들어야함.
 else if (type.equals("album")) {
-isAdded = false;
+isAdded = playlistMylistDao.addAlbumIntoPlaylist(id, playlistId);
 } else if (type.equals("playlist")) {
 isAdded = false;
 }
