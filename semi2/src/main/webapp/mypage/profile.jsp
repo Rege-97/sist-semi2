@@ -86,6 +86,9 @@
 	</div>
 	<div class="footer-line"></div>
 	<div class=profile-change-card>
+		<div class="subtitle">
+		<h2>프로필 변경</h2>
+	</div>
 		<img src="/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), signedinDto.getMemberId())%>" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';" class="mypage-artist-image">
 		<!-- 화면 비전환으로 구현예정 추가 브랜치 열어서 작업 예정 -->
 		<div>

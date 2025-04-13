@@ -109,6 +109,9 @@
 	</div>
 	<div class="footer-line"></div>
 	<div class=profile-change-card>
+			<div class="subtitle">
+		<h2>프로필 사진 변경</h2>
+	</div>
 	<div id = "imgEditer" class="img-edtior">
 	<canvas id = "profileCanvas"></canvas> 
 	<canvas id = "profileCanvasEditer"></canvas>
