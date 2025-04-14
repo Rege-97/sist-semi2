@@ -167,7 +167,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 <body>
 	<%@include file="/header.jsp"%>
-	<%@include file="/playlist/mylist/modal.jsp"%>
+	
 	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<section>
 		<article>

@@ -47,6 +47,6 @@ if (signedinDto.getMemberId()!=0){
 	<%
 }
 %> 
-
+<%@include file="/playlist/mylist/modal.jsp"%>
 </nav>
 </header>

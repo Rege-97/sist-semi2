@@ -115,7 +115,7 @@ if (cp % pageSize == 0)
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
+							<a href="#" onclick="openModal('albumid',<%=dto.getId()%>); return false;">
 								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">						
 							</a>
@@ -225,7 +225,7 @@ if (cp % pageSize == 0)
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#">
+								<a href="#" onclick="openModal('songid',<%=arr.get(i).getId()%>); return false;">
 								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">
 								</a>
