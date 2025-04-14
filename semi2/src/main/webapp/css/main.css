@@ -11,12 +11,14 @@
 
 /*기본 세팅*/
 body {
-	background: #131313;
-	color: white;
-	width: 995px;
-	margin: 0px auto;
-	font-family: 'Noto Sans KR', sans-serif;
+  background: #131313;
+  color: white;
+  width: 995px;
+  margin: 0px auto;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding-top: 0;
 }
+
 
 /*링크 세팅*/
 a {
@@ -28,10 +30,13 @@ a {
 
 /*헤더 공통 세팅*/
 header {
-	position: relative;
-	padding-top: 30px;
-	background: #131313;
-	width: 995px;
+  position: relative;
+  width: 1200px;
+  margin-left: calc(50% - 600px);
+  background: #131313;
+  padding-top: 30px;
+  z-index: 4000;
+  margin-bottom:30px;
 }
 
 /*메뉴 리스트*/
@@ -44,7 +49,7 @@ header {
 /*메뉴 요소*/
 .menu {
 	margin-right: 20px;
-	font-size: 12px;
+	font-size: 15px;
 	cursor: pointer;
 }
 
@@ -61,18 +66,19 @@ header {
 /*검색창 세팅*/
 .search-wrapper {
 	position: relative;
-	width: 300px;
-	margin-left: 50px;
+	width: 250px;
+	margin-left: 110px;
 }
 
 .search-wrapper input[type="text"] {
 	width: 100%;
-	padding: 10px 40px 10px 15px;
+	padding: 4px 30px 4px 12px;
+	font-size: 12px;            
+	line-height: 1.2;            
+	height: 30px;    
 	border-radius: 999px;
 	border: 2px solid black;
-	font-size: 16px;
 	box-sizing: border-box;
-	font-size: 16px;
 }
 
 .search-wrapper input[type="text"]:hover {
@@ -84,7 +90,7 @@ header {
 	top: 50%;
 	right: 10px;
 	transform: translateY(-50%);
-	height: 20px;
+	height: 15px;
 	width: auto;
 	cursor: pointer;
 }
@@ -93,7 +99,7 @@ header {
 .login {
 	display: flex;
 	margin-left: auto;
-	font-size: 12px;
+	font-size: 15px;
 	align-items: center;
 	gap: 10px;
 }
@@ -1196,6 +1202,11 @@ table.song-list .song-list-body {
 .subtitle {
 	text-align: center;
 }
+.subtitle-sub {
+	text-align: center;
+	margin-bottom:20px;
+	margin-top:15px;
+}
 
 .support-table {
 	width: 995px;
@@ -1386,8 +1397,174 @@ table.support-table .support-table-foot {
 	justify-content: center;
 	display: flex;
 }
+.page-number{
+	margin-right:10px;
+	
+}
 
 .page-number-bold a {
 	color: #ff2dac;
 	font-weight: bold;
+	margin-right:10px;
+}
+
+.mypage-artist-image {
+	width: 140px;
+	margin-bottom: 5px;
+	border-radius: 999px;
+	transition: filter 0.3s ease;
+	display: block;
+	margin:20px auto;
+}
+.subtitle-sub label{
+	margin-right:10px;
+}
+.profile-change-card{
+	text-align: center;
+}
+
+.mypage-text {
+	width: 130px;
+	height: 30px;
+	margin-bottom: 20px;
+	background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
+	margin-right: 10px;
+}
+.profile-change-card-input{
+	margin-top:20px;
+}
+.img-edtior{
+	margin-bottom:30px;
+}
+
+.request-table {
+	width: 500px;
+	border-collapse: collapse;
+	border-top: 1px solid #262626;
+	margin:30px auto;
+}
+
+table.request-table th {
+	color: #666666;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+table.request-table .support-table-head {
+	border-bottom: 1px solid #262626;
+	height: 40px;
+}
+
+table.request-table .support-table-body {
+	border-bottom: 1px solid #262626;
+	height: 50px;
+	font-size: 13px;
+}
+
+
+.support-table-num {
+	text-align: center;
+}
+
+.support-table-create {
+	text-align: center;
+}
+
+table.request-table .support-table-foot {
+	text-align: center;
+	height: 50px;
+}
+
+.checkbox {
+	width: 12px;
+	accent-color: #ff2dac;
+	margin-right: 5px;
+}
+.main-banner1 {
+    width: 995px;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    background: black;
+    margin-top:30px;
+}
+
+.slide-container {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-container img {
+    width: 995px;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 12px;
+}
+
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 16px;
+}
+
+.prev-btn { 
+	left: 10px; 
+	 z-index: 10;
+	}
+.next-btn { 
+	right: 10px; 
+	 z-index: 10;
+	}
+.slide-indicators {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.indicator {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+    background: #fff;
+}
+.album-select {
+	width: 77px;
+	height: 30px;
+	margin-left: 10px;
+	border: 1px solid #262626;
+	background: #131313;
+	color: white;
+}
+.genre-select{
+	margin-bottom:30px;
 }

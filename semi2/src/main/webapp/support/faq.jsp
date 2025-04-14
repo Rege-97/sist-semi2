@@ -97,7 +97,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 				</tbody>
 				<tfoot>
 					<tr class="support-table-foot">
-					<td colspan="3">
+					<td colspan="4">
 					<%String lt = currentGroup==1?"":"&lt;&lt;"; %>
 					<%String gt = currentGroup==pageGroupCount?"":"&gt;&gt;"; %>
 					<a href="/semi2/support/faq.jsp?page=<%=(currentGroup-1)*5%>"><%=lt %></a>
@@ -107,9 +107,9 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					int endPageNum = currentGroup==pageGroupCount?totalPage:(currentGroup-1) * 5 + 5;
 					for (int i=startPageNum; i<=endPageNum;i++){
 						%>
-						<div class="<%=currentPage==i?"page-number-bold":"page-number" %>">
+						<span class="<%=currentPage==i?"page-number-bold":"page-number" %>">
 						<a href="/semi2/support/faq.jsp?page=<%=i%>"><%=i %></a>
-						</div>
+						</span>
 						<%
 					}
 					%>

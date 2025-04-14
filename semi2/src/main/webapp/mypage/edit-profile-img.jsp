@@ -1,19 +1,12 @@
-<%@page import="java.util.concurrent.TimeUnit"%>
-<%@page import="java.util.Calendar"%>
-<%@page import="java.sql.Timestamp"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
 <%@page import="com.plick.mypage.MypageDao"%>
 <%@page import="java.io.File"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>프로필 사진 변경</title>
-<jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
 <style>
 #imgEditer {
 	position: relative;
@@ -21,6 +14,7 @@
 }
 #imgEditer canvas:first-of-type{
 	display: block;
+	
 }
 #imgEditer canvas:nth-of-type(2) {
 	position: absolute;
@@ -30,85 +24,34 @@
 }
 </style>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body onload = "loadCanvas();">
 	<%@ include file="/header.jsp"%>
 <%
-	MypageDao mdao = new MypageDao();
+	MypageDao mypageDao = new MypageDao();
 	File oldProfile = new File(request.getRealPath("resources/images/member/"+signedinDto.getMemberId()+"/profile.jpg"));
 	String imgSrc = oldProfile.exists() ? 
 		oldProfile.getPath() : request.getRealPath("resources/images/member/default-profile.jpg");
-	String fileB64 = mdao.fileExportBase64(imgSrc);
+	String fileB64 = mypageDao.fileExportBase64(imgSrc);
 %>
-	<%
-	// Dao에서 이용권 이름, 만료 기간을 가져와서 남은 일자 계산 후 출력
-	HashMap<String, Timestamp> map = mdao.getMembershipName(signedinDto.getMemberId());
-	ArrayList<String> list = mdao.getMembershipType();
-	boolean a = false;
-	%>
-	<h2>마이페이지</h2>
-
-	<%
-	// 모든 이용권을 반복문으로 돌려 사용자가 가지고 있는 이용권들을 화면에 표시
-	boolean b = false, c = false;
-	for (int i = 0; i < 3; i++) {
-		Calendar now = Calendar.getInstance();
-		Calendar now2 = Calendar.getInstance();
-		if (map.get(list.get(i)) == null){
-			continue;
-		}
-		now2.setTimeInMillis(map.get(list.get(i)).getTime());
-		long timeLeft = now2.getTimeInMillis() - now.getTimeInMillis();
-		if (timeLeft > 0) b = true;
-		long dayLeft = TimeUnit.MILLISECONDS.toDays(timeLeft);
-		if (dayLeft > 0)
-			a = true;
-	%>
-	<label> <%=dayLeft > 0 ? list.get(i) : "보유중인 이용권이 없습니다" %> <%=dayLeft > 0 ? "남은 일자 : 일"+dayLeft : ""%>
-	</label>
-	<%
-	break;
-	}
-	%>
-	<input type="button" value="<%=a ? "이용권변경" : "이용권구매"%>"
-		onclick="location.href = '/semi2/membership/main.jsp'">
-
-	<br>
-	<input type="button" value="비밀번호 변경"
-		onclick="location.href = '/semi2/mypage/password-check.jsp'">
-	<%
-	if (signedinDto.getMemberAccessType().equals("listener")) {
-	%>
-	<input type="button" value="아티스트 신청"
-		onclick="location.href = '/semi2/mypage/request/artist-request.jsp'">
-	<%
-	} else if (signedinDto.getMemberAccessType().equals("applicant")) {
-	%>
-	<label>현재 아티스트 등록 심사 중 입니다.</label>
-	<%
-	} else if (signedinDto.getMemberAccessType().equals("artist")) {
-	%>
-	<input type="button" value="앨범 등록"
-		onclick="location.href = '/semi2/mypage/album-management/main.jsp'">
-	<%
-	} else if (signedinDto.getMemberAccessType().equals("admin")) {
-	%>
-	<input type="button" value="아티스트 요청 처리"
-		onclick="location.href = '/semi2/mypage/request/request-processing.jsp'">
-	<%
-	}
-	%>
-<fieldset>
-<div id = "imgEditer">
+	<%@ include file="/mypage/mypage-header.jsp"%>
+	<div class=profile-change-card>
+			<div class="subtitle">
+		<h2>프로필 사진 변경</h2>
+	</div>
+	<div id = "imgEditer" class="img-edtior">
 	<canvas id = "profileCanvas"></canvas> 
 	<canvas id = "profileCanvasEditer"></canvas>
 </div>
 	<form action = "edit_profile-img_ok.jsp" method = "post">
 		<input style = "display: none;" type = "file" id = "editNewProfileImg" name = "editProfileImg" onchange = "changeEditImg();" accept="image/png, image/jpeg">
 		<input type = "hidden" id = "img64" name = "img64">
-		<input type = "button" value = "이미지 변경하기" onclick = "imgChange();">
-		<input type = "submit" value = "저장하기" onclick = "canvasToBase64();">
+		<div class="submenu-box">
+		<input type = "button" value = "이미지 변경하기" onclick = "imgChange();" class="bt">
+		<input type = "submit" value = "저장하기" onclick = "canvasToBase64();" class="bt">
+	</div>
 	</form>
-</fieldset>
+</div>
 <iframe id="profile_hidden" name="profile_hidden" style="display: none;"></iframe>
 	<%@ include file="/footer.jsp"%>
 <script>

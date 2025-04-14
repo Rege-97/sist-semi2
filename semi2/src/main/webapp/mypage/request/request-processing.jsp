@@ -9,14 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 </head>
 <%
-MypageDao mdao = new MypageDao();
+MypageDao mypageDao = new MypageDao();
 String yesParam = request.getParameter("yes");
 if (yesParam != null){
 	yesParam = yesParam.substring(0, yesParam.length()-1);
 	String yp[] = yesParam.split(",");
-	mdao.requestYes(yp);
+	mypageDao.requestYes(yp);
 %>
 <script>
 window.alert("처리완료");
@@ -27,7 +28,7 @@ String noParam = request.getParameter("no");
 if (noParam != null){
 	noParam = noParam.substring(0, noParam.length()-1);
 	String np[] = noParam.split(",");
-	mdao.requestNo(np);
+	mypageDao.requestNo(np);
 	%>
 	<script>
 	window.alert("처리완료");
@@ -38,16 +39,29 @@ if (noParam != null){
 
 
 <body>
-	<jsp:include page="/header.jsp"></jsp:include>
-	<fieldset>
-		<legend>아티스트 요청 목록</legend>
-		<table>
+		<%@ include file="/header.jsp"%>
+		<%@ include file="/mypage/mypage-header.jsp"%>
+	<div class=profile-change-card>
+		<div class="subtitle">
+			<h2>아티스트 요청 목록</h2>
+		</div>
+		<div class="submenu-box">
+				<input type="button" value="아티스트 등록" onclick = "requestYes();" class="bt"> 
+		<input type="button" value="요청 거절" onclick = "requestNo();" class="bt">
+		</div>
+		<table class="request-table">
+		<colgroup>
+					<col style="width: 40px;">
+					<col style="width: 40px;">
+					<col style="width: 120px;">
+					<col style="width: 70px;">
+				</colgroup>
 			<thead>
-				<tr>
-					<td>열번호</td>
-					<td>유저번호</td>
-					<td>유저명</td>
-					<td><input type = "button" id = "selectB" value = "모두 선택" onclick = "selectAll();"></td>
+				<tr class="support-table-head">
+					<th>열번호</th>
+					<th>유저번호</th>
+					<th>유저명</th>
+					<th><input type = "button" id = "selectB" value = "모두 선택" onclick = "selectAll();" class="bt"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -68,40 +82,47 @@ if (noParam != null){
 				}else{
 					for (int i = 0; i < mypageDtos.size(); i++) {
 					%>
-				<tr>
-				<td><%=mypageDtos.get(i).getRnum()%></td>
-				<td><%=mypageDtos.get(i).getId()%></td>
-				<td><%=mypageDtos.get(i).getName()%></td>
-				<td><input type="checkbox" id="<%=mypageDtos.get(i).getRnum() %>" name = "<%=mypageDtos.get(i).getId() %>"></td>
+				<tr class="support-table-body">
+				<td class="support-table-num"><%=mypageDtos.get(i).getRnum()%></td>
+				<td class="support-table-title"><%=mypageDtos.get(i).getId()%></td>
+				<td class="support-table-title"><%=mypageDtos.get(i).getName()%></td>
+				<td><input type="checkbox" id="<%=mypageDtos.get(i).getRnum() %>" name = "<%=mypageDtos.get(i).getId() %>" class="checkbox"></td>
 				</tr>
 				<%
 					}
 				}
 				%>
 			</tbody>
-		</table>
-		<input type="button" value="아티스트 등록" onclick = "requestYes();"> 
-		<input type="button" value="요청 거절" onclick = "requestNo();">
-		<%
+			<tfoot>
+			<tr class="support-table-foot">
+			<td colspan="4">
+				<%
 		if (thisPage > pageLate / 2 + pageLate % 2) {
 		%>
-		<a href="request-processing.jsp?thisPage=<%=thisPage-pageLate/2 %>"><label> << </label></a>
+		<a href="request-processing.jsp?thisPage=<%=thisPage-pageLate/2 %>">&lt;</a>
 		<%
 		}
 		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
 		for (int i = pageStart; i < pageStart+pageLate; i++) {
 			if (i * lastRow > maxRow) break;
 		%>
-		<a href="request-processing.jsp?thisPage=<%=i %>"><label><%=i%> </label></a>
+		<span class="<%=thisPage==i?"page-number-bold":"page-number" %>">
+		<a href="request-processing.jsp?thisPage=<%=i %>"><%=i%></a>
+		</span>
 		<%
 		}
 		if (thisPage+pageLate/2 < maxRow/lastRow) {
 		%>
-		<a href="request-processing.jsp?thisPage=<%=thisPage+pageLate/2 %>"><label> >></label></a>
+		<a href="request-processing.jsp?thisPage=<%=thisPage+pageLate/2 %>">&gt;</a>
 		<%
 		}
 		%>
-	</fieldset>
+		</td>
+		</tr>
+			</tfoot>
+		</table>
+	
+	</div>
 	<jsp:include page="/footer.jsp"></jsp:include>
 	<script>
 function requestYes(){

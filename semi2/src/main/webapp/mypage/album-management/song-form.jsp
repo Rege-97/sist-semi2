@@ -63,17 +63,36 @@ function add_album(b){
 	form.submit();
 }
 </script>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
-<fieldset>
+	<%@ include file="/header.jsp"%>
+	<%@ include file="/mypage/mypage-header.jsp"%>
+	<div class=profile-change-card>
+	<div class="subtitle">
+			<h2>수록곡 등록</h2>
+		</div>
 	<form>
-	<input type = "text" name = "name" placeholder="곡 이름">
-	<input type = "text" name = "composer" placeholder="작곡">
-	<input type = "text" name = "lyricist" placeholder="작사">
-	<input type = "text" name = "lyrics" placeholder="가사">
+	<div>
+	<input type = "text" name = "name" placeholder="곡 이름" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "composer" placeholder="작곡" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "lyricist" placeholder="작사" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "lyrics" placeholder="가사" class="login-text">
+	</div>
+	<div>
 	<audio src="" name = ""></audio>
-	<input type = "button" value = "다음 곡 추가" onclick = "nextsong(this);">
-	<input type = "button" value = "앨범 등록" onclick = "add_album(this);">
+	</div>
+	<div>
+	<input type = "button" value = "다음 곡 추가" onclick = "nextsong(this);" class="bt">
+	<input type = "button" value = "앨범 등록" onclick = "add_album(this);" class="bt">
+	</div>
 	</form>
-</fieldset>
+</div>
+	<jsp:include page="/footer.jsp"></jsp:include>
 </body>
 </html>
