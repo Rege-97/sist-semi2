@@ -1568,3 +1568,20 @@ table.request-table .support-table-foot {
 .genre-select{
 	margin-bottom:30px;
 }
+.artist-main-image{
+	width: 200px;
+	margin-bottom: 5px;
+	border-radius: 999px;
+	margin:20px auto;
+}
+.artist-card {
+	display: flex;
+	margin-right: 50px;
+	gap:10px;
+	
+}
+.artist-card-info {
+	margin-left: 20px;
+	white-space: nowrap; 
+	overflow:hidden;
+}

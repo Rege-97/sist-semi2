@@ -11,8 +11,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.plick.artist.ArtistDto"%>
 <%@page import="com.plick.artist.ArtistDao"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%!final int MAX_SONGS_LENGTH = 10;
 	final int MAX_ALBUMS_LENGTH = 5;%>
 
@@ -29,6 +28,7 @@
 </script>
 
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <%
 String memberIdParam = request.getParameter("memberid");
 int memberId = -1;
@@ -83,90 +83,162 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 boolean isArtist = "artist".equals(artistDto.getAccessType());
 %>
 <body>
+	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<%@ include file="/header.jsp"%>
-
-	<img
-		src="/semi2/resources/images/member/<%=artistDto.getId()%>/banner.jpg"
-		onerror="this.src='/semi2/resources/images/member/default-banner.jpg';"
-		width=100% height="400px" />
+	<div class="search-gallery">
+	<div class="artist-card">
+	<img src="/semi2/resources/images/member/<%=artistDto.getId()%>/banner.jpg" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';" class="artist-main-image" />
+	<div class="artist-card-info">
 	<h1><%=nickname%></h1>
-
+	<div>
+		<%=artistDto.getDescription() == null ? "" : artistDto.getDescription().replace("\r\n", "<br/>")%>
+	</div>
+	<div>
+			<label>누적 리스너: <%=formattedTotalViewCount%></label>
+	</div>
+	</div>
+	</div>
+	</div>
 	<%
 	if (isArtist) {
 	%>
 
 	<section>
-		<label>누적 리스너: <%=formattedTotalViewCount%></label>
 
+<div class="categorey-name">
 		<h2>인기곡</h2>
-		<table>
+		</div>
+		<table class="song-list">
+			<colgroup>
+				<col style="width: 40px;">
+				<!-- 순위 -->
+				<col style="width: 50px;">
+				<!-- 앨범 이미지 -->
+				<col style="width: 270px;">
+				<!-- 곡/앨범 -->
+				<col style="width: 120px;">
+				<!-- 아티스트 -->
+				<col style="width: 40px;">
+				<!-- 듣기 -->
+				<col style="width: 40px;">
+				<!-- 리스트 -->
+				<col style="width: 40px;">
+				<!-- 다운로드 -->
+			</colgroup>
+			<thead>
+				<tr class="song-list-head">
+					<th>순번</th>
+					<th colspan="2">곡/앨범</th>
+					<th>아티스트</th>
+					<th>듣기</th>
+					<th>내 리스트</th>
+					<th>다운로드</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				if (sortedSongs == null || sortedSongs.size() == 0) {
+				%>
+				<tr>
+					<td colspan="6">수록곡이 존재하지 않습니다.</td>
+				</tr>
+				<%
+				} else {
+				for (int i = 0; i < Math.min(sortedSongs.size(), MAX_SONGS_LENGTH); i++) {
+					String viewCount = formatter.format(sortedSongs.get(i).getViewCount());
+				%>
+				<tr class="song-list-body">
+					<td>
+						<div class="song-list-row"><%=i + 1%></div>
+					</td>
+					<td>
+						<div class="song-list-album-image">
+							<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"><img src="/semi2/resources/images/album/<%=sortedSongs.get(i).getAlbumId()%>/cover.jpg" class="song-list-album-image"></a>
+						</div>
+					</td>
+					<td>
+						<div class="song-list-song-name">
+							<a href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getId()%>"><%=sortedSongs.get(i).getName()%></a>
+						</div>
+						<div class="song-list-album-name">
+							<a>누적 조회수 : <%=viewCount%></a>
+						</div>
+					</td>
+					<td>
+						<div class="song-list-artist-name">
+							<a href="/semi2/artist/main.jsp?memberid=<%=memberId%>"><%=nickname%></a>
+						</div>
+					</td>
+					<td>
+						<div class="icon-group">
+							<a href="#"> <img src="/semi2/resources/images/design/play-icon.png" class="icon-default"> <img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+					</td>
+					<td>
+						<div class="icon-group">
+							<a href="#"> <img src="/semi2/resources/images/design/add-list-icon.png" class="icon-default"> <img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+					</td>
+					<td>
+						<div class="icon-group">
+							<a href="/semi2/chart/download-song.jsp?songid=<%=sortedSongs.get(i).getId()%>&songname=<%=sortedSongs.get(i).getName()%>&albumid=<%=sortedSongs.get(i).getAlbumId()%>&artist=<%=nickname%>" target="hiddenFrame"> <img src="/semi2/resources/images/design/download-icon.png" class="icon-default"> <img src="/semi2/resources/images/design/download-icon-hover.png" class="icon-hover">
+							</a>
+						</div>
+					</td>
+				</tr>
+
+				<%
+				}
+
+				}
+				%>
+			</tbody>
+		</table>
+	</section>
+
+	<%
+	}
+	%>
+
+	<section>
+	<div class="blank2"></div>
+	<div class="categorey-name">
+		<h2><%=isArtist ? "아티스트 픽" : "리스너 픽"%></h2>
+</div>
+		<div class="gallery">
 			<%
-			for (int i = 0; i < Math.min(sortedSongs.size(), MAX_SONGS_LENGTH); i++) {
+			// 플레이리스트 하나씩 나열
+			for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
 			%>
-			<tr>
-				<td><%=i + 1%></td>
-				<td><a
-					href="/semi2/chartchart/album-details.jsp?albumid=<%=sortedSongs.get(i).getId()%>">
-						<img
-						src="/semi2/resources/images/album/<%=sortedSongs.get(i).getAlbumId()%>/cover.jpg"
-						width="100" />
-				</a></td>
-				<td><a
-					href="/semi2/chartchart/song-details.jsp?songid=<%=sortedSongs.get(i).getId()%>"><%=sortedSongs.get(i).getName()%></a></td>
-				<td><%=sortedSongs.get(i).getViewCount()%></td>
-				<td><a href="#">플리추가</a></td>
-				<td><a href="#">재생</a></td>
-				<td><a href="#">다운로드</a></td>
-			</tr>
+			<div class="gallery-card">
+				<div class="gallery-card-album-image-group">
+					<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"> <img src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
+		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>" class="gallery-card-album-image">
+					</a>
+					<div class="gallery-card-album-image-play">
+						<a href="#"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+						</a>
+					</div>
+				</div>
+				<div class="gallery-card-album-name">
+					<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
+				</div>
+
+				<div class="gallery-card-artist-name-myplaylist">
+					<div>
+						<img src="/semi2/resources/images/design/likes-icon.png" width="15">&nbsp;<%=playlistPreview.getLikeCount()%>
+						|
+						<%=playlistPreview.getSongCount()%>곡 |
+						<%=playlistPreview.getCreatedAt().toString().substring(0, 10)%>
+					</div>
+				</div>
+			</div>
 			<%
 			}
 			%>
-
-		</table>
-	</section>
-
-	<%
-	}
-	%>
-
-	<section>
-		<h2><%=isArtist ? "아티스트 픽" : "리스너 픽"%></h2>
-		<table>
-			<tr>
-				<%
-				if (playlistPreviews.size() == 0) {
-				%>
-				<td colspan="4">플레이리스트가 없습니다.</td>
-				<%
-				}
-				for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
-				%>
-				<td>
-					<table>
-						<tr>
-							<td><a
-								href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>">
-									<img
-									src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
-		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"
-									class="gallery-card-album-image" width="200" />
-							</a></td>
-						</tr>
-						<tr>
-							<td><a
-								href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a></td>
-						</tr>
-						<tr>
-							<td>좋아요:<%=playlistPreview.getLikeCount()%> | <%=playlistPreview.getSongCount()%>곡
-								| 생성일:<%=playlistPreview.getCreatedAt().toString().substring(0, 10)%></td>
-						</tr>
-					</table>
-				</td>
-				<%
-				}
-				%>
-			</tr>
-		</table>
+		</div>
 	</section>
 
 	<%
@@ -174,59 +246,50 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 	%>
 
 	<section>
+		<div class="blank"></div>
+	<div class="categorey-name">
 		<h2>이 아티스트의 최신 앨범</h2>
-		<table>
-			<tr>
-				<%
-				for (int i = 0; i < Math.min(sortedAlbums.size(), MAX_ALBUMS_LENGTH); i++) {
-					StringBuffer genre = new StringBuffer();
-					Album albumDto = sortedAlbums.get(i).getAlbumDto();
-					genre.append(albumDto.getGenre1() == null ? "" : albumDto.getGenre1());
-					genre.append(" ");
-					genre.append(albumDto.getGenre2() == null ? "" : albumDto.getGenre2());
-					genre.append(" ");
-					genre.append(albumDto.getGenre3() == null ? "" : albumDto.getGenre3());
-				%>
-				<td>
-					<table>
-						<tr>
-							<td><a
-								href="/semi2/chartchart/album-details.jsp?albumid=<%=sortedSongs.get(i).getId()%>">
-									<img
-									src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.jpg"
-									width="200" />
-							</a></td>
-						</tr>
-						<tr>
-							<td><a
-								href="/semi2/chartchart/album-details.jsp?albumid=<%=sortedSongs.get(i).getId()%>">
-									<%=sortedAlbums.get(i).getAlbumDto().getName()%></a> • <%=sortedAlbums.get(i).getAlbumDto().getCreatedAt().toString().substring(0, 10)%></td>
-						</tr>
-						<tr>
-							<td><%=genre.toString().trim()%></td>
-						</tr>
-					</table>
-				</td>
-				<%
-				}
-				%>
-			</tr>
-		</table>
+		</div>
+		<div class="gallery">
+			<%
+			// 플레이리스트 하나씩 나열
+			for (int i = 0; i < Math.min(sortedAlbums.size(), MAX_ALBUMS_LENGTH); i++) {
+				StringBuffer genre = new StringBuffer();
+				Album albumDto = sortedAlbums.get(i).getAlbumDto();
+				genre.append(albumDto.getGenre1() == null ? "" : albumDto.getGenre1());
+				genre.append(" ");
+				genre.append(albumDto.getGenre2() == null ? "" : albumDto.getGenre2());
+				genre.append(" ");
+				genre.append(albumDto.getGenre3() == null ? "" : albumDto.getGenre3());
+			%>
+			<div class="gallery-card">
+				<div class="gallery-card-album-image-group">
+				<a href="/semi2/chartchart/album-details.jsp?albumid=<%=sortedSongs.get(i).getId()%>"> <img src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.jpg"  class="gallery-card-album-image" /></a>
+					<div class="gallery-card-album-image-play">
+						<a href="#"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+						</a>
+					</div>
+				</div>
+				<div class="gallery-card-album-name">
+					<a href="/semi2/chartchart/album-details.jsp?albumid=<%=sortedSongs.get(i).getId()%>"> <%=sortedAlbums.get(i).getAlbumDto().getName()%></a>
+				</div>
+
+				<div class="gallery-card-artist-name-myplaylist">
+					<div>
+					<%=genre.toString().trim()%>
+					<br>
+					<%=sortedAlbums.get(i).getAlbumDto().getCreatedAt().toString().substring(0, 10)%>
+					</div>
+				</div>
+			</div>
+			<%
+			}
+			%>
+		</div>
 	</section>
 	<%
 	}
 	%>
-
-	<section>
-		<h2><%=isArtist ? "아티스트 소개" : "리스너 소개"%></h2>
-		<img
-			src="/semi2/resources/images/member/<%=artistDto.getId()%>/banner.jpg"
-			onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"
-			width="300px" height="300px" />
-		<div>
-			<%=artistDto.getDescription() == null ? "" : artistDto.getDescription().replace("\r\n", "<br/>")%>
-		</div>
-	</section>
 	<%@ include file="/footer.jsp"%>
 </body>
 </html>
