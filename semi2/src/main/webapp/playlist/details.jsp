@@ -167,6 +167,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 <body>
 	<%@include file="/header.jsp"%>
+	<%@include file="/playlist/mylist/modal.jsp"%>
 	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<section>
 		<article>
@@ -289,8 +290,9 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#"> <img
-								src="/semi2/resources/images/design/add-list-icon.png"
+							<a href="#"
+								onclick="openModal('playlistid',<%=playlistId%>); return false;">
+								<img src="/semi2/resources/images/design/add-list-icon.png"
 								class="icon-dafault"> <img
 								src="/semi2/resources/images/design/add-list-icon-hover.png"
 								class="icon-hover">
@@ -393,7 +395,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						<td>
 							<div class="song-list-song-name">
 								<a
-									href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getId()%>"><%=sortedSongs.get(i).getSongName()%></a>
+									href="/semi2/chart/song-details.jsp?songid=<%=sortedSongs.get(i).getSongId()%>"><%=sortedSongs.get(i).getSongName()%></a>
 							</div>
 							<div class="song-list-album-name">
 								<a
@@ -418,8 +420,9 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> <img
-									src="/semi2/resources/images/design/add-list-icon.png"
+								<a href="#"
+									onclick="openModal('songid', <%=sortedSongs.get(i).getSongId()%>); return false;">
+									<img src="/semi2/resources/images/design/add-list-icon.png"
 									class="icon-default"> <img
 									src="/semi2/resources/images/design/add-list-icon-hover.png"
 									class="icon-hover">
@@ -429,7 +432,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						<td>
 							<div class="icon-group">
 								<%
-								String downloadParameter = "songid=" + sortedSongs.get(i).getId() + "&songname=" + sortedSongs.get(i).getSongName()
+								String downloadParameter = "songid=" + sortedSongs.get(i).getSongId() + "&songname=" + sortedSongs.get(i).getSongName()
 										+ "&albumid=" + sortedSongs.get(i).getAlbumId() + "&artist=" + sortedSongs.get(i).getArtistNickname();
 								%>
 								<a href="/semi2/chart/download-song.jsp?<%=downloadParameter%>"
