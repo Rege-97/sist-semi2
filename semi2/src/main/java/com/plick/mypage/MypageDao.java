@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import com.plick.member.MemberDto;
@@ -70,7 +71,7 @@ public class MypageDao {
 		}
 	}
 	
-	public  HashMap<String, Timestamp> getMembershipName(int memberId) {
+	public  HashMap<String, Timestamp> getMembershipName(int memberId, Calendar now) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT name, stopped_at FROM membership_members mm LEFT JOIN memberships m ON mm.membership_id = m.id WHERE mm.membership_id IN (SELECT membership_id FROM membership_members WHERE member_id = ?)";
@@ -80,7 +81,9 @@ public class MypageDao {
 			HashMap<String, Timestamp> map = new HashMap<String, Timestamp>();
 			if(rs.next()) {
 				do {
-					map.put(rs.getString("name"), rs.getTimestamp("stopped_at"));
+					if(rs.getTimestamp("stopped_at").getTime() > now.getTimeInMillis()) {
+						map.put(rs.getString("name"), rs.getTimestamp("stopped_at"));
+					}
 				}while(rs.next());
 			}
 				return map;

@@ -12,9 +12,6 @@
 <body>
 	<%@ include file="/header.jsp"%>
 	<%@ include file="/mypage/mypage-header.jsp"%>
-<%
-Calendar now = Calendar.getInstance();
-%>
 	<div class=profile-change-card>
 	<div class="subtitle">
 			<h2>앨범 등록</h2>
