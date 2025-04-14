@@ -25,7 +25,8 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 %>
 <body>
 	<%@include file="/header.jsp"%>
-	<input type="button" value="내 플레이리스트" class="bt" onclick="location.href='/semi2/playlist/mylist/main.jsp'">
+	<input type="button" value="내 플레이리스트" class="bt"
+		onclick="location.href='/semi2/playlist/mylist/main.jsp'">
 	<article>
 		<div class="categorey-name">
 			<label> 인기 플레이리스트 </label>
@@ -44,17 +45,23 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 				<div class="gallery-card-album-image-group">
 					<a
 						href="/semi2/playlist/details.jsp?playlistid=<%=popularPreview.getPlaylistId()%>">
-						<img src="/semi2/resources/images/<%=popularPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg" : "album/" + popularPreview.getFirstAlbumId() + "/cover.jpg"%>" class="gallery-card-album-image" />
+						<img
+						src="/semi2/resources/images/<%=popularPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
+		: "album/" + popularPreview.getFirstAlbumId() + "/cover.jpg"%>"
+						class="gallery-card-album-image" />
 					</a>
 					<div class="gallery-card-album-image-play">
-					<a href="#">
-					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
-					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
-					</a>
+						<a href="#"> <img
+							src="/semi2/resources/images/design/album-play.png"
+							class="play-default"> <img
+							src="/semi2/resources/images/design/album-play-hover.png"
+							class="play-hover">
+						</a>
 					</div>
 				</div>
-				<div class ="gallery-card-album-name">
-					<label><a href="/semi2/playlist/details.jsp?playlistid=<%=popularPreview.getPlaylistId()%>"><%=popularPreview.getPlaylistName()%></a></label>
+				<div class="gallery-card-album-name">
+					<label><a
+						href="/semi2/playlist/details.jsp?playlistid=<%=popularPreview.getPlaylistId()%>"><%=popularPreview.getPlaylistName()%></a></label>
 				</div>
 				<div class="gallery-card-artist-name">
 					<%=popularPreview.getMemberNickname()%>
@@ -85,17 +92,23 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 			%>
 			<div class="gallery-card">
 				<div class="gallery-card-album-image-group">
-					<a href="/semi2/playlist/details.jsp?playlistid=<%=latestPreview.getPlaylistId()%>">
-						<img src="/semi2/resources/images/<%=latestPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg" : "album/" + latestPreview.getFirstAlbumId() + "/cover.jpg"%>"  class="gallery-card-album-image" />
+					<a
+						href="/semi2/playlist/details.jsp?playlistid=<%=latestPreview.getPlaylistId()%>">
+						<img
+						src="/semi2/resources/images/<%=latestPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
+		: "album/" + latestPreview.getFirstAlbumId() + "/cover.jpg"%>"
+						class="gallery-card-album-image" />
 					</a>
 					<div class="gallery-card-album-image-play">
-					<a href="#">
-					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
-					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
-					</a>
+						<a href="#"> <img
+							src="/semi2/resources/images/design/album-play.png"
+							class="play-default"> <img
+							src="/semi2/resources/images/design/album-play-hover.png"
+							class="play-hover">
+						</a>
 					</div>
 				</div>
-				<div class ="gallery-card-album-name">
+				<div class="gallery-card-album-name">
 					<label><a
 						href="/semi2/playlist/details.jsp?playlistid=<%=latestPreview.getPlaylistId()%>"><%=latestPreview.getPlaylistName()%></a></label>
 				</div>

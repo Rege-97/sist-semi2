@@ -297,7 +297,9 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="/semi2/playlist/download-playlist.jsp?playlistid=<%=playlistId%>" target="hiddenFrame"> <img
+							<a
+								href="/semi2/playlist/download-playlist.jsp?playlistid=<%=playlistId%>"
+								target="hiddenFrame"> <img
 								src="/semi2/resources/images/design/download-icon.png"
 								class="icon-dafault"> <img
 								src="/semi2/resources/images/design/download-icon-hover.png"
