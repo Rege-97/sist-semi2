@@ -240,8 +240,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 				<div class="gallery-card">
 					<div class="gallery-card-album-image-group">
 				<a href="/semi2/playlist/details.jsp?playlistid=<%=playlsitArr.get(i).getPlaylistId()%>">
-						<!-- <img src="/semi2/resources/images/playlist/<%=playlsitArr.get(i).getPlaylistId()%>/cover.jpg" class="gallery-card-album-image"> -->
-				<img src="/semi2/resources/images/album/1/cover.jpg" class="gallery-card-album-image">
+						<img src="/semi2/resources/images/album/<%=playlsitArr.get(i).getFirstAlbumId() %>/cover.jpg" class="gallery-card-album-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 				</a>
 				<div class="gallery-card-album-image-play">
 				<a href="#">

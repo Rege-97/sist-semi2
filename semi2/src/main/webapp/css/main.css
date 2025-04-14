@@ -1516,14 +1516,24 @@ table.request-table .support-table-foot {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    color: #fff;
+    background: rgba(0,0,0,0);
+    color: rgba(0,0,0,0);
     border: none;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
     z-index: 9999;
     font-size: 16px;
+}
+
+.main-banner1:hover .prev-btn{
+    background: rgba(0,0,0,0.5);
+    color:white;
+}
+
+.main-banner1:hover .next-btn{
+    background: rgba(0,0,0,0.5);
+    color:white;
 }
 
 .prev-btn { 
