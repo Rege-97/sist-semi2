@@ -162,4 +162,117 @@ public class PlaylistMylistDao {
 		}
 	}
 
+	public boolean addAlbumIntoPlaylist(int albumId, int playlistId) {
+		try (Connection conn = DBConnector.getConn()) {
+			// 트랜잭션 시작
+			conn.setAutoCommit(false);
+
+			// 앨범에 속한 노래 가져오기
+			String selectSql = "SELECT id FROM songs WHERE album_id = ?";
+			try (PreparedStatement selectPstmt = conn.prepareStatement(selectSql)) {
+				selectPstmt.setInt(1, albumId);
+				try (ResultSet rs = selectPstmt.executeQuery()) {
+
+					// 먼저 turn을 전부 밀어줌 (한 번만)
+					String updateSql = "UPDATE playlist_songs SET turn = turn + ? WHERE playlist_id = ?";
+					List<Integer> songIds = new ArrayList<>();
+					while (rs.next()) {
+						songIds.add(rs.getInt("id"));
+					}
+
+					if (songIds.isEmpty())
+						return false;
+
+					try (PreparedStatement updatePstmt = conn.prepareStatement(updateSql)) {
+						updatePstmt.setInt(1, songIds.size()); // 전체 밀어버림
+						updatePstmt.setInt(2, playlistId);
+						updatePstmt.executeUpdate();
+					}
+
+					// 노래들을 turn 순서대로 삽입 (1부터 시작해서 2, 3,... 순으로 쌓임)
+					String insertSql = "INSERT INTO playlist_songs (id, song_id, playlist_id, turn) VALUES (seq_playlist_songs_id.NEXTVAL, ?, ?, ?)";
+					try (PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+						int turn = 1;
+						for (int songId : songIds) {
+							insertPstmt.setInt(1, songId);
+							insertPstmt.setInt(2, playlistId);
+							insertPstmt.setInt(3, turn++);
+							insertPstmt.addBatch();
+						}
+						insertPstmt.executeBatch(); // 배치로 한 번에 insert
+					}
+				}
+			}
+
+			conn.commit();
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				// 에러 발생 시 롤백
+				Connection conn = DBConnector.getConn();
+				conn.rollback();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			return false;
+		}
+	}
+
+	public boolean addAnoterPlaylistIntoMyPlaylist(int targetPlaylistId, int myPlaylistId) {
+		try (Connection conn = DBConnector.getConn()) {
+			conn.setAutoCommit(false); // 트랜잭션 시작
+
+			// 1. 대상 플레이리스트에서 곡 가져오기
+			String selectSql = "SELECT song_id FROM playlist_songs WHERE playlist_id = ? ORDER BY turn ASC";
+			List<Integer> songIds = new ArrayList<>();
+
+			try (PreparedStatement selectPstmt = conn.prepareStatement(selectSql)) {
+				selectPstmt.setInt(1, targetPlaylistId);
+				try (ResultSet rs = selectPstmt.executeQuery()) {
+					while (rs.next()) {
+						songIds.add(rs.getInt("song_id"));
+					}
+				}
+			}
+
+			if (songIds.isEmpty())
+				return false;
+
+			// 2. 기존 플레이리스트 곡들의 turn을 밀기
+			String updateSql = "UPDATE playlist_songs SET turn = turn + ? WHERE playlist_id = ?";
+			try (PreparedStatement updatePstmt = conn.prepareStatement(updateSql)) {
+				updatePstmt.setInt(1, songIds.size());
+				updatePstmt.setInt(2, myPlaylistId);
+				updatePstmt.executeUpdate();
+			}
+
+			// 3. 노래들을 새 playlist에 삽입
+			String insertSql = "INSERT INTO playlist_songs (id, song_id, playlist_id, turn) VALUES (seq_playlist_songs_id.NEXTVAL, ?, ?, ?)";
+			try (PreparedStatement insertPstmt = conn.prepareStatement(insertSql)) {
+				int turn = 1;
+				for (int songId : songIds) {
+					insertPstmt.setInt(1, songId);
+					insertPstmt.setInt(2, myPlaylistId);
+					insertPstmt.setInt(3, turn++);
+					insertPstmt.addBatch();
+				}
+				insertPstmt.executeBatch();
+			}
+
+			conn.commit(); // 트랜잭션 커밋
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				Connection conn = DBConnector.getConn();
+				conn.rollback();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			return false;
+		}
+	}
 }

@@ -11,17 +11,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-function showAlertAndGoLoginPage(message) {
-	window.alert(message);
-	if (window.parent && typeof window.parent.closeModal === 'function') {
-	  	window.parent.closeModal();
-	}else{
-		window.close();
+	function showAlertAndGoLoginPage(message) {
+		window.alert(message);
+		if (window.parent && typeof window.parent.closeModal === 'function') {
+			window.parent.closeModal();
+		} else {
+			window.close();
+		}
 	}
-}
 	function showAlertAndGoBack(message) {
 		window.alert(message);
-		window.history.back();
+		if (window.parent && typeof window.parent.closeModal === 'function') {
+			window.parent.closeModal();
+		} else {
+			window.close();
+		}
 	}
 	function confirmAction(message) {
 		return confirm(message);
@@ -42,8 +46,27 @@ return;
 %>
 <%
 String songIdParam = request.getParameter("songid");
-int songId = -1;
-if (songIdParam == null || songIdParam.isEmpty()) {
+String albumIdParam = request.getParameter("albumid");
+String playlistIdParam = request.getParameter("playlistid");
+
+boolean existsSongId = songIdParam == null || songIdParam.isEmpty() ? false : true;
+boolean existsAlbumId = albumIdParam == null || albumIdParam.isEmpty() ? false : true;
+boolean existsPlaylistId = playlistIdParam == null || playlistIdParam.isEmpty() ? false : true;
+
+String type = "";
+String idParam = "";
+int id = -1;
+
+if (existsSongId) {
+	type = "song";
+	idParam = songIdParam;
+} else if (existsAlbumId) {
+	type = "album";
+	idParam = albumIdParam;
+} else if (existsPlaylistId) {
+	type = "playlist";
+	idParam = playlistIdParam;
+} else {
 %>
 <script>
 	showAlertAndGoBack("파라미터가 유효하지 않습니다.");
@@ -53,12 +76,11 @@ return;
 }
 
 try {
-songId = Integer.parseInt(songIdParam);
+id = Integer.parseInt(idParam);
 } catch (NumberFormatException e) {
 %>
 <script>
-	showAlertAndGoBack("<%=e.getMessage()%>
-	");
+	showAlertAndGoBack("잘못된 접근: 파라미터에 정수만 전달가능합니다.");
 </script>
 <%
 }
@@ -72,24 +94,22 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 <body>
 	<h1>내 플레이리스트</h1>
 	<div>
-		<a href="popup-list-form.jsp?songid=<%=songId%>"><img
-			src="/semi2/resources/images/playlist/add-playlist.jpg" width="50" /></a>
-
-		<a href="popup-list-form.jsp?songid=<%=songId%>">새로운 플레이리스트 만들기</a>
+		<a href="popup-list-form.jsp?type=<%=type%>&id=<%=id%>"> <img
+			src="/semi2/resources/images/playlist/add-playlist.jpg" width="50" />
+		</a> <a href="popup-list-form.jsp?type=<%=type%>&id=<%=id%>">새로운
+			플레이리스트 만들기</a>
 	</div>
 	<%
 	// 플레이리스트 하나씩 나열
 	for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
 	%>
 	<div>
-		<a
-			href="popup-add-song_ok.jsp?songid=<%=songId%>&playlistid=<%=playlistPreview.getPlaylistId()%>">
+		<a href="popup-add-song_ok.jsp?type=<%=type%>&id=<%=id%>&playlistid=<%=playlistPreview.getPlaylistId()%>">
 			<img
 			src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
 		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"
 			width="50">
-		</a> <a
-			href="popup-add-song_ok.jsp?songid=<%=songId%>&playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
+		</a> <a href="popup-add-song_ok.jsp?type=<%=type%>&id=<%=id%>&playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
 
 
 

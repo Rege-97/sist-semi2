@@ -11,14 +11,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-function showAlertAndGoLoginPage(message) {
-	window.alert(message);
-	if (window.parent && typeof window.parent.closeModal === 'function') {
-	  	window.parent.closeModal();
-	}else{
-		window.close();
+	function showAlertAndGoLoginPage(message) {
+		window.alert(message);
+		if (window.parent && typeof window.parent.closeModal === 'function') {
+			window.parent.closeModal();
+		} else {
+			window.close();
+		}
 	}
-}
 	function showAlertAndGoBack(message) {
 		window.alert(message);
 		window.history.back();
@@ -41,9 +41,11 @@ return;
 }
 %>
 <%
-String songIdParam = request.getParameter("songid");
-int songId = -1;
-if (songIdParam == null || songIdParam.isEmpty()) {
+String type = request.getParameter("type");
+String idParam = request.getParameter("id");
+int id = -1;
+
+if (type == null || idParam == null || type.isEmpty() || idParam.isEmpty()) {
 %>
 <script>
 	showAlertAndGoBack("파라미터가 유효하지 않습니다.");
@@ -53,17 +55,15 @@ return;
 }
 
 try {
-songId = Integer.parseInt(songIdParam);
+id = Integer.parseInt(idParam);
 } catch (NumberFormatException e) {
 %>
 <script>
-	showAlertAndGoBack("<%=e.getMessage()%>
-	");
+	showAlertAndGoBack("잘못된 접근: 파라미터에 정수만 전달가능합니다.");
 </script>
 <%
 }
-%>
-<%
+
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
 List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
@@ -78,10 +78,10 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 				value="<%=playlistPreviews.size() + 1%>번 플레이리스트" /> <input
 				type="button" value="X"
 				onclick="document.getElementById('playlistNameText').value = '';" />
-			<input type="hidden" id="songid" name="songid"
-				value="<%=request.getParameter("songid")%>" /> <br /> <input
+			<input type="hidden" id="id" name="id" value="<%=id%>" /> <input
+				type="hidden" id="id" name="type" value="<%=type%>" /> <br /> <input
 				type="button"
-				onclick="window.location.href='popup-list.jsp?songid=<%=songId%>';"
+				onclick="window.location.href='popup-list.jsp?<%=type%>id=<%=id%>';"
 				value="취소" /> <input type="submit" value="확인" />
 		</form>
 	</div>
@@ -91,13 +91,13 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 	%>
 	<div>
 		<a
-			href="popup-add-song_ok.jsp?songid=<%=songId%>&playlistid=<%=playlistPreview.getPlaylistId()%>">
+			href="popup-add-song_ok.jsp?type=<%=type%>&id=<%=id%>&playlistid=<%=playlistPreview.getPlaylistId()%>">
 			<img
 			src="/semi2/resources/images/<%=playlistPreview.getFirstAlbumId() == 0 ? "playlist/default-cover.jpg"
 		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"
 			width="50">
 		</a> <a
-			href="popup-add-song_ok.jsp?songid=<%=songId%>&playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
+			href="popup-add-song_ok.jsp?type=<%=type%>&id=<%=id%>&playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
 
 
 
