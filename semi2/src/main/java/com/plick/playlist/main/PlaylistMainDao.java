@@ -32,17 +32,20 @@ public class PlaylistMainDao {
 	}
 
 	private List<PlaylistPreviewDto> findPlaylistsLatestByLimit(int limit, Connection conn) {
-		String sql = "SELECT *  " + "FROM ( " + "    SELECT   " + "        p.id AS playlist_id, "
+		String sql = "SELECT * " + "FROM ( " + "    SELECT  " + "        p.id AS playlist_id, "
 				+ "        m.id AS member_id, " + "        p.name AS playlist_name, "
-				+ "        p.created_at AS created_at, " + "        COUNT(DISTINCT ps.song_id) AS song_count, "
-				+ "        COUNT(DISTINCT l.member_id) AS like_count, " + "        m.nickname AS member_nickname, "
+				+ "        p.created_at AS created_at, " + "        NVL(song_counts.song_count, 0) AS song_count, "
+				+ "        NVL(like_counts.like_count, 0) AS like_count, " + "        m.nickname AS member_nickname, "
 				+ "        s.album_id AS first_album_id " + "    FROM playlists p "
-				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "    LEFT JOIN likes l ON p.id = l.playlist_id " + "    LEFT JOIN members m ON p.member_id = m.id "
-				+ "    LEFT JOIN playlist_songs ps2 ON p.id = ps.playlist_id AND ps2.turn = 1 "
-				+ "    LEFT JOIN songs s ON ps2.song_id = s.id "
-				+ "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname, s.album_id "
-				+ "    ORDER BY created_at DESC " + ") " + "WHERE ROWNUM <= ?";
+				+ "    LEFT JOIN members m ON p.member_id = m.id " + "    LEFT JOIN ( "
+				+ "        SELECT playlist_id, COUNT(DISTINCT song_id) AS song_count " + "        FROM playlist_songs "
+				+ "        GROUP BY playlist_id " + "    ) song_counts ON p.id = song_counts.playlist_id "
+				+ "    LEFT JOIN ( " + "        SELECT playlist_id, COUNT(DISTINCT member_id) AS like_count "
+				+ "        FROM likes " + "        GROUP BY playlist_id "
+				+ "    ) like_counts ON p.id = like_counts.playlist_id " + "    LEFT JOIN ( "
+				+ "        SELECT playlist_id, song_id " + "        FROM playlist_songs " + "        WHERE turn = 1 "
+				+ "    ) ps2 ON p.id = ps2.playlist_id " + "    LEFT JOIN songs s ON ps2.song_id = s.id "
+				+ "    ORDER BY p.created_at DESC " + ") " + "WHERE ROWNUM <= ?";
 
 		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
 
@@ -62,17 +65,18 @@ public class PlaylistMainDao {
 	}
 
 	private List<PlaylistPreviewDto> findPlaylistsPopularByLimit(int limit, Connection conn) {
-		String sql = "SELECT *  " + "FROM ( " + "    SELECT   " + "        p.id AS playlist_id, "
-				+ "        m.id AS member_id, " + "        p.name AS playlist_name, "
-				+ "        p.created_at AS created_at, " + "        COUNT(DISTINCT ps.id) AS song_count, "
-				+ "        COUNT(DISTINCT l.member_id) AS like_count, " + "        m.nickname AS member_nickname, "
-				+ "        s.album_id AS first_album_id " + "    FROM playlists p "
-				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "    LEFT JOIN likes l ON p.id = l.playlist_id " + "    LEFT JOIN members m ON p.member_id = m.id "
-				+ "    LEFT JOIN playlist_songs ps2 ON p.id = ps.playlist_id AND ps2.turn = 1 "
-				+ "    LEFT JOIN songs s ON ps2.song_id = s.id "
-				+ "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname, s.album_id "
-				+ "    ORDER BY like_count DESC " + ") " + "WHERE ROWNUM <= ?";
+		String sql = "SELECT *   " + "FROM ( " + "    SELECT    " + "        p.id AS playlist_id,  "
+				+ "        m.id AS member_id,  " + "        p.name AS playlist_name,  "
+				+ "        p.created_at AS created_at,  " + "        sc.song_count, " + "        lc.like_count, "
+				+ "        m.nickname AS member_nickname,  " + "        s.album_id AS first_album_id  "
+				+ "    FROM playlists p  " + "    LEFT JOIN members m ON p.member_id = m.id " + "    LEFT JOIN ( "
+				+ "        SELECT playlist_id, COUNT(*) AS song_count  " + "        FROM playlist_songs  "
+				+ "        GROUP BY playlist_id " + "    ) sc ON p.id = sc.playlist_id " + "    LEFT JOIN ( "
+				+ "        SELECT playlist_id, COUNT(DISTINCT member_id) AS like_count  " + "        FROM likes  "
+				+ "        GROUP BY playlist_id " + "    ) lc ON p.id = lc.playlist_id " + "    LEFT JOIN ( "
+				+ "        SELECT playlist_id, song_id  " + "        FROM playlist_songs  " + "        WHERE turn = 1 "
+				+ "    ) ps2 ON p.id = ps2.playlist_id " + "    LEFT JOIN songs s ON ps2.song_id = s.id "
+				+ "    ORDER BY lc.like_count DESC NULLS LAST " + ")  " + "WHERE ROWNUM <= ? ";
 
 		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
 
