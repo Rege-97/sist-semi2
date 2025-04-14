@@ -127,7 +127,7 @@ public class MypageDao {
 	public int changeMemberAccessType(int memberId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "UPDATE members SET access_type = 'applicant' WHERE id = ? ORDER BY started_at DESC";
+			String sql = "UPDATE members SET access_type = 'applicant' WHERE id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, memberId);
 			int result = pstmt.executeUpdate();
