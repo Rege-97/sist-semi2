@@ -16,6 +16,7 @@ public class PlaylistDetailDto {
 	private List<PlaylistSongDto> playlistSongDtos;
 	private List<PlaylistCommentDto> playlistCommentDtos;
 	private boolean isLiked;
+	private int commentCount;
 
 	public PlaylistDetailDto(int memberId, String nickname, String accessType, int playlistId, String playlistName,
 			Timestamp createdAt, String mood1, String mood2, long likeCount, List<PlaylistSongDto> playlistSongDtos,
@@ -84,6 +85,14 @@ public class PlaylistDetailDto {
 
 	public boolean getIsLiked() {
 		return isLiked;
+	}
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
 	}
 
 }

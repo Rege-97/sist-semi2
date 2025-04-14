@@ -8,10 +8,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.plick.chart.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
-<jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,9 +51,32 @@
         document.getElementById('mood-display').style.display = 'block';
         document.getElementById('mood-edit-section').style.display = 'none';
       }
+  	function answer(commentId) {
+		const answerRow = document.getElementById("answer-" + commentId);
+		if (answerRow) {
+			if (answerRow.style.display == "none" || answerRow.style.display == "") {
+				answerRow.style.display = "table-row";
+			} else {
+				answerRow.style.display = "none";
+			}
+		}
+		const answerBt = document.getElementById('answer-bt-'+commentId);
+
+		if (answerBt.value == '답글') {
+			answerBt.value = '답글 접기';
+		} else {
+			answerBt.value = '답글';
+		}
+	}
 
 </script>
 <style>
+.comment-row2 {
+	height: 120px;
+	border-top: 1px solid #262626;
+	border-bottom: 1px solid #262626;
+}
+
 #name-input {
 	background-color: black;
 	color: white;
@@ -81,9 +102,26 @@
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <%
-String playlistId = request.getParameter("playlistid");
-if (playlistId == null || playlistId.isEmpty()) {
-	playlistId = "0";
+String playlistIdParam = request.getParameter("playlistid");
+String commentLimitParam = request.getParameter("climit");
+if (playlistIdParam == null || playlistIdParam.isEmpty()) {
+	playlistIdParam = "0";
+}
+if (commentLimitParam == null || commentLimitParam.isEmpty()) {
+	commentLimitParam = "10";
+}
+int playlistId = 0;
+int commentLimit = 10;
+try {
+	playlistId = Integer.parseInt(playlistIdParam);
+	commentLimit = Integer.parseInt(commentLimitParam);
+} catch (NumberFormatException e) {
+%>
+<script>
+	showAlertAndGoBack("잘못된 접근 : 파라미터에 정수만 전달가능합니다");
+</script>
+<%
+return;
 }
 
 // 로그인 검증
@@ -92,8 +130,8 @@ int loggedinUserId = loggedinUser == null || loggedinUser.getMemberId() == 0 ? -
 
 PlaylistDao playlistDao = new PlaylistDao();
 PlaylistDetailDto playlistDetailDto = loggedinUserId > 0
-		? playlistDao.findPlaylistDetailByPlaylistId(Integer.parseInt(playlistId), loggedinUserId)
-		: playlistDao.findPlaylistDetailByPlaylistId(Integer.parseInt(playlistId));
+		? playlistDao.findPlaylistDetailByPlaylistId(playlistId, loggedinUserId, commentLimit)
+		: playlistDao.findPlaylistDetailByPlaylistId(playlistId, commentLimit);
 
 if (playlistDetailDto == null) {
 %>
@@ -139,43 +177,45 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 					<div class="detail-card-info-name">
 						<%
 						String playlistName = playlistDetailDto.getPlaylistName();
+						if (isOwnedPlaylist) {
+						%>
+						<form id="edit-form" method="get" action="name-update_ok.jsp"
+							style="display: inline;">
+							<h2 id="playlist-name">
+								<span id="name-text" style="color: white;"><%=playlistName%></span>
+							</h2>
+							<input type="text" name="playlistname" id="name-input"
+								value="<%=playlistName%>" style="display: none;" /> <input
+								type="hidden" name="playlistid" value="<%=playlistId%>" />
+
+							<!-- 확인/취소 버튼 -->
+							<button type="submit" id="confirm-btn" style="display: none;">확인</button>
+							<button type="button" id="cancel-btn" style="display: none;"
+								onclick="cancelEdit()">취소</button>
+
+							<!-- 편집 아이콘 -->
+							<a href="#" id="edit-icon-link" onclick="toggleEdit(event)">
+								<img id="edit-icon"
+								src="/semi2/resources/images/design/playlist-edit.png"
+								width="25" height="25" />
+							</a>
+						</form>
+						<%
+						} else {
 						%>
 						<h2 id="playlist-name">
-							<%
-							if (isOwnedPlaylist) {
-							%>
-							<form id="edit-form" method="get" action="name-update_ok.jsp"
-								style="display: inline;">
-								<span id="name-text" style="color: white;"><%=playlistName%></span>
-								<input type="text" name="playlistname" id="name-input"
-									value="<%=playlistName%>" style="display: none;" /> <input
-									type="hidden" name="playlistid" value="<%=playlistId%>" />
-
-								<!-- 확인/취소 버튼 -->
-								<button type="submit" id="confirm-btn" style="display: none;">확인</button>
-								<button type="button" id="cancel-btn" style="display: none;"
-									onclick="cancelEdit()">취소</button>
-
-								<!-- 편집 아이콘 -->
-								<a href="#" id="edit-icon-link" onclick="toggleEdit(event)">
-									<img id="edit-icon"
-									src="/semi2/resources/images/design/playlist-edit.png"
-									width="25" height="25" />
-								</a>
-							</form>
-							<%
-							} else {
-							%>
-							<%=playlistName%>
-							<%
-							}
-							%>
+							<span id="name-text" style="color: white;"><%=playlistName%></span>
 						</h2>
+						<%
+						}
+						%>
 					</div>
+
 					<div class="detail-card-info-artist-name">
 						<a
 							href="/semi2/artist/main.jsp?memberid=<%=playlistDetailDto.getMemberId()%>"><%=playlistDetailDto.getNickname()%></a>
 					</div>
+
 					<div class="detail-card-info-genre">
 						<%
 						if (isOwnedPlaylist) {
@@ -224,7 +264,6 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 	    });
 	  </script>
 
-
 						<%
 						} else {
 						%>
@@ -233,10 +272,12 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						}
 						%>
 					</div>
+
 					<div class="detail-card-info-date">
 						생성일 :
 						<%=formattedCreatedAt%>
 					</div>
+
 					<div class="detail-card-info-icon-playlist">
 						<div class="icon-group">
 							<a href="#"> <img
@@ -279,7 +320,6 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</article>
 		<article>
@@ -304,11 +344,9 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 					if (isOwnedPlaylist) {
 					%>
 					<col style="width: 40px;">
-					<!-- 삭제 -->
 					<%
 					}
 					%>
-
 				</colgroup>
 				<thead>
 					<tr class="song-list-head">
@@ -424,22 +462,116 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 			</table>
 		</article>
 		<article>
-			<hr>
-			<form>
-				<img>사용자프로필이미지 <label>닉네임</label> <input type="text">
-				<input type="submit" value="등록">
-			</form>
-			<table>
-				<tr>
-					<td><img>사용자프로필이미지
-					<td><label>닉네임</label>
-					<td><label>댓글컨텐츠</label> <input type="button" value="답글">
-				<tr>
-					<td><img>사용자프로필이미지
-					<td><label>닉네임</label>
-					<td><label>댓글컨텐츠</label> <input type="button" value="답글">
-			</table>
+			<div class="album-comment-count">
+				댓글&#40;<%=playlistDetailDto.getCommentCount()%>&#41;
+			</div>
 
+			<div class="comment-add">
+				<form name="playlist-comment" action="comment_ok.jsp" id="comment">
+					<table class="commnet-add-table">
+						<tr>
+							<td class="comment-add-profile"><img
+								src="/semi2/resources/images/member/<%=loggedinUserId != -1 ? signedinDto.getMemberId() + "/profile.jpg" : "default-profile.jpg"%>"
+								onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"
+								class="comment-add-profile-image" />
+								<div class="comment-add-profile-nickname"><%=loggedinUserId != -1 ? signedinDto.getMemberNickname() : "비회원"%></div>
+							</td>
+
+							<td class="comment-add-content"><input type="hidden"
+								name="playlistid" value="<%=playlistId%>" /> <textarea
+									name="content" rows="3" cols="96" required></textarea></td>
+							<td class="comment-bt"><input type="submit" value="등록" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
+			<div>
+				<table class="commnet-table">
+					<tbody>
+						<%
+						List<PlaylistCommentDto> playlistComments = playlistDetailDto.getPlaylistCommentDtos();
+						int commentRowId = 0;
+						if (playlistComments == null || playlistComments.size() == 0) {
+						%>
+						<tr>
+							<td colspan="2" align="center">등록된 댓글이 없습니다.
+						</tr>
+						<%
+						} else {
+						SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+						for (PlaylistCommentDto playlistComment : playlistComments) {
+							commentRowId++;
+							String createdAt = sdf2.format(playlistComment.getCreatedAt());
+						%>
+						<tr class="comment-row2" id=comment-id- <%=commentRowId%>>
+
+							<td
+								class="comment-profile<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>"><img
+								src="/semi2/resources/images/member/<%=playlistComment.getMemberId()%>/profile.jpg"
+								class="comment-profile-image" />
+								<div class="comment-profile-nickname"><%=playlistComment.getNickname()%></div>
+							</td>
+
+							<td>
+								<div
+									class="comment-content<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>">
+									<%=playlistComment.getContent().replace("\r\n", "<br>")%>
+								</div>
+								<div
+									class="comment-content<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>-date"><%=createdAt%></div>
+							</td>
+							<%
+							if (playlistComment.getParentId() == 0) {
+							%>
+							<td class="comment-bt"><input type="button"
+								id="answer-bt-<%=playlistComment.getCommentId()%>" value="답글"
+								onclick="answer(<%=playlistComment.getCommentId()%>)" /></td>
+							<%
+							}
+							%>
+						</tr>
+
+						<tr class="comment-row2"
+							id="answer-<%=playlistComment.getCommentId()%>"
+							style="display: none">
+							<td class="comment-profile-answer"><img
+								src="/semi2/resources/images/member/<%=loggedinUserId != -1 ? signedinDto.getMemberId() + "/profile.jpg" : "default-profile.jpg"%>"
+								onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"
+								class="comment-add-profile-image" />
+								<div class="comment-add-profile-nickname"><%=loggedinUserId != -1 ? signedinDto.getMemberNickname() : "비회원"%></div>
+							</td>
+
+							<form name="album-comment-answer" action="comment_ok.jsp">
+								<td class="comment-add-answer-content"><input type="hidden"
+									name="playlistid" value="<%=playlistId%>"> <input
+									type="hidden" name="parentid"
+									value="<%=playlistComment.getCommentId()%>" /> <textarea
+										name="content" rows="3" cols="85" required></textarea></td>
+								<td class="comment-bt"><input type="submit" value="등록" /></td>
+							</form>
+						</tr>
+						<%
+						}
+						}
+						%>
+					</tbody>
+				</table>
+				<%
+				if (playlistComments.size() < playlistDetailDto.getCommentCount()) {
+					String path = "playlistid=" + playlistId + "&climit="
+					+ Math.min(commentLimit + 10, playlistDetailDto.getCommentCount()) + "#comment-id-" + (commentRowId - 3);
+				%>
+				<div class="bt_div">
+					<input type="button" class="bt" id="more" value="더보기"
+						onclick="window.location.href='details.jsp?<%=path%>';">
+				</div>
+				<%
+				}
+				%>
+
+			</div>
 		</article>
 	</section>
 	<%@include file="/footer.jsp"%>
