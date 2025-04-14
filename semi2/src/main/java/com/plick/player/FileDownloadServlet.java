@@ -25,7 +25,6 @@ public class FileDownloadServlet extends HttpServlet {
         
 		File audioFile = new File(absolutePath+"resources/songs/", filePath); // 오디오 파일이 저장된 경로
 
-		System.out.println(audioFile.getPath());
 		if (audioFile.exists() && !audioFile.isDirectory()) {
 			// 응답의 콘텐츠 타입 설정 (오디오 파일의 MIME 타입)
 			response.setContentType("audio/mpeg");
