@@ -46,7 +46,7 @@ SongDetailDto dto = sdao.findSong(id);
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#">
+							<a href="#" onclick="openModal('songid',<%=dto.getId()%>); return false;">
 								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">						
 							</a>

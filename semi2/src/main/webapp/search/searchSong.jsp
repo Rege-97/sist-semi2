@@ -121,7 +121,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#">
+								<a href="#" onclick="openModal('songid',<%=songArr.get(i).getSongId()%>); return false;">
 								<img src="/semi2/resources/images/design/add-list-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="icon-hover">
 								</a>
