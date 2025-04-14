@@ -64,7 +64,7 @@ public class PlaylistMainDao {
 	private List<PlaylistPreviewDto> findPlaylistsPopularByLimit(int limit, Connection conn) {
 		String sql = "SELECT *  " + "FROM ( " + "    SELECT   " + "        p.id AS playlist_id, "
 				+ "        m.id AS member_id, " + "        p.name AS playlist_name, "
-				+ "        p.created_at AS created_at, " + "        COUNT(DISTINCT ps.song_id) AS song_count, "
+				+ "        p.created_at AS created_at, " + "        COUNT(DISTINCT ps.id) AS song_count, "
 				+ "        COUNT(DISTINCT l.member_id) AS like_count, " + "        m.nickname AS member_nickname, "
 				+ "        s.album_id AS first_album_id " + "    FROM playlists p "
 				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
