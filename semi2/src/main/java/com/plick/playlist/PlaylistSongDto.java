@@ -11,6 +11,14 @@ public class PlaylistSongDto {
 	private String artistNickname;
 	private int artistId;
 
+	public PlaylistSongDto(int songId, String songName, int albumId, String artistNickname) {
+		super();
+		this.songId = songId;
+		this.songName = songName;
+		this.albumId = albumId;
+		this.artistNickname = artistNickname;
+	}
+
 	public PlaylistSongDto(int id, int songId, String songName, int playlistId, int turn, int albumId, String albumName,
 			String artistNickname, int artistId) {
 		super();

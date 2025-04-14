@@ -167,6 +167,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 <body>
 	<%@include file="/header.jsp"%>
+	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<section>
 		<article>
 			<div class="detail-card">
@@ -296,7 +297,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 							</a>
 						</div>
 						<div class="icon-group">
-							<a href="#"> <img
+							<a href="/semi2/playlist/download-playlist.jsp?playlistid=<%=playlistId%>" target="hiddenFrame"> <img
 								src="/semi2/resources/images/design/download-icon.png"
 								class="icon-dafault"> <img
 								src="/semi2/resources/images/design/download-icon-hover.png"
@@ -425,7 +426,12 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> <img
+								<%
+								String downloadParameter = "songid=" + sortedSongs.get(i).getId() + "&songname=" + sortedSongs.get(i).getSongName()
+										+ "&albumid=" + sortedSongs.get(i).getAlbumId() + "&artist=" + sortedSongs.get(i).getArtistNickname();
+								%>
+								<a href="/semi2/chart/download-song.jsp?<%=downloadParameter%>"
+									target="hiddenFrame"> <img
 									src="/semi2/resources/images/design/download-icon.png"
 									class="icon-default"> <img
 									src="/semi2/resources/images/design/download-icon-hover.png"
@@ -505,7 +511,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 							commentRowId++;
 							String createdAt = sdf2.format(playlistComment.getCreatedAt());
 						%>
-						<tr class="comment-row2" id=comment-id- <%=commentRowId%>>
+						<tr class="comment-row2" id=<%="comment-id-" + commentRowId%>>
 
 							<td
 								class="comment-profile<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>"><img

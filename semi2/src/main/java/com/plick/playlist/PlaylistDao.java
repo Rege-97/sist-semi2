@@ -71,7 +71,8 @@ public class PlaylistDao {
 								rs.getString("album_member_nickname"), rs.getInt("album_member_id")));
 					}
 				} while (rs.next());
-				List<PlaylistCommentDto> playlistCommentDtos = findPlaylistCommentDtosByPlaylistId(playlistId, conn, commentLimit);
+				List<PlaylistCommentDto> playlistCommentDtos = findPlaylistCommentDtosByPlaylistId(playlistId, conn,
+						commentLimit);
 
 				return new PlaylistDetailDto(memberId, nickname, accessType, playlistId, playlistName, createdAt, mood1,
 						mood2, likeCount, playlistSongDtos, playlistCommentDtos);
@@ -127,8 +128,9 @@ public class PlaylistDao {
 		}
 		return -1;
 	}
-	
-	private List<PlaylistCommentDto> findPlaylistCommentDtosByPlaylistId(int playlistId, Connection conn, int commentLimit) {
+
+	private List<PlaylistCommentDto> findPlaylistCommentDtosByPlaylistId(int playlistId, Connection conn,
+			int commentLimit) {
 		String sql = "SELECT ROWNUM, inner_result.* " + "FROM ( " + "    SELECT " + "        c.id AS comment_id, "
 				+ "        c.member_id AS member_id, " + "        c.playlist_id AS playlist_id, "
 				+ "        c.content AS content, " + "        c.created_at AS created_at, "
@@ -322,5 +324,55 @@ public class PlaylistDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public int findActiveMembershipByMemberId(int memberId, Connection conn) {
+		String sql = "SELECT stopped_at,membership_id FROM MEMBERSHIP_MEMBERS WHERE stopped_at=(SELECT max(stopped_at) FROM MEMBERSHIP_MEMBERS WHERE member_id=?)";
+
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+
+			try (ResultSet rs = pstmt.executeQuery();) {
+
+				if (rs.next()) {
+					return System.currentTimeMillis() < rs.getTimestamp("stopped_at").getTime()
+							? rs.getInt("membership_id")
+							: -1;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	/**
+	 * @return 다운로드 가능한 이용권이 없으면 null 반환, 플레이리스트에 곡이 없으면 빈 리스트 반환, 정상작동시 다운로드에 필요한
+	 *         플레이리스트 노래정보(songId, songName, albumId, artistNickname)이 담긴 리스트 반환
+	 */
+	public List<PlaylistSongDto> findPlaylistInfoForDownloadByPlaylistId(int memberId, int playlistId) {
+		String sql = "SELECT   " + "    s.id AS song_id, " + "    s.name AS song_name, " + "    a.id AS album_id, "
+				+ "    m2.nickname AS artist_nickname " + "FROM playlists p "
+				+ "LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id " + "LEFT JOIN songs s ON ps.song_id = s.id "
+				+ "LEFT JOIN albums a ON a.id = s.album_id " + "LEFT JOIN members m2 ON m2.id = a.member_id "
+				+ "WHERE p.id = ? " + "GROUP BY s.id, s.name, a.id, m2.nickname " + "ORDER BY MIN(ps.turn)";
+		List<PlaylistSongDto> playlistDownloadDtos = new ArrayList<PlaylistSongDto>();
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+			if (findActiveMembershipByMemberId(memberId, conn) != 3) {
+				return null;
+			}
+			pstmt.setInt(1, playlistId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+
+				while (rs.next()) {
+					playlistDownloadDtos.add(new PlaylistSongDto(rs.getInt("song_id"), rs.getString("song_name"),
+							rs.getInt("album_id"), rs.getString("artist_nickname")));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playlistDownloadDtos;
 	}
 }
