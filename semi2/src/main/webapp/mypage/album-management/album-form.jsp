@@ -16,12 +16,13 @@
 	<div class="subtitle">
 			<h2>앨범 등록</h2>
 		</div>
-	<form action="song-form.jsp?first=true" method = "post">
-	<img name = "albumCover" onclick = "addAlbumCover();">
-	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover">
+	<form action="album-form_ok.jsp" method = "post" enctype="multipart/form-data"> 
+	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
+	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/default-album.jpg" onclick = "addAlbumCover();">
+	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
 	<br>
 	<div>
-	<input type = "text" name = "name" placeholder="앨범제목" class="login-text">
+	<input type = "text" name = "name" id = "name" placeholder="앨범제목" class="login-text">
 	</div>
 	<div>
 	<input type = "text" name = "description" placeholder="앨범소개" class="login-text">
@@ -67,7 +68,7 @@ for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF
 	</div>
 	<iframe style = "display: none;" src = "album-form_hidden.jsp" id = "releaseDateCal"></iframe>
 	<div class="genre-select">
-	<select id = "genre1" onchange = "inputGenre1();" class="album-select">
+	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" class="album-select">
 	<option disabled selected>장르선택</option>
 	<option>발라드</option>
 	<option>알앤비</option>
@@ -80,7 +81,7 @@ for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF
 	<option>인디</option>
 	<option>락</option>
 	</select>
-	<select id = "genre2" onchange = "inputGenre2();" class="album-select">
+	<select id = "genre2" name = "genre2" onchange = "inputGenre2();" class="album-select">
 	<option disabled selected>장르선택</option>
 	<option>발라드</option>
 	<option>알앤비</option>
@@ -93,7 +94,7 @@ for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF
 	<option>인디</option>
 	<option>락</option>
 	</select>
-	<select id = "genre3" onchange = "inputGenre3();" class="album-select">
+	<select id = "genre3" name = "genre3" onchange = "inputGenre3();" class="album-select">
 	<option disabled selected>장르선택</option>
 	<option>발라드</option>
 	<option>알앤비</option>
@@ -108,14 +109,17 @@ for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF
 	</select>
 	</div>
 	<div>
-	<input type = "submit" value = "다음" class="bt">
+	<input type = "submit" value = "앨범 등록" class="bt">
 	</div>
 	</form>
 </div>
 <script>
+ var inputAlbumCover = document.getElementById("inputAlbumCover");
+// 숨겨진 파일 인풋 컴포넌트를 매핑
 function addAlbumCover() {
-	document.getElementById("inputAlbumCover").click();
+	inputAlbumCover.click();
 }
+
 // 날짜 선택 박스 제어 함수
 // default: 현재 날짜
 // 미래 날짜 선택하면 월, 일 자동 세팅
@@ -155,6 +159,19 @@ function inputGenre2() {
 function inputGenre3() {
 	var genre = document.getElementById("genre3");
 	genre.name = "genre"+(genre.selectedIndex+1);
+}
+// 앨범 이미지 변경시 이미지 보여주기
+function changeImg() {
+	newImg = inputAlbumCover.files[0];
+	if (newImg){ 
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			document.getElementById("albumCover").src = e.target.result;
+		}
+		reader.readAsDataURL(newImg);
+	}else{
+		window.alert("잘못된 이미지를 선택하셨습니다.");
+	}
 }
 </script>
 	<jsp:include page="/footer.jsp"></jsp:include>

@@ -16,6 +16,8 @@
 	MypageDao mdao = new MypageDao();
 	// Dao에서 이용권 이름, 만료 기간을 가져와서 남은 일자 계산 후 출력
 	Calendar now = Calendar.getInstance();
+	System.out.println(sdto.getMemberId());
+	
 	HashMap<String, Timestamp> map = mdao.getMembershipName(sdto.getMemberId(), now);
 	ArrayList<String> list = mdao.getMembershipType();
 	boolean a = map.size() > 0 ? true : false; 
@@ -69,7 +71,7 @@
 			</label>
 		</div>
 		<div class="subtitle-sub">
-			<label><%=dayLeft + "일"%></label>
+			<label><%=dayLeft + 1 + "일"%></label>
 			
 			<input type="button" value="<%=a ? "이용권변경" : "이용권구매"%>" onclick="location.href = '/semi2/membership/main.jsp'" class="bt">
 		</div>
@@ -88,7 +90,7 @@
 		<%
 		} else if (sdto.getMemberAccessType().equals("artist")) {
 		%>
-		<input type="button" value="앨범 등록" onclick="location.href = '/semi2/mypage/album-management/album-form.jsp'" class="<%=urlCheck==3?"bt_clicked" : "bt" %>">
+		<input type="button" value="나의 앨범" onclick="location.href = '/semi2/mypage/album-management/main.jsp'" class="<%=urlCheck==3?"bt_clicked" : "bt" %>">
 		<%
 		} else if (sdto.getMemberAccessType().equals("admin")) {
 		%>

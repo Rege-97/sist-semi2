@@ -13,7 +13,6 @@ public class AlbumDao {
 	public int addAlbum(AlbumDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			// 장르 추가시 컬럼 추가 생성 해야 함!
 			String sql = "INSERT INTO albums VALUES (seq_albums_id.nextval, ?, ?, ?, ?, ?, ?, ?, systimestamp)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getMemberId());
@@ -38,7 +37,7 @@ public class AlbumDao {
 		}
 	}
 	
-	public int addSongs(SongsDto dto) {
+	public int addSong(SongsDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "INSERT INTO songs VALUES (seq_songs_id.nextval, ?, ?, ?, ?, ?, 0)";
@@ -68,6 +67,31 @@ public class AlbumDao {
 			String sql = "SELECT id FROM albums WHERE name = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, albumname);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("id");
+			}
+			return 0;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public int findSongId(String songname) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT id FROM songs WHERE name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, songname);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("id");
