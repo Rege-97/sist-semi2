@@ -18,29 +18,19 @@ int currentPage = Integer.parseInt(currentPage_str);
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
-	<div class="subtitle"><h1>
-		"<%=moodSearch %>" 검색결과
-	</h1></div>
+	<div class="subtitle"><h2>"<%=moodSearch %>" 검색결과</h2></div>
 	<section>
-		<article>
-			<ul>
-				<li>전체
-				<li><a href="/semi2/search/searchSong.jsp?search=<%=moodSearch%>">곡</a>
-				<li><a href="/semi2/search/searchAlbum.jsp?search=<%=moodSearch%>">앨범</a>
-				<li><a href="/semi2/search/searchArtist.jsp?search=<%=moodSearch%>">아티스트</a>
-				<li><a
-					href="/semi2/search/searchPlaylist.jsp?search=<%=moodSearch%>">플레이리스트</a>
-			</ul>
-		</article>
 		<article>
 			<h2>플레이리스트 &gt;</h2>
 			<%
-			int searchCount = 10;
+			int searchCount = 50;
 			ArrayList<SearchMoodDto> arr = searchDao.searchMood(moodSearch,currentPage,  searchCount);
 			%>
-			<div>
+			
+			<div class="gallery">
 				<%
 				if (arr == null || arr.size() == 0) {
 				%>
@@ -49,13 +39,23 @@ int currentPage = Integer.parseInt(currentPage_str);
 				} else {
 				for (int i = 0; i < arr.size(); i++) {
 				%>
-
-				<div>
-					<img src="/semi2/resources/images/album/<%=arr.get(i).getFirstAlbumId() %>/cover.jpg"> 
-					<a><%=arr.get(i).getPlaylistName() %></a>
-					<a><%=arr.get(i).getNickname() %></a>
-					<label>(<%=arr.get(i).getSongCount() %>)</label>
+				<div class="gallery-card">
+					<div class="gallery-card-album-image-group">
+				<a href="/semi2/playlist/details.jsp?playlistid=<%=arr.get(i).getPlaylistId()%>">
+				<img src="/semi2/resources/images/album/<%=arr.get(i).getFirstAlbumId() %>/cover.jpg" class="gallery-card-album-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';"> 
+				</a>
+				<div class="gallery-card-album-image-play">
+				<a href="#">
+					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
+					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+				</a>
 				</div>
+				</div>
+				<div class="gallery-card-playlist-name">
+				<label><a href="/semi2/playlist/details.jsp?playlistid=<%=arr.get(i).getPlaylistId()%>"><%=arr.get(i).getPlaylistName() %></a></label>
+				</div>
+					</div>
+
 				<%
 				}
 				}
