@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class AlbumDto {
 	private int id;
 	private int memberId;
-	private String memberName;
 	private String name;
 	private String description;
 	private String genre1;
@@ -24,7 +23,6 @@ public class AlbumDto {
 		super();
 		this.id = id;
 		this.memberId = memberId;
-		this.memberName = memberName;
 		this.name = name;
 		this.description = description;
 		this.genre1 = genre1;
@@ -49,14 +47,6 @@ public class AlbumDto {
 
 	public void setMemberId(int memberId) {
 		this.memberId = memberId;
-	}
-
-	public String getMemberName() {
-		return memberName;
-	}
-	
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
 	}
 	
 	public String getName() {
