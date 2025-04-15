@@ -31,14 +31,16 @@
 		<div class="profile-change-card-input">
 			<input type="text" id="nickname" name="nickname"
 				value="<%=signedinDto.getMemberNickname()%>" readonly
-				onchange="checkDuplicateNickname();" class="mypage-text"> <input
-				type="button" id="nicknameEditButton" value="닉네임 변경"
+				onchange="checkDuplicateNickname();" class="mypage-text"> 
+				<input type="button" id="nicknameEditButton" value="닉네임 변경"
 				onclick="changeNickname();" class="bt"> <label
 				id="duplicateNickname"></label> <input type="hidden"
 				id="nicknamecheck" value="true">
 		</div>
-		<input type="text" id="tel" name="tel"
-			value="<%=signedinDto.getMemberTel()%>" readonly class="login-text">
+		<textarea style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text">
+		<%=signedinDto.getMemberDescription()%>
+		</textarea>
+		<input type = "button" value = "프로필 메세지 수정" onclick = "changeDescription(this);">
 	</div>
 	<%@ include file="/footer.jsp"%>
 	<iframe id="profile_hidden" style="display: none;"></iframe>
@@ -48,10 +50,22 @@
 		var nickname = document.getElementById("nickname");
 		var profileHidden = document.getElementById("profile_hidden");
 		var profileImg = document.getElementById("profileImg");
+		var description = document.getElementById("description");
 		if (profileImg.src.indexOf("default-profile")!=-1){
 			document.getElementById("deleteProfileImg").style.visibility = "hidden";
 		}
 		
+		
+		function changeDescription(bt) {
+			if (bt.value == "프로필 메세지 수정"){
+				description.removeAttribute("readonly");
+				bt.value = "수정 완료";
+			}else{
+				description.setAttribute("readonly", true);
+				profileHidden.src = "description_hidden.jsp?description="+description.value;
+				bt.value = "프로필 메세지 수정";
+				}
+			}
 		
 		// 닉네임 변경 dom 제어/ ifarame으로 중복 검사 요청
 		function changeNickname() {

@@ -43,7 +43,7 @@ if (request.getParameter("songId")==null){
 	<input type = "text" name = "lyricist" placeholder="작사" class="login-text">
 	</div>
 	<div>
-	<input type = "text" name = "lyrics" placeholder="가사" class="login-text">
+	<textarea  style = "resize: none;" name = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
 	</div>
 	<div>
 	</div>
@@ -74,7 +74,9 @@ if (request.getParameter("songId")==null){
 	<input type = "text" name = "lyricist" value = "<%=songDto.getLyricist() %>" class="login-text">
 	</div>
 	<div>
-	<input type = "text" name = "lyrics" value = "<%=songDto.getLyrics() %>" class="login-text">
+	<textarea  style = "resize: none;" name = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text">
+	<%=songDto.getLyrics() %>
+	</textarea>
 	</div>
 	<div>
 	</div>

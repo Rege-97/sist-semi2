@@ -16,7 +16,6 @@
 	MypageDao mdao = new MypageDao();
 	// Dao에서 이용권 이름, 만료 기간을 가져와서 남은 일자 계산 후 출력
 	Calendar now = Calendar.getInstance();
-	System.out.println(sdto.getMemberId());
 	
 	HashMap<String, Timestamp> map = mdao.getMembershipName(sdto.getMemberId(), now);
 	ArrayList<String> list = mdao.getMembershipType();
