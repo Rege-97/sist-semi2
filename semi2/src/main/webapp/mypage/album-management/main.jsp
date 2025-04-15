@@ -34,7 +34,7 @@ ArrayList <AlbumDto> albums = mdao.findMeberAlbums(signedinDto.getMemberId());
 		<tr>
 			<td><img></td>
 			<td><%=albums.get(i).getId() %></td>
-			<td><%=albums.get(i).getName() %></td>
+			<td><a href = "song.jsp?albumId=<%=albums.get(i).getId() %>"><%=albums.get(i).getName() %></a></td>
 			<td><%=albums.get(i).getReleased_at() %></td>
 		</tr>
 		<%

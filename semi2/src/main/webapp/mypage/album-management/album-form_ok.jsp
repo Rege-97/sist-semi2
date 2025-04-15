@@ -27,6 +27,7 @@ MultipartRequest mr = new MultipartRequest(request, path, 20 * 1024 * 1024, "UTF
 AlbumDto albumDto = new AlbumDto();
 albumDto.setName(mr.getParameter("name"));
 albumDto.setMemberId(signedinDto.getMemberId());
+albumDto.setDescription(mr.getParameter("description"));
 albumDto.setGenre1(mr.getParameter("genre1"));
 albumDto.setGenre2(mr.getParameter("genre2"));
 albumDto.setGenre3(mr.getParameter("genre3"));
@@ -41,12 +42,25 @@ Date parseDate = format.parse(releaseDate);
 Timestamp releasedAt = new Timestamp(parseDate.getTime());
 albumDto.setReleasedAt(releasedAt);
 
+
+
+
+
 AlbumDao aDao = new AlbumDao();
 MypageDao mDao = new MypageDao();
-String msg = aDao.addAlbum(albumDto) > 0 ? "성공" : "실패";
+
+String msg = aDao.addAlbum(albumDto) > 0 ? "db등록" : "실패";
+
 int albumId = aDao.findAlbumId(albumDto.getName());
-mDao.renameFile(path, mr.getFilesystemName("audioFile"), ""+albumId);
+
+
+
+if (mDao.renameFile(path, mr.getFilesystemName("inputAlbumCover"), ""+albumId+".jpg")){
+	msg += "파일 저장";
+}
+
 session.setAttribute("albumId", albumId);
+System.out.println(albumId+"<");
 %>
 <script>
 window.alert("<%=msg %>");

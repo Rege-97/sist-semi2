@@ -17,7 +17,7 @@
 <%
 SignedinDto signedinDto = (SignedinDto) session.getAttribute("signedinDto");
 request.setCharacterEncoding("UTF-8");
-String path = request.getRealPath("/resources/songs/"+(Integer) session.getAttribute("albumId"));
+String path = request.getRealPath("/resources/songs/"+Integer.parseInt(session.getAttribute("albumId").toString()));
 
 java.io.File f = new java.io.File(path);
 if(!f.exists()) f.mkdirs();
@@ -25,7 +25,7 @@ if(!f.exists()) f.mkdirs();
 MultipartRequest mr = new MultipartRequest(request, path, 20 * 1024 * 1024, "UTF-8");
 
 SongsDto songDto = new SongsDto();
-songDto.setAlbum_id((Integer) session.getAttribute("albumId"));
+songDto.setAlbum_id(Integer.parseInt(session.getAttribute("albumId").toString()));
 songDto.setName(mr.getParameter("name"));
 songDto.setComposer(mr.getParameter("composer"));
 songDto.setLyricist(mr.getParameter("lyricist"));
@@ -33,9 +33,11 @@ songDto.setLyrics(mr.getParameter("lyrics"));
 
 AlbumDao aDao = new AlbumDao();
 MypageDao mDao = new MypageDao();
-String msg = aDao.addSong(songDto) > 0 ? "성공" : "실패";
 
-mDao.renameFile(path, mr.getFilesystemName("audioFile"), ""+aDao.findAlbumId(songDto.getName()));
+String msg = "작업이 온전히 끝나지 않았습니다";
+if (mDao.renameFile(path, mr.getFilesystemName("audioFile"), ""+aDao.findAlbumId(songDto.getName())) && aDao.addSong(songDto) > 0){
+	msg = "작업 완료";
+}
 
 %>
 <script>

@@ -384,6 +384,7 @@ public class MypageDao {
 					album.setGenre1(rs.getString("genre1"));
 					album.setGenre2(rs.getString("genre2"));
 					album.setGenre3(rs.getString("genre3"));
+					album.setCreated_at(rs.getTimestamp("created_at"));
 					album.setReleased_at(rs.getTimestamp("released_at"));
 				} while (rs.next());
 			}
@@ -408,7 +409,7 @@ public class MypageDao {
 	public ArrayList<SongDto> findAlbumSongs(int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT * FROM (SELECT * FROM albums WHERE album_id = ?) album FULL OUTER JOIN songs ON album.id = songs.album_id";
+			String sql = "SELECT * FROM songs WHERE album_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, albumId);
 			rs = pstmt.executeQuery();
@@ -418,7 +419,7 @@ public class MypageDao {
 					songs.add(new SongDto(rs.getInt("id"),
 							rs.getInt("album_id"),
 							rs.getString("name"),
-							rs.getString("comporser"),
+							rs.getString("composer"),
 							rs.getString("lyricist"),
 							rs.getString("lyrics"),
 							rs.getInt("view_count")

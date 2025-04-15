@@ -15,7 +15,8 @@
 <%
 if(request.getParameter("albumId")!=null) session.setAttribute("albumId", request.getParameter("albumId"));
 
-int albumId = (Integer) session.getAttribute("albumId");
+int albumId = (Integer.parseInt(session.getAttribute("albumId").toString()));
+System.out.println(albumId+"<<");
 AlbumDto aDto = mdao.findInfoAlbums(albumId);
 ArrayList <SongDto> songs = mdao.findAlbumSongs(albumId);
 %>
