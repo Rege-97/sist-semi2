@@ -15,6 +15,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%
+	if(session.getAttribute("signedinDto")==null){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}else if(((SignedinDto) session.getAttribute("signedinDto")).getMemberId() == 0){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}
+	%>
+
 <%
 SignedinDto signedinDto = (SignedinDto) session.getAttribute("signedinDto");
 request.setCharacterEncoding("UTF-8");
