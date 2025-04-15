@@ -58,15 +58,16 @@ if(request.getParameter("modify")==null){
 }
 int albumId = aDao.findAlbumId(albumDto.getName());
 	
+if (mr.getFilesystemName("inputAlbumCover")!=null){
+		
+	String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
 	
-String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
-
-File df = new File(path+"/"+albumId+type);
-if(df.exists()) df.delete();
-if (mDao.renameFile(path, mr.getFilesystemName("inputAlbumCover"), albumId+type)){
-	msg += "파일 저장";
+	File df = new File(path+"/"+albumId+type);
+	if(df.exists()) df.delete();
+	if (mDao.renameFile(path, mr.getFilesystemName("inputAlbumCover"), albumId+type)){
+		msg += "파일 저장";
+	}
 }
-
 session.setAttribute("albumId", albumId);
 
 %>

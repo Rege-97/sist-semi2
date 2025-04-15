@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.plick.mypage.SongDto;
+
 public class AlbumDao {
 	Connection conn;
 	PreparedStatement pstmt;
@@ -49,6 +51,31 @@ public class AlbumDao {
 			pstmt.setString(5, dto.getGenre3());
 			pstmt.setTimestamp(6, dto.getReleasedAt());
 			pstmt.setInt(7, dto.getId());
+			int result = pstmt.executeUpdate();
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public int modifySong(SongsDto dto) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE Songs SET name = ?, composer = ?, lyricist = ?, lyrics = ? WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getComposer());
+			pstmt.setString(3, dto.getLyricist());
+			pstmt.setString(4, dto.getLyrics());
+			pstmt.setInt(5, dto.getId());
 			int result = pstmt.executeUpdate();
 			return result;
 		}catch(Exception e) {

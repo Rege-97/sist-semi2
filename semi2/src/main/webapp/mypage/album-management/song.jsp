@@ -71,7 +71,7 @@ ArrayList <SongDto> songs = mdao.findAlbumSongs(albumId);
 			<td><%=songs.get(i).getName() %></td>
 			<td><%=songs.get(i).getComposer() %></td>
 			<td><%=songs.get(i).getLyricist() %></td>
-			<td><input type = "button" value = "연필모양" onclick = ""> </td>
+			<td><input type = "button" value = "연필모양" onclick = "location.href = 'song-form.jsp?songId=<%=songs.get(i).getId() %>'"> </td>
 		</tr>
 		<%
 			}

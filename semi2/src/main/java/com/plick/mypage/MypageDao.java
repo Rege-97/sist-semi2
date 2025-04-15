@@ -444,4 +444,40 @@ public class MypageDao {
 		}
 
 	}
+	
+	public SongDto findSong(int songId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT * FROM songs WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, songId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				do {
+					return new SongDto(rs.getInt("id"),
+							rs.getInt("album_id"),
+							rs.getString("name"),
+							rs.getString("composer"),
+							rs.getString("lyricist"),
+							rs.getString("lyrics"),
+							rs.getInt("view_count"));
+				} while (rs.next());
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
 }

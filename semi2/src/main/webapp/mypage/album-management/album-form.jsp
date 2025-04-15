@@ -223,7 +223,7 @@ for (int i = time.get(Calendar.DAY_OF_MONTH); i <= time.getMaximum(Calendar.DAY_
 	</select>
 	</div>
 	<div>
-	<input type = "submit" value = "앨범 등록" class="bt">
+	<input type = "submit" value = "앨범 수정" class="bt">
 	</div>
 	</form>
 </div>

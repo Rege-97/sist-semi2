@@ -1,3 +1,6 @@
+
+<%@page import="com.plick.mypage.SongDto"%>
+<%@page import="com.plick.mypage.MypageDto"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.Date"%>
@@ -19,9 +22,12 @@
 	<%@ include file="/header.jsp"%>
 	<%@ include file="/mypage/mypage-header.jsp"%>
 	<div class=profile-change-card>
+<%
+if (request.getParameter("songId")==null){
+%>
 	<div class="subtitle">
 			<h2>수록곡 등록</h2>
-		</div>
+	</div>
 	<form action = "song-form_ok.jsp" method = "post" enctype = "multipart/form-data">
 	<audio id="audio" controls></audio>
 	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
@@ -42,9 +48,43 @@
 	<div>
 	</div>
 	<div>
-	<input type = "submit" value = "곡 등록" onclick = "add_album();" class="bt">
+	<input type = "submit" value = "곡 등록" class="bt">
 	</div>
 	</form>
+<%
+}else{
+	MypageDao mypageDao = new MypageDao();
+	SongDto songDto = mypageDao.findSong(Integer.parseInt(request.getParameter("songId")));
+%>
+	<div class="subtitle">
+			<h2>수록곡 수정</h2>
+	</div>
+	<form action = "song-form_ok.jsp?songId=<%=songDto.getId() %>" method = "post" enctype = "multipart/form-data">
+	<audio id="audio" src = "/semi2/resources/songs/<%=session.getAttribute("albumId").toString() %>/<%=songDto.getId() %>" controls></audio>
+	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
+	<input style="display: none;" type="file" id="audioFile" name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
+	<input type = "hidden" name = "song" id = "songHidden">
+	<div>
+	<input type = "text" name = "name" value = "<%=songDto.getName() %>" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "composer" value = "<%=songDto.getComposer() %>" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "lyricist" value = "<%=songDto.getLyricist() %>" class="login-text">
+	</div>
+	<div>
+	<input type = "text" name = "lyrics" value = "<%=songDto.getLyrics() %>" class="login-text">
+	</div>
+	<div>
+	</div>
+	<div>
+	<input type = "submit" value = "곡 수정" class="bt">
+	</div>
+	</form>
+<% 
+}
+%>
 </div>
 	<jsp:include page="/footer.jsp"></jsp:include>
 <script>
@@ -68,10 +108,6 @@ function changeAudio(song) {
     } else {
         alert("파일을 선택하지 않았습니다.");
     }
-}
-function add_album(){
-	window.alert("곡을 등록하시겠습니까?");
-	form.submit();
 }
 </script>
 </body>

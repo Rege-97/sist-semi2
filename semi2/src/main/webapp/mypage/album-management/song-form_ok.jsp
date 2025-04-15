@@ -1,3 +1,4 @@
+<%@page import="java.io.File"%>
 <%@page import="com.plick.album.SongsDto"%>
 <%@page import="com.plick.album.AlbumDao"%>
 <%@page import="com.plick.mypage.MypageDao"%>
@@ -34,9 +35,25 @@ songDto.setLyrics(mr.getParameter("lyrics"));
 AlbumDao aDao = new AlbumDao();
 MypageDao mDao = new MypageDao();
 
-String msg = "작업이 온전히 끝나지 않았습니다";
-if (mDao.renameFile(path, mr.getFilesystemName("audioFile"), ""+aDao.findAlbumId(songDto.getName())) && aDao.addSong(songDto) > 0){
-	msg = "작업 완료";
+String msg = "";
+int songId = 0;
+if (request.getParameter("songId")!=null){
+	songId = Integer.parseInt(request.getParameter("songId"));
+}
+if (request.getParameter("songId")==null){
+	msg = aDao.addSong(songDto) > 0 ? "DB등록" : "실패";
+}else{
+	songDto.setId(songId);
+	msg = aDao.modifySong(songDto) > 0 ? "DB등록" : "실패";
+}
+if (mr.getFilesystemName("audioFile")!=null){
+	String type = mr.getFilesystemName("audioFile").substring(mr.getFilesystemName("audioFile").lastIndexOf("."));
+	
+	File df = new File(path+"/"+songId+type);
+	if(df.exists()) df.delete();
+	if (mDao.renameFile(path, mr.getFilesystemName("audioFile"), songId+type)){
+		msg += "+음원 변경";
+	}
 }
 
 %>
