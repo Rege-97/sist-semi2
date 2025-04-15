@@ -15,7 +15,7 @@ if (nickname!=null && memberId==null){
 		%>
 		<script>
 		parent.document.getElementById("duplicateNickname").innerText = "사용가능한 닉네임이에요";
-		parent.document.getElementById("Nicknamecheck").value = "true";
+		parent.document.getElementById("nicknamecheck").value = "true";
 		</script>
 		<%
 		break;
@@ -23,7 +23,7 @@ if (nickname!=null && memberId==null){
 		%>
 		<script>
 		parent.document.getElementById("duplicateNickname").innerText = "중복된 닉네임이에요";
-		parent.document.getElementById("Nicknamecheck").value = "false";
+		parent.document.getElementById("nicknamecheck").value = "false";
 		</script>
 		<%
 		break;

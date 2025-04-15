@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import com.plick.signedin.SignedinDto;
+
 import java.io.File;
 
 public class MemberDao {
@@ -192,6 +195,28 @@ public class MemberDao {
 			}
 		}
 	}
+	public int resetDescription(SignedinDto signedinDto) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE members SET description = ? WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, signedinDto.getMemberDescription());
+			pstmt.setInt(2, signedinDto.getMemberId());
+			int result = pstmt.executeUpdate();
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
 	public String loadProfileImg(String realPath, int memberId) {
 		File profileImg = new File(realPath+"resources/images/member/"+memberId+"/profile.jpg");
 		if (profileImg.exists()) {
