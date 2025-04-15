@@ -36,7 +36,7 @@
 
 /* 모달 박스 */
 .modal-content {
-	background-color: #fff;
+	background-color: #131313;
 	margin: 5% auto;
 	border-radius: 10px;
 	width: 500px;
