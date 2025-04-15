@@ -37,8 +37,7 @@
 				id="duplicateNickname"></label> <input type="hidden"
 				id="nicknamecheck" value="true">
 		</div>
-		<input type="text" id="tel" name="tel"
-			value="<%=signedinDto.getMemberTel()%>" readonly class="login-text">
+		<textarea style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text"></textarea>
 	</div>
 	<%@ include file="/footer.jsp"%>
 	<iframe id="profile_hidden" style="display: none;"></iframe>
