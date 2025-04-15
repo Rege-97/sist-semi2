@@ -9,6 +9,16 @@
 <title>Insert title here</title>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
+
+	<%
+	if(session.getAttribute("signedinDto")==null){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}else if(((SignedinDto) session.getAttribute("signedinDto")).getMemberId() == 0){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}
+	%>
 <body>
 <%@ include file="/header.jsp"%>
 <%@ include file="/mypage/mypage-header.jsp"%>
