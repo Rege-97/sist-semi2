@@ -16,13 +16,14 @@
 if(request.getParameter("albumId")!=null) session.setAttribute("albumId", request.getParameter("albumId"));
 
 int albumId = (Integer.parseInt(session.getAttribute("albumId").toString()));
-System.out.println(albumId+"<<");
+
 AlbumDto aDto = mdao.findInfoAlbums(albumId);
 ArrayList <SongDto> songs = mdao.findAlbumSongs(albumId);
 %>
 <h2>앨범수정</h2>
 <div>
 	<input type="button" value="신곡 추가하기" onclick="location.href = 'song-form.jsp'">
+	<input type="button" value="앨범 정보 수정" onclick="location.href = 'album-form.jsp?albumId=<%=albumId%>'">
 	<table>
 		<thead>
 			<tr>
@@ -30,9 +31,13 @@ ArrayList <SongDto> songs = mdao.findAlbumSongs(albumId);
 					onerror="this.src='/semi2/resources/images/album/default-album.jpg';"></td>
 				<td><%=aDto.getId() %></td>
 				<td><%=aDto.getName() %></td>
-				<td><%=aDto.getReleased_at().getYear() %>+"년"+
-				<%=aDto.getReleased_at().getMonth()+1 %>+"월"+
-				<%=aDto.getReleased_at().getDate() %>+"일"
+				<%
+				Calendar time = Calendar.getInstance();
+				time.setTimeInMillis(aDto.getReleased_at().getTime());
+				%>
+				<td><%=time.get(Calendar.YEAR) %>+"년"+
+				<%=time.get(Calendar.MONTH)+1 %>+"월"+
+				<%=time.get(Calendar.DAY_OF_MONTH) %>+"일"
 				</td>
 			</tr>
 		</thead>
@@ -66,6 +71,7 @@ ArrayList <SongDto> songs = mdao.findAlbumSongs(albumId);
 			<td><%=songs.get(i).getName() %></td>
 			<td><%=songs.get(i).getComposer() %></td>
 			<td><%=songs.get(i).getLyricist() %></td>
+			<td><input type = "button" value = "연필모양" onclick = ""> </td>
 		</tr>
 		<%
 			}

@@ -45,22 +45,30 @@ albumDto.setReleasedAt(releasedAt);
 
 
 
+String msg = "";
 
 AlbumDao aDao = new AlbumDao();
 MypageDao mDao = new MypageDao();
 
-String msg = aDao.addAlbum(albumDto) > 0 ? "db등록" : "실패";
-
+if(request.getParameter("modify")==null){
+	msg = aDao.addAlbum(albumDto) > 0 ? "db등록" : "실패";
+}else{
+	albumDto.setId(Integer.parseInt(session.getAttribute("albumId").toString()));
+	msg = aDao.modifyAlbum(albumDto) > 0 ? "db등록" : "실패";
+}
 int albumId = aDao.findAlbumId(albumDto.getName());
+	
+	
+String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
 
-
-
-if (mDao.renameFile(path, mr.getFilesystemName("inputAlbumCover"), ""+albumId+".jpg")){
+File df = new File(path+"/"+albumId+type);
+if(df.exists()) df.delete();
+if (mDao.renameFile(path, mr.getFilesystemName("inputAlbumCover"), albumId+type)){
 	msg += "파일 저장";
 }
 
 session.setAttribute("albumId", albumId);
-System.out.println(albumId+"<");
+
 %>
 <script>
 window.alert("<%=msg %>");

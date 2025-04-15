@@ -37,6 +37,33 @@ public class AlbumDao {
 		}
 	}
 	
+	public int modifyAlbum(AlbumDto dto) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE albums SET name = ?, description = ?, genre1 = ?, genre2 = ?, genre3 = ?, released_at = ? WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getDescription());
+			pstmt.setString(3, dto.getGenre1());
+			pstmt.setString(4, dto.getGenre2());
+			pstmt.setString(5, dto.getGenre3());
+			pstmt.setTimestamp(6, dto.getReleasedAt());
+			pstmt.setInt(7, dto.getId());
+			int result = pstmt.executeUpdate();
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
 	public int addSong(SongsDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
@@ -61,12 +88,12 @@ public class AlbumDao {
 			}
 		}
 	}
-	public int findAlbumId(String albumname) {
+	public int findAlbumId(String albumName) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT id FROM albums WHERE name = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, albumname);
+			pstmt.setString(1, albumName);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("id");
