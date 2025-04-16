@@ -38,7 +38,7 @@
 				id="nicknamecheck" value="true">
 		</div>
 		<textarea style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text">
-		<%=signedinDto.getMemberDescription()%>
+		<%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %>
 		</textarea>
 		<input type = "button" value = "프로필 메세지 수정" onclick = "changeDescription(this);">
 	</div>

@@ -24,7 +24,7 @@ String data64 = request.getParameter("img64");
 File delFile = new File(request.getRealPath("resources/images/member/"+memberId)+"/profile.jpg");
 delFile.delete();
 MypageDao mDao = new MypageDao();
-boolean a = mDao.addFileToBase64(request.getParameter("img64"), request.getRealPath("resources/images/member/"+memberId)+"/profile.jpg");
+boolean a = mDao.addFileToBase64(request.getParameter("img64"), request.getRealPath("resources/images/member/"+memberId), "profile.jpg");
 %>
 <script>
 window.alert("<%=a ? "성공":"실패" %>");

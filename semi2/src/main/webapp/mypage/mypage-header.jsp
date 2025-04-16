@@ -24,6 +24,7 @@
 	// Dao에서 이용권 이름, 만료 기간을 가져와서 남은 일자 계산 후 출력
 	Calendar now = Calendar.getInstance();
 	
+	System.out.println(sdto.getMemberId());
 	HashMap<String, Timestamp> map = mdao.getMembershipName(sdto.getMemberId(), now);
 	ArrayList<String> list = mdao.getMembershipType();
 	boolean a = map.size() > 0 ? true : false; 
@@ -77,7 +78,7 @@
 			</label>
 		</div>
 		<div class="subtitle-sub">
-			<label><%=dayLeft + 1 + "일"%></label>
+			<label><%=passName.equals("보유 중인 이용권이 없습니다") ? "" : (dayLeft == 0 ? 0+"일" : dayLeft + 1+"일")%></label>
 			
 			<input type="button" value="<%=a ? "이용권변경" : "이용권구매"%>" onclick="location.href = '/semi2/membership/main.jsp'" class="bt">
 		</div>
