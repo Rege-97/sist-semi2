@@ -37,8 +37,8 @@ ArrayList <SongDto> songs = mdao.findAlbumSongs(albumId);
 	<table>
 		<thead>
 			<tr>
-				<td><img src = "<%=request.getRealPath("/resources/images/album")+albumId+".jpg" %>"
-					onerror="this.src='/semi2/resources/images/album/default-album.jpg';"></td>
+				<td><img src = "<%=request.getRealPath("/resources/images/album/")+albumId+".jpg" %>"
+					onerror="this.src='/semi2/resources/images/album/default-cover.jpg';"></td>
 				<td><%=aDto.getId() %></td>
 				<td><%=aDto.getName() %></td>
 				<%
