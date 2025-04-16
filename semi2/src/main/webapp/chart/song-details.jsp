@@ -69,11 +69,11 @@ SongDetailDto dto = sdao.findSong(id);
 				</tr>
 				<tr>
 					<th>작곡</th>
-					<td><%=dto.getComposer() %></td>
+					<td><%=dto.getComposer()==null?"":dto.getComposer() %></td>
 				</tr>
 				<tr>
 					<th>작사</th>
-					<td><%=dto.getLyricist() %></td>
+					<td><%=dto.getLyricist()==null?"":dto.getLyricist() %></td>
 				</tr>
 				<tr class="lyrics">
 					<td colspan="2"><br><%=dto.getLyrics().replaceAll("\n", "<br>")%></td>
