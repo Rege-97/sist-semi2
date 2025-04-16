@@ -2,7 +2,7 @@
 <%@ page import="com.plick.root.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="rdao" class="com.plick.root.RootDao"></jsp:useBean>
-
+<%! static final int MAX_PLAYLISTS_LENGTH = 5;  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -188,7 +188,7 @@
 				<%
 			}else{
 				
-				for (int i=0;i<5;i++){
+				for (int i=0;i<Math.min(MAX_PLAYLISTS_LENGTH, arrPopularPlaylist.size());i++){
 					%>
 				<div class="gallery-card">
 					<div class="gallery-card-album-image-group">
