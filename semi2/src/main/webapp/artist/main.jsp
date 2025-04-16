@@ -20,7 +20,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/semi2/player/player-open.js"></script>
 <script>
 	function showAlertAndGoBack(message) {
 		window.alert(message);

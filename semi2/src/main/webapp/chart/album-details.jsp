@@ -11,7 +11,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/semi2/player/player-open.js"></script>
 <script>
 	function answer(commentId) {
 		const answerRow = document.getElementById("answer-" + commentId);
