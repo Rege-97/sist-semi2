@@ -20,6 +20,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/semi2/player/player-open.js"></script>
 <script>
 	function showAlertAndGoBack(message) {
 		window.alert(message);
@@ -82,6 +83,7 @@ String formattedTotalViewCount = formatter.format(totalViewCount);
 
 boolean isArtist = "artist".equals(artistDto.getAccessType());
 %>
+
 <body>
 	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<%@ include file="/header.jsp"%>
@@ -171,7 +173,7 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 					</td>
 					<td>
 						<div class="icon-group">
-							<a href="#"> <img src="/semi2/resources/images/design/play-icon.png" class="icon-default"> <img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=sortedSongs.get(i).getId()%>'); return false;"> <img src="/semi2/resources/images/design/play-icon.png" class="icon-default"> <img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 							</a>
 						</div>
 					</td>
@@ -218,14 +220,10 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>" class="gallery-card-album-image">
 					</a>
 					<div class="gallery-card-album-image-play">
-						<a href="#"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+						<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>'); return false;"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 						</a>
 					</div>
 				</div>
-				<div class="gallery-card-album-name">
-					<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
-				</div>
-
 				<div class="gallery-card-artist-name-myplaylist">
 					<div>
 						<img src="/semi2/resources/images/design/likes-icon.png" width="15">&nbsp;<%=playlistPreview.getLikeCount()%>
@@ -266,7 +264,8 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 				<div class="gallery-card-album-image-group">
 				<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.jpg"  class="gallery-card-album-image" /></a>
 					<div class="gallery-card-album-image-play">
-						<a href="#"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+						<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>'); return false;"> 
+						<img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 						</a>
 					</div>
 				</div>

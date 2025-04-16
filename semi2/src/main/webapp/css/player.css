@@ -1,0 +1,284 @@
+@charset "UTF-8";
+body {
+	background-color: black;
+	color: white;
+	margin: 0px;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+#seekbar-wrapper {
+	width: 100%;
+	height: 5px;
+	background: #262626;
+	position: relative;
+	cursor: pointer;
+}
+
+#seekbar-fill {
+	width: 0%;
+	height: 100%;
+	background: #ff2dac;
+	pointer-events: none;
+}
+
+#volume-wrapper {
+	width: 100px;
+	height: 5px;
+	background: #777;
+	position: relative;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#volume-fill {
+	width: 0%;
+	height: 100%;
+	background: #ff2dac;
+	pointer-events: none;
+}
+
+.player-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 30px;
+	background: black;
+	height: 70px;
+}
+
+.player-card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	height: 13vh;
+	padding: 0 20px;
+	background: #131313;
+}
+
+.left-info, .right-controls {
+	flex: 1;
+	display: flex;
+	align-items: center;
+}
+
+.left-info {
+	gap: 12px;
+}
+
+.left-info img {
+	width: 50px;
+	height: 50px;
+	border-radius: 6px;
+}
+
+.song-info-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.center-controls {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-35%);
+	display: flex;
+	align-items: center;
+	gap: 40px;
+}
+
+.time-state {
+	font-size: 12px;
+}
+
+.right-controls {
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+#max {
+	color: #a7a7a7;
+}
+
+#artist {
+	font-size: 13px;
+	color: #a7a7a7;
+}
+
+.blur-container {
+	position: relative;
+	width: 100%;
+	height: 86vh;
+	overflow: hidden;
+}
+
+.bg-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	filter: blur(100px) brightness(30%);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+
+.overlay-content {
+	position: relative;
+	z-index: 1;
+	color: white;
+	text-align: center;
+	display: flex;
+}
+
+.song-list-table-div {
+	display: inline-block;
+	padding: 30px;
+	margin: 30px;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 6px;
+	height: 70vh;
+	width: 30vw;
+
+}
+.list-table-div{
+	height:90%;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.list-table-div::-webkit-scrollbar {
+	display: none;
+}
+
+table.song-list-table .songlist {
+	height: 70px;
+}
+
+.sonlist-info {
+	text-align: left;
+	padding-left: 20px;
+	padding-bottom: 10px;
+	width:80%;
+}
+
+.sonlist-info:hover {
+	color: #ff2dac;
+}
+
+.sonlist-info-artist {
+	font-size: 13px;
+	color: #a7a7a7;
+	
+}
+
+.songlist-image {
+	width: 50px;
+	border-radius: 6px;
+}
+
+.play-now-info-div {
+	height: 70vh;
+	width: 70vw; padding : 30px;
+	margin: 30px;
+	padding: 30px;
+}
+
+.play-now-info-image {
+	height: 63%;
+	border-radius: 12px;
+	margin: 30px;
+}
+
+.play-now-info-songname {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.play-now-info-artist {
+	font-size: 13px;
+	color: #a7a7a7;
+}
+
+.play-now-lyrics-div {
+	height: 70vh;
+	width: 70vw;
+	padding: 30px;
+	margin: 30px;
+}
+
+.play-now-lyrics {
+	height: 64%;
+	overflow: scroll;
+	overflow-x: hidden;
+	margin: 30px;
+}
+
+.play-now-lyrics::-webkit-scrollbar {
+	display: none;
+}
+
+.bt {
+	display: inline-block;
+	border-radius: 999px;
+	margin: 0px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 30px;
+	background: transparent;
+	color: white;
+	box-shadow: none;
+	border: 1px solid white;
+	cursor: pointer;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+.bt:hover {
+	border-color: #ff2dac;
+	color: #ff2dac;
+}
+
+.delete, .delete-hover {
+	margin-left: 10px;
+	margin-top: 2px;
+	height: 18px;
+}
+
+.delete-icon-group {
+	width: 40px;
+	height: 40px;
+	margin-top:10px;
+	mergin-left:auto;
+	position: relative;
+}
+
+.delete-icon-group img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.delete-hover {
+	opacity: 0;
+}
+
+.delete-icon-group:hover .delete {
+	opacity: 0;
+}
+
+.delete-icon-group:hover .delete-hover {
+	opacity: 1;
+}
+.title{
+	font-size: 20px;
+	font-weight: bold;
+	height:10%;
+}	
+.nomembership{
+	margin-top:10px;
+	font-size: 12px;
+	
+}
