@@ -89,7 +89,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 					</div>
 					<div class="detail-card-info-icon">
 						<div class="icon-group">
-							<a href="#">
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>'); return false;">
 								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 							</a>
@@ -187,7 +187,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> 
+								<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=songArr.get(i).getSongId()%>'); return false;">
 								<img src="/semi2/resources/images/design/play-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 								</a>
@@ -243,7 +243,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 						<img src="/semi2/resources/images/album/<%=playlsitArr.get(i).getFirstAlbumId() %>/cover.jpg" class="gallery-card-album-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 				</a>
 				<div class="gallery-card-album-image-play">
-				<a href="#">
+				<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlsitArr.get(i).getPlaylistId()%>'); return false;">
 					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
 					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 				</a>

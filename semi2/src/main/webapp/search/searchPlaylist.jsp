@@ -62,7 +62,7 @@ int currentGroup = (currentPage-1)/pageGroupSize+1;
 					<img src="/semi2/resources/images/album/<%=playlsitArr.get(i).getFirstAlbumId() %>/cover.jpg" class="gallery-card-album-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 				</a>
 				<div class="gallery-card-album-image-play">
-				<a href="#">
+			<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlsitArr.get(i).getPlaylistId()%>'); return false;"> 
 					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
 					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 				</a>

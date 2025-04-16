@@ -45,7 +45,8 @@ int currentPage = Integer.parseInt(currentPage_str);
 				<img src="/semi2/resources/images/album/<%=arr.get(i).getFirstAlbumId() %>/cover.jpg" class="gallery-card-album-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';"> 
 				</a>
 				<div class="gallery-card-album-image-play">
-				<a href="#">
+				<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=arr.get(i).getPlaylistId()%>'); return false;"> 
+
 					<img src="/semi2/resources/images/design/album-play.png" class="play-default">
 					<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 				</a>
