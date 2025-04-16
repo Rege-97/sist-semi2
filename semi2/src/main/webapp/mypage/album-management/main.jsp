@@ -32,7 +32,8 @@ ArrayList <AlbumDto> albums = mdao.findMeberAlbums(signedinDto.getMemberId());
 		for (int i = 0; i < albums.size(); i++){
 		%>
 		<tr>
-			<td><img></td>
+			<td><img src = "<%=request.getRealPath("/resources/images/album")+albums.get(i).getId()+".jpg" %>"
+					onerror="this.src='/semi2/resources/images/album/default-album.jpg';"></td>
 			<td><%=albums.get(i).getId() %></td>
 			<td><a href = "song.jsp?albumId=<%=albums.get(i).getId() %>"><%=albums.get(i).getName() %></a></td>
 			<td><%=albums.get(i).getReleased_at() %></td>

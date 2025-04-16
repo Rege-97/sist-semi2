@@ -91,7 +91,6 @@ oldImg.src = "<%=fileB64 %>";
 
 oldImg.onload = function(){
 		ctx.drawImage(oldImg, 0, 0, canvas.width, canvas.height);
-		window.alert(oldImg.src);
 }
 
 
@@ -273,7 +272,6 @@ function changeEditImg() {
 			}
 			tempImg.src = e.target.result;
 			newImg = tempImg;
-			console.log(newImg.src);
 		}
 		reader.readAsDataURL(newImg);
 	}else{
@@ -283,12 +281,9 @@ function changeEditImg() {
 
 function canvasToBase64() {
 	// 이미지와 캔버스의 크기가 다르므로 비율이 필요
-	window.alert("!@#!");
 	if (newImg == null) newImg = oldImg;
 	if (newImg == undefined) newImg = oldImg;
 	
-	window.alert(canvasE.width);
-	window.alert(newImg.src);
 	const scaleX = newImg.width / canvas.width;
 	const scaleY = newImg.height / canvas.height;
 	
