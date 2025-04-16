@@ -11,14 +11,13 @@
 
 /*기본 세팅*/
 body {
-  background: #131313;
-  color: white;
-  width: 995px;
-  margin: 0px auto;
-  font-family: 'Noto Sans KR', sans-serif;
-  padding-top: 0;
+	background: #131313;
+	color: white;
+	width: 995px;
+	margin: 0px auto;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding-top: 0;
 }
-
 
 /*링크 세팅*/
 a {
@@ -30,13 +29,13 @@ a {
 
 /*헤더 공통 세팅*/
 header {
-  position: relative;
-  width: 1200px;
-  margin-left: calc(50% - 600px);
-  background: #131313;
-  padding-top: 30px;
-  z-index: 4000;
-  margin-bottom:30px;
+	position: relative;
+	width: 1200px;
+	margin-left: calc(50% - 600px);
+	background: #131313;
+	padding-top: 30px;
+	z-index: 4000;
+	margin-bottom: 30px;
 }
 
 /*메뉴 리스트*/
@@ -73,9 +72,9 @@ header {
 .search-wrapper input[type="text"] {
 	width: 100%;
 	padding: 4px 30px 4px 12px;
-	font-size: 12px;            
-	line-height: 1.2;            
-	height: 30px;    
+	font-size: 12px;
+	line-height: 1.2;
+	height: 30px;
 	border-radius: 999px;
 	border: 2px solid black;
 	box-sizing: border-box;
@@ -212,9 +211,9 @@ header {
 	margin-bottom: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
-		white-space: nowrap; 
-	width:160px;
-	overflow:hidden;
+	white-space: nowrap;
+	width: 160px;
+	overflow: hidden;
 }
 
 .gallery-card-album-name a:hover {
@@ -227,9 +226,9 @@ header {
 	margin-bottom: 20px;
 	padding-left: 5px;
 	padding-right: 5px;
-			white-space: nowrap; 
-	width:160px;
-	overflow:hidden;
+	white-space: nowrap;
+	width: 160px;
+	overflow: hidden;
 }
 
 .gallery-card-artist-name a:hover {
@@ -423,10 +422,10 @@ table.song-list .song-list-body {
 /*디테일 카드 정보 공간 세팅*/
 .detail-card-info {
 	margin-left: 30px;
-	white-space: nowrap; 
-	width:170px;
-	text-overflow:ellipsis;
-	overflow:visible;
+	white-space: nowrap;
+	width: 170px;
+	text-overflow: ellipsis;
+	overflow: visible;
 }
 
 /*디테일 카드 정보 이름 세팅*/
@@ -468,13 +467,14 @@ table.song-list .song-list-body {
 	display: flex;
 	gap: 15px;
 	align-items: left;
-	width:120px;
+	width: 120px;
 }
-.detail-card-info-icon-playlist{
+
+.detail-card-info-icon-playlist {
 	display: flex;
 	gap: 15px;
 	align-items: left;
-	width:160px;
+	width: 160px;
 }
 
 .detail-card-info-album {
@@ -1072,8 +1072,7 @@ table.song-list .song-list-body {
 	display: flex;
 	margin-bottom: 40px;
 	margin-right: 50px;
-	width:290px;
-
+	width: 290px;
 }
 
 /*디테일 카드 이미지 세팅*/
@@ -1084,9 +1083,9 @@ table.song-list .song-list-body {
 /*디테일 카드 정보 공간 세팅*/
 .search-card-info {
 	margin-left: 20px;
-	white-space: nowrap; 
-	width:120px;
-	overflow:hidden;
+	white-space: nowrap;
+	width: 120px;
+	overflow: hidden;
 }
 
 /*디테일 카드 정보 이름 세팅*/
@@ -1094,8 +1093,6 @@ table.song-list .song-list-body {
 	font-size: 15px;
 	margin-top: 0px;
 	margin-bottom: 8px;
-	
-
 }
 
 /*디테일 카드 정보 아티스트 세팅*/
@@ -1202,10 +1199,11 @@ table.song-list .song-list-body {
 .subtitle {
 	text-align: center;
 }
+
 .subtitle-sub {
 	text-align: center;
-	margin-bottom:20px;
-	margin-top:15px;
+	margin-bottom: 20px;
+	margin-top: 15px;
 }
 
 .support-table {
@@ -1392,20 +1390,21 @@ table.support-table .support-table-foot {
 }
 
 .paging {
-	margin-top: 30px; display : flex;
+	margin-top: 30px;
+	display: flex;
 	gap: 20px;
 	justify-content: center;
 	display: flex;
 }
-.page-number{
-	margin-right:10px;
-	
+
+.page-number {
+	margin-right: 10px;
 }
 
 .page-number-bold a {
 	color: #ff2dac;
 	font-weight: bold;
-	margin-right:10px;
+	margin-right: 10px;
 }
 
 .mypage-artist-image {
@@ -1414,12 +1413,14 @@ table.support-table .support-table-foot {
 	border-radius: 999px;
 	transition: filter 0.3s ease;
 	display: block;
-	margin:20px auto;
+	margin: 20px auto;
 }
-.subtitle-sub label{
-	margin-right:10px;
+
+.subtitle-sub label {
+	margin-right: 10px;
 }
-.profile-change-card{
+
+.profile-change-card {
 	text-align: center;
 }
 
@@ -1436,18 +1437,20 @@ table.support-table .support-table-foot {
 	color: white;
 	margin-right: 10px;
 }
-.profile-change-card-input{
-	margin-top:20px;
+
+.profile-change-card-input {
+	margin-top: 20px;
 }
-.img-edtior{
-	margin-bottom:30px;
+
+.img-edtior {
+	margin-bottom: 30px;
 }
 
 .request-table {
 	width: 500px;
 	border-collapse: collapse;
 	border-top: 1px solid #262626;
-	margin:30px auto;
+	margin: 30px auto;
 }
 
 table.request-table th {
@@ -1467,7 +1470,6 @@ table.request-table .support-table-body {
 	font-size: 13px;
 }
 
-
 .support-table-num {
 	text-align: center;
 }
@@ -1486,87 +1488,90 @@ table.request-table .support-table-foot {
 	accent-color: #ff2dac;
 	margin-right: 5px;
 }
+
 .main-banner1 {
-    width: 995px;
-    height: 350px;
-    overflow: hidden;
-    position: relative;
-    border-radius: 12px;
-    background: black;
-    margin-top:30px;
+	width: 995px;
+	height: 350px;
+	overflow: hidden;
+	position: relative;
+	border-radius: 12px;
+	background: black;
+	margin-top: 30px;
 }
 
 .slide-container {
-    display: flex;
-    transition: transform 0.5s ease;
-    width: 100%;
-    height: 100%;
+	display: flex;
+	transition: transform 0.5s ease;
+	width: 100%;
+	height: 100%;
 }
 
 .slide-container img {
-    width: 995px;
-    height: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
-    border-radius: 12px;
+	width: 995px;
+	height: 100%;
+	object-fit: cover;
+	flex-shrink: 0;
+	border-radius: 12px;
 }
 
-.prev-btn,
+.prev-btn, .next-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0);
+	color: rgba(0, 0, 0, 0);
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	border-radius: 5px;
+	z-index: 9999;
+	font-size: 16px;
+}
+
+.main-banner1:hover .prev-btn {
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+}
+
+.main-banner1:hover .next-btn {
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+}
+
+.prev-btn {
+	left: 10px;
+	z-index: 10;
+}
+
 .next-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0);
-    color: rgba(0,0,0,0);
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    z-index: 9999;
-    font-size: 16px;
+	right: 10px;
+	z-index: 10;
 }
 
-.main-banner1:hover .prev-btn{
-    background: rgba(0,0,0,0.5);
-    color:white;
-}
-
-.main-banner1:hover .next-btn{
-    background: rgba(0,0,0,0.5);
-    color:white;
-}
-
-.prev-btn { 
-	left: 10px; 
-	 z-index: 10;
-	}
-.next-btn { 
-	right: 10px; 
-	 z-index: 10;
-	}
 .slide-indicators {
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    z-index: 9999;
+	position: absolute;
+	bottom: 15px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	z-index: 9999;
 }
 
 .indicator {
-    display: block;
-    width: 8px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+	display: block;
+	width: 8px;
+	height: 8px;
+	background: rgba(255, 255, 255, 0.5);
+	border-radius: 50%;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
 
 .indicator.active {
-    background: #fff;
+	background: #fff;
 }
+
 .album-select {
 	width: 77px;
 	height: 30px;
@@ -1575,23 +1580,76 @@ table.request-table .support-table-foot {
 	background: #131313;
 	color: white;
 }
-.genre-select{
-	margin-bottom:30px;
+
+.genre-select {
+	margin-bottom: 30px;
 }
-.artist-main-image{
+
+.artist-main-image {
 	width: 200px;
+	height: 200px;
 	margin-bottom: 5px;
 	border-radius: 999px;
-	margin:20px auto;
+	margin: 20px auto;
+	margin-bottom: 5px;
 }
+
 .artist-card {
 	display: flex;
 	margin-right: 50px;
-	gap:10px;
-	
+	gap: 10px;
 }
+
 .artist-card-info {
 	margin-left: 20px;
-	white-space: nowrap; 
-	overflow:hidden;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.artist-description-background{
+	max-height:250px;
+	position: relative;
+	z-index: 1;
+}
+.artist-description {
+	width: 800px;
+	max-height: 250px;
+	white-space: normal;
+	overflow-y: auto;
+	padding-right: 10px;
+	z-index: 2;
+}
+
+/* 배경을 텍스트 위에 덮기 */
+.artist-description-background::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(19, 19, 19, 0) 60%,
+		rgba(19, 19, 19, 1)) 100%; /* 반투명 그라데이션 */
+		
+	z-index: 2; /* 텍스트보다 위로 */
+	pointer-events: none; /* 마우스 이벤트 무시 (스크롤 가능하게) */
+}
+
+/* 텍스트를 배경 위로 보이게 */
+.artist-description-background span {
+	position: relative;
+	z-index: 3;
+}
+
+.artist-description::-webkit-scrollbar {
+	width: 6px; /* 두께 */
+}
+
+.artist-description::-webkit-scrollbar-track {
+	background: black; /* 어두운 회색 */
+}
+
+.artist-description::-webkit-scrollbar-thumb {
+	background-color: #2b2b2b; /* 진한 검정색 */
+	border-radius: 5px;
 }
