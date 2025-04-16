@@ -10,7 +10,7 @@ function openOrReuseTabWithChannel(url) {
     setTimeout(function() {
       const channel = new BroadcastChannel("player-control");
       channel.postMessage({ type: "navigate", url: fullUrl });
-    }, 300);
+    }, 500);
   } else {
     // 이미 열려 있으면 바로 메시지 전달
     const channel = new BroadcastChannel("player-control");
