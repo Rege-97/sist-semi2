@@ -295,6 +295,14 @@ if (cp % pageSize == 0)
 			</form>
 			<div>
 			<table class="commnet-table">
+				<colgroup>
+					<col style="width: 178px;">
+					<!-- 순위 -->
+					<col style="width: 710px;">
+					<!-- 앨범 이미지 -->
+					<col style="width: 50px;">
+					
+				</colgroup>
 				<tbody>
 					<%
 					ArrayList<CommentDto> arr2 = cdao.commentList(cp, listSize,id);
@@ -311,11 +319,11 @@ if (cp % pageSize == 0)
 					%>
 					<tr class="comment-row">
 					<%
-						if (i != 0) {
-							if (arr2.get(i - 1).getParentId() == arr2.get(i).getParentId()) {
+						
+						if (arr2.get(i).getAnswerCheck()!=1) {
 						%>
 						<td class="comment-profile-answer">
-							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';">
 							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 						</td>
 						<%
@@ -327,17 +335,9 @@ if (cp % pageSize == 0)
 							</td>
 							<%
 						}
-						}else{
-								%>
-						<td class="comment-profile">
-							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';">
-							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
-						</td>
-						<%
-						}
 						
-						if (i != 0) {
-							if (arr2.get(i - 1).getParentId() != arr2.get(i).getParentId()) {
+						
+							if (arr2.get(i).getAnswerCheck()==1) {
 						%>
 						<td>
 						<div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
@@ -355,17 +355,7 @@ if (cp % pageSize == 0)
 							</td>
 							<%
 						}
-						} else {
-						%>
-						<td>
-						<div class="comment-content"><%=arr2.get(i).getContent().replaceAll("\n", "<br>")%></div>
-						<div class="comment-content-date"><%=createAt%></div>
-						</td>
-						<td class="comment-bt">
-							<input type="button" id="answer-bt-<%=arr2.get(i).getId()%>" value="답글" onclick="answer(<%=arr2.get(i).getId()%>)">
-						</td>
-						<%
-						}
+						
 						%>
 
 					</tr>
@@ -375,12 +365,12 @@ if (cp % pageSize == 0)
 								<%
 								if(signedinDto==null||signedinDto.getMemberId()==0){
 									%>
-									<img src="/semi2/resources/images/member/default-profile.jpg" class="comment-add-profile-image">
+									<img src="/semi2/resources/images/member/default-profile.jpg" class="comment-add-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';">
 									<div class="comment-add-profile-nickname">비회원</div>
 									<%
 								}else{
 									%>
-									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image" >
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image"  onerror="this.src='/semi2/resources/images/member/default-profile.jpg';">
 									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
 									<%
 								}
@@ -402,19 +392,24 @@ if (cp % pageSize == 0)
 					}
 					%>
 				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="4" align="center" class="comment-page">
+				</table>
+				<div class="paging">
 							<%
 							if (userGroup != 0) {
 							%>
+								<div class="left-page">
 							<a href="album-details.jsp?albumid=<%=dto.getId()%>&cp=<%=(userGroup - 1) * pageSize + pageSize%>#comment">&lt;&lt;</a>
+							</div>
 							<%
 							}
 							%>
 							<%
 							for (int i = (userGroup * pageSize + 1); i <= (userGroup * pageSize + pageSize); i++) {
-							%>&nbsp;&nbsp; <a href="album-details.jsp?albumid=<%=dto.getId()%>&cp=<%=i%>#comment"><%=i%></a>&nbsp;&nbsp;<%
+							%>
+							<div class="<%=cp==i?"page-number-bold":"page-number" %>">
+							 <a href="album-details.jsp?albumid=<%=dto.getId()%>&cp=<%=i%>#comment"><%=i%></a>
+							 </div>
+							 <%
 							 if (i == totalPage) {
 							 	break;
 							 }
@@ -423,14 +418,14 @@ if (cp % pageSize == 0)
 							<%
 							if (((totalPage / pageSize) - (totalPage % pageSize == 0 ? 1 : 0)) != userGroup) {
 							%>
+							<div class="right-page">
 							<a href="album-details.jsp?albumid=<%=dto.getId()%>&cp=<%=(userGroup + 1) * pageSize + 1%>#comment">&gt;&gt;</a>
+							</div>
 							<%
 							}
 							%>
-						</td>
-					</tr>
-				</tfoot>
-			</table>
+	</div>
+			
 </div>
 		</article>
 	</section>

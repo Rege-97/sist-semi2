@@ -9,6 +9,7 @@ public class CommentDto {
 	private String content;
 	private Timestamp createdAt;
 	private int parentId;
+	private int answerCheck;
 	private String nickname;
 
 	public CommentDto() {
@@ -16,7 +17,7 @@ public class CommentDto {
 	}
 
 	public CommentDto(int id, int memberId, int albumId, String content, Timestamp createdAt, int parentId,
-			String nickname) {
+			int answerCheck, String nickname) {
 		super();
 		this.id = id;
 		this.memberId = memberId;
@@ -24,6 +25,7 @@ public class CommentDto {
 		this.content = content;
 		this.createdAt = createdAt;
 		this.parentId = parentId;
+		this.answerCheck = answerCheck;
 		this.nickname = nickname;
 	}
 
@@ -75,6 +77,14 @@ public class CommentDto {
 		this.parentId = parentId;
 	}
 
+	public int getAnswerCheck() {
+		return answerCheck;
+	}
+
+	public void setAnswerCheck(int answerCheck) {
+		this.answerCheck = answerCheck;
+	}
+
 	public String getNickname() {
 		return nickname;
 	}
@@ -82,6 +92,6 @@ public class CommentDto {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	
+
 	
 }
