@@ -1,8 +1,19 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.stream.IntStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.plick.root.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="rdao" class="com.plick.root.RootDao"></jsp:useBean>
-<%! static final int MAX_PLAYLISTS_LENGTH = 5;  %>
+<%! 
+static final int MAX_PLAYLISTS_LENGTH = 5;  
+static final int MAX_SONGS_LENGTH = 5;  
+static final int MAX_MOODS_LENGTH = 5;  
+static final String[] moods = {"신나는", "잔잔한", "감성적인", "슬플 때", "달달한", "상쾌한", "몽환적인"};
+static Map<Integer, String> moodMap; 
+static{
+	moodMap = IntStream.rangeClosed(1, moods.length).boxed().collect(Collectors.toMap(i -> i, i -> moods[i-1]));
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -119,7 +130,7 @@
 					</tr>
 					<%
 					} else {
-					for (int i = 0; i < 5; i++) {
+					for (int i = 0; i < Math.min(MAX_SONGS_LENGTH, arrPopularSong.size()); i++) {
 					%>
 					<tr class="song-list-body">
 					<td>
@@ -217,21 +228,20 @@
 				<label> 무드별 플레이리스트 </label>
 			</div>
 			<div class="gallery">
-				<div class="gallery-card">
-					<a href="/semi2/search/searchMood.jsp?mood=신나는"><img src="/semi2/resources/images/design/mood/mood1.jpg" class="gallery-card-album-image" alt="신나는"></a>
-				</div>
-				<div class="gallery-card">
-					<a href="/semi2/search/searchMood.jsp?mood=잔잔한"><img src="/semi2/resources/images/design/mood/mood2.jpg" class="gallery-card-album-image" alt="잔잔한"></a>
-				</div>
-				<div class="gallery-card">
-					<a href="/semi2/search/searchMood.jsp?mood=슬플때"><img src="/semi2/resources/images/design/mood/mood4.jpg" class="gallery-card-album-image" alt="슬플 때"></a>
-				</div>
-				<div class="gallery-card">
-					<a href="/semi2/search/searchMood.jsp?mood=달달한"><img src="/semi2/resources/images/design/mood/mood5.jpg" class="gallery-card-album-image" alt="달달한"></a>
-				</div>
-				<div class="gallery-card-last">
-					<a href="/semi2/search/searchMood.jsp?mood=몽환적인"><img src="/semi2/resources/images/design/mood/mood7.jpg" class="gallery-card-album-image" alt="몽환적인"></a>
-				</div>
+				<%
+				List<Map.Entry<Integer, String>> randomMoods = new ArrayList<>(moodMap.entrySet());
+      	  		Collections.shuffle(randomMoods);
+       	 	
+				for(int i = 0; i < Math.min(MAX_MOODS_LENGTH, randomMoods.size()); i++){
+					%>
+					<div class="gallery-card-last">
+						<a href="/semi2/search/searchMood.jsp?mood=<%=randomMoods.get(i).getValue()%>"><img
+							src="/semi2/resources/images/design/mood/mood<%=randomMoods.get(i).getKey()%>.jpg"
+							class="gallery-card-album-image" alt="<%=randomMoods.get(i).getValue()%>"></a>
+					</div>			
+					<%
+				}
+				%>
 			</div>
 		</article>
 		<article>
