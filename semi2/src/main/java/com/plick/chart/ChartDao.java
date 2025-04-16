@@ -379,11 +379,11 @@ public class ChartDao {
 
 			int count = rs.getInt(1);
 
-			return count == 0 ? 1 : count;
+			return count == 0 ? 0 : count;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 1;
+			return 0;
 		} finally {
 			try {
 				if (rs != null)

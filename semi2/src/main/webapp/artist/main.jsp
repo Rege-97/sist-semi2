@@ -224,6 +224,9 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 						</a>
 					</div>
 				</div>
+				<div class="gallery-card-album-name">
+					<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
+				</div>
 				<div class="gallery-card-artist-name-myplaylist">
 					<div>
 						<img src="/semi2/resources/images/design/likes-icon.png" width="15">&nbsp;<%=playlistPreview.getLikeCount()%>
@@ -262,15 +265,15 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 			%>
 			<div class="gallery-card">
 				<div class="gallery-card-album-image-group">
-				<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.jpg"  class="gallery-card-album-image" /></a>
+				<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedAlbums.get(i).getAlbumDto().getId() %>"> <img src="/semi2/resources/images/album/<%=sortedAlbums.get(i).getAlbumDto().getId()%>/cover.jpg"  class="gallery-card-album-image" /></a>
 					<div class="gallery-card-album-image-play">
-						<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>'); return false;"> 
+						<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=sortedAlbums.get(i).getAlbumDto().getId()%>'); return false;"> 
 						<img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 						</a>
 					</div>
 				</div>
 				<div class="gallery-card-album-name">
-					<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"> <%=sortedAlbums.get(i).getAlbumDto().getName()%></a>
+					<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedAlbums.get(i).getAlbumDto().getId()%>"> <%=sortedAlbums.get(i).getAlbumDto().getName()%></a>
 				</div>
 
 				<div class="gallery-card-artist-name-myplaylist">
