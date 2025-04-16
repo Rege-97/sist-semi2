@@ -12,6 +12,7 @@
 </head>
 <body>
 	<%@ include file="/header.jsp"%>
+		<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<!-- 배너 -->
 	<section>
 		<article>

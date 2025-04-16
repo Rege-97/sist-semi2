@@ -65,5 +65,64 @@ public class PlayerDao {
 		}
 
 	}
+	
+	public int findSongView(int songId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT VIEW_COUNT FROM SONGS WHERE id=?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, songId);
+			rs = ps.executeQuery();
+			int count=0;
+			if (rs.next()) {
+				count=rs.getInt("view_count");
+			}
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+
+	}
+	
+	public int countSongView(int songId) {
+		try {
+			int count=findSongView(songId);
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "UPDATE SONGS SET VIEW_COUNT=? WHERE id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, count+1);
+			ps.setInt(2, songId);
+			int result=ps.executeUpdate();
+
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+
+	}
 
 }

@@ -91,6 +91,15 @@ if (request.getParameter("albumid") != null) {
 	int playlistId = Integer.parseInt(request.getParameter("playlistid"));
 	PlaylistDao playlistDao = new PlaylistDao();
 	List<Integer> playlistSongIds = playlistDao.findSongIdsByPlaylistId(playlistId);
+	if(playlistSongIds.size()==0){
+		%>
+		<script>
+			window.alert('플레이리스트에 곡이 없습니다.');
+			window.location.href = '/semi2/player/player.jsp';
+		</script>
+		<%
+		return;
+	}
 
 	for (int i = playlistSongIds.size() - 1; i >= 0; i--) {
 		if (playlist.contains("a" + playlistSongIds.get(i) + "a")) {
@@ -145,6 +154,7 @@ playingIndex = i;
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/player.css">
 <body onload="set1()">
+<iframe name="hiddenFrame" style="display: none;" id="hiddenframe"></iframe>
 	<div>
 		<%
 		for (int i = 0; i < arr.size(); i++) {
@@ -153,6 +163,7 @@ playingIndex = i;
 		<input type="hidden" value="<%=arr.get(i).getAlbumId()%>" class="allalbumid">
 		<input type="hidden" value="<%=arr.get(i).getName()%>" class="allsongname">
 		<input type="hidden" value="<%=arr.get(i).getArtist()%>" class="allartist">
+		<input type="hidden" value="<%=arr.get(i).getMemberId()%>" class="allmemberid">
 		<input type="hidden" value="<%=arr.get(i).getAlbumName()%>" class="allalbumname">
 		<input type="hidden" value="<%=arr.get(i).getLyrics()%>" class="alllyrics">
 		<%
@@ -193,6 +204,13 @@ playingIndex = i;
 					<div>
 						<input type="button" value="전체 가사 접기" class="bt" onclick="showInfo()">
 					</div>
+					<%
+					if (hasMembership == 0) {
+					%>
+					<div class="nomembership">1분 미리듣기 중 입니다.<br>이용권을 구매하시고 전체를 감상해보세요.</div>
+					<%
+					}
+					%>
 				</div>
 
 				<div class="song-list-table-div">
@@ -258,9 +276,6 @@ playingIndex = i;
 			</div>
 
 		</div>
-
-
-
 	</div>
 
 	<script>
@@ -270,6 +285,8 @@ playingIndex = i;
 		let maxIndex;
 		let count;
 		let randomList = [];
+		let playTime = 0;
+		let viewPlus=false;
 	
 		let allSongId;
 		let allAlbumId;
@@ -278,6 +295,7 @@ playingIndex = i;
 		let allAlbumName;
 		let allSongList;
 		let allLyrics;
+		let allMemberId;
 	
 		let noLoop;
 		let oneLoop;
@@ -311,6 +329,8 @@ playingIndex = i;
 		const playNowInfo = document.querySelector(".play-now-info-div");
 		const playNowLyrics = document.querySelector(".play-now-lyrics-div");
 		
+		const hiddenFrame= document.getElementById("hiddenframe");
+		
 		function set1() {
 			allSongId=document.querySelectorAll('.allsongid');
 			allAlbumId=document.querySelectorAll('.allalbumid');
@@ -319,6 +339,7 @@ playingIndex = i;
 			allAlbumName=document.querySelectorAll('.allalbumname');
 			allSongList=document.querySelectorAll('.songlist');
 			allLyrics=document.querySelectorAll('.alllyrics');
+			allMemberId=document.querySelectorAll('.allmemberid');
 			
 			hasMembership=document.getElementById("hasmembership").value;
 			playingIndex = document.getElementById("playingindex").value;
@@ -398,6 +419,17 @@ playingIndex = i;
 						}
 					});	
 				}
+				if(!audio.paused){
+					playTime=playTime+250;
+					const countPlayTime= 1000*90;
+					
+					if(playTime>countPlayTime&&!viewPlus){
+						hiddenFrame.src='/semi2/player/song-view-count.jsp?songid='+allSongId[playingIndex].value;
+						viewPlus=true;
+					}
+				}
+				
+				
 			});	
 
 		}
@@ -529,11 +561,11 @@ playingIndex = i;
 			audio.src='/semi2/resources/songs/' + allAlbumId[playingIndex].value + '/'
 			+ allSongId[playingIndex].value + '.mp3';
 			document.getElementById("songname").innerHTML=allSongName[playingIndex].value;
-			document.getElementById("info-songname").innerHTML=allSongName[playingIndex].value;
+			document.getElementById("songlink").innerText=allSongName[playingIndex].value;
 			document.getElementById("lyrics-songname").innerHTML=allSongName[playingIndex].value;
 			
 			document.getElementById("artist").innerHTML=allArtist[playingIndex].value;
-			document.getElementById("info-artist").innerHTML=allArtist[playingIndex].value;
+			document.getElementById("artistlink").innerText=allArtist[playingIndex].value;
 			document.getElementById("lyrics-artist").innerHTML=allArtist[playingIndex].value;
 			
 			document.getElementById("album-cover").src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
@@ -542,7 +574,12 @@ playingIndex = i;
 			
 			document.getElementById("lyrics").innerHTML=allLyrics[playingIndex].value.replaceAll("\n", "<br>");
 			
-			//document.getElementById("songlink").href='/semi2/chart/song-details.jsp?songid='+allSongId[playingIndex].value;
+			playTime=0;
+			viewPlus=false;
+			
+			document.getElementById("songlink").href='/semi2/chart/song-details.jsp?songid='+allSongId[playingIndex].value;
+			document.getElementById("artistlink").href='/semi2/artist/main.jsp?memberid='+allMemberId[playingIndex].value;
+			document.getElementById("albumlink").href='/semi2/chart/album-details.jsp?albumid='+allAlbumId[playingIndex].value;
 			play();
 			
 		for(var i=0;i<allSongList.length;i++){
@@ -711,6 +748,7 @@ playingIndex = i;
 					allAlbumName[deleteIndex].remove();
 					allSongList[deleteIndex].remove();
 					allLyrics[deleteIndex].remove();
+					allMemberId[deleteIndex].remove();
 					
 					allSongId=document.querySelectorAll('.allsongid');
 					allAlbumId=document.querySelectorAll('.allalbumid');
@@ -719,6 +757,7 @@ playingIndex = i;
 					allAlbumName=document.querySelectorAll('.allalbumname');
 					allSongList=document.querySelectorAll('.songlist');
 					allLyrics=document.querySelectorAll('.alllyrics');
+					allMemberId=document.querySelectorAll('.allmemberid');
 					
 					maxIndex=allSongId.length-1;
 				}
