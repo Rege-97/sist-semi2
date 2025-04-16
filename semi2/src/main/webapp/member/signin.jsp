@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%
+String rtm = request.getParameter("returntome");
 Cookie cookies[] = request.getCookies();
 String rememberEmail = null;
 for(int i = 0; i < cookies.length; i++){
@@ -45,7 +46,7 @@ function goSubmit(button){
 </div>
 <div class="login-sub-box">
 	<div class="login-find">
-		<label onclick="location.href = '/semi2/member/find/id.jsp'">아이디 찾기</label>
+		<label onclick="location.href = '/semi2/member/find/id.jsp<%=rtm = rtm != null ? "?returntome="+rtm : null%>;'">아이디 찾기</label>
 		</div>
 		 <div class="login-find-line"> | </div>
 			<div class="login-find">

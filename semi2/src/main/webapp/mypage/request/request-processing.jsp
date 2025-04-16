@@ -11,6 +11,15 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 </head>
+	<%
+	if(session.getAttribute("signedinDto")==null){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}else if(((SignedinDto) session.getAttribute("signedinDto")).getMemberId() == 0){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}
+	%>
 <%
 MypageDao mypageDao = new MypageDao();
 String yesParam = request.getParameter("yes");

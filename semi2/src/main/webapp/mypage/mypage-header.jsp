@@ -9,8 +9,15 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="com.plick.mypage.MypageDao"%>
 <jsp:useBean id="memberDao" class="com.plick.member.MemberDao"></jsp:useBean>
-
-
+	<%
+	if(session.getAttribute("signedinDto")==null){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}else if(((SignedinDto) session.getAttribute("signedinDto")).getMemberId() == 0){
+		response.sendRedirect("/semi2/member/signin.jsp");
+		return;
+	}
+	%>
 	<%
 	SignedinDto sdto = (SignedinDto)session.getAttribute("signedinDto");
 	MypageDao mdao = new MypageDao();

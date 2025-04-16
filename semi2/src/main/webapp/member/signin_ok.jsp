@@ -35,7 +35,10 @@ break;
 default: msg = "위험! 알 수 없는 오류 발생";
 }
 %>
+<%
+String rtm = request.getParameter("returntome");
+%>
 <script>
 window.alert("<%=msg %>");
-location.href = "<%=request.getParameter("ref") %>";
+location.href = "<%=rtm != null ? rtm : "/semi2/main.jsp" %>";
 </script>
