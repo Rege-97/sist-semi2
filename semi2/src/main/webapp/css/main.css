@@ -67,7 +67,7 @@ header {
 .search-wrapper {
 	position: relative;
 	width: 250px;
-	margin-left: 110px;
+	margin-left: 50px;
 }
 
 .search-wrapper input[type="text"] {

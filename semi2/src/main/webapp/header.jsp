@@ -17,6 +17,9 @@
 			<a href="/semi2/membership/main.jsp">이용권</a>
 		</div>
 		<div class="menu">
+			<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp'); return false;">플레이어</a>
+		</div>
+		<div class="menu">
 		<form action="/semi2/search/main.jsp">
 			<div class=search-wrapper>
 				<input name="search" type="text" placeholder="검색어를 입력해 주세요."> <input type="image" src="/semi2/resources/images/design/search-icon.png">
@@ -35,9 +38,6 @@ if (signedinDto.getMemberId()!=0){
 	<a href="/semi2/mypage/profile.jsp"><img src="/semi2/resources/images/member/<%=signedinDto.getMemberId() %>/profile.jpg" class="login-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"></a>
 	</div>
 
-	
-	
-	
 	<%
 }else{
 	%>
