@@ -51,7 +51,7 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 						class="gallery-card-album-image" />
 					</a>
 					<div class="gallery-card-album-image-play">
-						<a href="#"> <img
+						<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=popularPreview.getPlaylistId()%>'); return false;">  <img
 							src="/semi2/resources/images/design/album-play.png"
 							class="play-default"> <img
 							src="/semi2/resources/images/design/album-play-hover.png"
@@ -100,7 +100,7 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 						class="gallery-card-album-image" />
 					</a>
 					<div class="gallery-card-album-image-play">
-						<a href="#"> <img
+						<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=latestPreview.getPlaylistId()%>'); return false;">  <img
 							src="/semi2/resources/images/design/album-play.png"
 							class="play-default"> <img
 							src="/semi2/resources/images/design/album-play-hover.png"
