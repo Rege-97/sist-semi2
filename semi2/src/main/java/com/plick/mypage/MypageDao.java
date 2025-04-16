@@ -312,10 +312,12 @@ public class MypageDao {
 		}
 	}
 
-	public boolean addFileToBase64(String base64, String path) {
+	public boolean addFileToBase64(String base64, String path, String filename) {
+		File f = new File(path);
+		if (!f.exists()) f.mkdirs();
 		try {
 			base64 = base64.replace("data:image/jpeg;base64,", "");
-			File newFile = new File(path);
+			File newFile = new File(path+"/"+filename);
 			byte[] filedata = Base64.getDecoder().decode(base64);
 			try (FileOutputStream Fos = new FileOutputStream(newFile)) {
 				Fos.write(filedata);

@@ -17,9 +17,6 @@
 	
 }
 #imgEditer canvas:nth-of-type(2) {
-	position: absolute;
-	left: 0px;
-	top: 0px;
 	pointer-events: none;
 }
 </style>
@@ -34,7 +31,7 @@
 		return;
 	}
 	%>
-<body onload = "loadCanvas();">
+<body>
 	<%@ include file="/header.jsp"%>
 <%
 	MypageDao mypageDao = new MypageDao();
@@ -50,7 +47,7 @@
 	</div>
 	<div id = "imgEditer" class="img-edtior">
 	<canvas id = "profileCanvas"></canvas> 
-	<canvas id = "profileCanvasEditer"></canvas>
+	<canvas style = "position: absolute; left: 0px; top: 0px;" id = "profileCanvasEditer"></canvas>
 </div>
 	<form action = "edit_profile-img_ok.jsp" method = "post">
 		<input style = "display: none;" type = "file" id = "editNewProfileImg" name = "editProfileImg" onchange = "changeEditImg();" accept="image/png, image/jpeg">
@@ -81,9 +78,22 @@ var posY = 0;
 var rect = canvas.getBoundingClientRect();
 var rectE = canvasE.getBoundingClientRect();
 
-var newImg;
+
 var eventPermit = false;
 var areaDiv = -1;
+
+var newImg = null;
+var oldImg = new Image();
+oldImg.src = "<%=fileB64 %>";
+
+
+//canvas 시작 이미지 설정
+
+oldImg.onload = function(){
+		ctx.drawImage(oldImg, 0, 0, canvas.width, canvas.height);
+}
+
+
 
 //부모 캔버스의 크기 설정
 canvasE.width = (canvas.width = 300);
@@ -93,8 +103,8 @@ reloadCtxE(0, 0);
 
 // 에디터 캔버스 랜더링
 function reloadCtxE(w, h, div){
-	var width = (canvasE.width += w);
-	var height = (canvasE.height += h);
+	var width = (canvasE.width += (w+h)/2);
+	var height = (canvasE.height += (h+w)/2);
 	
 	if (div == 1){
 		moveCanvas(-w, -h);
@@ -243,14 +253,7 @@ function moveCanvas(x, y) {
 	
 
 
-// canvas 시작 이미지 설정
-function loadCanvas() {
-	var oldImg = new Image();
-	oldImg.onload = function(){
-		ctx.drawImage(oldImg, 0, 0, canvas.width, canvas.height);
-	}
-	oldImg.src = "<%=fileB64 %>";
-}
+
 
 // 숨겨진 파일 태그 대신 선택
 function imgChange() {
@@ -278,6 +281,9 @@ function changeEditImg() {
 
 function canvasToBase64() {
 	// 이미지와 캔버스의 크기가 다르므로 비율이 필요
+	if (newImg == null) newImg = oldImg;
+	if (newImg == undefined) newImg = oldImg;
+	
 	const scaleX = newImg.width / canvas.width;
 	const scaleY = newImg.height / canvas.height;
 	

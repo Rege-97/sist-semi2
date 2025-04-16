@@ -1,3 +1,5 @@
+<%@page import="com.plick.member.MemberDao"%>
+<%@page import="com.plick.member.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,6 +11,8 @@
 <body>
 <%
 // 세션에서 로컬 플리 정보를 받아와서 매핑해야 함
+MemberDao memberDao = new MemberDao();
+memberDao.addMember10000();
 %>
 <label>앨범 커버</label>
 <label>곡 명</label>

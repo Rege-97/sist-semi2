@@ -229,4 +229,5 @@ public class MemberDao {
 			return("resources/images/member/"+memberId+"/profile.jpg");
 		}else return "resources/images/member/editer-profile.jpg";
 	}
+	
 }
