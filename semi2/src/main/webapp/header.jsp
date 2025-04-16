@@ -4,7 +4,7 @@
 <%@ page import="com.plick.root.*" %>    
 <jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
 <header>
-
+<script src="/semi2/player/player-open.js"></script>
 <nav class="menu-list">
 <a href="/semi2/main.jsp"><img src="/semi2/resources/images/design/logo.png" class="logo"></a>
 		<div class="menu">
@@ -15,6 +15,9 @@
 		</div>
 		<div class="menu">
 			<a href="/semi2/membership/main.jsp">이용권</a>
+		</div>
+		<div class="menu">
+			<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp'); return false;">플레이어</a>
 		</div>
 		<div class="menu">
 		<form action="/semi2/search/main.jsp">
@@ -35,9 +38,6 @@ if (signedinDto.getMemberId()!=0){
 	<a href="/semi2/mypage/profile.jsp"><img src="/semi2/resources/images/member/<%=signedinDto.getMemberId() %>/profile.jpg" class="login-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"></a>
 	</div>
 
-	
-	
-	
 	<%
 }else{
 	%>

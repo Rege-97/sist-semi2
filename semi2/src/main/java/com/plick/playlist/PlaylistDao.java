@@ -375,4 +375,23 @@ public class PlaylistDao {
 		}
 		return playlistDownloadDtos;
 	}
+	
+	public List<Integer> findSongIdsByPlaylistId(int playlistId){
+		String sql ="SELECT song_id FROM playlist_songs WHERE playlist_id = ? ORDER BY turn ASC";
+		
+		List<Integer> songIds = new ArrayList<Integer>();
+		try (Connection conn = DBConnector.getConn();){
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, playlistId);
+			
+			try (ResultSet rs = pstmt.executeQuery();) {
+				while (rs.next()) {
+					songIds.add(rs.getInt("song_id")); 
+				}
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return songIds;
+	}
 }

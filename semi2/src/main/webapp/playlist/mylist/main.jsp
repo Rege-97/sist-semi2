@@ -59,7 +59,7 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 		: "album/" + playlistPreview.getFirstAlbumId() + "/cover.jpg"%>"  class="gallery-card-album-image">
 		</a>
 		<div class="gallery-card-album-image-play">
-			<a href="#">
+			<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>'); return false;"> 
 				<img src="/semi2/resources/images/design/album-play.png" class="play-default">
 				<img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 			</a>

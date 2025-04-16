@@ -282,7 +282,8 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 					<div class="detail-card-info-icon-playlist">
 						<div class="icon-group">
-							<a href="#"> <img
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlistId%>'); return false;"> 
+ <img
 								src="/semi2/resources/images/design/play-icon.png"
 								class="icon-dafault"> <img
 								src="/semi2/resources/images/design/play-icon-hover.png"
@@ -410,7 +411,8 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> <img
+								<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=sortedSongs.get(i).getSongId()%>'); return false;">
+ <img
 									src="/semi2/resources/images/design/play-icon.png"
 									class="icon-default"> <img
 									src="/semi2/resources/images/design/play-icon-hover.png"

@@ -11,7 +11,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <script>
 	function answer(commentId) {
 		const answerRow = document.getElementById("answer-" + commentId);
@@ -109,7 +108,7 @@ if (cp % pageSize == 0)
 					</div>
 					<div class="detail-card-info-icon">
 						<div class="icon-group">
-							<a href="#">
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=dto.getId()%>'); return false;">
 								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 							</a>
@@ -217,7 +216,7 @@ if (cp % pageSize == 0)
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> 
+								<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=arr.get(i).getId()%>'); return false;">
 								<img src="/semi2/resources/images/design/play-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 								</a>
@@ -323,7 +322,7 @@ if (cp % pageSize == 0)
 						}else{
 							%>
 							<td class="comment-profile">
-								<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
+								<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';">
 								<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 							</td>
 							<%
@@ -331,7 +330,7 @@ if (cp % pageSize == 0)
 						}else{
 								%>
 						<td class="comment-profile">
-							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image">
+							<img src="/semi2/resources/images/member/<%=arr2.get(i).getMemberId() %>/profile.jpg" class="comment-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';">
 							<div class="comment-profile-nickname"><%=arr2.get(i).getNickname()%></div>
 						</td>
 						<%
@@ -381,7 +380,7 @@ if (cp % pageSize == 0)
 									<%
 								}else{
 									%>
-									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image">
+									<img src="/semi2/resources/images/member/<%=signedinDto.getMemberId()%>/profile.jpg"  class="comment-add-profile-image" >
 									<div class="comment-add-profile-nickname"><%=signedinDto.getMemberNickname()%></div>
 									<%
 								}

@@ -40,7 +40,7 @@ SongDetailDto dto = sdao.findSong(id);
 					<div class="detail-card-info-album"><a href="/semi2/chart/album-details.jsp?albumid=<%=dto.getAlbumId()%>"><%=dto.getAlbumName() %> ></a></div>
 					<div class="detail-card-info-icon">
 						<div class="icon-group">
-							<a href="#">
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=dto.getId()%>'); return false;">
 								<img src="/semi2/resources/images/design/play-icon.png" class="icon-dafault">
 								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 							</a>

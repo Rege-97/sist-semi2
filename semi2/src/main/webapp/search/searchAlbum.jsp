@@ -99,7 +99,7 @@ int currentGroup = (currentPage - 1) / pageGroupSize + 1;
 						</div>
 						<div class="detail-card-info-icon">
 							<div class="icon-group">
-								<a href="#"> <img
+								<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>'); return false;"> <img
 									src="/semi2/resources/images/design/play-icon.png"
 									class="icon-dafault"> <img
 									src="/semi2/resources/images/design/play-icon-hover.png"
