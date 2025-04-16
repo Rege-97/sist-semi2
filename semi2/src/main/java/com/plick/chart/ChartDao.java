@@ -222,11 +222,11 @@ public class ChartDao {
 	public ArrayList<TrackDto> genreChartList(String genre) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT rownum AS rnum,a.* "
-					+ "FROM (SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\",a.MEMBER_ID "
-					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
-					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND rownum<=30 AND (a.GENRE1 = ? OR a.GENRE2 = ? OR a.GENRE3 = ?) "
-					+ "ORDER BY s.VIEW_COUNT desc)a " + "ORDER BY RNUM";
+			String sql = "SELECT rownum as rnum , a.* " + "FROM ( "
+					+ "    SELECT s.*, m.NICKNAME AS artist, a.NAME AS album_name, a.MEMBER_ID "
+					+ "    FROM MEMBERS m, ALBUMS a, SONGS s " + "    WHERE m.ID = a.MEMBER_ID "
+					+ "      AND a.ID = s.ALBUM_ID " + "      AND (a.GENRE1 = ? OR a.GENRE2 = ? OR a.GENRE3 = ?) "
+					+ "    ORDER BY s.VIEW_COUNT DESC" + ") a " + "WHERE rownum <= 30 ";
 
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, genre);
@@ -509,7 +509,7 @@ public class ChartDao {
 			}
 		}
 	}
-	
+
 	// 앨범 평점 수정
 	public int updateRating(int memberId, int albumId, int score) {
 		try {
