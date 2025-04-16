@@ -54,7 +54,8 @@
 						<a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=recentAlbumArr.get(i).getAlbumId()%>/cover.jpg" class="gallery-card-album-image">
 						</a>
 						<div class="gallery-card-album-image-play">
-							<a href="#"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>'); return false;">
+ <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 							</a>
 						</div>
 					</div>
@@ -141,7 +142,7 @@
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#"> 
+								<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=arrPopularSong.get(i).getSongId()%>'); return false;">
 								<img src="/semi2/resources/images/design/play-icon.png" class="icon-default">
 								<img src="/semi2/resources/images/design/play-icon-hover.png" class="icon-hover">
 								</a>
@@ -195,7 +196,8 @@
 						<a href="/semi2/playlist/details.jsp?playlistid=<%=arrPopularPlaylist.get(i).getPlaylistId()%>"><img src="/semi2/resources/images/album/<%=arrPopularPlaylist.get(i).getFirstAlbumId() %>/cover.jpg" class="gallery-card-album-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 						</a>
 						<div class="gallery-card-album-image-play">
-							<a href="#"> <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
+							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=arrPopularPlaylist.get(i).getPlaylistId()%>'); return false;"> 
+ <img src="/semi2/resources/images/design/album-play.png" class="play-default"> <img src="/semi2/resources/images/design/album-play-hover.png" class="play-hover">
 							</a>
 						</div>
 					</div>
