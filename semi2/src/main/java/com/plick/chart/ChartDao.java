@@ -315,7 +315,6 @@ public class ChartDao {
 			ps.setInt(2, albumId);
 			ps.setString(3, content);
 			ps.setInt(4, parentId + 1);
-
 			int count = ps.executeUpdate();
 
 			return count;
@@ -404,8 +403,10 @@ public class ChartDao {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (cp - 1) * listSize + 1;
 			int end = cp * listSize;
-			String sql = "SELECT b.*,m.NICKNAME FROM  " + "(SELECT rownum AS rnum,a.* from  "
-					+ "(SELECT * FROM ALBUM_COMMENTS WHERE ALBUM_ID =? ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m  "
+			String sql = "SELECT b.*,m.NICKNAME FROM  "
+					+ "(SELECT rownum AS rnum,a.* from  "
+					+ "(SELECT a.*,ROW_NUMBER() OVER (PARTITION BY PARENT_ID ORDER BY id ASC) AS \"answer_check\" "
+					+ "FROM ALBUM_COMMENTS a WHERE a.ALBUM_ID=? ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m "
 					+ "WHERE b.MEMBER_ID=m.ID AND rnum >=? AND rnum<=?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, albumId);
@@ -421,9 +422,10 @@ public class ChartDao {
 				String content = rs.getString("content");
 				Timestamp createdAt = rs.getTimestamp("created_at");
 				int parentId = rs.getInt("parent_id");
+				int answerCheck = rs.getInt("answer_check");
 				String nickname = rs.getString("nickname");
 
-				CommentDto dto = new CommentDto(id, memberId, albumId, content, createdAt, parentId, nickname);
+				CommentDto dto = new CommentDto(id, memberId, albumId, content, createdAt, parentId, answerCheck, nickname);
 				arr.add(dto);
 			}
 

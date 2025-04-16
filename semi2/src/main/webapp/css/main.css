@@ -582,21 +582,16 @@ table.song-list .song-list-body {
 }
 
 .comment-profile {
-	width: 250px;
 	height: 100px;
 	text-align: center;
 }
 
 .comment-profile-answer {
-	width: 250px;
 	height: 100px;
 	text-align: center;
 	padding-left: 100px;
 }
 
-.comment-content {
-	width: 680px;
-}
 
 .comment-content-date {
 	margin-top: 10px;
