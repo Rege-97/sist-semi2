@@ -114,15 +114,21 @@ if (request.getParameter("albumid") != null) {
 	}
 	nowplay = playlistSongIds.get(0) + "";
 
-} else if (request.getParameter("albumid") != null && request.getParameter("songid") != null
-		&& request.getParameter("playlistid") != null) {
+} else if (request.getParameter("albumid") == null && request.getParameter("songid") == null
+		&& request.getParameter("playlistid") == null) {
 	if (songs.size() == 0) {
+		System.out.println("ddd");
 %>
 <script>
-		window.alert('재생목록이 비어 있습니다.');
-		window.location.href = document.referrer;
+
+		    window.alert('재생목록이 비어 있어 창을 닫습니다.');
+		    window.close();
+
+
+
 	</script>
 <%
+return;
 } else {
 nowplay = "0";
 }
@@ -307,6 +313,7 @@ playingIndex = i;
 		
 		let volume;
 		let hasMembership;
+		let hasMembership_end=false;
 	
 		const current = document.getElementById("current");
 		const max = document.getElementById("max");
@@ -366,8 +373,14 @@ playingIndex = i;
 				} else {
 					var max_second_s = max_second;
 				}
-				max.innerHTML = Math.floor(audio.duration / 60) + ' : '
-						+ max_second_s;
+				
+				if(hasMembership==0){
+					max.innerHTML =  '1 : 00'
+				}else{
+					max.innerHTML = Math.floor(audio.duration / 60) + ' : '
+							+ max_second_s;
+				}
+
 			});
 
 			audio.addEventListener('ended', function() {
@@ -398,7 +411,15 @@ playingIndex = i;
 			document.addEventListener('mouseup', stopVolumeDrag);
 			
 			audio.addEventListener('timeupdate', function() {
-				  const percent = (audio.currentTime / audio.duration) * 100;
+				if(audio.currentTime<=60){
+					hasMembership_end=false;
+				}
+					let percent=0;
+				if(hasMembership==0){
+					 percent = (audio.currentTime / 60) * 100;
+				}else{
+					 percent = (audio.currentTime / audio.duration) * 100;
+				}
 				  seekbarFill.style.width = percent + "%"; 
 				  
 				const current_second = Math.floor(audio.currentTime % 60);
@@ -410,27 +431,33 @@ playingIndex = i;
 				current.innerHTML = Math.floor(audio.currentTime / 60) + ' : '
 						+ current_second_s;
 				if(hasMembership==0){
-					if(audio.currentTime>60){
+					if(audio.currentTime>60&&!hasMembership_end){
+						hasMembership_end=true;
 						next();
 					}
-					audio.addEventListener('playing', function() {
-						if(audio.currentTime==60){
-							next();
-						}
-					});	
 				}
 				if(!audio.paused){
-					playTime=playTime+250;
-					const countPlayTime= 1000*90;
+					playTime=playTime+0.25;
+					const countPlayTime=audio.duration / 2;
+					
+					console.log(countPlayTime);
 					
 					if(playTime>countPlayTime&&!viewPlus){
-						hiddenFrame.src='/semi2/player/song-view-count.jsp?songid='+allSongId[playingIndex].value;
 						viewPlus=true;
+						hiddenFrame.src='/semi2/player/song-view-count.jsp?songid='+allSongId[playingIndex].value;
 					}
 				}
 				
 				
 			});	
+			
+			if(hasMembership==0){
+				audio.addEventListener('playing', function() {
+					if(audio.currentTime>60){
+						next();
+					}
+				});	
+			}
 
 		}
 		
@@ -438,8 +465,12 @@ playingIndex = i;
 			  const rect = seekbarWrapper.getBoundingClientRect();
 			  const percent = (e.clientX - rect.left) / rect.width;
 			  const clamped = Math.max(0, Math.min(1, percent));
-			  audio.currentTime = clamped * audio.duration;
 			  
+			  if(hasMembership==0){
+				  audio.currentTime = clamped * 60;
+			  }else{
+				  audio.currentTime = clamped * audio.duration;
+			  }
 			}
 
 		function startDrag(e) {
@@ -558,6 +589,7 @@ playingIndex = i;
 		
 		function changeSong(){
 			pause();
+			hasMembership_end=false;
 			audio.src='/semi2/resources/songs/' + allAlbumId[playingIndex].value + '/'
 			+ allSongId[playingIndex].value + '.mp3';
 			document.getElementById("songname").innerHTML=allSongName[playingIndex].value;
@@ -594,17 +626,21 @@ playingIndex = i;
 		function next(){
 			if(random){
 				if(noLoop || oneLoop){
-					if(count==maxIndex){
+					if(count>maxIndex){
 						window.alert('마지막 곡 입니다.');
+						pause();
 					}else{
 						playingIndex=randomList[count];
 						count++;
 						changeSong();
 					}
 				}else if(allLoop){
-					var beforeIndex=playingIndex;
-					while(beforeIndex==playingIndex){
-						playingIndex=Math.floor(Math.random()*(parseInt(maxIndex)+1));
+					if(count>maxIndex){
+						count=0;
+						playingIndex=randomList[count];
+					}else{
+						playingIndex=randomList[count];
+						count++;
 					}
 					changeSong();
 				}
@@ -613,6 +649,7 @@ playingIndex = i;
 				if(noLoop){
 					if(playingIndex==maxIndex){
 						window.alert('마지막 곡 입니다.');
+						pause();
 					}else{
 						playingIndex++;
 						changeSong();
@@ -693,16 +730,28 @@ playingIndex = i;
 		
 		function randomListing(){
 			 randomList=new Array(parseInt(maxIndex)+1);
-			 randomList[0]=playingIndex;
-				for(var i=1;i<randomList.length;i++){
-					randomList[i]=Math.floor(Math.random()*(parseInt(maxIndex)+1));
-					for(var j=0;j<i;j++){
-						if(randomList[i]==randomList[j]){
-							i--;
-							break;
-						}
-					}
+			 
+			for(let i=0;i<randomList.length;i++){
+				randomList[i]=i;
+			}
+			
+			for(let i=0;i<randomList.length;i++){
+				if(i==playingIndex){
+					let temp=randomList[0];
+					randomList[0]=playingIndex;
+					randomList[i]=temp;
+					break;
 				}
+			}
+			
+			randomList.shift();
+
+			for(let i=randomList.length-1;i>0;i--){
+				let j=Math.floor(Math.random() * (i + 1));
+				[randomList[i],randomList[j]]=[randomList[j],randomList[i]];
+			}
+			
+			randomList.unshift(playingIndex);
 		}
 		
 		function showInfo(){
@@ -760,6 +809,9 @@ playingIndex = i;
 					allMemberId=document.querySelectorAll('.allmemberid');
 					
 					maxIndex=allSongId.length-1;
+					
+					count=0;
+					randomListing();
 				}
 		}
 		
