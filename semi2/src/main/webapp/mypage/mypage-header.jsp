@@ -72,7 +72,6 @@
 	}
 			%>
 			<div class="mypage-card">
-		<img src="/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), sdto.getMemberId())%>" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';" class="mypage-artist-image">
 		<div class="subtitle">
 			<label>현재 이용권 : <%=passName%>
 			</label>

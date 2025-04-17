@@ -124,7 +124,7 @@ function testNickname() {
 	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
 }
 // 제약사항 확인
-// 이메일 형식 검사 / 중복 검사
+// 이메일 형식 검사 / 중복 검사 / 직접입력 시 형식 검사
 // 비밀번호 빈값 검사 / 비밀번호 확인과 일치 검사 
 // 닉네임 빈값 검사 / 중복 검사
 function formCheck(event) {
