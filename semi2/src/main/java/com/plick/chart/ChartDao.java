@@ -67,6 +67,69 @@ public class ChartDao {
 		}
 	}
 
+	public ArrayList<SongDetailDto> playerListing(ArrayList<String> songs) {
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < songs.size(); i++) {
+				if (i != songs.size() - 1) {
+					sb.append("?,");
+				} else {
+					sb.append("?");
+				}
+			}
+
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\", a.MEMBER_ID "
+					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
+					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND s.ID in (" + sb + ")";
+
+			ps = conn.prepareStatement(sql);
+			for (int i = 0; i < songs.size(); i++) {
+				ps.setInt(i + 1, Integer.parseInt(songs.get(i)));
+			}
+
+			rs = ps.executeQuery();
+
+			ArrayList<SongDetailDto> arr = new ArrayList<SongDetailDto>();
+			
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int albumId = rs.getInt("album_id");
+				String name = rs.getString("name");
+				String composer = rs.getString("composer");
+				String lyricist = rs.getString("lyricist");
+				String lyrics = rs.getString("lyrics");
+				int viewCount = rs.getInt("view_count");
+				String artist = rs.getString("artist");
+				String albumName = rs.getString("album_name");
+				int memberId = rs.getInt("member_id");
+
+				SongDetailDto dto = new SongDetailDto(id, albumId, name, composer, lyricist, lyrics, viewCount, artist,
+						albumName, memberId);
+				arr.add(dto);
+			}
+
+			return arr;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
 	// 앨범 정보 조회 메서드
 	public AlbumDetailDto findAlbum(int id) {
 		try {
@@ -172,14 +235,10 @@ public class ChartDao {
 	public ArrayList<TrackDto> allChartList() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT rownum AS rnum,a.* "
-					+ "FROM (SELECT * from( "
+			String sql = "SELECT rownum AS rnum,a.* " + "FROM (SELECT * from( "
 					+ "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\",a.MEMBER_ID "
-					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
-					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID  "
-					+ "ORDER BY s.VIEW_COUNT DESC) "
-					+ "WHERE rownum<=100)a "
-					+ "ORDER BY RNUM";
+					+ "FROM MEMBERS m, ALBUMS a, SONGS s " + "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID  "
+					+ "ORDER BY s.VIEW_COUNT DESC) " + "WHERE rownum<=100)a " + "ORDER BY RNUM";
 
 			ps = conn.prepareStatement(sql);
 
@@ -406,8 +465,7 @@ public class ChartDao {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (cp - 1) * listSize + 1;
 			int end = cp * listSize;
-			String sql = "SELECT b.*,m.NICKNAME FROM  "
-					+ "(SELECT rownum AS rnum,a.* from  "
+			String sql = "SELECT b.*,m.NICKNAME FROM  " + "(SELECT rownum AS rnum,a.* from  "
 					+ "(SELECT a.*,ROW_NUMBER() OVER (PARTITION BY PARENT_ID ORDER BY id ASC) AS \"answer_check\" "
 					+ "FROM ALBUM_COMMENTS a WHERE a.ALBUM_ID=? ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m "
 					+ "WHERE b.MEMBER_ID=m.ID AND rnum >=? AND rnum<=?";
@@ -428,7 +486,8 @@ public class ChartDao {
 				int answerCheck = rs.getInt("answer_check");
 				String nickname = rs.getString("nickname");
 
-				CommentDto dto = new CommentDto(id, memberId, albumId, content, createdAt, parentId, answerCheck, nickname);
+				CommentDto dto = new CommentDto(id, memberId, albumId, content, createdAt, parentId, answerCheck,
+						nickname);
 				arr.add(dto);
 			}
 

@@ -1648,3 +1648,13 @@ table.request-table .support-table-foot {
 	background-color: #2b2b2b; /* 진한 검정색 */
 	border-radius: 5px;
 }
+.all-play-bt-div{
+	display:flex;
+	margin-bottom:20px;
+	align-items: center;
+	height:50px;
+	 justify-content: space-between;
+}
+.all-play-bt{
+	text-align: right;
+}
