@@ -3,7 +3,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
+<jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto"></jsp:useBean>
 <jsp:setProperty property="*" name="signedinDto"/>	
 <jsp:useBean id="signedinDao" class="com.plick.signedin.SignedinDao"></jsp:useBean>
 <%
@@ -13,6 +13,7 @@ String path = "";
 
 switch(result){
 case 0: 
+	//로그인 정보 쿠키 추가
 if(request.getParameter("rememberMe")!=null){
 	Cookie rememberMe = new Cookie("rememberMe", signedinDto.getMemberEmail());
 	rememberMe.setMaxAge(signedinDao.COOKIE_LIFE_30DAYS);
@@ -26,6 +27,8 @@ if(request.getParameter("rememberMe")!=null){
 		}
 	}
 }
+
+session.setAttribute("signedinDto", signedinDto);
 msg = "로그인 성공!";
 path = "/semi2/main.jsp";
 break;
