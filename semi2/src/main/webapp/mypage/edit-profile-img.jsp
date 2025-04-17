@@ -117,7 +117,7 @@ function reloadCtxE(w, h, div){
 	
 	const centerX = width / 2;
 	const centerY = height / 2;
-	const radius = Math.min(width, height) / 2.5;
+	const radius = Math.min(width, height) / 2.2;
 	
 	//1. 전체 회색 배경
 	ctxE.fillStyle = "#808080";
