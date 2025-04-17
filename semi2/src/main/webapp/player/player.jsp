@@ -440,8 +440,6 @@ playingIndex = i;
 					playTime=playTime+0.25;
 					const countPlayTime=audio.duration / 2;
 					
-					console.log(countPlayTime);
-					
 					if(playTime>countPlayTime&&!viewPlus){
 						viewPlus=true;
 						hiddenFrame.src='/semi2/player/song-view-count.jsp?songid='+allSongId[playingIndex].value;
