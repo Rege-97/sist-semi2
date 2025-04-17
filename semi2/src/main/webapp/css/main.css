@@ -110,7 +110,7 @@ header {
 .login-profile-image {
 	width: 40px;
 	object-fit: cover;
-	border-radius: 50%;
+	clip-path: circle(50% at center);
 }
 
 /*공통요소*/
@@ -1403,9 +1403,9 @@ table.support-table .support-table-foot {
 }
 
 .mypage-artist-image {
-	width: 140px;
+	width: 154px;
 	margin-bottom: 5px;
-	border-radius: 999px;
+	clip-path: circle(45% at center);
 	transition: filter 0.3s ease;
 	display: block;
 	margin: 20px auto;
