@@ -173,10 +173,13 @@ public class ChartDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT rownum AS rnum,a.* "
-					+ "FROM (SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\", a.MEMBER_ID "
+					+ "FROM (SELECT * from( "
+					+ "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\",a.MEMBER_ID "
 					+ "FROM MEMBERS m, ALBUMS a, SONGS s "
-					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID AND rownum<=100 "
-					+ "ORDER BY s.VIEW_COUNT desc)a " + "ORDER BY RNUM";
+					+ "WHERE m.ID = a.MEMBER_ID AND a.ID = s.ALBUM_ID  "
+					+ "ORDER BY s.VIEW_COUNT DESC) "
+					+ "WHERE rownum<=100)a "
+					+ "ORDER BY RNUM";
 
 			ps = conn.prepareStatement(sql);
 
