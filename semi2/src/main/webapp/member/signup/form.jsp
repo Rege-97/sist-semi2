@@ -52,6 +52,8 @@ function testNickname() {
 	var nickname = document.getElementById("nickname").value;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
 }
+// 제약사항 확인
+// id
 function formCheck(event) {
 	var a = true;
 	if (pwdsame == false){ 	
