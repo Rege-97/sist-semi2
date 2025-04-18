@@ -3,9 +3,16 @@
 /*폰트 세팅*/
 @font-face {
 	font-family: 'Noto Sans KR';
-	src: url('/semi2/resources/fonts/NotoSansKR-Regular.ttf')
-		format('truetype');
+	src: url('/semi2/resources/fonts/NotoSansKR-Regular.woff')
+		format('woff');
 	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	src: url('/semi2/resources/fonts/NotoSansKR-Bold.woff') format('woff');
+	font-weight: bold;
 	font-style: normal;
 }
 
