@@ -1658,3 +1658,7 @@ table.request-table .support-table-foot {
 .all-play-bt{
 	text-align: right;
 }
+.mypage-album-table {
+	border-collapse: separate;
+	border-spacing: 20px;
+}

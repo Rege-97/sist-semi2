@@ -24,7 +24,7 @@ if(request.getParameter("albumId")==null){
 		</div>
 	<form action="album-form_ok.jsp" method = "post" enctype="multipart/form-data"> 
 	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
-	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-album.jpg" onclick = "addAlbumCover();">
+	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
 	<br>
 	<div>
@@ -130,7 +130,7 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 		</div>
 	<form action="album-form_ok.jsp?modify=true" method = "post" enctype="multipart/form-data"> 
 	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
-	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>.jpg" onclick = "addAlbumCover();">
+	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>/cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
 	<br>
 	<div>
