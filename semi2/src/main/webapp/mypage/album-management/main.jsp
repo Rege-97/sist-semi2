@@ -28,7 +28,7 @@
 	<div>
 		<input type="button" value="신규 앨범 등록"
 			onclick="location.href = 'album-form.jsp'">
-		<table class="mypage-album-main-table">
+		<table class="mypage-album-table">
 			<thead>
 				<tr>
 					<td>앨범커버</td>
@@ -47,7 +47,7 @@
 					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><img
 							src="/semi2/resources/images/album/<%=albums.get(i).getId()%>/cover.jpg"
 							onerror="this.src='/semi2/resources/images/album/default-cover.jpg';"
-							style="width: 100px"></a></td>
+							class="song-list-album-image"></a></td>
 					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><%=albums.get(i).getId()%></a></td>
 					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><%=albums.get(i).getName()%></a></td>
 					<td><%=releasedAt%></td>
