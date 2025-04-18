@@ -663,6 +663,10 @@ playingIndex = i;
 		allSongList[playingIndex].style.fontWeight = "bold";
 		allSongList[playingIndex].style.color = "#ff2dac";
 		
+		allSongList[playingIndex].scrollIntoView({
+			  behavior: "smooth",
+			  block: "center"
+			});
 		}
 		
 		function next(){

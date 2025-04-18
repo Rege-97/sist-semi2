@@ -63,7 +63,7 @@ static{
 					%>
 				<div class="gallery-card">
 					<div class="gallery-card-album-image-group">
-						<a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=recentAlbumArr.get(i).getAlbumId()%>/cover.jpg" class="gallery-card-album-image">
+						<a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=recentAlbumArr.get(i).getAlbumId()%>/cover.jpg" class="gallery-card-album-image"  onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 						</a>
 						<div class="gallery-card-album-image-play">
 							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>'); return false;">
