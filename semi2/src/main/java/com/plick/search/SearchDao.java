@@ -19,19 +19,16 @@ public class SearchDao {
 			int start = (currentPage-1)*pageSize+1;
 			int end = currentPage*pageSize;
 			String sql = "select *  " + "from (select rownum rn, alb.*,members.nickname "
-					+ "    from (select * from albums where name like ? order by released_at desc) alb "
+					+ "    from (select * from albums where lower(name) like lower(?) order by released_at desc) alb "
 					+ "        left join members " + "        on alb.member_id = members.id ) " + "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
 			ps.setInt(2, start);
-			System.out.println("start:"+start);
 			ps.setInt(3, end);
-			System.out.println("end:"+end);
 			rs = ps.executeQuery();
 			ArrayList<SearchAlbumDto> arr = new ArrayList<SearchAlbumDto>();
 			while (rs.next()) {
 				int albumId = rs.getInt("id");
-				System.out.println("albumId:"+albumId);
 				int memberId = rs.getInt("member_id");
 				String name = rs.getString("name");
 				String description = rs.getString("description");
@@ -72,7 +69,7 @@ public class SearchDao {
 			int start = (currentPage-1)*pageSize+1;
 			int end = currentPage*pageSize;
 			String sql = "select * from (select rownum rn, mem.id member_id, mem.name, mem.nickname memnickname, mem.email, mem.access_type  "
-					+ "    from (select * from members where members.nickname like ?) mem) " + "where rn >=? and rn <=?";
+					+ "    from (select * from members where lower(members.nickname) like lower(?)) mem) " + "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
 			ps.setInt(2, start);
@@ -120,7 +117,7 @@ public class SearchDao {
 					+ "            albums.name album_name,albums.member_id,members.nickname "
 					+ "        from songs,albums,members  "
 					+ "        where songs.album_id = albums.id and members.id=albums.member_id  "
-					+ "        and songs.name like ? " + "        order by created_at desc) so) where rn >=? and rn <=?";
+					+ "        and lower(songs.name) like lower(?) " + "        order by created_at desc) so) where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
 			ps.setInt(2, start);
@@ -178,7 +175,7 @@ public class SearchDao {
 					+ "					LEFT JOIN songs s ON ps2.song_id = s.id GROUP BY  "
 					+ "					 p.id, p.name, p.created_at, m.id, m.nickname, s.album_id "
 					+ "					ORDER BY created_at DESC) pl)  "
-					+ "WHERE playlist_name LIKE ? AND rn >=? and rn <=?";
+					+ "WHERE lower(playlist_name) LIKE lower(?) AND rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
 			ps.setInt(2, start);
@@ -288,7 +285,7 @@ public class SearchDao {
 		public int showTotalResults(String table,String column,String search) {
 			try {
 				conn = com.plick.db.DBConnector.getConn();
-				String sql =  "select count(*) from "+table+" where "+column+" like ?";
+				String sql =  "select count(*) from "+table+" where lower("+column+") like lower(?)";
 				ps = conn.prepareStatement(sql);
 				ps.setString(1, "%"+search+"%");
 				rs = ps.executeQuery();
