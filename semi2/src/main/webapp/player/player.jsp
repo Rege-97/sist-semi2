@@ -46,7 +46,6 @@ if (cks != null) {
 if (playlist == null) {
 	playlist = "";
 }
-System.out.println(playlist);
 StringTokenizer st = new StringTokenizer(playlist, "|");
 ArrayList<String> songs = new ArrayList<String>();
 
@@ -67,6 +66,7 @@ if (request.getParameter("albumid") != null) {
 
 	for (int i = trackArr.size() - 1; i >= 0; i--) {
 		if (playlist.contains("|" + trackArr.get(i).getId() + "|")) {
+			System.out.println(123);
 	playlist = playlist.replace("|" + trackArr.get(i).getId() + "|", "");
 		}
 
@@ -143,7 +143,6 @@ if (request.getParameter("albumid") != null) {
 }else if (request.getParameter("albumid") == null && request.getParameter("songid") == null
 		&& request.getParameter("playlistid") == null) {
 	if (songs.size() == 0) {
-		System.out.println("ddd");
 %>
 <script>
 
@@ -169,12 +168,10 @@ if (!temp.equals("")) {
 songs.add(temp);
 }
 }
-System.out.println(songs.toString());
 ArrayList<SongDetailDto> arr = sdao.playerListing(songs);
 
 int playingIndex = 0;
 int maxIndex = songs.size() - 1;
-
 for (int i = 0; i < songs.size(); i++) {
 if (songs.get(i).equals(nowplay)) {
 playingIndex = i;
