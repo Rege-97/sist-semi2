@@ -21,6 +21,7 @@
 	</div>
 <%@ include file="/footer.jsp" %>
 <script>
+//
 var inputTel; 
 // 숫자 외의 입력 차단
 function numCheck(ip) {
