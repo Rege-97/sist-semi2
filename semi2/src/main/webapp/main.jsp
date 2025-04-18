@@ -32,7 +32,7 @@ static{
 				<div class="slide-container">
 					<a href="/semi2/membership/main.jsp"> <img src="/semi2/resources/images/design/banner/banner-main1.jpg" alt="Slide 1">
 					</a> <a href="#"> <img src="/semi2/resources/images/design/banner/banner-main2.jpg" alt="Slide 2">
-					</a> <a href="/semi2/playlist/mylist/main.jsp"> <img src="/semi2/resources/images/design/banner/banner-main3.jpg" alt="Slide 3">
+					</a> <a href="/semi2/chart/main.jsp"> <img src="/semi2/resources/images/design/banner/banner-main3.jpg" alt="Slide 3">
 					</a>
 				</div>
 				<button class="next-btn">→</button>
