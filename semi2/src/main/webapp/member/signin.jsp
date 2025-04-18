@@ -54,7 +54,7 @@ function goSubmit(button){
 </div>
 <div class="login-sub-box">
 	<div class="login-find">
-		<label onclick="location.href = '/semi2/member/find/id.jsp<%=rtm = rtm != null ? "?returntome="+rtm : null%>;'">아이디 찾기</label>
+		<label onclick="location.href = '/semi2/member/find/id.jsp<%=rtm != null ? "?returntome="+rtm : ""%>;'">아이디 찾기</label>
 		</div>
 		 <div class="login-find-line"> | </div>
 			<div class="login-find">
