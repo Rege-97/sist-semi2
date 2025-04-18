@@ -72,7 +72,7 @@
 </script>
 <style>
 .comment-row2 {
-	height: 120px;
+	height: 130px;
 	border-top: 1px solid #262626;
 	border-bottom: 1px solid #262626;
 }
@@ -167,7 +167,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 <body>
 	<%@include file="/header.jsp"%>
-	
+
 	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<section>
 		<article>
@@ -282,9 +282,9 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 					<div class="detail-card-info-icon-playlist">
 						<div class="icon-group">
-							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlistId%>'); return false;"> 
- <img
-								src="/semi2/resources/images/design/play-icon.png"
+							<a href="#"
+								onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?playlistid=<%=playlistId%>'); return false;">
+								<img src="/semi2/resources/images/design/play-icon.png"
 								class="icon-dafault"> <img
 								src="/semi2/resources/images/design/play-icon-hover.png"
 								class="icon-hover">
@@ -411,9 +411,9 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						</td>
 						<td>
 							<div class="icon-group">
-								<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=sortedSongs.get(i).getSongId()%>'); return false;">
- <img
-									src="/semi2/resources/images/design/play-icon.png"
+								<a href="#"
+									onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?songid=<%=sortedSongs.get(i).getSongId()%>'); return false;">
+									<img src="/semi2/resources/images/design/play-icon.png"
 									class="icon-default"> <img
 									src="/semi2/resources/images/design/play-icon-hover.png"
 									class="icon-hover">
@@ -501,6 +501,14 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 			<div>
 				<table class="commnet-table">
+					<colgroup>
+						<col style="width: 178px;">
+						<!-- 순위 -->
+						<col style="width: 710px;">
+						<!-- 앨범 이미지 -->
+						<col style="width: 50px;">
+
+					</colgroup>
 					<tbody>
 						<%
 						List<PlaylistCommentDto> playlistComments = playlistDetailDto.getPlaylistCommentDtos();
