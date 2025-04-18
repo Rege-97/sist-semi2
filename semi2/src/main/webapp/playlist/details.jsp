@@ -157,8 +157,7 @@ String formattedCreatedAt = simpleDateFormat.format(playlistDetailDto.getCreated
 // 무드 한줄 문자열로
 StringBuffer mood = new StringBuffer();
 mood.append(playlistDetailDto.getMood1() == null ? "" : playlistDetailDto.getMood1());
-mood.append(" ");
-mood.append(playlistDetailDto.getMood2() == null ? "" : playlistDetailDto.getMood2());
+mood.append(playlistDetailDto.getMood2() == null ? "" : "  " + playlistDetailDto.getMood2());
 // 플레이리스트 사진을 위한 첫번째 곡 앨범아이디, 없으면 0
 int firstAlbumId = sortedSongs.stream().map(s -> s.getAlbumId()).findFirst().orElse(0);
 // 로그인 한 유저가 좋아요를 누른 상태면 true
@@ -221,7 +220,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 					<div class="detail-card-info-genre">
 						<%
 						if (isOwnedPlaylist) {
-							String[] selectedMoods = mood.toString().trim().split(" ");
+							String[] selectedMoods = mood.toString().trim().split("  ");
 							Set<String> selectedSet = new HashSet<>(Arrays.asList(selectedMoods));
 							String[] allMoods = {"신나는", "잔잔한", "감성적인", "슬플 때", "달달한", "상쾌한", "몽환적인"};
 						%>
