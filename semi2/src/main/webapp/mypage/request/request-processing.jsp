@@ -23,7 +23,7 @@
 <%
 MypageDao mypageDao = new MypageDao();
 String yesParam = request.getParameter("yes");
-if (yesParam != null){
+if (yesParam != null || yesParam){
 	yesParam = yesParam.substring(0, yesParam.length()-1);
 	String yp[] = yesParam.split(",");
 	mypageDao.requestYes(yp);
@@ -35,7 +35,7 @@ window.alert("처리완료");
 }
 String noParam = request.getParameter("no");
 if (noParam != null){
-	noParam = noParam.substring(0, noParam.length()-1);
+	noParam = noParam.substring(0, noParam.length()	-1);
 	String np[] = noParam.split(",");
 	mypageDao.requestNo(np);
 	%>
@@ -78,7 +78,7 @@ if (noParam != null){
 				// 현재 페이지 정보 생성
 				String temp = request.getParameter("thisPage");
 				int thisPage = temp != null ? Integer.parseInt(temp) : 1;
-				int firstRow = 0, lastRow = 5, pageLate = 5;
+				int firstRow = 0, lastRow = 10, pageLate = 5;
 				ArrayList<MypageDto> mypageDtos = mdao.getapplicantInfo((thisPage-1)*lastRow, (thisPage-1)*lastRow+lastRow);
 				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
@@ -113,14 +113,14 @@ if (noParam != null){
 		}
 		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
 		for (int i = pageStart; i < pageStart+pageLate; i++) {
-			if (i * lastRow > maxRow) break;
+			if((maxRow/lastRow)+(maxRow%lastRow > 0 ? 1 : 0) < i) break;
 		%>
 		<span class="<%=thisPage==i?"page-number-bold":"page-number" %>">
 		<a href="request-processing.jsp?thisPage=<%=i %>"><%=i%></a>
 		</span>
 		<%
 		}
-		if (thisPage+pageLate/2 < maxRow/lastRow) {
+		if (pageStart+pageLate < (maxRow%lastRow == 0 ? maxRow/lastRow:maxRow/lastRow+1)) {
 		%>
 		<a href="request-processing.jsp?thisPage=<%=thisPage+pageLate/2 %>">&gt;</a>
 		<%
@@ -136,7 +136,7 @@ if (noParam != null){
 	<script>
 function requestYes(){
 	var rqStr = "";
-	for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+	for (var i = <%=(Math.max(thisPage-1, 0)) * lastRow%>; i <= <%=maxRow %>; i++){
 		
 		if(i > <%=(thisPage) * lastRow%>) break;
 		var checkbox = document.getElementById(i);
@@ -146,11 +146,12 @@ function requestYes(){
 			}
 		}
 	}
+	if(rqStr == "") return;
 	location.href = "request-processing.jsp?thisPage=<%=thisPage %>&yes="+rqStr;
 }
 function requestNo(){
 	var rqStr = "";
-	for (var i = <%=(thisPage-1) * lastRow%>; i <= <%=maxRow %>; i++){
+	for (var i = <%=(Math.max(thisPage-1, 0))  * lastRow%>; i <= <%=maxRow %>; i++){
 		if(i > <%=(thisPage) * lastRow%>) break;
 		var checkbox = document.getElementById(i);
 		if (checkbox != null){
@@ -159,6 +160,7 @@ function requestNo(){
 			}
 		}
 	}
+	if(rqStr == "") return;
 	location.href = "request-processing.jsp?thisPage=<%=thisPage %>&no="+rqStr;
 }
 function selectAll(){

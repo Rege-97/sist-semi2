@@ -9,7 +9,24 @@
 <title>Insert title here</title>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
-
+<style>
+#description {
+	display: block;
+	margin: 0 auto;
+	width: 500px;
+	height: 300px;
+	resize: none;
+	border: 1px solid #666666;
+	border-radius: 8px;
+}
+textarea::-webkit-scrollbar {
+    display: none; /* 스크롤바 숨기기 */
+}
+#descriptionBt {
+	margin-top: 30px;
+	
+}
+</style>
 <body>
 	<%@ include file="/header.jsp"%>
 	<%@ include file="/mypage/mypage-header.jsp"%>
@@ -37,10 +54,10 @@
 				id="duplicateNickname"></label> <input type="hidden"
 				id="nicknamecheck" value="true">
 		</div>
-		<textarea style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text">
+		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text">
 		<%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %>
 		</textarea>
-		<input type = "button" value = "프로필 메세지 수정" onclick = "changeDescription(this);">
+		<input type = "button" value = "프로필 메세지 수정" id = "descriptionBt" class="bt" onclick = "changeDescription(this);">
 	</div>
 	<%@ include file="/footer.jsp"%>
 	<iframe id="profile_hidden" style="display: none;"></iframe>
