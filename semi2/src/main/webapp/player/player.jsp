@@ -201,6 +201,9 @@ playingIndex = i;
 			        window.close();
 			    </script>
 			<%
+	    	Cookie ck = new Cookie("playlist", "");
+			ck.setMaxAge(60 * 60 * 24);
+			response.addCookie(ck);
 			    return;
 			}
 		
