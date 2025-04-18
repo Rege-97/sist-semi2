@@ -5,6 +5,7 @@
 <%@ page import="java.io.File" %>
 <%@ page import="com.plick.member.MemberDto" %>
 <%
+//
 request.setCharacterEncoding("UTF-8");
 %>
 
