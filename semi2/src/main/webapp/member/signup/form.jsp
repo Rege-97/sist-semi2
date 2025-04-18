@@ -26,7 +26,7 @@ emailForms.add("daum.net");
 		<div class="signup-title">회원가입</div>
 		<div class="blank"></div>
 		<input type = "hidden" name = "name" value = "<%=request.getParameter("name") %>">
-		<input type = "hidden" name = "tel" value = "<%=request.getParameter("tel") %>"> 
+		<input type = "hidden" name = "tel" value = "<%=request.getParameter("tel").substring(0, 3)+"-"+request.getParameter("tel").substring(3, 7)+"-"+request.getParameter("tel").substring(7) %>"> 
 		<input type = "hidden" name = "access_type" value = "listener">
 		<div class="signup-text-name">성함 : <%=request.getParameter("name") %> 님</div>
 		<div class="signup-text-name">전화번호 : <%=request.getParameter("tel") %></div>
