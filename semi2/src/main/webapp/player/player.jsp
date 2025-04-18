@@ -28,7 +28,7 @@ channel.onmessage = function(event) {
 <%
 int mambershipId = signedinDao.hasActiveMembership(signedinDto);
 int hasMembership = 0;
-if (mambershipId == 0) {
+if (mambershipId == 0 || mambershipId == 2) {
 	hasMembership = 0;
 } else {
 	hasMembership = 1;
