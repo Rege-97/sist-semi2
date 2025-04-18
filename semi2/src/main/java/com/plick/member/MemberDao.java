@@ -31,6 +31,7 @@ public class MemberDao {
 			pstmt.setString(6, dto.getAccessType());
 			int result = pstmt.executeUpdate();
 			return result;
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			return ERROR;
