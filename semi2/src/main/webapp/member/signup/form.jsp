@@ -46,7 +46,7 @@ for (int i = 0; i < emailForms.size(); i++) {
 		<div class="signin-hidden">
 		<label id = "checkEmailDuplicate"></label>
 		</div>
-		<input type = "email" id = "assembleEmail" name = "email" style = "display: none;"> 
+		<input type = "text" id = "assembleEmail" name = "email" style = "display: none;"> 
 		<div>
 		<input type="text" maxlength = "15" id = "nickname" name = "nickname" class="signup-text"placeholder="닉네임" onchange = "testNickname();">
 		</div>
@@ -70,8 +70,9 @@ for (int i = 0; i < emailForms.size(); i++) {
 </div>
 <iframe id = "form_hidden" style = "display: none;"></iframe>
 <%@ include file="/footer.jsp" %>
-		<script>
+<script>
 // select에서 직접 입력 선택시 입력 메뉴 보여주는 함수 (셀렉트 박스 숨길 때 style.display 사용했음)
+var a = true;
 var pwdsame = false;
 
 function changeDirectInput(selectelement){
@@ -95,6 +96,7 @@ function assembleEmailF() {
 		document.getElementById("checkEmailDuplicate").innerText = "사용 가능한 이메일입니다.";
 	}else{
 		document.getElementById("checkEmailDuplicate").innerText = "형식과 맞지 않는 이메일입니다.";
+		a = false;
 	}
 		
 	document.getElementById("assembleEmail").value = email;
@@ -115,6 +117,8 @@ function testPassword() {
 			pwdstr.innerText = "입력하신 비밀번호가 다릅니다.";
 			pwdsame = false;
 		}
+		
+	
 	}
 	
 	
@@ -123,23 +127,35 @@ function testPassword() {
 function testNickname() {
 	var nickname = document.getElementById("nickname").value;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
+	var checknick = document.getElementById("checkNicknameDuplicate");
+	if (checknick.value == "사용가능한 닉네임이에요."){
+		a = true;
+	}else{
+		a = false;
+	}
+	if(nickname == "" || nickname == null){
+		a = false;
+		checknick.innerText = "닉네임을 입력하지 않았습니다.";
+	}
 }
 // 제약사항 확인
 // 이메일 형식 검사 / 중복 검사 / 직접입력 시 형식 검사
 // 비밀번호 빈값 검사 / 비밀번호 확인과 일치 검사 
 // 닉네임 빈값 검사 / 중복 검사
 function formCheck(event) {
-	var a = true;
-	if (pwdsame == false){ 	
+	
+	if (pwdsame == false){ 
 		event.preventDefault();
 		a = false;
 	}
 	if (document.getElementById("nickname").value == null || document.getElementById("nickname").value == ""){
-		event.preventDefault();
 		a = false;
 	}
 	
-	if (!a) window.alert("form에 잘못된 부분 있음 확인바람");
+	if (!a){
+		event.preventDefault();
+		window.alert("form에 잘못된 부분 있음 확인바람");
+	}
 }
 
 </script>
