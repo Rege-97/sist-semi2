@@ -81,14 +81,16 @@ public class ChartDao {
 			
 			StringBuilder sb2 = new StringBuilder();
 			
-			sb2.append("ORDER BY CASE s.ID ");
-			
-			for (int i = 0; i < songs.size()-1; i++) {
-				sb2.append("WHEN " + songs.get(i) + " THEN " + (i + 1) + " ");
+			if(songs.size()>1) {
+				sb2.append("ORDER BY CASE s.ID ");
+				
+				for (int i = 0; i < songs.size()-1; i++) {
+					sb2.append("WHEN " + songs.get(i) + " THEN " + (i + 1) + " ");
+				}
+				
+				sb2.append("END");
 			}
 			
-			sb2.append("END");
-
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "SELECT s.*, m.NICKNAME AS \"artist\", a.NAME AS \"album_name\", a.MEMBER_ID "
 					+ "FROM MEMBERS m, ALBUMS a, SONGS s "

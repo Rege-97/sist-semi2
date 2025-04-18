@@ -28,7 +28,7 @@ channel.onmessage = function(event) {
 <%
 int mambershipId = signedinDao.hasActiveMembership(signedinDto);
 int hasMembership = 0;
-if (mambershipId == 0) {
+if (mambershipId == 0 || mambershipId == 2) {
 	hasMembership = 0;
 } else {
 	hasMembership = 1;
@@ -63,6 +63,16 @@ String nowplay = "";
 if (request.getParameter("albumid") != null) {
 	int albumid = Integer.parseInt(request.getParameter("albumid"));
 	ArrayList<TrackDto> trackArr = sdao.trackList(albumid);
+	
+	if(trackArr.size()==0){
+		%>
+		<script>
+			window.alert('앨범에 곡이 없습니다.');
+			window.location.href = '/semi2/player/player.jsp';
+		</script>
+		<%
+		return;
+	}
 
 	for (int i = trackArr.size() - 1; i >= 0; i--) {
 		if (playlist.contains("|" + trackArr.get(i).getId() + "|")) {
@@ -191,6 +201,9 @@ playingIndex = i;
 			        window.close();
 			    </script>
 			<%
+	    	Cookie ck = new Cookie("playlist", "");
+			ck.setMaxAge(60 * 60 * 24);
+			response.addCookie(ck);
 			    return;
 			}
 		
