@@ -63,6 +63,16 @@ String nowplay = "";
 if (request.getParameter("albumid") != null) {
 	int albumid = Integer.parseInt(request.getParameter("albumid"));
 	ArrayList<TrackDto> trackArr = sdao.trackList(albumid);
+	
+	if(trackArr.size()==0){
+		%>
+		<script>
+			window.alert('앨범에 곡이 없습니다.');
+			window.location.href = '/semi2/player/player.jsp';
+		</script>
+		<%
+		return;
+	}
 
 	for (int i = trackArr.size() - 1; i >= 0; i--) {
 		if (playlist.contains("|" + trackArr.get(i).getId() + "|")) {
