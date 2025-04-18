@@ -1665,3 +1665,12 @@ table.request-table .support-table-foot {
 .all-play-bt{
 	text-align: right;
 }
+.profile-image-button{
+display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 12px;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
