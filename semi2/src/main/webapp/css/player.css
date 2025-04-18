@@ -1,8 +1,25 @@
 @charset "UTF-8";
+/*폰트 세팅*/
+@font-face {
+	font-family: 'Noto Sans KR';
+	src: url('/semi2/resources/fonts/NotoSansKR-Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	src: url('/semi2/resources/fonts/NotoSansKR-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
 body {
 	background-color: black;
 	color: white;
 	margin: 0px;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 a {

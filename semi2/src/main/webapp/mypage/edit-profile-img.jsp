@@ -120,7 +120,7 @@ function reloadCtxE(w, h, div){
 	const radius = Math.min(width, height) / 2.2;
 	
 	//1. 전체 회색 배경
-	ctxE.fillStyle = "#808080";
+	ctxE.fillStyle =  "rgba(0, 0, 0, 0.6)";
 	ctxE.fillRect(0, 0, width, height);
 	// 2. 원형 투명 영역 만들기
 	ctxE.globalCompositeOperation = "destination-out";
@@ -137,7 +137,7 @@ function reloadCtxE(w, h, div){
 
 	const offset = dotRadius + 1; // 안쪽으로 들어오게 하기 위한 여백
 
-	ctxE.fillStyle = "#ff0000"; // 마커 색상
+	ctxE.fillStyle =  "#ff2dac"; // 마커 색상
 
 	// 좌상단
 	ctxE.beginPath();

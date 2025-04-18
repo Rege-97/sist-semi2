@@ -39,7 +39,7 @@ textarea::-webkit-scrollbar {
 			onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"
 			class="mypage-artist-image" id="profileImg" >
 		<!-- 화면 비전환으로 구현예정 추가 브랜치 열어서 작업 예정 -->
-		<div>
+		<div class="profile-image-button">
 			<input type="button" value="사진 변경" class="bt"
 				onclick="location.href = 'edit-profile-img.jsp?memberId=<%=signedinDto.getMemberId()%>';">
 			<input type="button" value="사진 삭제" class="bt" id="deleteProfileImg"
@@ -69,7 +69,7 @@ textarea::-webkit-scrollbar {
 		var profileImg = document.getElementById("profileImg");
 		var description = document.getElementById("description");
 		if (profileImg.src.indexOf("default-profile")!=-1){
-			document.getElementById("deleteProfileImg").style.visibility = "hidden";
+			document.getElementById("deleteProfileImg").style.display = "none";
 		}
 		
 		
