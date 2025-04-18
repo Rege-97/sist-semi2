@@ -127,6 +127,16 @@ function testPassword() {
 function testNickname() {
 	var nickname = document.getElementById("nickname").value;
 	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
+	var checknick = document.getElementById("checkNicknameDuplicate");
+	if (checknick.value == "사용가능한 닉네임이에요."){
+		a = true;
+	}else{
+		a = false;
+	}
+	if(nickname == "" || nickname == null){
+		a = false;
+		checknick.innerText = "닉네임을 입력하지 않았습니다.";
+	}
 }
 // 제약사항 확인
 // 이메일 형식 검사 / 중복 검사 / 직접입력 시 형식 검사
