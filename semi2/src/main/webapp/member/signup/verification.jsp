@@ -21,6 +21,7 @@
 	</div>
 <%@ include file="/footer.jsp" %>
 <script>
+var a = false;
 var inputTel; 
 // 숫자 외의 입력 차단
 function numCheck(ip) {
@@ -49,16 +50,18 @@ function formCheck(e) {
 	}
 	
 	if (name.value == null || name.value == ""){
-		window.alert("빈 입력란이 있습니다");
-		e.preventDefault();
+		a = false;
 	}
 	// 숫자만 허용 11자리 고정
 	var tel = document.getElementById("tel");
 	if (!(tel.value.length == 11)){
-		window.alert("빈 입력란이 있습니다");
-		e.preventDefault();
+		a = false;
 	}
 	
+	if (!a){
+		window.alert("입력값을 확인해주세요");
+		e.preventDefault();
+	}
 	inputTel.value = inputTel.value.substring(0, 3)+"-"+inputTel.value.substring(3, 7)+"-"+inputTel.value.substring(7);
 }
 </script>
