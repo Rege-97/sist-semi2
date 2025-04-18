@@ -23,6 +23,7 @@
 
 <style>
 /* 모달 배경 */
+
 .modal {
 	display: none;
 	position: fixed;
@@ -62,13 +63,26 @@
 	border: none;
 	border-radius: 10px;
 }
+@font-face {
+	font-family: 'Noto Sans KR';
+	src: url('/semi2/resources/fonts/NotoSansKR-Regular.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.modal-title{
+font-family: 'Noto Sans KR', sans-serif;
+	margin:30px;
+	padding-top:30px;
+}
 </style>
 
 
 <div id="myModal" class="modal">
 	<div class="modal-content">
 		<span class="close" onclick="closeModal()">×</span>
-
+	<h2 class="modal-title">내 플레이리스트에 담기</h2>
 		<!-- iframe으로 JSP 페이지를 삽입 -->
 		<iframe class="modal-iframe" id="playlistIframe" src=""></iframe>
 	</div>
