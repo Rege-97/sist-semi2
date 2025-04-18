@@ -65,7 +65,12 @@ if (genre == null) {
 		</article>
 		<article>
 		<iframe name="hiddenFrame" style="display: none;"></iframe>
+			<div class="all-play-bt-div">
 			<h1 class="categorey-name"><%=title%></h1>
+			<div class="all-play-bt">
+			<input type="button" value="전체듣기" class="bt" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?genre=<%=genre%>'); return false;">
+			</div>
+			</div>
 			<table class="song-list">
 				<colgroup>
 					<col style="width: 40px;">

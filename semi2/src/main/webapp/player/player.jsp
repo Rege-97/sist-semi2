@@ -10,6 +10,7 @@
 <jsp:useBean id="sdao" class="com.plick.chart.ChartDao"></jsp:useBean>
 <jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
 <jsp:useBean id="signedinDao" class="com.plick.signedin.SignedinDao"></jsp:useBean>
+<jsp:useBean id="cdao" class="com.plick.chart.ChartDao"></jsp:useBean>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +46,8 @@ if (cks != null) {
 if (playlist == null) {
 	playlist = "";
 }
-
-StringTokenizer st = new StringTokenizer(playlist, "a");
+System.out.println(playlist);
+StringTokenizer st = new StringTokenizer(playlist, "|");
 ArrayList<String> songs = new ArrayList<String>();
 
 while (st.hasMoreTokens()) {
@@ -65,24 +66,24 @@ if (request.getParameter("albumid") != null) {
 	ArrayList<TrackDto> trackArr = sdao.trackList(albumid);
 
 	for (int i = trackArr.size() - 1; i >= 0; i--) {
-		if (playlist.contains("a" + trackArr.get(i).getId() + "a")) {
-	playlist = playlist.replaceAll("a" + trackArr.get(i).getId() + "a", "");
+		if (playlist.contains("|" + trackArr.get(i).getId() + "|")) {
+	playlist = playlist.replace("|" + trackArr.get(i).getId() + "|", "");
 		}
 
-		playlist = "a" + trackArr.get(i).getId() + "a" + playlist;
-		Cookie ck = new Cookie("playlist", playlist);
-		ck.setMaxAge(60 * 60 * 24);
-		response.addCookie(ck);
-
+		playlist = "|" + trackArr.get(i).getId() + "|" + playlist;
+		
 	}
+	Cookie ck = new Cookie("playlist", playlist);
+	ck.setMaxAge(60 * 60 * 24);
+	response.addCookie(ck);
 	nowplay = trackArr.get(0).getId() + "";
 } else if (request.getParameter("songid") != null) {
 	nowplay = request.getParameter("songid");
-	if (playlist.contains("a" + nowplay + "a")) {
-		playlist = playlist.replaceAll("a" + nowplay + "a", "");
+	if (playlist.contains("|" + nowplay + "|")) {
+		playlist = playlist.replace("|" + nowplay + "|", "");
 	}
 
-	playlist = "a" + nowplay + "a" + playlist;
+	playlist = "|" + nowplay + "|" + playlist;
 	Cookie ck = new Cookie("playlist", playlist);
 	ck.setMaxAge(60 * 60 * 24);
 	response.addCookie(ck);
@@ -102,19 +103,44 @@ if (request.getParameter("albumid") != null) {
 	}
 
 	for (int i = playlistSongIds.size() - 1; i >= 0; i--) {
-		if (playlist.contains("a" + playlistSongIds.get(i) + "a")) {
-	playlist = playlist.replaceAll("a" + playlistSongIds.get(i) + "a", "");
+		if (playlist.contains("|" + playlistSongIds.get(i) + "|")) {
+	playlist = playlist.replace("|" + playlistSongIds.get(i) + "|", "");
 		}
 
-		playlist = "a" + playlistSongIds.get(i) + "a" + playlist;
-		Cookie ck = new Cookie("playlist", playlist);
-		ck.setMaxAge(60 * 60 * 24);
-		response.addCookie(ck);
+		playlist = "|" + playlistSongIds.get(i) + "|" + playlist;
+		
 
 	}
+	Cookie ck = new Cookie("playlist", playlist);
+	ck.setMaxAge(60 * 60 * 24);
+	response.addCookie(ck);
 	nowplay = playlistSongIds.get(0) + "";
 
-} else if (request.getParameter("albumid") == null && request.getParameter("songid") == null
+} else if(request.getParameter("genre") != null){
+	String genre=request.getParameter("genre");
+	ArrayList<TrackDto> chartArr = null;
+	
+	
+	if (genre.equals("전체")) {
+		genre="전체";
+		chartArr = cdao.allChartList();
+	} else {
+		chartArr = cdao.genreChartList(genre);
+	}
+	for (int i = chartArr.size() - 1; i >= 0; i--) {
+		if (playlist.contains("|" + chartArr.get(i).getId() + "|")) {
+	playlist = playlist.replace("|" + chartArr.get(i).getId() + "|", "");
+		}
+
+		playlist = "|" + chartArr.get(i).getId() + "|" + playlist;
+		
+	}
+	Cookie ck = new Cookie("playlist", playlist);
+	ck.setMaxAge(60 * 60 * 24);
+	response.addCookie(ck);
+	nowplay = chartArr.get(0).getId() + "";
+	
+}else if (request.getParameter("albumid") == null && request.getParameter("songid") == null
 		&& request.getParameter("playlistid") == null) {
 	if (songs.size() == 0) {
 		System.out.println("ddd");
@@ -134,7 +160,7 @@ nowplay = "0";
 }
 }
 
-st = new StringTokenizer(playlist, "a");
+st = new StringTokenizer(playlist, "|");
 songs = new ArrayList<String>();
 
 while (st.hasMoreTokens()) {
@@ -143,15 +169,13 @@ if (!temp.equals("")) {
 songs.add(temp);
 }
 }
-
-ArrayList<SongDetailDto> arr = new ArrayList<SongDetailDto>();
+System.out.println(songs.toString());
+ArrayList<SongDetailDto> arr = sdao.playerListing(songs);
 
 int playingIndex = 0;
 int maxIndex = songs.size() - 1;
 
 for (int i = 0; i < songs.size(); i++) {
-SongDetailDto dto2 = sdao.findSong(Integer.parseInt(songs.get(i)));
-arr.add(dto2);
 if (songs.get(i).equals(nowplay)) {
 playingIndex = i;
 }
@@ -163,6 +187,16 @@ playingIndex = i;
 <iframe name="hiddenFrame" style="display: none;" id="hiddenframe"></iframe>
 	<div>
 		<%
+		if (arr == null || arr.size() == 0) {
+			%>
+			    <script>
+			        alert("곡 목록을 불러올 수 없습니다.");
+			        window.close();
+			    </script>
+			<%
+			    return;
+			}
+		
 		for (int i = 0; i < arr.size(); i++) {
 		%>
 		<input type="hidden" value="<%=arr.get(i).getId()%>" class="allsongid">
@@ -179,7 +213,7 @@ playingIndex = i;
 		<input type="hidden" value="<%=maxIndex%>" id="maxindex">
 		<input type="hidden" value="<%=hasMembership%>" id="hasmembership">
 		<div class="blur-container">
-			<img src="/semi2/resources/images/album/<%=arr.get(playingIndex).getAlbumId()%>/cover.jpg" class="bg-img" id="back-album-cover">
+			<img src="/semi2/resources/images/album/<%=arr.get(playingIndex).getAlbumId()%>/cover.jpg" class="bg-img" id="back-album-cover" fetchpriority="high">
 			<div class="overlay-content">
 				<div class="play-now-info-div">
 					<div class="play-now-info-songname" id="info-songname">
@@ -783,8 +817,8 @@ playingIndex = i;
 					}
 				}
 			    
-				if(cookieValue.includes('a'+allSongId[deleteIndex].value+'a')){
-					cookieValue=cookieValue.replaceAll('a'+allSongId[deleteIndex].value+'a','');
+				if(cookieValue.includes('|'+allSongId[deleteIndex].value+'|')){
+					cookieValue=cookieValue.replaceAll('|'+allSongId[deleteIndex].value+'|','');
 					document.cookie=cookieName+cookieValue;
 					allSongList[deleteIndex].style.display='none';
 					

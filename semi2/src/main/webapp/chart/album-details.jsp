@@ -393,6 +393,9 @@ if (cp % pageSize == 0)
 					%>
 				</tbody>
 				</table>
+				<%
+				if (arr2 != null && arr2.size() > 0) {
+				%>
 				<div class="paging">
 							<%
 							if (userGroup != 0) {
@@ -425,7 +428,9 @@ if (cp % pageSize == 0)
 							}
 							%>
 	</div>
-			
+			<%
+				}
+			%>
 </div>
 		</article>
 	</section>
