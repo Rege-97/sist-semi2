@@ -93,7 +93,7 @@ function assembleEmailF() {
 	
 	var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	if(regex.test(email)) {
-		document.getElementById("checkEmailDuplicate").innerText = "사용 가능한 이메일입니다.";
+		document.getElementById("checkEmailDuplicate").innerText = "사용가능한 이메일입니다.";
 	}else{
 		document.getElementById("checkEmailDuplicate").innerText = "형식과 맞지 않는 이메일입니다.";
 		a = false;
@@ -129,12 +129,9 @@ function testNickname() {
 	document.getElementById("form_hidden").src = "form_hidden.jsp?nickname="+nickname;
 	var checknick = document.getElementById("checkNicknameDuplicate");
 	if (checknick.value == "사용가능한 닉네임이에요."){
-		a = true;
 	}else{
-		a = false;
 	}
 	if(nickname == "" || nickname == null){
-		a = false;
 		checknick.innerText = "닉네임을 입력하지 않았습니다.";
 	}
 }
@@ -146,10 +143,23 @@ function formCheck(event) {
 	
 	if (pwdsame == false){ 
 		event.preventDefault();
-		a = false;
+		window.alert("비밀번호를 확인하세요.");
+		return;
+	}
+	if (document.getElementtById("checkEmailDuplicatee").innerText != "사용가능한 이메일입니다."){
+		event.preventDefault();
+		window.alert("이메일을 확인해주세요.");
+		return;
+	}
+	if (document.getElementtById("checkNicknameDuplicate").innerText != "사용가능한 닉네임입니다."){
+		event.preventDefault();
+		window.alert("닉네임을 확인해주세요.");
+		return;
 	}
 	if (document.getElementById("nickname").value == null || document.getElementById("nickname").value == ""){
-		a = false;
+		event.preventDefault();
+		window.alert("닉네임을 입력하지 않았습니다.");
+		return;
 	}
 	
 	if (!a){
