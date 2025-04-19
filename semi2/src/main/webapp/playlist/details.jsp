@@ -530,6 +530,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 							<td
 								class="comment-profile<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>"><img
 								src="/semi2/resources/images/member/<%=playlistComment.getMemberId()%>/profile.jpg"
+								onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"
 								class="comment-profile-image" />
 								<div class="comment-profile-nickname"><%=playlistComment.getNickname()%></div>
 							</td>
