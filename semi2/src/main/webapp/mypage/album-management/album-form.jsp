@@ -12,6 +12,20 @@
 
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
+<style>
+#description {
+	display: block;
+	margin: 0 auto;
+	width: 300px;
+	height: 300px;
+	resize: none;
+	border: 1px solid #666666;
+	border-radius: 8px;
+}
+textarea::-webkit-scrollbar {
+    display: none; /* 스크롤바 숨기기 */
+}
+</style>
 <body>
 	<%@ include file="/header.jsp"%>
 	<%@ include file="/mypage/mypage-header.jsp"%>
@@ -22,7 +36,7 @@ if(request.getParameter("albumId")==null){
 	<div class="subtitle">
 			<h2>앨범 등록</h2>
 		</div>
-	<form action="album-form_ok.jsp" method = "post" enctype="multipart/form-data"> 
+	<form action="album-form_ok.jsp?albumId=false" method = "post" enctype="multipart/form-data"> 
 	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
@@ -31,11 +45,11 @@ if(request.getParameter("albumId")==null){
 	<input type = "text" name = "name" id = "name" placeholder="앨범제목" class="login-text">
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" placeholder="앨범소개" class="login-text"></textarea>
-	</div>
-	<div>
 	<input type = "text" name = "memberName" value = "<%=signedinDto.getMemberNickname() %>" class="login-text">
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
+	</div>
+	<div>
+	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" placeholder="앨범소개" class="login-text"></textarea>
 	</div>
 	<div class="subtitle">
 	<h3>발매예정일</h3>
@@ -43,7 +57,13 @@ if(request.getParameter("albumId")==null){
 	<div>
 	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
 <%
-for (int i = now.get(Calendar.YEAR); i <= now.get(Calendar.YEAR)+2; i++){
+for (int i = now.get(Calendar.YEAR)+2; i >= now.get(Calendar.YEAR)-20; i--){
+	if (i == now.get(Calendar.YEAR)){
+		%>
+		<option selected="selected"><%=i+"년" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"년" %></option>
 <%
@@ -52,7 +72,13 @@ for (int i = now.get(Calendar.YEAR); i <= now.get(Calendar.YEAR)+2; i++){
 	</select>
 	<select id = "month" name = "month" onchange = "releaseDateChanged();" class="album-select">
 <%
-for (int i = now.get(Calendar.MONTH)+1; i <= 12; i++){
+for (int i = 1; i <= 12; i++){
+	if (i == now.get(Calendar.MONTH)+1){
+		%>
+		<option selected="selected"><%=i+"월" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"월" %></option>
 <%
@@ -61,7 +87,13 @@ for (int i = now.get(Calendar.MONTH)+1; i <= 12; i++){
 	</select>
 	<select id = "date" name = "date" class="album-select">
 <%
-for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF_MONTH); i++){
+for (int i = 1; i <= now.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
+	if (i == now.get(Calendar.DAY_OF_MONTH)){
+		%>
+		<option selected="selected"><%=i+"일" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"일" %></option>
 <%
@@ -72,7 +104,6 @@ for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF
 		<div class="subtitle">
 	<h3>장르 선택</h3>
 	</div>
-	<iframe style = "display: none;" src = "album-form_hidden.jsp" id = "releaseDateCal"></iframe>
 	<div class="genre-select">
 	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" class="album-select">
 	<option disabled selected>장르선택</option>
@@ -128,8 +159,7 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<div class="subtitle">
 			<h2>앨범 등록</h2>
 		</div>
-	<form action="album-form_ok.jsp?modify=true" method = "post" enctype="multipart/form-data"> 
-	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
+	<form action="album-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype="multipart/form-data"> 
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>/cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
 	<br>
@@ -137,23 +167,27 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<input type = "text" name = "name" id = "name" value = "<%=aDto.getName() %>" class="login-text">
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" class="login-text">
-	<%=aDto.getDiscription() %>
-	</textarea>
-	</div>
-	<div>
 	<input type = "text" name = "memberName" value = "<%=signedinDto.getMemberNickname() %>" class="login-text">
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
 	</div>
+	<div>
+	<textarea  style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" class="login-text"><%=aDto.getDiscription() %></textarea>
+	</div>
 	<div class="subtitle">
-	<h3>발매예정일</h3>
+	<h3>발매일</h3>
 	</div>
 	<div>
 	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
 <%
 Calendar time = Calendar.getInstance();
 time.setTimeInMillis(aDto.getReleased_at().getTime());
-for (int i = time.get(Calendar.YEAR); i <= time.get(Calendar.YEAR)+2; i++){
+for (int i = time.get(Calendar.YEAR)+2; i >= time.get(Calendar.YEAR)-20; i--){
+	if (i == time.get(Calendar.YEAR)){
+		%>
+		<option selected="selected"><%=i+"년" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"년" %></option>
 <%
@@ -162,7 +196,13 @@ for (int i = time.get(Calendar.YEAR); i <= time.get(Calendar.YEAR)+2; i++){
 	</select>
 	<select id = "month" name = "month" onchange = "releaseDateChanged();" class="album-select">
 <%
-for (int i = time.get(Calendar.MONTH)+1; i <= 12; i++){
+for (int i = 1; i <= 12; i++){
+	if (i == time.get(Calendar.MONTH)+1){
+		%>
+		<option selected="selected"><%=i+"월" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"월" %></option>
 <%
@@ -171,8 +211,14 @@ for (int i = time.get(Calendar.MONTH)+1; i <= 12; i++){
 	</select>
 	<select id = "date" name = "date" class="album-select">
 <%
-for (int i = time.get(Calendar.DAY_OF_MONTH); i <= time.getMaximum(Calendar.DAY_OF_MONTH); i++){
-%>
+for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
+	if (i == time.get(Calendar.DAY_OF_MONTH)){
+		%>
+		<option selected="selected"><%=i+"일" %></option>
+		<%
+		continue;	
+	}
+		%>
 		<option><%=i+"일" %></option>
 <%
 }
@@ -182,7 +228,6 @@ for (int i = time.get(Calendar.DAY_OF_MONTH); i <= time.getMaximum(Calendar.DAY_
 		<div class="subtitle">
 	<h3>장르 선택</h3>
 	</div>
-	<iframe style = "display: none;" src = "album-form_hidden.jsp" id = "releaseDateCal"></iframe>
 	<div class="genre-select">
 	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" class="album-select">
 	<option disabled selected>장르선택</option>
@@ -258,7 +303,7 @@ function releaseDateChanged() {
 	date.innerHTML = "";
 	var year = document.getElementById("year").value.slice(0, -1);
 	var month = document.getElementById("month").value.slice(0, -1);
-	var days = new Date(year, month+1, 0).getDate();
+	var days = new Date(year, month, 0).getDate();
 	for(let i = 1; i <= days; i++){
 		const newoption = document.createElement("option");
 		newoption.value = (i+"일");

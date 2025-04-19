@@ -19,15 +19,16 @@ if (session.getAttribute("signedinDto") == null) {
 	response.sendRedirect("/semi2/member/signin.jsp");
 	return;
 }
+
 %>
 <body>
 	<%@ include file="/header.jsp"%>
 	<%@ include file="/mypage/mypage-header.jsp"%>
 	<%
-	if (request.getParameter("albumId") != null)
+	if (request.getParameter("albumId") != null){
 		session.setAttribute("albumId", request.getParameter("albumId"));
 
-	int albumId = (Integer.parseInt(session.getAttribute("albumId").toString()));
+	int albumId = (Integer.parseInt(request.getParameter("albumId")));
 
 	AlbumDto aDto = mdao.findInfoAlbums(albumId);
 	ArrayList<SongDto> songs = mdao.findAlbumSongs(albumId);
@@ -91,7 +92,7 @@ if (session.getAttribute("signedinDto") == null) {
 					<td><%=songs.get(i).getComposer()%></td>
 					<td><%=songs.get(i).getLyricist()%></td>
 					<td><input type="button" value="연필모양"
-						onclick="location.href = 'song-form.jsp?songId=<%=songs.get(i).getId()%>'">
+						onclick="location.href = 'song-form.jsp?songId=<%=songs.get(i).getId()%>&albumId=<%=albumId%>'">
 					</td>
 				</tr>
 				<%
@@ -102,5 +103,15 @@ if (session.getAttribute("signedinDto") == null) {
 		</table>
 	</div>
 	<%@ include file="/footer.jsp"%>
+<%
+}else{
+%>
+<script>
+window.alert("잘못된 접근입니다. 메인페이지로 돌아갑니다.");
+parent.location.href = "/semi2/main.jsp";
+</script>
+<%	
+}
+%>
 </body>
 </html>

@@ -28,7 +28,10 @@
 <%
 SignedinDto signedinDto = (SignedinDto) session.getAttribute("signedinDto");
 request.setCharacterEncoding("UTF-8");
-String path = request.getRealPath("/resources/songs/"+Integer.parseInt(session.getAttribute("albumId").toString()));
+String albumIdInSession = session.getAttribute("albumId") != null ? session.getAttribute("albumId").toString() : null;
+if(albumIdInSession != null){
+
+String path = request.getRealPath("/resources/songs/"+albumIdInSession);
 
 java.io.File f = new java.io.File(path);
 if(!f.exists()) f.mkdirs();
@@ -46,10 +49,8 @@ AlbumDao aDao = new AlbumDao();
 MypageDao mDao = new MypageDao();
 
 String msg = "";
-int songId = 0;
-if (request.getParameter("songId")!=null){
-	songId = Integer.parseInt(request.getParameter("songId"));
-}
+int songId = request.getParameter("songId") != null ? Integer.parseInt(request.getParameter("songId")) : aDao.findMaxSongId()+1;
+
 if (request.getParameter("songId")==null){
 	msg = aDao.addSong(songDto) > 0 ? "DB등록" : "실패";
 }else{
@@ -69,8 +70,17 @@ if (mr.getFilesystemName("audioFile")!=null){
 %>
 <script>
 window.alert("<%=msg %>");
-parent.location.href = "song.jsp";
+parent.location.href = "song.jsp?albumId=<%=albumIdInSession %>";
 </script>
-
+<%
+}else{
+%>
+<script>
+window.alert("잘못된 접근입니다. 메인페이지로 돌아갑니다.");
+parent.location.href = "/semi2/main.jsp";
+</script>
+<%	
+}
+%>
 </body>
 </html>

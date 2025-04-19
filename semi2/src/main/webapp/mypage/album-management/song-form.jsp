@@ -18,6 +18,20 @@
 <title>Insert title here</title>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
+<style>
+#lyrics {
+	display: block;
+	margin: 0 auto;
+	width: 300px;
+	height: 300px;
+	resize: none;
+	border: 1px solid #666666;
+	border-radius: 8px;
+}
+textarea::-webkit-scrollbar {
+    display: none; /* 스크롤바 숨기기 */
+}
+</style>
 	<%
 	if(session.getAttribute("signedinDto")==null){
 		response.sendRedirect("/semi2/member/signin.jsp");
@@ -52,7 +66,7 @@ if (request.getParameter("songId")==null){
 	<input type = "text" name = "lyricist" placeholder="작사" class="login-text">
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
+	<textarea  style = "resize: none;" name = "lyrics" id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
 	</div>
 	<div>
 	</div>
@@ -69,7 +83,7 @@ if (request.getParameter("songId")==null){
 			<h2>수록곡 수정</h2>
 	</div>
 	<form action = "song-form_ok.jsp?songId=<%=songDto.getId() %>" method = "post" enctype = "multipart/form-data">
-	<audio id="audio" src = "/semi2/resources/songs/<%=session.getAttribute("albumId").toString() %>/<%=songDto.getId() %>" controls></audio>
+	<audio id="audio" src = "/semi2/resources/songs/<%=request.getParameter("albumId") %>/<%=songDto.getId() %>.mp3" controls></audio>
 	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
 	<input style="display: none;" type="file" id="audioFile" name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
 	<input type = "hidden" name = "song" id = "songHidden">
@@ -83,9 +97,7 @@ if (request.getParameter("songId")==null){
 	<input type = "text" name = "lyricist" value = "<%=songDto.getLyricist() %>" class="login-text">
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text">
-	<%=songDto.getLyrics() %>
-	</textarea>
+	<textarea  style = "resize: none;" name = "lyrics" id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"><%=songDto.getLyrics() %></textarea>
 	</div>
 	<div>
 	</div>

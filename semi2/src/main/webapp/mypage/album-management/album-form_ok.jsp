@@ -27,12 +27,22 @@
 <%
 SignedinDto signedinDto = (SignedinDto) session.getAttribute("signedinDto");
 request.setCharacterEncoding("UTF-8");
-String path = request.getRealPath("/resources/images/album");
+AlbumDao aDao = new AlbumDao();
 
-java.io.File f = new java.io.File(path);
+
+int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId()+1;
+
+
+String coverPath = request.getRealPath("/resources/images/album/"+albumId);
+String songsPath = request.getRealPath("/resources/songs/"+albumId);
+
+java.io.File f = new java.io.File(coverPath);
 if(!f.exists()) f.mkdirs();
 
-MultipartRequest mr = new MultipartRequest(request, path, 20 * 1024 * 1024, "UTF-8");
+java.io.File f2 = new java.io.File(songsPath);	
+if(!f2.exists()) f2.mkdirs();
+
+MultipartRequest mr = new MultipartRequest(request, coverPath, 20 * 1024 * 1024, "UTF-8");
 
 AlbumDto albumDto = new AlbumDto();
 albumDto.setName(mr.getParameter("name"));
@@ -57,32 +67,31 @@ albumDto.setReleasedAt(releasedAt);
 
 String msg = "";
 
-AlbumDao aDao = new AlbumDao();
+
 MypageDao mDao = new MypageDao();
 
-if(request.getParameter("modify")==null){
+if(request.getParameter("albumId")==null){
 	msg = aDao.addAlbum(albumDto) > 0 ? "db등록" : "실패";
 }else{
-	albumDto.setId(Integer.parseInt(session.getAttribute("albumId").toString()));
+	albumDto.setId(albumId);
 	msg = aDao.modifyAlbum(albumDto) > 0 ? "db등록" : "실패";
 }
-int albumId = aDao.findAlbumId(albumDto.getName());
 	
 if (mr.getFilesystemName("inputAlbumCover")!=null){
 		
 	String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
 	
-	File df = new File(path+"/"+albumId+type);
+	File df = new File(coverPath+"/"+albumId+type);
 	if(df.exists()) df.delete();
-	if (mDao.renameFile(path, mr.getFilesystemName("inputAlbumCover"), albumId+type)){
+	if (mDao.renameFile(coverPath, mr.getFilesystemName("inputAlbumCover"), "cover"+type)){
 		msg += "파일 저장";
 	}
 }
-session.setAttribute("albumId", albumId);
+session.setAttribute("albumId", null);
 
 %>
 <script>
 window.alert("<%=msg %>");
-parent.location.href = "/semi2/mypage/album-management/song.jsp";
+parent.location.href = "/semi2/mypage/album-management/song.jsp?albumId=<%=albumId%>";
 </script>
 
