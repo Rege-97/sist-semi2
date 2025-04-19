@@ -32,20 +32,6 @@ if (nickname!=null && memberId==null){
 	}
 }else if(description!=null && memberId!=null){// "description"로 요청이 들어오면 닉네임 업데이트
 	int result = mypageDao.updateMemberNickname(nickname, Integer.parseInt(request.getParameter("memberId")));
-	if(result > 0){
-		signedinDto.setMemberNickname(nickname);
-		%>
-		<script>
-		parent.window.alert("업데이트 성공");
-		</script>
-		<%
-	}else{
-		%>
-		<script>
-		parent.window.alert("업데이트 실패");
-		</script>
-		<%
-	}
 }
 %>
 <script>

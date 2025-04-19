@@ -72,7 +72,6 @@ textarea::-webkit-scrollbar {
 		
 		
 		function changeDescription(bt) {
-			window.alert(document.getElementById("description").value);
 			if (bt.value == "프로필 메세지 수정"){
 				description.removeAttribute("readonly");
 				bt.value = "수정 완료";

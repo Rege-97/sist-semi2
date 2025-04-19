@@ -25,8 +25,19 @@ File delFile = new File(request.getRealPath("resources/images/member/"+memberId)
 delFile.delete();
 MypageDao mDao = new MypageDao();
 boolean a = mDao.addFileToBase64(request.getParameter("img64"), request.getRealPath("resources/images/member/"+memberId), "profile.jpg");
+
+if (!a){
 %>
 <script>
-window.alert("<%=a ? "성공":"실패" %>");
+window.alert("실패");
 location.href = "/semi2/mypage/profile.jsp";
 </script>
+<%
+}else{
+	%>
+<script>
+location.href = "/semi2/mypage/profile.jsp";
+</script>	
+	<%
+}
+%>
