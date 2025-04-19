@@ -11,7 +11,7 @@
 request.setCharacterEncoding("UTF-8");
 MemberDao memberDao = new MemberDao();
 String pwd = ((SignedinDto) session.getAttribute("signedinDto")).getMemberPassword();
-boolean access = memberDao.findPassword(request.getParameter("email"), request.getParameter("name"), request.getParameter("tel"));
+boolean access = memberDao.findPassword(request.getParameter("email"), request.getParameter("name"), request.getParameter("tel").substring(0, 3)+"-"+request.getParameter("tel").substring(3, 7)+"-"+request.getParameter("tel").substring(7));
 
 if(!access){
 %>

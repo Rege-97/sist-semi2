@@ -11,7 +11,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 MemberDao dao = new MemberDao();
-ArrayList<String> memberEmails = dao.searchEmail(request.getParameter("name"), request.getParameter("tel"));
+ArrayList<String> memberEmails = dao.searchEmail(request.getParameter("name"), request.getParameter("tel").substring(0, 3)+"-"+request.getParameter("tel").substring(3, 7)+"-"+request.getParameter("tel").substring(7));
 if (memberEmails == null) {
 %>
 <script>
