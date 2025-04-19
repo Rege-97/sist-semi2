@@ -24,13 +24,6 @@ public class AlbumDao {
 			pstmt.setString(5, dto.getGenre2());
 			pstmt.setString(6, dto.getGenre3());
 			pstmt.setTimestamp(7, dto.getReleasedAt());
-			System.out.println(dto.getMemberId());
-			System.out.println(dto.getName());
-			System.out.println(dto.getDescription());
-			System.out.println(dto.getGenre1());
-			System.out.println(dto.getGenre1());
-			System.out.println(dto.getGenre1());
-			System.out.println(dto.getReleasedAt());
 			int result = pstmt.executeUpdate();
 			return result;
 		}catch(Exception e) {
