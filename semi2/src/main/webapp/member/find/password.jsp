@@ -34,13 +34,14 @@ function formCheck(e){
 	var tel = document.getElementById("tel");
 	var name = document.getElementById("name").value;
 	var email = document.getElementById("email").value;
-	if (name == "" || name == null){
-		window.alert("이름이 비어있습니다");
+	
+	if (email == "" || email == null){
+		window.alert("이메일이 비어있습니다");
 		e.preventDefault();
 		return;
 	}
-	if (email == "" || email == null){
-		window.alert("이메일이 비어있습니다");
+	if (name == "" || name == null){
+		window.alert("이름이 비어있습니다");
 		e.preventDefault();
 		return;
 	}
