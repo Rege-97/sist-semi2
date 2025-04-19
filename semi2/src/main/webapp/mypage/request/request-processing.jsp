@@ -78,11 +78,8 @@ if (noParam != null){
 				// 현재 페이지 정보 생성
 				String temp = request.getParameter("thisPage");
 				int thisPage = temp != null ? Integer.parseInt(temp) : 1;
-				int firstRow = 0, lastRow = 3, pageLate = 5;
-				System.out.println((thisPage-1)*lastRow);
-				System.out.println((thisPage-1)*lastRow+lastRow);
+				int firstRow = 0, lastRow = 10, pageLate = 5;
 				ArrayList<MypageDto> mypageDtos = mdao.getapplicantInfo((thisPage-1)*lastRow, (thisPage-1)*lastRow+lastRow);
-				System.out.println(mypageDtos.size());
 				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
 				%>
@@ -112,6 +109,7 @@ if (noParam != null){
 		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
 		int pageAnd = maxRow%lastRow == 0 ? maxRow/lastRow : maxRow/lastRow+1;
 		pageStart = pageStart > pageAnd - pageLate ? pageAnd - pageLate : pageStart; 
+		if (pageStart < 1) pageStart = 1;
 		if (thisPage > pageLate / 2 + pageLate % 2) {
 		%>
 		<a href="request-processing.jsp?thisPage=<%=pageStart-1 %>">&lt;</a>
