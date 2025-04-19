@@ -17,4 +17,5 @@ String msg = delFile.delete() ? "프로필 사진 초기화":"삭제 실패" ;
 %>
 <script>
 parent.window.alert("<%=msg %>");
+window.parent.location.reload();
 </script>

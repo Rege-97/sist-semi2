@@ -32,7 +32,7 @@ static{
 				<div class="slide-container">
 					<a href="/semi2/membership/main.jsp"> <img src="/semi2/resources/images/design/banner/banner-main1.jpg" alt="Slide 1">
 					</a> <a href="#"> <img src="/semi2/resources/images/design/banner/banner-main2.jpg" alt="Slide 2">
-					</a> <a href="/semi2/playlist/mylist/main.jsp"> <img src="/semi2/resources/images/design/banner/banner-main3.jpg" alt="Slide 3">
+					</a> <a href="/semi2/chart/main.jsp"> <img src="/semi2/resources/images/design/banner/banner-main3.jpg" alt="Slide 3">
 					</a>
 				</div>
 				<button class="next-btn">→</button>
@@ -63,7 +63,7 @@ static{
 					%>
 				<div class="gallery-card">
 					<div class="gallery-card-album-image-group">
-						<a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=recentAlbumArr.get(i).getAlbumId()%>/cover.jpg" class="gallery-card-album-image">
+						<a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"> <img src="/semi2/resources/images/album/<%=recentAlbumArr.get(i).getAlbumId()%>/cover.jpg" class="gallery-card-album-image"  onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 						</a>
 						<div class="gallery-card-album-image-play">
 							<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>'); return false;">

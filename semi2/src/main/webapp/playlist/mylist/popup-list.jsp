@@ -38,15 +38,15 @@
 
 	function hideAddForm() {
 		document.getElementById("addForm").style.display = "none";
-		document.getElementById("addButtonArea").style.display = "block";
+		document.getElementById("addButtonArea").style.display = "flex";
 	}
 </script>
 <style>
 /*폰트 세팅*/
 @font-face {
 	font-family: 'Noto Sans KR';
-	src: url('/semi2/resources/fonts/NotoSansKR-Regular.ttf')
-		format('truetype');
+	src: url('/semi2/resources/fonts/NotoSansKR-Regular.woff')
+		format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -57,7 +57,7 @@ body {
 	color: white;
 	margin: 0;
 	font-family: 'Noto Sans KR', sans-serif;
-	padding: 30px; /* 좌우 여백 추가 */
+	padding: 0 0 30px 30px; /* 좌우 여백 추가 */
 	box-sizing: border-box;
 	overflow-x: hidden; /* 가로 스크롤 방지 */
 }
@@ -108,7 +108,7 @@ a {
 
 /* hover 시 텍스트만 핑크로 */
 .playlist-item:hover {
-	color: hotpink;
+	color: #ff2dac;
 }
 
 /* 커버 이미지 */
@@ -116,8 +116,8 @@ a {
 	width: 70px;
 	height: 70px;
 	object-fit: cover;
-	margin-right: 10px;
-	border-radius: 4px;
+	margin-right: 20px;
+	border-radius: 12px;
 	background-color: #333;
 	flex-shrink: 0;
 }
@@ -252,7 +252,6 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 %>
 <body>
 	<div class="modal-container">
-		<h2 class="modal-title">내 플레이리스트에 담기</h2>
 
 		<div id="addPlaylistSection">
 
