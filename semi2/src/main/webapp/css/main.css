@@ -1327,6 +1327,7 @@ table.support-table .support-table-foot {
 	font-size: 12px;
 	margin-left: 5px;
 	margin-bottom: 20px;
+	width:100%;
 }
 
 .support-view-date-box {
@@ -1672,11 +1673,16 @@ table.request-table .support-table-foot {
 }
 .profile-image-button{
 	display: flex;
-	justify-content: center;
+	justify-content: flex-end;
 	gap: 12px;
 	margin-top: 12px;
 	width: fit-content;
 	margin-left: auto;
 	margin-right: auto;
 
+}
+.support-content-button-div {
+width: 100%;
+	display: flex;
+	justify-content: flex-end;
 }
