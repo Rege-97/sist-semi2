@@ -57,7 +57,7 @@ if(request.getParameter("albumId")==null){
 	<div>
 	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
 <%
-for (int i = now.get(Calendar.YEAR); i <= now.get(Calendar.YEAR)+2; i++){
+for (int i = now.get(Calendar.YEAR); i >= now.get(Calendar.YEAR)-50; i--){
 %>
 		<option><%=i+"년" %></option>
 <%
@@ -172,7 +172,13 @@ for (int i = time.get(Calendar.YEAR); i <= time.get(Calendar.YEAR)+2; i++){
 	</select>
 	<select id = "month" name = "month" onchange = "releaseDateChanged();" class="album-select">
 <%
-for (int i = time.get(Calendar.MONTH)+1; i <= 12; i++){
+for (int i = 1; i <= 12; i++){
+	if (i == time.get(Calendar.MONTH)+1){
+		%>
+		<option selected="selected"><%=i+"월" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"월" %></option>
 <%
@@ -181,8 +187,14 @@ for (int i = time.get(Calendar.MONTH)+1; i <= 12; i++){
 	</select>
 	<select id = "date" name = "date" class="album-select">
 <%
-for (int i = time.get(Calendar.DAY_OF_MONTH); i <= time.getMaximum(Calendar.DAY_OF_MONTH); i++){
-%>
+for (int i = 1; i <= time.getMaximum(Calendar.DAY_OF_MONTH); i++){
+	if (i == time.get(Calendar.DAY_OF_MONTH)){
+		%>
+		<option selected="selected"><%=i+"일" %></option>
+		<%
+		continue;	
+	}
+		%>
 		<option><%=i+"일" %></option>
 <%
 }
@@ -267,7 +279,7 @@ function releaseDateChanged() {
 	date.innerHTML = "";
 	var year = document.getElementById("year").value.slice(0, -1);
 	var month = document.getElementById("month").value.slice(0, -1);
-	var days = new Date(year, month+1, 0).getDate();
+	var days = new Date(year, month, 0).getDate();
 	for(let i = 1; i <= days; i++){
 		const newoption = document.createElement("option");
 		newoption.value = (i+"일");
