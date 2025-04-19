@@ -29,7 +29,6 @@ function numCheck(ip) {
 	inputTel = ip;
 	ip.value = ip.value.replace(/[^0-9]/g, "");
 }
-
 function formCheck(e) {
 	
 	// 40자 이해, 한글과 영문만 허용
@@ -58,7 +57,7 @@ function formCheck(e) {
 		a = false;
 		b = false;
 	}
-	
+
 	// 숫자만 허용 11자리 고정
 	var tel = document.getElementById("tel");
 	if (!(tel.value.length == 11)){

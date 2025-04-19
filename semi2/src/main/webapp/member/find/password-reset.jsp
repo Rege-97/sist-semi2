@@ -10,7 +10,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 MemberDao memberDao = new MemberDao();
-
+String pwd = ((SignedinDto) session.getAttribute("signedinDto")).getMemberPassword();
 boolean access = memberDao.findPassword(request.getParameter("email"), request.getParameter("name"), request.getParameter("tel"));
 
 if(!access){
@@ -23,25 +23,29 @@ history.back();
 }else{
 %>
 <script>
-var pwdsame = true;
 function testPassword() {
 	var pwd = document.getElementById("pwd").value;
 	var pwd2 = document.getElementById("pwdTest").value;
-	if (pwd == pwd2){
-		document.getElementById("pwdCheck").innerText = "입력하신 비밀번호가 같습니다";
-		pwdsame = true;
+	var regex = /[!@#$%^&*]/;
+	if (!regex.test(pwd)){
+		document.getElementById("pwdCheck").innerText = "비밀번호에는 !, @, #, $, %, ^, &, * 중 한 개의 특수문자가 포함되어야 합니다.";
 	}else{
-		document.getElementById("pwdCheck").innerText = "입력하신 비밀번호가 다릅니다";
-		pwdsame = false;
+		if (pwd == pwd2){
+			document.getElementById("pwdCheck").innerText = "입력하신 비밀번호가 같습니다";
+		if (pwd == "<%=pwd %>"){
+			document.getElementById("pwdCheck").innerText = "이전과 동일한 비밀번호는 사용하실 수 없습니다";
+		}
+	}else{
+			document.getElementById("pwdCheck").innerText = "입력하신 비밀번호가 다릅니다";
+	}
 	}
 }
 function formCheck(event) {
-	var a = true;
-	if (pwdsame == false){ 
+	if (document.getElementById("pwdCheck").innerText != "입력하신 비밀번호가 같습니다"){ 
+		window.alert("비밀번호 확인바람");
 		event.preventDefault();
-		a = false;
+		return;
 	}
-	if (!a) window.alert("form에 잘못된 부분 있음 확인바람");
 }
 </script>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
