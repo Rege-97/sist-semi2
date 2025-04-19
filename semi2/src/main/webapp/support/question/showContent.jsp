@@ -49,9 +49,12 @@
 					if (accessType == null) {
 						accessType = "";
 					}
-					if (accessType.equals("admin") && swAnswer.equals("false")) {
 					%>
-
+	<div class="support-content-button-div">
+	<div>
+				<%	if (accessType.equals("admin") && swAnswer.equals("false")) {
+					%>
+		
 					<input type="button" value="답글" class="bt" onclick="sendRequest(1)">
 
 					<%
@@ -70,7 +73,8 @@
 					<input type=button value="목록"
 						onclick="location.href='/semi2/support/question.jsp?page=<%=previousPage%>'"
 						class="bt">
-
+</div>
+</div>
 				</div>
 			</div>
 			<form id="postForm" method="post">
