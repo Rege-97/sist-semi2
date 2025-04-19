@@ -156,7 +156,7 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<textarea  style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" class="login-text"><%=aDto.getDiscription() %></textarea>
 	</div>
 	<div class="subtitle">
-	<h3>발매예정일</h3>
+	<h3>발매일</h3>
 	</div>
 	<div>
 	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
