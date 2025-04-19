@@ -24,6 +24,13 @@ public class AlbumDao {
 			pstmt.setString(5, dto.getGenre2());
 			pstmt.setString(6, dto.getGenre3());
 			pstmt.setTimestamp(7, dto.getReleasedAt());
+			System.out.println(dto.getMemberId());
+			System.out.println(dto.getName());
+			System.out.println(dto.getDescription());
+			System.out.println(dto.getGenre1());
+			System.out.println(dto.getGenre1());
+			System.out.println(dto.getGenre1());
+			System.out.println(dto.getReleasedAt());
 			int result = pstmt.executeUpdate();
 			return result;
 		}catch(Exception e) {
@@ -139,6 +146,29 @@ public class AlbumDao {
 			}
 		}
 	}
+	public int findMaxAlbumId() {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT MAX(id) as maxid FROM albums";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("maxid");
+			}
+			return 0;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
 	
 	public int findSongId(String songname) {
 		try {
@@ -149,6 +179,29 @@ public class AlbumDao {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("id");
+			}
+			return 0;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	public int findMaxSongId() {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT MAX(id) as maxid FROM songs";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("maxid");
 			}
 			return 0;
 		}catch(Exception e) {
