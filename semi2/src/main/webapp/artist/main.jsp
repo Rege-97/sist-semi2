@@ -262,7 +262,7 @@ boolean isArtist = "artist".equals(artistDto.getAccessType());
 				<div class="gallery-card-artist-name-myplaylist">
 					<div>
 						<img src="/semi2/resources/images/design/likes-icon.png"
-							width="15">&nbsp;<%=playlistPreview.getLikeCount()%>
+							width="15">&nbsp;<%=playlistPreview.getLikeCount()>=1000?playlistPreview.getLikeCount()/1000+"K":playlistPreview.getLikeCount()%>
 						|
 						<%=playlistPreview.getSongCount()%>곡 |
 						<%=playlistPreview.getCreatedAt().toString().substring(0, 10)%>
