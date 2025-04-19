@@ -21,22 +21,30 @@ for(int i = 0; i < cookies.length; i++){
 %>
 <script>
 function goSubmit(button){
-	
-	var form = button.closest("form");
-	form.action = "signin_ok.jsp?ref="+document.referrer;
-	form.submit();
+	var a = true;
+	if (document.getElementById("memberEmail").value == null || document.getElementById("memberEmail").value.trim() == ""){
+		a = false;
+	}
+	if (document.getElementById("memberPassword").value == null || document.getElementById("memberPassword").value.trim() == ""){
+		if (a) a = false;
+	}
+	if (a){
+		var form = button.closest("form");
+		form.action = "signin_ok.jsp";
+		form.submit();
+	}else window.alert("아이디와 비밀번호를 모두 입력해주세요.");
 }
 </script>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
-<body onload = "checkRememberMe();">
+<body>
 <%@ include file="/header.jsp" %>
 <div class="login-box">
 <div class="login-input">
 	<form method = "post">
-		<input type="email" name = "memberEmail" class="login-text" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
+		<input type="email" name = "memberEmail" id = "memberEmail" class="login-text" placeholder="아이디(이메일)" <%=rememberEmail!=null?"value='"+rememberEmail+"'":"" %>>
 		<br>
-		<input type="password" name = "memberPassword" class="login-text" placeholder="비밀번호">
+		<input type="password" name = "memberPassword" id = "memberPassword" class="login-text" placeholder="비밀번호">
 		<br>
 		<div class="id-checkbox">
 		<input type="checkbox" id="remeberMe" name="rememberMe" <%=rememberEmail!=null?"checked":"" %>><div class="id-remember">아이디 저장</div>
@@ -46,7 +54,7 @@ function goSubmit(button){
 </div>
 <div class="login-sub-box">
 	<div class="login-find">
-		<label onclick="location.href = '/semi2/member/find/id.jsp<%=rtm = rtm != null ? "?returntome="+rtm : null%>;'">아이디 찾기</label>
+		<label onclick="location.href = '/semi2/member/find/id.jsp<%=rtm != null ? "?returntome="+rtm : ""%>;'">아이디 찾기</label>
 		</div>
 		 <div class="login-find-line"> | </div>
 			<div class="login-find">

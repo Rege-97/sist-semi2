@@ -54,9 +54,7 @@ textarea::-webkit-scrollbar {
 				id="duplicateNickname"></label> <input type="hidden"
 				id="nicknamecheck" value="true">
 		</div>
-		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text">
-		<%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %>
-		</textarea>
+		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text"><%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %></textarea>
 		<input type = "button" value = "프로필 메세지 수정" id = "descriptionBt" class="bt" onclick = "changeDescription(this);">
 	</div>
 	<%@ include file="/footer.jsp"%>
@@ -74,12 +72,13 @@ textarea::-webkit-scrollbar {
 		
 		
 		function changeDescription(bt) {
+			window.alert(document.getElementById("description").value);
 			if (bt.value == "프로필 메세지 수정"){
 				description.removeAttribute("readonly");
 				bt.value = "수정 완료";
 			}else{
 				description.setAttribute("readonly", true);
-				profileHidden.src = "description_hidden.jsp?description="+description.value;
+				profileHidden.src = "description_hidden.jsp?description="+description.value+"&memberId=<%=signedinDto.getMemberId()%>";
 				bt.value = "프로필 메세지 수정";
 				}
 			}
@@ -114,10 +113,7 @@ textarea::-webkit-scrollbar {
 		}
 		// 프로필 사진 삭제
 		function delProfileImg() {
-			document.getElementById('profile_hidden').src = "del-profile-img.jsp?memberId="
-					+
-	<%=signedinDto.getMemberId()%>
-		;
+			document.getElementById('profile_hidden').src = "del-profile-img.jsp?memberId="+"<%=signedinDto.getMemberId()%>";
 		}
 	</script>
 </body>

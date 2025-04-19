@@ -7,6 +7,7 @@
 MypageDao mypageDao = new MypageDao();
 String nickname = request.getParameter("editNickname");
 String memberId = request.getParameter("memberId");
+String description = request.getParameter("description");
 // "editNickname"로 요청이 들어오면 닉네임 중복 검사
 if (nickname!=null && memberId==null){
 	int result = mypageDao.checkNicknameDuplicate(nickname);
@@ -29,7 +30,7 @@ if (nickname!=null && memberId==null){
 		break;
 	default:
 	}
-}else if(nickname!=null && memberId!=null){// "memberId"로 요청이 들어오면 닉네임 업데이트
+}else if(description!=null && memberId!=null){// "description"로 요청이 들어오면 닉네임 업데이트
 	int result = mypageDao.updateMemberNickname(nickname, Integer.parseInt(request.getParameter("memberId")));
 	if(result > 0){
 		signedinDto.setMemberNickname(nickname);
@@ -47,3 +48,7 @@ if (nickname!=null && memberId==null){
 	}
 }
 %>
+<script>
+widnow.alert("잘못된 접근입니다. 메인 페이지로 돌아갑니다");
+location.href = "/semi2/main.jsp";
+</script>

@@ -14,5 +14,12 @@
 	parent.window.alert("<%=rs%>개의 업데이트 완료");
 	</script>
 	<%
+	}else{
+		%>
+		<script>
+		window.alert("잘못된 접근입니다. 메인페이지로 돌아갑니다.");
+		location.href = "/semi2/main.jsp";
+		</script>
+		<%
 	}
 	%>
