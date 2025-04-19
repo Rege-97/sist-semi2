@@ -57,7 +57,13 @@ if(request.getParameter("albumId")==null){
 	<div>
 	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
 <%
-for (int i = now.get(Calendar.YEAR); i >= now.get(Calendar.YEAR)-50; i--){
+for (int i = now.get(Calendar.YEAR)+2; i >= now.get(Calendar.YEAR)-20; i--){
+	if (i == now.get(Calendar.YEAR)){
+		%>
+		<option selected="selected"><%=i+"년" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"년" %></option>
 <%
@@ -66,7 +72,13 @@ for (int i = now.get(Calendar.YEAR); i >= now.get(Calendar.YEAR)-50; i--){
 	</select>
 	<select id = "month" name = "month" onchange = "releaseDateChanged();" class="album-select">
 <%
-for (int i = now.get(Calendar.MONTH)+1; i <= 12; i++){
+for (int i = 1; i <= 12; i++){
+	if (i == now.get(Calendar.MONTH)+1){
+		%>
+		<option selected="selected"><%=i+"월" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"월" %></option>
 <%
@@ -75,7 +87,13 @@ for (int i = now.get(Calendar.MONTH)+1; i <= 12; i++){
 	</select>
 	<select id = "date" name = "date" class="album-select">
 <%
-for (int i = now.get(Calendar.DAY_OF_MONTH); i <= now.getMaximum(Calendar.DAY_OF_MONTH); i++){
+for (int i = 1; i <= now.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
+	if (i == now.get(Calendar.DAY_OF_MONTH)){
+		%>
+		<option selected="selected"><%=i+"일" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"일" %></option>
 <%
@@ -163,7 +181,13 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 <%
 Calendar time = Calendar.getInstance();
 time.setTimeInMillis(aDto.getReleased_at().getTime());
-for (int i = time.get(Calendar.YEAR); i <= time.get(Calendar.YEAR)+2; i++){
+for (int i = time.get(Calendar.YEAR)+2; i >= time.get(Calendar.YEAR)-20; i--){
+	if (i == time.get(Calendar.YEAR)){
+		%>
+		<option selected="selected"><%=i+"년" %></option>
+		<%
+		continue;	
+	}
 %>
 		<option><%=i+"년" %></option>
 <%
@@ -187,7 +211,7 @@ for (int i = 1; i <= 12; i++){
 	</select>
 	<select id = "date" name = "date" class="album-select">
 <%
-for (int i = 1; i <= time.getMaximum(Calendar.DAY_OF_MONTH); i++){
+for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	if (i == time.get(Calendar.DAY_OF_MONTH)){
 		%>
 		<option selected="selected"><%=i+"일" %></option>
