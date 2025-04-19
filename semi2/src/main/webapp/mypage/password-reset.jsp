@@ -59,7 +59,10 @@ function formCheck(event) {
 		event.preventDefault();
 		a = false;
 	}
-	if (!a) window.alert("form에 잘못된 부분 있음 확인바람");
+	if (!a){
+		window.alert("form에 잘못된 부분 있음 확인바람");
+		event.preventDefault();
+	}
 }
 </script>
 	<%@ include file="/mypage/mypage-header.jsp"%>
@@ -67,7 +70,7 @@ function formCheck(event) {
 		<div class="subtitle">
 			<h2>비밀번호 찾기</h2>
 		</div>
-	<form action = "password-reset_ok.jsp?email=<%=signedinDto.getMemberEmail() %>" method = "post" onsubmit = "formCheck(event)">
+	<form action = "password-reset_ok.jsp" method = "post" onsubmit = "formCheck(event)">
 		<input type="password" id = "pwd" name = "password" placeholder="새 비밀번호" onchange = "testPassword()" class="login-text">
 		<br>
 		<input type="password" id = "pwdTest" placeholder="새 비밀번호 확인" onchange = "testPassword()" class="login-text">
