@@ -23,7 +23,7 @@
 <%
 MypageDao mypageDao = new MypageDao();
 String yesParam = request.getParameter("yes");
-if (yesParam != null || yesParam){
+if (yesParam != null){
 	yesParam = yesParam.substring(0, yesParam.length()-1);
 	String yp[] = yesParam.split(",");
 	mypageDao.requestYes(yp);
@@ -78,8 +78,11 @@ if (noParam != null){
 				// 현재 페이지 정보 생성
 				String temp = request.getParameter("thisPage");
 				int thisPage = temp != null ? Integer.parseInt(temp) : 1;
-				int firstRow = 0, lastRow = 10, pageLate = 5;
+				int firstRow = 0, lastRow = 3, pageLate = 5;
+				System.out.println((thisPage-1)*lastRow);
+				System.out.println((thisPage-1)*lastRow+lastRow);
 				ArrayList<MypageDto> mypageDtos = mdao.getapplicantInfo((thisPage-1)*lastRow, (thisPage-1)*lastRow+lastRow);
+				System.out.println(mypageDtos.size());
 				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
 				%>
@@ -89,7 +92,7 @@ if (noParam != null){
 				<tr>
 				<%
 				}else{
-					for (int i = 0; i < mypageDtos.size(); i++) {
+					for (int i = mypageDtos.size()-1; i >= 0; i--) {
 					%>
 				<tr class="support-table-body">
 				<td class="support-table-num"><%=mypageDtos.get(i).getRnum()%></td>
@@ -105,24 +108,27 @@ if (noParam != null){
 			<tfoot>
 			<tr class="support-table-foot">
 			<td colspan="4">
-				<%
+		<%
+		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
+		int pageAnd = maxRow%lastRow == 0 ? maxRow/lastRow : maxRow/lastRow+1;
+		pageStart = pageStart > pageAnd - pageLate ? pageAnd - pageLate : pageStart; 
 		if (thisPage > pageLate / 2 + pageLate % 2) {
 		%>
-		<a href="request-processing.jsp?thisPage=<%=thisPage-pageLate/2 %>">&lt;</a>
+		<a href="request-processing.jsp?thisPage=<%=pageStart-1 %>">&lt;</a>
 		<%
 		}
-		int pageStart = thisPage < pageLate / 2 + pageLate % 2 ? 1 : thisPage - pageLate / 2;
-		for (int i = pageStart; i < pageStart+pageLate; i++) {
-			if((maxRow/lastRow)+(maxRow%lastRow > 0 ? 1 : 0) < i) break;
+	
+		for (int i = pageStart; i <= pageAnd; i++) {
 		%>
 		<span class="<%=thisPage==i?"page-number-bold":"page-number" %>">
 		<a href="request-processing.jsp?thisPage=<%=i %>"><%=i%></a>
 		</span>
 		<%
+			if(i >= pageStart+pageLate) break;
 		}
 		if (pageStart+pageLate < (maxRow%lastRow == 0 ? maxRow/lastRow:maxRow/lastRow+1)) {
 		%>
-		<a href="request-processing.jsp?thisPage=<%=thisPage+pageLate/2 %>">&gt;</a>
+		<a href="request-processing.jsp?thisPage=<%=pageStart+pageLate+1 %>">&gt;</a>
 		<%
 		}
 		%>
