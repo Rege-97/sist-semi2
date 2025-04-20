@@ -88,7 +88,7 @@ static{
 		<article>
 		<div class="blank"></div>
 			<div class="categorey-name">
-				<label> 인기음악 </label>
+				<a href="/semi2/chart/main.jsp"><label> 인기음악 </label></a>
 			</div>
 			
 			<table class="song-list">

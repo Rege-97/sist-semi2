@@ -175,6 +175,7 @@ header {
 
 .gallery-card-album-image {
 	width: 175px;
+	height: 175px;
 	margin-bottom: 5px;
 	border-radius: 12px;
 	transition: filter 0.3s ease;
@@ -1117,6 +1118,7 @@ table.song-list .song-list-body {
 
 .artist-image {
 	width: 175px;
+	height: 175px;
 	margin-bottom: 5px;
 	border-radius: 999px;
 	transition: filter 0.3s ease;
