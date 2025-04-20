@@ -1,23 +1,26 @@
 package com.plick.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnector {
-	private static final String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String user = "semi2";
-	private static final String pwd = "1234";
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
+public class DBConnector {
+	static DataSource ds;
 	static {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			ds = (DataSource) envContext.lookup("jdbc/myoracle");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static Connection getConn() throws SQLException {
-		return DriverManager.getConnection(url, user, pwd);
+		return ds.getConnection();
 	}
 }
