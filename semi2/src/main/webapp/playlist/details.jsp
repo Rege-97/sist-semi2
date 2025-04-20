@@ -228,7 +228,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						<form id="mood-form" method="get" action="mood-update_ok.jsp"
 							style="display: inline;">
 							<div id="mood-display">
-								<%=mood.toString().trim()%>
+								<%="".equals(mood.toString().trim())?"분위기 추가":mood.toString().trim()%>
 								<a href="#" id="edit-mood-link" onclick="toggleMoodEdit(event)">
 									<img src="/semi2/resources/images/design/playlist-edit.png"
 									width="20" height="20" />
@@ -544,7 +544,6 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 									class="comment-content<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>-date"><%=createdAt%></div>
 							</td>
 							<%
-							System.out.println(playlistComment.getParentId());
 							if (playlistComment.getParentId() == 0) {
 							%>
 							<td class="comment-bt"><input type="button"
