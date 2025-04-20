@@ -129,7 +129,7 @@ function clickFile(bt) {
 function changeAudio(song) {
 	var file = song.files[0];
 	const bt = document.getElementById("addsong");
-	if(file){
+	if(file.name.slice(-4).toLowerCase() == ".mp3"){
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			audio.src = e.target.result;
@@ -137,7 +137,8 @@ function changeAudio(song) {
         reader.readAsDataURL(file);
     	bt.value = "곡 변경";
     } else {
-        window.alert("파일을 선택하지 않았습니다.");
+    	window.alert("잘못된 오디오를 선택하셨습니다.");
+		song.value = "";
     }
 }
 </script>

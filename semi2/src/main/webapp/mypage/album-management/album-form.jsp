@@ -329,7 +329,7 @@ function inputGenre3() {
 // 앨범 이미지 변경시 이미지 보여주기
 function changeImg() {
 	newImg = inputAlbumCover.files[0];
-	if (newImg){ 
+	if (newImg.name.slice(-4).toLowerCase() == ".jpg"){ 
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			document.getElementById("albumCover").src = e.target.result;
@@ -337,6 +337,7 @@ function changeImg() {
 		reader.readAsDataURL(newImg);
 	}else{
 		window.alert("잘못된 이미지를 선택하셨습니다.");
+		inputAlbumCover.files[0].value = "";
 	}
 }
 
