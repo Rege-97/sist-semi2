@@ -32,6 +32,8 @@ AlbumDao aDao = new AlbumDao();
 
 int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId();
 
+if(aDao.checkAlbumDuplicate(albumId) != 0){
+
 
 String coverPath = request.getRealPath("/resources/images/album/"+albumId);
 String songsPath = request.getRealPath("/resources/songs/"+albumId);
@@ -94,4 +96,12 @@ if (mr.getFilesystemName("inputAlbumCover")!=null){
 if("<%=msg %>"!="") window.alert("<%=msg %>");
 parent.location.href = "/semi2/mypage/album-management/song.jsp?albumId=<%=albumId%>";
 </script>
-
+<%}else{
+%>
+<script>
+window.alert("현재 작업 중인 아티스트가 너무 많습니다. 다시 시도 해주세요.");
+parent.location.href = "/semi2/mypage/album-management/main.jsp";
+</script>
+<%
+}
+%>

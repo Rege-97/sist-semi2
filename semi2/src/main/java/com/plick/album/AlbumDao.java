@@ -211,4 +211,30 @@ public class AlbumDao {
 			}
 		}
 	}
+	public int checkAlbumDuplicate(int albumId) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "SELECT id FROM albums WHERE id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, albumId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return 1;
+			}else {
+				return 0;
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(conn!=null)conn.close();
+			}catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
 }
