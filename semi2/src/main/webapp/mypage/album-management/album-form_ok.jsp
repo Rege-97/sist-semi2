@@ -32,7 +32,7 @@ AlbumDao aDao = new AlbumDao();
 
 int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId();
 
-if(aDao.checkAlbumDuplicate(albumId) == 0){
+if ((request.getParameter("albumId")==null && aDao.checkAlbumDuplicate(albumId ) == 0) || request.getParameter("albumId")!=null){
 
 
 String coverPath = request.getRealPath("/resources/images/album/"+albumId);

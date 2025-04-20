@@ -13,6 +13,7 @@
 	%>
 <% 
 File delFile = new File(request.getRealPath("resources/images/member/"+request.getParameter("memberId")+"/profile.jpg"));
+delFile.delete();
 %>
 <script>
 window.parent.location.reload();
