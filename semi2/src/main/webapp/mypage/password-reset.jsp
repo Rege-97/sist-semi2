@@ -71,9 +71,9 @@ function formCheck(event) {
 			<h2>비밀번호 찾기</h2>
 		</div>
 	<form action = "password-reset_ok.jsp" method = "post" onsubmit = "formCheck(event)">
-		<input type="password" id = "pwd" name = "password" placeholder="새 비밀번호" onchange = "testPassword()" class="login-text">
+		<input type="password" id = "pwd" name = "password" placeholder="새 비밀번호" oninput = "testPassword()" class="login-text">
 		<br>
-		<input type="password" id = "pwdTest" placeholder="새 비밀번호 확인" onchange = "testPassword()" class="login-text">
+		<input type="password" id = "pwdTest" placeholder="새 비밀번호 확인" oninput = "testPassword()" class="login-text">
 		<div class="signin-hidden">
 		<label id = pwdCheck></label>
 		</div>
