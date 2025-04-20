@@ -28,7 +28,7 @@
 <%
 SignedinDto signedinDto = (SignedinDto) session.getAttribute("signedinDto");
 request.setCharacterEncoding("UTF-8");
-String albumIdInSession = session.getAttribute("albumId") != null ? session.getAttribute("albumId").toString() : null;
+String albumIdInSession = request.getParameter("albumId") != null ? request.getParameter("albumId") : null;
 if(albumIdInSession != null){
 
 String path = request.getRealPath("/resources/songs/"+albumIdInSession);
@@ -39,7 +39,7 @@ if(!f.exists()) f.mkdirs();
 MultipartRequest mr = new MultipartRequest(request, path, 20 * 1024 * 1024, "UTF-8");
 
 SongsDto songDto = new SongsDto();
-songDto.setAlbum_id(Integer.parseInt(session.getAttribute("albumId").toString()));
+songDto.setAlbum_id(Integer.parseInt(request.getParameter("albumId")));
 songDto.setName(mr.getParameter("name"));
 songDto.setComposer(mr.getParameter("composer"));
 songDto.setLyricist(mr.getParameter("lyricist"));

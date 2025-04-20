@@ -15,15 +15,16 @@ public class AlbumDao {
 	public int addAlbum(AlbumDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "INSERT INTO albums VALUES (seq_albums_id.nextval, ?, ?, ?, ?, ?, ?, ?, systimestamp)";
+			String sql = "INSERT INTO albums VALUES (?, ?, ?, ?, ?, ?, ?, ?, systimestamp)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getMemberId());
-			pstmt.setString(2, dto.getName());
-			pstmt.setString(3, dto.getDescription());
-			pstmt.setString(4, dto.getGenre1());
-			pstmt.setString(5, dto.getGenre2());
-			pstmt.setString(6, dto.getGenre3());
-			pstmt.setTimestamp(7, dto.getReleasedAt());
+			pstmt.setInt(1, dto.getId());
+			pstmt.setInt(2, dto.getMemberId());
+			pstmt.setString(3, dto.getName());
+			pstmt.setString(4, dto.getDescription());
+			pstmt.setString(5, dto.getGenre1());
+			pstmt.setString(6, dto.getGenre2());
+			pstmt.setString(7, dto.getGenre3());
+			pstmt.setTimestamp(8, dto.getReleasedAt());
 			int result = pstmt.executeUpdate();
 			return result;
 		}catch(Exception e) {
@@ -142,7 +143,7 @@ public class AlbumDao {
 	public int findMaxAlbumId() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT MAX(id) as maxid FROM albums";
+			String sql = "SELECT seq_albums_id.NEXTVAL as maxid FROM dual";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {

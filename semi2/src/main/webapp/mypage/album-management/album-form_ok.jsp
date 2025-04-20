@@ -30,7 +30,7 @@ request.setCharacterEncoding("UTF-8");
 AlbumDao aDao = new AlbumDao();
 
 
-int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId()+1;
+int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId();
 
 
 String coverPath = request.getRealPath("/resources/images/album/"+albumId);
@@ -45,6 +45,7 @@ if(!f2.exists()) f2.mkdirs();
 MultipartRequest mr = new MultipartRequest(request, coverPath, 20 * 1024 * 1024, "UTF-8");
 
 AlbumDto albumDto = new AlbumDto();
+albumDto.setId(albumId);
 albumDto.setName(mr.getParameter("name"));
 albumDto.setMemberId(signedinDto.getMemberId());
 albumDto.setDescription(mr.getParameter("description"));
@@ -87,7 +88,6 @@ if (mr.getFilesystemName("inputAlbumCover")!=null){
 		
 	}
 }
-session.setAttribute("albumId", null);
 
 %>
 <script>
