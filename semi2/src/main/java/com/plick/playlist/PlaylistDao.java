@@ -100,13 +100,13 @@ public class PlaylistDao {
 	}
 
 	private long findLikeCountByPlaylistId(int playlistId, Connection conn) {
-		String sql = "SELECT COUNT(*) AS total_count " + "FROM likes WHERE playlist_id = ? ";
+		String sql = "SELECT * " + "FROM playlist_like_count WHERE playlist_id = ? ";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, playlistId);
 			try (ResultSet rs = pstmt.executeQuery();) {
 
-				return rs.next() ? rs.getInt("total_count") : -1L;
+				return rs.next() ? rs.getInt("like_count") : -1L;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -287,26 +287,85 @@ public class PlaylistDao {
 
 	private boolean deleteLikeByPlaylistIdAndMemberId(int playlistId, int memberId, Connection conn) {
 		String sql = "DELETE FROM likes WHERE playlist_id = ? AND member_id = ? ";
-		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(1, playlistId);
-			pstmt.setInt(2, memberId);
-			return pstmt.executeUpdate() > 0;
+		String likeCountSql = "UPDATE playlist_like_count SET like_count = like_count - 1 WHERE playlist_id = ?";
+
+		boolean success = false;
+		try {
+			conn.setAutoCommit(false); // 트랜잭션 시작
+
+			try (PreparedStatement deletePstmt = conn.prepareStatement(sql);
+					PreparedStatement updatePstmt = conn.prepareStatement(likeCountSql)) {
+				// insert likes
+				deletePstmt.setInt(1, playlistId);
+				deletePstmt.setInt(2, memberId);
+				int deleteResult = deletePstmt.executeUpdate();
+
+				if (deleteResult <= 0) {
+					conn.rollback();
+					return false;
+				}
+				// update like count
+				updatePstmt.setInt(1, playlistId);
+				int updateResult = updatePstmt.executeUpdate();
+
+				if (updateResult <= 0) {
+					conn.rollback();
+					return false;
+				}
+				conn.commit();
+				success = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				conn.rollback();
+			} finally {
+				conn.setAutoCommit(true); // 트랜잭션 종료 후 auto-commit 원복
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return success;
 	}
 
 	private boolean addLikeByPlaylistIdAndMemberId(int playlistId, int memberId, Connection conn) {
 		String sql = "INSERT INTO likes (member_id, playlist_id, created_at) VALUES (?, ?, SYSTIMESTAMP)";
-		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(1, memberId);
-			pstmt.setInt(2, playlistId);
-			return pstmt.executeUpdate() > 0;
+		String likeCountSql = "UPDATE playlist_like_count SET like_count = like_count + 1 WHERE playlist_id = ?";
+
+		boolean success = false;
+		try {
+			conn.setAutoCommit(false); // 트랜잭션 시작
+
+			try (PreparedStatement insertStmt = conn.prepareStatement(sql);
+					PreparedStatement updateStmt = conn.prepareStatement(likeCountSql)) {
+				// insert likes
+				insertStmt.setInt(1, memberId);
+				insertStmt.setInt(2, playlistId);
+				int insertResult = insertStmt.executeUpdate();
+
+				if (insertResult <= 0) {
+					conn.rollback();
+					return false;
+				}
+				// update like count
+				updateStmt.setInt(1, playlistId);
+				int updateResult = updateStmt.executeUpdate();
+
+				if (updateResult <= 0) {
+					conn.rollback();
+					return false;
+				}
+				conn.commit();
+				success = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				conn.rollback();
+			} finally {
+				conn.setAutoCommit(true); // 트랜잭션 종료 후 auto-commit 원복
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+
+		return success;
 	}
 
 	public boolean addComment(int playlistId, int memberId, String content, int parentId) {
@@ -375,20 +434,20 @@ public class PlaylistDao {
 		}
 		return playlistDownloadDtos;
 	}
-	
-	public List<Integer> findSongIdsByPlaylistId(int playlistId){
-		String sql ="SELECT song_id FROM playlist_songs WHERE playlist_id = ? ORDER BY turn ASC";
-		
+
+	public List<Integer> findSongIdsByPlaylistId(int playlistId) {
+		String sql = "SELECT song_id FROM playlist_songs WHERE playlist_id = ? ORDER BY turn ASC";
+
 		List<Integer> songIds = new ArrayList<Integer>();
-		try (Connection conn = DBConnector.getConn();){
+		try (Connection conn = DBConnector.getConn();) {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, playlistId);
-			
+
 			try (ResultSet rs = pstmt.executeQuery();) {
 				while (rs.next()) {
-					songIds.add(rs.getInt("song_id")); 
+					songIds.add(rs.getInt("song_id"));
 				}
-			}			
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

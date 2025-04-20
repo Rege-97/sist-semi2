@@ -97,17 +97,18 @@ public class ArtistDao {
 	}
 
 	private List<PlaylistPreviewDto> findPlaylistPreviewsOrderByCreatedAtByMemberId(int memberId, Connection conn) {
-		String sql = "SELECT   " + "        p.id AS playlist_id, " + "        m.id AS member_id, "
-				+ "        p.name AS playlist_name, " + "        p.created_at AS created_at, "
-				+ "        COUNT(DISTINCT l.member_id) AS like_count, "
-				+ "        COUNT(DISTINCT ps.song_id) AS song_count, " + "        m.nickname AS member_nickname, "
-				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
-				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
-				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
-				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "    LEFT JOIN likes l ON p.id = l.playlist_id " + "    LEFT JOIN members m ON p.member_id = m.id "
-				+ "    WHERE m.id = ? " + "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname "
-				+ "    ORDER BY p.created_at DESC";
+		String sql = "SELECT    " + "        p.id AS playlist_id,  " + "        m.id AS member_id,  "
+				+ "        p.name AS playlist_name,  " + "        p.created_at AS created_at,  "
+				+ "        NVL(plc.like_count, 0) AS like_count,  "
+				+ "        COUNT(DISTINCT ps.song_id) AS song_count,  " + "        m.nickname AS member_nickname,  "
+				+ "        (  " + "            SELECT s.album_id  " + "            FROM playlist_songs ps2  "
+				+ "            JOIN songs s ON ps2.song_id = s.id  " + "            WHERE ps2.playlist_id = p.id  "
+				+ "              AND ps2.turn = 1  " + "        ) AS first_album_id  " + "FROM playlists p   "
+				+ "LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id  "
+				+ "LEFT JOIN playlist_like_count plc ON p.id = plc.playlist_id  "
+				+ "LEFT JOIN members m ON p.member_id = m.id  " + "WHERE m.id = ?  "
+				+ "GROUP BY p.id, p.name, p.created_at, m.id, m.nickname, plc.like_count  "
+				+ "ORDER BY p.created_at DESC " + "";
 
 		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
