@@ -1,7 +1,19 @@
+<%@page import="com.plick.signedin.SignedinDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:useBean id="deleteDao" class="com.plick.support.DeleteDao"></jsp:useBean>
+
 <%
+SignedinDto loggedinUser = (SignedinDto) session.getAttribute("signedinDto");
+if (loggedinUser == null || loggedinUser.getMemberId() == 0 || !loggedinUser.getMemberAccessType().equals("admin")) {
+%>
+<script>
+	window.alert('권한이 없습니다.');
+	location.href = '/semi2/support/faq.jsp';
+</script>
+<%
+return;
+}
 String id_str = request.getParameter("id");
 if (id_str == null || id_str.equals("")) {
 %>
