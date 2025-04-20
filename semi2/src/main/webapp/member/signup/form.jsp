@@ -72,7 +72,6 @@ for (int i = 0; i < emailForms.size(); i++) {
 <%@ include file="/footer.jsp" %>
 <script>
 // select에서 직접 입력 선택시 입력 메뉴 보여주는 함수 (셀렉트 박스 숨길 때 style.display 사용했음)
-var a = true;
 var pwdsame = false;
 
 function changeDirectInput(selectelement){
@@ -96,7 +95,6 @@ function assembleEmailF() {
 		document.getElementById("checkEmailDuplicate").innerText = "사용가능한 이메일입니다.";
 	}else{
 		document.getElementById("checkEmailDuplicate").innerText = "형식과 맞지 않는 이메일입니다.";
-		a = false;
 	}
 		
 	document.getElementById("assembleEmail").value = email;
@@ -160,11 +158,6 @@ function formCheck(event) {
 		event.preventDefault();
 		window.alert("닉네임을 입력하지 않았습니다.");
 		return;
-	}
-	
-	if (!a){
-		event.preventDefault();
-		window.alert("form에 잘못된 부분 있음 확인바람");
 	}
 }
 
