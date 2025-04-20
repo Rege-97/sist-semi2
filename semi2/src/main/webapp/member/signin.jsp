@@ -52,7 +52,7 @@ function goSubmit(button){
 		<input type="checkbox" id="remeberMe" name="rememberMe" <%=rememberEmail!=null?"checked":"" %>><div class="id-remember">아이디 저장</div>
 		</div>
 <div class="login-bt-box">
-		<input type="button" value = "로그인" class="login-bt" onclick = "goSubmit(this);">
+		<input type="submit" value = "로그인" class="login-bt" onclick = "goSubmit(this);">
 </div>
 <div class="login-sub-box">
 	<div class="login-find">

@@ -36,7 +36,7 @@ if(request.getParameter("albumId")!=null){
 	<h2>앨범수정</h2>
 	<div>
 		<input type="button" value="신곡 추가하기"
-			onclick="location.href = 'song-form.jsp'"> <input
+			onclick="location.href = 'song-form.jsp?albumId=<%=albumId%>'"> <input
 			type="button" value="앨범 정보 수정"
 			onclick="location.href = 'album-form.jsp?albumId=<%=albumId%>'">
 		<table class="mypage-album-table">
