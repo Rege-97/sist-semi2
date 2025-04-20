@@ -5,8 +5,6 @@
 <jsp:setProperty property="*" name="questionDto"/>    
 <jsp:useBean id="questionDao" class="com.plick.support.QuestionDao"></jsp:useBean>
 <%
-System.out.println("부모키:"+questionDto.getParentId());
-System.out.println("멤버번호:"+questionDto.getMemberId());
 String page_str = request.getParameter("page");
 if (page_str == null || page_str.equals("")) {
 	page_str="1";

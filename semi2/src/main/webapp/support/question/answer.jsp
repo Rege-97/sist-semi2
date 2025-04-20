@@ -60,7 +60,6 @@ int previousPage = Integer.parseInt(page_str);
 <input type="hidden" name="memberId" value="<%=signedinDto.getMemberId()%>">
 <input type="hidden" name="parentId" value="<%=request.getParameter("parentId") %>">
 <input name="page" type="hidden" value="<%=previousPage%>">
-<script>window.alert('<%=previousPage%>')</script>
 </form>
 
 

@@ -15,7 +15,6 @@ public class DeleteDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "select * from question where parent_id=? ";
-			System.out.println(sql);
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, parentId);
 			rs = ps.executeQuery();
@@ -44,13 +43,13 @@ public class DeleteDao {
 	}
 	
 	// 글 삭제
-	public int delete(int id, String table) {
+	public int delete(int id, String table, int memberId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "delete from " + table + " where id=? ";
-			System.out.println(sql);
+			String sql = "delete from " + table + " where id=? AND member_id = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
+			ps.setInt(2, memberId);
 			return ps.executeUpdate();
 
 		} catch (Exception e) {
