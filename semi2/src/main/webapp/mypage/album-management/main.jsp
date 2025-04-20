@@ -24,17 +24,27 @@
 	ArrayList<AlbumDto> albums = mdao.findMeberAlbums(signedinDto.getMemberId());
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일");
 	%>
-	<h2>앨범목록</h2>
+		<div class=profile-change-card>
+	<div class="subtitle">
+			<h2>앨범목록</h2>
+		</div>
 	<div>
 		<input type="button" value="신규 앨범 등록"
-			onclick="location.href = 'album-form.jsp'">
-		<table class="mypage-album-table">
+			onclick="location.href = 'album-form.jsp'" class="bt">
+			<div class="blank"></div>
+		<table class="album-list">
+		<colgroup>
+					<col style="width: 250px;">
+					<col style="width: 250px;">
+					<col style="width: 250px;">
+					<col style="width: 250px;">
+				</colgroup>
 			<thead>
-				<tr>
-					<td>앨범커버</td>
-					<td>앨범번호</td>
-					<td>앨범명</td>
-					<td>발매일</td>
+				<tr class="album-list-head">
+					<th>앨범번호</th>
+					<th>앨범커버</th>
+					<th>앨범명</th>
+					<th>발매일</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,12 +53,12 @@
 					String releasedAt = formatter.format(albums.get(i).getReleased_at());
 				%>
 
-				<tr>
+					<tr class="album-list-body">
+					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><%=albums.get(i).getId()%></a></td>
 					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><img
 							src="/semi2/resources/images/album/<%=albums.get(i).getId()%>/cover.jpg"
 							onerror="this.src='/semi2/resources/images/album/default-cover.jpg';"
 							class="song-list-album-image"></a></td>
-					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><%=albums.get(i).getId()%></a></td>
 					<td><a href="song.jsp?albumId=<%=albums.get(i).getId()%>"><%=albums.get(i).getName()%></a></td>
 					<td><%=releasedAt%></td>
 				</tr>
@@ -57,6 +67,8 @@
 				%>
 			</tbody>
 		</table>
+		<div class="blank2"></div>
+	</div>
 	</div>
 	<%@ include file="/footer.jsp"%>
 </body>

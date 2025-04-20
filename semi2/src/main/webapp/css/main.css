@@ -324,6 +324,7 @@ table.song-list .song-list-body {
 /*리스트 형식 앨범 이미지 세팅*/
 .song-list-album-image {
 	width: 60px;
+	height: 60px;
 	border-radius: 12px;
 }
 
@@ -425,6 +426,7 @@ table.song-list .song-list-body {
 /*디테일 카드 이미지 세팅*/
 .detail-card-image {
 	width: 200px;
+	height: 200px;
 	border-radius: 12px;
 }
 /*디테일 카드 정보 공간 세팅*/
@@ -468,6 +470,15 @@ table.song-list .song-list-body {
 	font-size: 11px;
 	margin-bottom: 20px;
 	color: #a7a7a7;
+}
+
+.album-card-info-date {
+	font-size: 11px;
+	color: #a7a7a7;
+}
+.album-card-info-name h2 {
+	margin-top: 15px;
+	margin-bottom: 10px;
 }
 
 /*디테일 카드 정보 아이콘 세팅*/
@@ -1687,4 +1698,29 @@ table.request-table .support-table-foot {
 width: 100%;
 	display: flex;
 	justify-content: flex-end;
+}
+
+/*리스트 형식 테이블 세팅*/
+table.album-list {
+	width: 995px;
+	border-collapse: collapse;
+	border-top: 1px solid #262626;
+}
+
+/*리스트 형식 헤드 세팅*/
+table.album-list th {
+	color: #666666;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+table.album-list .album-list-head {
+	border-bottom: 1px solid #262626;
+	height: 40px;
+}
+
+/*리스트 형식 바디 세팅*/
+table.album-list .album-list-body {
+	border-bottom: 1px solid #262626;
+	height: 85px;
 }

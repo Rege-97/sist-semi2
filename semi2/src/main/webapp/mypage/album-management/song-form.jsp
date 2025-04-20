@@ -51,25 +51,32 @@ if (request.getParameter("songId")==null){
 	<div class="subtitle">
 			<h2>수록곡 등록</h2>
 	</div>
+		<div class="blank"></div>
 	<form action = "song-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype = "multipart/form-data">
 	<audio id="audio" controls></audio>
-	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
-	<input style="display: none;" type="file" id="audioFile" name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
+		<div class="blank3"></div>
+	<div>
+	<input type = "button" value = "수록곡 추가" onclick = "clickFile(this);" class="bt" id="addsong">
+	</div>
+			<div class="blank3"></div>
+	<input style="display: none;" type="file" id="audioFile" required name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
 	<input type = "hidden" name = "song" id = "songHidden">
 	<div>
-	<input type = "text" name = "name" placeholder="곡 이름" class="login-text">
+	<input type = "text" name = "name" required placeholder="곡 이름" class="login-text">
 	</div>
 	<div>
-	<input type = "text" name = "composer" placeholder="작곡" class="login-text">
+	<input type = "text" name = "composer" required placeholder="작곡" class="login-text">
 	</div>
 	<div>
-	<input type = "text" name = "lyricist" placeholder="작사" class="login-text">
+	<input type = "text" name = "lyricist" required placeholder="작사" class="login-text">
+	</div>
+			<div class="blank3"></div>
+	<div>
+	<textarea  style = "resize: none;" name = "lyrics" required id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "lyrics" id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
 	</div>
-	<div>
-	</div>
+			<div class="blank"></div>
 	<div>
 	<input type = "submit" value = "곡 등록" class="bt">
 	</div>
@@ -115,19 +122,20 @@ var audioFile = document.getElementById("audioFile");
 var audio = document.getElementById("audio");
 // 히든 컴포넌트 매핑
 function clickFile(bt) {
-	bt.value = "곡 변경";
 	audioFile.click();
 }
 
 // 오디오 등록시 오디오 컨트롤러에 표시
 function changeAudio(song) {
 	var file = song.files[0];
+	const bt = document.getElementById("addsong");
 	if(file){
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			audio.src = e.target.result;
         };
         reader.readAsDataURL(file);
+    	bt.value = "곡 변경";
     } else {
         window.alert("파일을 선택하지 않았습니다.");
     }

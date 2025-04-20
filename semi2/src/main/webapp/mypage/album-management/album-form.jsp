@@ -37,22 +37,22 @@ if(request.getParameter("albumId")==null){
 			<h2>앨범 등록</h2>
 		</div>
 	<form action="album-form_ok.jsp" method = "post" enctype="multipart/form-data"> 
-	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
+	<div class="blank"></div>
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
-	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
-	<br>
+	<input style = "display: none;" type = "file" required id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
+	<div class="blank"></div>
 	<div>
-	<input type = "text" name = "name" id = "name" placeholder="앨범제목" class="login-text">
+	<input type = "text" name = "name" id = "name" placeholder="앨범제목" required class="login-text">
 	</div>
 	<div>
 	<input type = "text" name = "memberName" value = "<%=signedinDto.getMemberNickname() %>" class="login-text">
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" placeholder="앨범소개" class="login-text"></textarea>
+	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" placeholder="앨범소개" required class="login-text"></textarea>
 	</div>
 	<div class="subtitle">
-	<h3>발매예정일</h3>
+	<h3>발매일</h3>
 	</div>
 	<div>
 	<select id = "year" name = "year" onchange = "releaseMonthChanged();" class="album-select">
@@ -162,7 +162,7 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<form action="album-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype="multipart/form-data"> 
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>/cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
-	<br>
+	<div class="blank"></div>
 	<div>
 	<input type = "text" name = "name" id = "name" value = "<%=aDto.getName() %>" class="login-text">
 	</div>
@@ -171,8 +171,10 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
 	</div>
 	<div>
+		<div class="blank3"></div>
 	<textarea  style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" class="login-text"><%=aDto.getDiscription() %></textarea>
 	</div>
+		<div class="blank"></div>
 	<div class="subtitle">
 	<h3>발매일</h3>
 	</div>
@@ -337,6 +339,7 @@ function changeImg() {
 		window.alert("잘못된 이미지를 선택하셨습니다.");
 	}
 }
+
 </script>
 	<jsp:include page="/footer.jsp"></jsp:include>
 </body>

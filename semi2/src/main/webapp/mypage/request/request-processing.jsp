@@ -83,10 +83,10 @@ if (noParam != null){
 				int maxRow = mdao.getMaxRow();
 				if (mypageDtos == null || mypageDtos.size() == 0) {
 				%>
-				<tr>
+				<tr class="support-table-body">
 					<td colspan="4">요청 목록이 없습니다.
-					<td>
-				<tr>
+					</td>
+				</tr>
 				<%
 				}else{
 					for (int i = mypageDtos.size()-1; i >= 0; i--) {
