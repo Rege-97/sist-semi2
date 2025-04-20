@@ -15,7 +15,6 @@ if (id_str == null || id_str.equals("") || parentId_str == null || parentId_str.
 	int id = Integer.parseInt(id_str);
 	int parentId = Integer.parseInt(parentId_str);
 	int haveAnswer = deleteDao.selectId(parentId);
-	System.out.println("haveAnswer:" + haveAnswer);
 	
 	if (haveAnswer > 1) {
 	%>

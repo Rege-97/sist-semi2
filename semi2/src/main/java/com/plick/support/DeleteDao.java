@@ -15,7 +15,6 @@ public class DeleteDao {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
 			String sql = "select * from question where parent_id=? ";
-			System.out.println(sql);
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, parentId);
 			rs = ps.executeQuery();

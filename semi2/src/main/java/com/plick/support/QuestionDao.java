@@ -41,7 +41,6 @@ public class QuestionDao {
 			ps.setString(3, dto.getContent());
 			ps.setInt(4, maxParentId);
 			int count = ps.executeUpdate();
-			System.out.println("count:"+count);
 			return count;
 			
 		}catch(Exception e) {
@@ -200,15 +199,11 @@ public class QuestionDao {
 				}
 				do {
 					int id = rs.getInt("id");
-					System.out.println("id:"+id);
 					int memberId = rs.getInt("member_Id");
-					System.out.println("member_id:"+memberId);
 					String title = rs.getString("title");
-					System.out.println("title:"+title);
 					String content = rs.getString("content");
 					Timestamp createdAt = rs.getTimestamp("created_at");
 					int parentId = rs.getInt("parent_id");
-					System.out.println("parent_id:"+parentId);
 					String nickname = rs.getString("nickname");
 					String email = rs.getString("email");
 					QuestionDto dto = new QuestionDto(id, memberId, title, content, createdAt, parentId,nickname,email);
