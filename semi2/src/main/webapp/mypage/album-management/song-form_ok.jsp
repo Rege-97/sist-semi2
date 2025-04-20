@@ -60,6 +60,7 @@ if (request.getParameter("songId")==null){
 }
 if (mr.getFilesystemName("audioFile")!=null){
 	String type = mr.getFilesystemName("audioFile").substring(mr.getFilesystemName("audioFile").lastIndexOf("."));
+	type = type.toLowerCase();
 	
 	File df = new File(path+"/"+songId+type);
 	if(df.exists()) df.delete();

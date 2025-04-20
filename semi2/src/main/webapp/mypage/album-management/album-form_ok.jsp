@@ -83,7 +83,7 @@ if(request.getParameter("albumId")==null){
 if (mr.getFilesystemName("inputAlbumCover")!=null){
 		
 	String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
-	
+	type = type.toLowerCase();
 	File df = new File(coverPath+"/"+albumId+type);
 	if(df.exists()) df.delete();
 	if (mDao.renameFile(coverPath, mr.getFilesystemName("inputAlbumCover"), "cover"+type)){
