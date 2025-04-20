@@ -21,8 +21,6 @@
 	</div>
 <%@ include file="/footer.jsp" %>
 <script>
-var a = true;
-var b = true;
 var inputTel; 
 // 숫자 외의 입력 차단
 function numCheck(ip) {
@@ -30,16 +28,18 @@ function numCheck(ip) {
 	ip.value = ip.value.replace(/[^0-9]/g, "");
 }
 function formCheck(e) {
-	
 	// 40자 이해, 한글과 영문만 허용
 	var name = document.getElementById("name");
 	
-	
-
 	if(name.value.length > 40){
-		window.alert("이름이 입력 범위를 초과하였습니다");
+		window.alert("이름이 입력 범위를 초과하였습니다.");
 		e.preventDefault();
-		b = false;
+		return;
+	}
+	if (name.value == null || name.value == ""){
+		window.alert("이름이 비어있습니다.");
+		e.preventDefault();
+		return;
 	}
 	for (var i = 0; i < name.value.length; i++){
 		var charidx = name.value.charCodeAt(i);
@@ -48,29 +48,21 @@ function formCheck(e) {
 			if (b){
 				window.alert("이름의 값이 형식과 맞지 않습니다");
 				e.preventDefault();
-				b = false;
+				return;
 			}
 			break;
 		}
 	}
-	if (name.value == null || name.value == ""){
-		a = false;
-		b = false;
-	}
-
+	
 	// 숫자만 허용 11자리 고정
 	var tel = document.getElementById("tel");
 	if (!(tel.value.length == 11)){
-		a = false;
-		b = false;
+		window.alert("유효하지 않은 전화번호 입니다.");
+		e.preventDefault();
+		return;
 	}
 	
-	if (!a){
-		if (b){
-			window.alert("입력값을 확인해주세요");
-			e.preventDefault();
-		}
-	}
+	
 }
 </script>
 </body>

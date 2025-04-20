@@ -27,7 +27,7 @@ location.href = "result.jsp?name=<%=memberDto.getName() %>";
 	memberDto.setAccessType("listener");
 	
 	int result = memberDao.addMember(memberDto);
-	msg = result > 0 ? "회원가입 성공" : "오류 발생!";
+	msg = result > 0 ? "" : "오류 발생!";
 	
 	int memberId = memberDao.searchId(memberDto.getEmail());
 	System.out.println(memberId+"memberId");
@@ -35,6 +35,7 @@ location.href = "result.jsp?name=<%=memberDto.getName() %>";
 	profile.mkdirs();
 %>
 <script>
+if("<%=msg%>"!="") window.alert("<%=msg%>");
 location.href = "result.jsp?name=<%=memberDto.getName() %>";
 </script>	
 <%
