@@ -1,3 +1,4 @@
+<%@page import="com.plick.playlist.mylist.PlaylistMylistDao"%>
 <%@page import="com.plick.playlist.PlaylistDao"%>
 <%@page import="com.plick.signedin.SignedinDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -56,10 +57,9 @@ turn = Integer.parseInt(turnParam);
 return;
 }
 
-PlaylistDao playlistDao = new PlaylistDao();
-boolean temp = playlistDao.deletePlaylistSong(playlistSongId, turn, playlistId, loggedinUserId);
+PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
+boolean temp = playlistMylistDao.deletePlaylistSong(playlistSongId, turn, playlistId, loggedinUserId);
 if (!temp) {
-	System.out.println(temp);
 %>
 <script>
 	showAlertAndGoBack('삭제가 실패했습니다.');
