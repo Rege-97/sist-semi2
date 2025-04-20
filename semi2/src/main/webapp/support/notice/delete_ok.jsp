@@ -23,7 +23,7 @@ if (id_str == null || id_str.equals("")) {
 <%
 }
 int id = Integer.parseInt(id_str);
-if (deleteDao.delete(id, "notice") <= 0) {
+if (deleteDao.delete(id, "notice", loggedinUser.getMemberId()) <= 0) {
 %>
 <script>
 	window.alert('삭제에 실패했습니다.');
