@@ -33,6 +33,7 @@ if (signedinDto.getMemberId()!=0){
 	%>
 	
 	<div class="login">
+	<input type="button" value="나의 플리" class="bt" onclick="location.href='/semi2/playlist/mylist/main.jsp'">
 	<a href="/semi2/member/signout_ok.jsp" class="logout">로그아웃</a>
 	<a href="/semi2/mypage/profile.jsp"><%=signedinDto.getMemberNickname() %></a>
 	<a href="/semi2/mypage/profile.jsp"><img src="/semi2/resources/images/member/<%=signedinDto.getMemberId() %>/profile.jpg" class="login-profile-image" onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"></a>
