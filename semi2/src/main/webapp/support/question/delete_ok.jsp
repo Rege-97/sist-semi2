@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:useBean id="deleteDao" class="com.plick.support.DeleteDao"></jsp:useBean>>
+<jsp:useBean id="deleteDao" class="com.plick.support.DeleteDao"></jsp:useBean>
 <%
 String id_str = request.getParameter("id");
 String parentId_str = request.getParameter("parentId");
