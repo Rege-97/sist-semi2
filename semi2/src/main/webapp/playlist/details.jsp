@@ -387,7 +387,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						</td>
 						<td>
 							<div class="song-list-album-image">
-								<a href="#"><img
+								<a href="/semi2/chart/album-details.jsp?albumid=<%=sortedSongs.get(i).getAlbumId()%>"><img
 									src="/semi2/resources/images/album/<%=sortedSongs.get(i).getAlbumId()%>/cover.jpg"
 									class="song-list-album-image"></a>
 							</div>
@@ -544,6 +544,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 									class="comment-content<%=playlistComment.getParentId() > 0 ? "-answer" : ""%>-date"><%=createdAt%></div>
 							</td>
 							<%
+							System.out.println(playlistComment.getParentId());
 							if (playlistComment.getParentId() == 0) {
 							%>
 							<td class="comment-bt"><input type="button"
