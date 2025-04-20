@@ -21,18 +21,20 @@ for(int i = 0; i < cookies.length; i++){
 %>
 <script>
 function goSubmit(button){
-	var a = true;
 	if (document.getElementById("memberEmail").value == null || document.getElementById("memberEmail").value.trim() == ""){
-		a = false;
+		event.preventDefault();
+		window.alert("이메일이 비어있습니다.");
+		return;
 	}
 	if (document.getElementById("memberPassword").value == null || document.getElementById("memberPassword").value.trim() == ""){
-		if (a) a = false;
+		event.preventDefault();
+		window.alert("비밀번호를 입력하지 않았습니다.");
+		return;
 	}
-	if (a){
-		var form = button.closest("form");
-		form.action = "signin_ok.jsp?returntome=signin.jsp";
-		form.submit();
-	}else window.alert("아이디와 비밀번호를 모두 입력해주세요.");
+
+	var form = button.closest("form");
+	form.action = "signin_ok.jsp?returntome=signin.jsp";
+	form.submit();
 }
 </script>
 </head>

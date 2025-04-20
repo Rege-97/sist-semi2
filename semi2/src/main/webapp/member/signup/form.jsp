@@ -72,8 +72,6 @@ for (int i = 0; i < emailForms.size(); i++) {
 <%@ include file="/footer.jsp" %>
 <script>
 // select에서 직접 입력 선택시 입력 메뉴 보여주는 함수 (셀렉트 박스 숨길 때 style.display 사용했음)
-var pwdsame = false;
-
 function changeDirectInput(selectelement){
 	if(selectelement.value == "직접입력") {
 		document.getElementById("emailTail").value = "";
@@ -104,16 +102,14 @@ function testPassword() {
 	var pwdstr = document.getElementById("pwdCheck");
 	var pwd = document.getElementById("pwd").value;
 	var pwd2 = document.getElementById("pwdTest").value;
-	var regex = /[!,@,#,$,%,^,&,*]/;
+	var regex = /[!@#$%^&*]/;
 	if (!regex.test(pwd)){
 		pwdstr.innerText = "비밀번호에는 !, @, #, $, %, ^, &, * 중 한 개의 특수문자가 포함되어야 합니다.";
 	}else{
 		if (pwd == pwd2){
 			pwdstr.innerText = "입력하신 비밀번호가 같습니다.";
-			pwdsame = true;
 		}else{
 			pwdstr.innerText = "입력하신 비밀번호가 다릅니다.";
-			pwdsame = false;
 		}
 		
 	
@@ -138,18 +134,12 @@ function testNickname() {
 // 비밀번호 빈값 검사 / 비밀번호 확인과 일치 검사 
 // 닉네임 빈값 검사 / 중복 검사
 function formCheck(event) {
-	
-	if (pwdsame == false){ 
-		event.preventDefault();
-		window.alert("비밀번호를 확인하세요.");
-		return;
-	}
-	if (document.getElementtById("checkEmailDuplicatee").innerText != "사용가능한 이메일입니다."){
+	if (document.getElementById("checkEmailDuplicate").innerText != "사용가능한 이메일입니다."){
 		event.preventDefault();
 		window.alert("이메일을 확인해주세요.");
 		return;
 	}
-	if (document.getElementtById("checkNicknameDuplicate").innerText != "사용가능한 닉네임입니다."){
+	if (document.getElementById("checkNicknameDuplicate").innerText != "사용가능한 닉네임입니다."){
 		event.preventDefault();
 		window.alert("닉네임을 확인해주세요.");
 		return;
@@ -157,6 +147,11 @@ function formCheck(event) {
 	if (document.getElementById("nickname").value == null || document.getElementById("nickname").value == ""){
 		event.preventDefault();
 		window.alert("닉네임을 입력하지 않았습니다.");
+		return;
+	}
+	if (document.getElementById("pwdCheck").innerText != "입력하신 비밀번호가 같습니다."){ 
+		event.preventDefault();
+		window.alert("비밀번호를 확인하세요.");
 		return;
 	}
 }

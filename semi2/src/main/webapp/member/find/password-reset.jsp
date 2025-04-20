@@ -42,7 +42,7 @@ function testPassword() {
 }
 function formCheck(event) {
 	if (document.getElementById("pwdCheck").innerText != "입력하신 비밀번호가 같습니다"){ 
-		window.alert("비밀번호 확인바람");
+		window.alert("비밀번호를 확인해주세요.");
 		event.preventDefault();
 		return;
 	}
