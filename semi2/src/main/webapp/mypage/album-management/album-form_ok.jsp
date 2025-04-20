@@ -30,7 +30,9 @@ request.setCharacterEncoding("UTF-8");
 AlbumDao aDao = new AlbumDao();
 
 
-int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId()+1;
+int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId();
+
+if(aDao.checkAlbumDuplicate(albumId) != 0){
 
 
 String coverPath = request.getRealPath("/resources/images/album/"+albumId);
@@ -45,6 +47,7 @@ if(!f2.exists()) f2.mkdirs();
 MultipartRequest mr = new MultipartRequest(request, coverPath, 20 * 1024 * 1024, "UTF-8");
 
 AlbumDto albumDto = new AlbumDto();
+albumDto.setId(albumId);
 albumDto.setName(mr.getParameter("name"));
 albumDto.setMemberId(signedinDto.getMemberId());
 albumDto.setDescription(mr.getParameter("description"));
@@ -87,11 +90,18 @@ if (mr.getFilesystemName("inputAlbumCover")!=null){
 		
 	}
 }
-session.setAttribute("albumId", null);
 
 %>
 <script>
 if("<%=msg %>"!="") window.alert("<%=msg %>");
 parent.location.href = "/semi2/mypage/album-management/song.jsp?albumId=<%=albumId%>";
 </script>
-
+<%}else{
+%>
+<script>
+window.alert("현재 작업 중인 아티스트가 너무 많습니다. 다시 시도 해주세요.");
+parent.location.href = "/semi2/mypage/album-management/main.jsp";
+</script>
+<%
+}
+%>

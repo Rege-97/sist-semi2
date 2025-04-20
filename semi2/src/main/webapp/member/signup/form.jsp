@@ -31,8 +31,8 @@ emailForms.add("daum.net");
 		<div class="signup-text-name">성함 : <%=request.getParameter("name") %> 님</div>
 		<div class="signup-text-name">전화번호 : <%=request.getParameter("tel") %></div>
 		<input type="text" maxlength="10" id = "emailHead" placeholder="이메일" class="signup-text-email">@
-		<input type="text" maxlength="15" id = "emailTail" value = "선택" readonly onchange="assembleEmailF();" class="signup-text-email">
-		<select class="signup-select" onchange="changeDirectInput(this);">
+		<input type="text" maxlength="15" id = "emailTail" value = "선택" readonly oninput="assembleEmailF();" class="signup-text-email">
+		<select class="signup-select" oninput="changeDirectInput(this);">
 		<option disabled selected>선택</option>
 <%
 for (int i = 0; i < emailForms.size(); i++) {
@@ -48,16 +48,16 @@ for (int i = 0; i < emailForms.size(); i++) {
 		</div>
 		<input type = "text" id = "assembleEmail" name = "email" style = "display: none;"> 
 		<div>
-		<input type="text" maxlength = "15" id = "nickname" name = "nickname" class="signup-text"placeholder="닉네임" onchange = "testNickname();">
+		<input type="text" maxlength = "15" id = "nickname" name = "nickname" class="signup-text"placeholder="닉네임" oninput = "testNickname();">
 		</div>
 		<div class="signin-hidden">
 		<label id = "checkNicknameDuplicate"></label>
 		</div>
 		<div>
-		<input type="password" maxlength = "12" id = "pwd" name = "password" class="signup-text" placeholder="비밀번호" onchange="testPassword();">
+		<input type="password" maxlength = "12" id = "pwd" name = "password" class="signup-text" placeholder="비밀번호" oninput="testPassword();">
 		</div>
 		<div>
-		<input type="password" maxlength = "12" id = "pwdTest" class="signup-text" placeholder="비밀번호 확인" onchange="testPassword();">
+		<input type="password" maxlength = "12" id = "pwdTest" class="signup-text" placeholder="비밀번호 확인" oninput="testPassword();">
 		</div>
 		<div class="signin-hidden">
 		<label id = "pwdCheck"></label>

@@ -25,9 +25,7 @@ if (session.getAttribute("signedinDto") == null) {
 	<%@ include file="/header.jsp"%>
 	<%@ include file="/mypage/mypage-header.jsp"%>
 	<%
-	if (request.getParameter("albumId") != null){
-		session.setAttribute("albumId", request.getParameter("albumId"));
-
+if(request.getParameter("albumId")!=null){
 	int albumId = (Integer.parseInt(request.getParameter("albumId")));
 
 	AlbumDto aDto = mdao.findInfoAlbums(albumId);

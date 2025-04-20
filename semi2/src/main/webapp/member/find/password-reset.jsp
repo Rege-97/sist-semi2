@@ -56,8 +56,8 @@ function formCheck(event) {
 		<div class="blank"></div>
 		<div class="signup-title">비밀번호 찾기</div>
 		<div class="blank3"></div>
-		<input type="password" id = "pwd" name = "password" class="login-text" placeholder="새 비밀번호" onchange = "testPassword()">
-		<input type="password" id = "pwdTest" class="login-text" placeholder="새 비밀번호 확인" onchange = "testPassword()">
+		<input type="password" id = "pwd" name = "password" class="login-text" placeholder="새 비밀번호" oninput = "testPassword()">
+		<input type="password" id = "pwdTest" class="login-text" placeholder="새 비밀번호 확인" oninput = "testPassword()">
 		<div>
 		<label id = pwdCheck></label>
 		</div class="signin-hidden">

@@ -48,7 +48,7 @@ textarea::-webkit-scrollbar {
 		<div class="profile-change-card-input">
 			<input type="text" id="nickname" name="nickname"
 				value="<%=signedinDto.getMemberNickname()%>" readonly
-				onchange="checkDuplicateNickname();" class="mypage-text"> 
+				oninput="checkDuplicateNickname();" class="mypage-text"> 
 				<input type="button" id="nicknameEditButton" value="닉네임 변경"
 				onclick="changeNickname();" class="bt"> <label
 				id="duplicateNickname"></label> <input type="hidden"
