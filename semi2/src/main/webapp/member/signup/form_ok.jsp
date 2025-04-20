@@ -14,8 +14,14 @@ request.setCharacterEncoding("UTF-8");
 
 <%
 //컨트롤러 페이지에서 2차 검증 시도
-String msg = "동시 접속자 수가 너무 많습니다. 다시 시도해주세요.";
+String msg = "여러 명이 동시에 회원가입을 시도하고 있습니다. 다시 시도해주세요.";
 if (memberDao.checkEmailDuplicate(request.getParameter("email")) < 0 || memberDao.checkEmailDuplicate(request.getParameter("nickname")) < 0){
+%>
+<script>
+window.alert("<%=msg %>");
+location.href = "result.jsp?name=<%=memberDto.getName() %>";
+</script>
+<%	
 }else{
 
 	memberDto.setAccessType("listener");
@@ -27,10 +33,11 @@ if (memberDao.checkEmailDuplicate(request.getParameter("email")) < 0 || memberDa
 	System.out.println(memberId+"memberId");
 	File profile = new File(request.getRealPath("resources/images/member/"+memberId));
 	profile.mkdirs();
+%>
+<script>
+location.href = "result.jsp?name=<%=memberDto.getName() %>";
+</script>	
+<%
 }
 %>
 
-<script>
-window.alert("<%=msg %>");
-location.href = "result.jsp?name=<%=memberDto.getName() %>";
-</script>

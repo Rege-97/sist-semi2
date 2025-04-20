@@ -71,10 +71,10 @@ String msg = "";
 MypageDao mDao = new MypageDao();
 
 if(request.getParameter("albumId")==null){
-	msg = aDao.addAlbum(albumDto) > 0 ? "db등록" : "실패";
+	msg = aDao.addAlbum(albumDto) > 0 ? "" : "실패";
 }else{
 	albumDto.setId(albumId);
-	msg = aDao.modifyAlbum(albumDto) > 0 ? "db등록" : "실패";
+	msg = aDao.modifyAlbum(albumDto) > 0 ? "" : "실패";
 }
 	
 if (mr.getFilesystemName("inputAlbumCover")!=null){
@@ -84,14 +84,14 @@ if (mr.getFilesystemName("inputAlbumCover")!=null){
 	File df = new File(coverPath+"/"+albumId+type);
 	if(df.exists()) df.delete();
 	if (mDao.renameFile(coverPath, mr.getFilesystemName("inputAlbumCover"), "cover"+type)){
-		msg += "파일 저장";
+		
 	}
 }
 session.setAttribute("albumId", null);
 
 %>
 <script>
-window.alert("<%=msg %>");
+if("<%=msg %>"!="") window.alert("<%=msg %>");
 parent.location.href = "/semi2/mypage/album-management/song.jsp?albumId=<%=albumId%>";
 </script>
 

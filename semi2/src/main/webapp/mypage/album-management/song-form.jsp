@@ -129,7 +129,7 @@ function changeAudio(song) {
         };
         reader.readAsDataURL(file);
     } else {
-        alert("파일을 선택하지 않았습니다.");
+        window.alert("파일을 선택하지 않았습니다.");
     }
 }
 </script>

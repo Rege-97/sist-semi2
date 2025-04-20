@@ -52,10 +52,10 @@ String msg = "";
 int songId = request.getParameter("songId") != null ? Integer.parseInt(request.getParameter("songId")) : aDao.findMaxSongId()+1;
 
 if (request.getParameter("songId")==null){
-	msg = aDao.addSong(songDto) > 0 ? "DB등록" : "실패";
+	msg = aDao.addSong(songDto) > 0 ? "" : "실패";
 }else{
 	songDto.setId(songId);
-	msg = aDao.modifySong(songDto) > 0 ? "DB등록" : "실패";
+	msg = aDao.modifySong(songDto) > 0 ? "" : "실패";
 }
 if (mr.getFilesystemName("audioFile")!=null){
 	String type = mr.getFilesystemName("audioFile").substring(mr.getFilesystemName("audioFile").lastIndexOf("."));
@@ -63,13 +63,14 @@ if (mr.getFilesystemName("audioFile")!=null){
 	File df = new File(path+"/"+songId+type);
 	if(df.exists()) df.delete();
 	if (mDao.renameFile(path, mr.getFilesystemName("audioFile"), songId+type)){
-		msg += "+음원 변경";
 	}
 }
 
 %>
 <script>
+if ("<%=msg%>" != ""){
 window.alert("<%=msg %>");
+}
 parent.location.href = "song.jsp?albumId=<%=albumIdInSession %>";
 </script>
 <%

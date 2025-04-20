@@ -17,9 +17,11 @@
 MypageDao mdao = new MypageDao();
 int result = mdao.changeMemberAccessType(signedinDto.getMemberId());
 if (result > 0) signedinDto.setMemberAccessType("applicant");
-String msg = result > 0 ? "아티스트 등업이 신청되었습니다":"신청 실패";
+String msg = result > 0 ? "":"신청 실패";
 %>
 <script>
-window.alert("<%=msg %>");
+if ("<%=msg%>" != ""){
+	window.alert("<%=msg %>");
+}
 location.href = "/semi2/mypage/profile.jsp";
 </script>

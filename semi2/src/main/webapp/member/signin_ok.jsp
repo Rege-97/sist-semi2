@@ -7,6 +7,7 @@ request.setCharacterEncoding("UTF-8");
 <jsp:setProperty property="*" name="signedinDto"/>	
 <jsp:useBean id="signedinDao" class="com.plick.signedin.SignedinDao"></jsp:useBean>
 <%
+String rtm = request.getParameter("returntome");
 int result = signedinDao.verifySignin(signedinDto);
 String msg = "";
 String path = "";
@@ -31,17 +32,31 @@ if(request.getParameter("rememberMe")!=null){
 session.setAttribute("signedinDto", signedinDto);
 msg = "로그인 성공!";
 path = "/semi2/main.jsp";
+rtm = null;
+%>
+<script>
+location.href = "<%=rtm != null ? rtm : "/semi2/main.jsp" %>";
+</script>
+<%
 break;
 case 1: case 2: msg = "아이디 혹은 비밀번호가 일치하지 않습니다"; 
 path =  "/semi2/member/signin.jsp";
-break;
-default: msg = "위험! 알 수 없는 오류 발생";
-}
-%>
-<%
-String rtm = request.getParameter("returntome");
 %>
 <script>
 window.alert("<%=msg %>");
 location.href = "<%=rtm != null ? rtm : "/semi2/main.jsp" %>";
 </script>
+<%
+break;
+default: msg = "위험! 알 수 없는 오류 발생";
+%>
+<script>
+window.alert("<%=msg %>");
+location.href = "<%=rtm != null ? rtm : "/semi2/main.jsp" %>";
+</script>
+<%
+}
+%>
+
+
+

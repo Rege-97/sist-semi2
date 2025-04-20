@@ -30,7 +30,7 @@ function goSubmit(button){
 	}
 	if (a){
 		var form = button.closest("form");
-		form.action = "signin_ok.jsp";
+		form.action = "signin_ok.jsp?returntome=signin.jsp";
 		form.submit();
 	}else window.alert("아이디와 비밀번호를 모두 입력해주세요.");
 }

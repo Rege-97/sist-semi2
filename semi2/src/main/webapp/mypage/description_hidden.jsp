@@ -9,11 +9,6 @@
 		sDto.setMemberDescription(request.getParameter("description"));
 		MemberDao mdao = new MemberDao();
 		int rs = mdao.resetDescription(sDto);
-	%>
-	<script>
-	parent.window.alert("<%=rs%>개의 업데이트 완료");
-	</script>
-	<%
 	}else{
 		%>
 		<script>
