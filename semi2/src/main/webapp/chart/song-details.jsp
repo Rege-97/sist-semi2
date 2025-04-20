@@ -8,7 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 
 <%
 String id_s = request.getParameter("songid");
@@ -25,6 +26,7 @@ SongDetailDto dto = sdao.findSong(id);
 </head>
 <body>
 	<%@include file="/header.jsp"%>
+	<div class="body-content">
 	<section>
 		<article>
 		<iframe name="hiddenFrame" style="display: none;"></iframe>
@@ -82,5 +84,6 @@ SongDetailDto dto = sdao.findSong(id);
 		</article>
 	</section>
 	<%@include file="/footer.jsp"%>
+	</div>
 </body>
 </html>

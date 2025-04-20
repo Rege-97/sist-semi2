@@ -11,7 +11,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <%
@@ -25,9 +26,12 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 %>
 <body>
 	<%@include file="/header.jsp"%>
-	<input type="button" value="내 플레이리스트" class="bt"
-		onclick="location.href='/semi2/playlist/mylist/main.jsp'">
+	<div class="body-content">
+
 	<article>
+	<div class="blank3"></div>
+		<input type="button" value="내 플레이리스트" class="bt"
+		onclick="location.href='/semi2/playlist/mylist/main.jsp'">
 		<div class="categorey-name">
 			<label> 인기 플레이리스트 </label>
 		</div>
@@ -125,5 +129,6 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 		</div>
 	</article>
 	<%@include file="/footer.jsp"%>
+	</div>
 </body>
 </html>

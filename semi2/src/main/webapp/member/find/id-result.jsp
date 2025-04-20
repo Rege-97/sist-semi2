@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 </head>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -31,6 +32,7 @@ if (memberEmails == null) {
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<jsp:include page="/header.jsp"></jsp:include>
+	<div class="body-content">
 <div class="login-box">
 		<form>
 	<div class="blank2"></div>
@@ -50,5 +52,6 @@ if (memberEmails == null) {
 		</form>
 	</div>
 	<jsp:include page="/footer.jsp"></jsp:include>
+	</div>
 </body>
 </html>

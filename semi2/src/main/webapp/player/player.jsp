@@ -15,7 +15,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>PlickPlayer - 플릭 플레이어</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon2.png" type="image/png">
 <script>
 const channel = new BroadcastChannel("player-control");
 

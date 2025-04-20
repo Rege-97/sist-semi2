@@ -7,11 +7,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
+	<div class="body-content">
 		<%
 	if (signedinDto.getMemberId() ==0) {
 	%>
@@ -93,5 +95,6 @@
 		</article>
 	</section>
 	<%@include file="/footer.jsp"%>
+	</div>
 </body>
 </html>
