@@ -75,21 +75,58 @@ public class PlaylistMylistDao {
 		return false;
 	}
 
-	public boolean addPlaylistByMemberId(int memberId, String playlistName) {
-		String sql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
-				+ "VALUES (seq_playlists_id.NEXTVAL, ?, ?, SYSTIMESTAMP, ?, ?)";
-
-		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(1, memberId);
-			pstmt.setString(2, playlistName);
-			pstmt.setString(3, null);
-			pstmt.setString(4, null);
-
-			return pstmt.executeUpdate() > 0;
+	public boolean addPlaylistWithLikeCount(int memberId, String playlistName) {
+		try (Connection conn = DBConnector.getConn();) {
+			return addPlaylistWithLikeCount(memberId, playlistName, conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public boolean addPlaylistWithLikeCount(int memberId, String playlistName, Connection conn) throws SQLException {
+		String getSeqSql = "SELECT seq_playlists_id.NEXTVAL FROM dual";
+		String insertPlaylistSql = "INSERT INTO playlists (id, member_id, name, created_at, mood1, mood2) "
+				+ "VALUES (?, ?, ?, SYSTIMESTAMP, ?, ?)";
+		String insertLikeCountSql = "INSERT INTO playlist_like_count (playlist_id, like_count) VALUES (?, ?)";
+
+		conn.setAutoCommit(false);
+		try (PreparedStatement seqStmt = conn.prepareStatement(getSeqSql);
+				PreparedStatement insertPlaylistStmt = conn.prepareStatement(insertPlaylistSql);
+				PreparedStatement insertLikeCountStmt = conn.prepareStatement(insertLikeCountSql)) {
+			int playlistId;
+
+			// 시퀀스 가져오기
+			try (ResultSet rs = seqStmt.executeQuery()) {
+				if (rs.next()) {
+					playlistId = rs.getInt(1);
+				} else {
+					throw new SQLException("시퀀스를 가져오지 못했습니다.");
+				}
+			}
+			// playlists 테이블에 insert
+			insertPlaylistStmt.setInt(1, playlistId);
+			insertPlaylistStmt.setInt(2, memberId);
+			insertPlaylistStmt.setString(3, playlistName);
+			insertPlaylistStmt.setString(4, null); // mood1
+			insertPlaylistStmt.setString(5, null); // mood2
+			insertPlaylistStmt.executeUpdate();
+
+			// playlist_like_count 테이블에 insert
+			insertLikeCountStmt.setInt(1, playlistId);
+			insertLikeCountStmt.setInt(2, 0); // 기본 좋아요 수
+			insertLikeCountStmt.executeUpdate();
+
+			conn.commit();
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+			return false;
+		} finally {
+			conn.setAutoCommit(true);
+		}
 	}
 
 	private int findCountPlaylistByMemberId(int memberId, Connection conn) {
