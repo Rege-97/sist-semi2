@@ -51,9 +51,14 @@ if (request.getParameter("songId")==null){
 	<div class="subtitle">
 			<h2>수록곡 등록</h2>
 	</div>
+		<div class="blank"></div>
 	<form action = "song-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype = "multipart/form-data">
 	<audio id="audio" controls></audio>
-	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
+		<div class="blank3"></div>
+	<div>
+	<input type = "button" value = "수록곡 추가" onclick = "clickFile(this);" class="bt">
+	</div>
+			<div class="blank3"></div>
 	<input style="display: none;" type="file" id="audioFile" name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
 	<input type = "hidden" name = "song" id = "songHidden">
 	<div>
@@ -65,11 +70,13 @@ if (request.getParameter("songId")==null){
 	<div>
 	<input type = "text" name = "lyricist" placeholder="작사" class="login-text">
 	</div>
+			<div class="blank3"></div>
 	<div>
 	<textarea  style = "resize: none;" name = "lyrics" id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
 	</div>
 	<div>
 	</div>
+			<div class="blank"></div>
 	<div>
 	<input type = "submit" value = "곡 등록" class="bt">
 	</div>

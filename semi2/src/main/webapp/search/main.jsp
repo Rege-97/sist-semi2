@@ -72,7 +72,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 				%>
 				<div class="search-card">
 				<a href="/semi2/chart/album-details.jsp?albumid=<%=albumArr.get(i).getAlbumId()%>">
-				<img src="/semi2/resources/images/album/<%=albumArr.get(i).getAlbumId()%>/cover.jpg" class="search-card-image">
+				<img src="/semi2/resources/images/album/<%=albumArr.get(i).getAlbumId()%>/cover.jpg" class="search-card-image" onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 				</a>
 				<div class="search-card-info">
 					<div class="search-card-info-name">

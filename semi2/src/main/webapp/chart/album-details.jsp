@@ -94,7 +94,7 @@ if (cp % pageSize == 0)
 		<article>
 		<iframe name="hiddenFrame" style="display: none;"></iframe>
 			<div class="detail-card">
-				<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" class="detail-card-image">
+				<img src="/semi2/resources/images/album/<%=dto.getId()%>/cover.jpg" class="detail-card-image"  onerror="this.src='/semi2/resources/images/playlist/default-cover.jpg';">
 				<div class="detail-card-info">
 					<div class="detail-card-info-name">
 						<h2><%=dto.getName()%></h2>
@@ -185,7 +185,7 @@ if (cp % pageSize == 0)
 
 					if (arr == null || arr.size() == 0) {
 					%>
-					<tr>
+					<tr class="song-list-body" align="center">
 						<td colspan="6">수록곡이 존재하지 않습니다.</td>
 					</tr>
 					<%
@@ -194,7 +194,7 @@ if (cp % pageSize == 0)
 					%>
 					<tr class="song-list-body">
 						<td>
-							<div class="song-list-row"><%=arr.get(i).getRnum()%></div>
+							<div class="song-list-row"><%=i+1%></div>
 						</td>
 						<td>
 							<div class="song-list-album-image">

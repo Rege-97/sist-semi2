@@ -194,6 +194,7 @@ table.song-list-table .songlist {
 
 .songlist-image {
 	width: 50px;
+	height: 50px;
 	border-radius: 6px;
 }
 
@@ -205,9 +206,9 @@ table.song-list-table .songlist {
 }
 
 .play-now-info-image {
-	height: 63%;
-	border-radius: 12px;
-	margin: 30px;
+  height: 63%;
+  border-radius: 12px;
+  margin: 30px;
 }
 
 .play-now-info-songname {

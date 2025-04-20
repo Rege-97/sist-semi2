@@ -35,7 +35,7 @@ textarea::-webkit-scrollbar {
 			<h2>프로필 변경</h2>
 		</div>
 		<img
-			src="/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), signedinDto.getMemberId())%>"
+			src="/semi2/<%=memberDao.loadProfileImg(request.getRealPath(""), signedinDto.getMemberId())%>?v=<%=System.currentTimeMillis()%>"
 			onerror="this.src='/semi2/resources/images/member/default-profile.jpg';"
 			class="mypage-artist-image" id="profileImg" >
 		<!-- 화면 비전환으로 구현예정 추가 브랜치 열어서 작업 예정 -->

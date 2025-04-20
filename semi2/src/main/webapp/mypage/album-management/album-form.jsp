@@ -37,10 +37,10 @@ if(request.getParameter("albumId")==null){
 			<h2>앨범 등록</h2>
 		</div>
 	<form action="album-form_ok.jsp" method = "post" enctype="multipart/form-data"> 
-	<!-- 앨범 커버의 에디터 이미지가 필요해요 -->
+	<div class="blank"></div>
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
-	<br>
+	<div class="blank"></div>
 	<div>
 	<input type = "text" name = "name" id = "name" placeholder="앨범제목" class="login-text">
 	</div>
@@ -162,7 +162,7 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<form action="album-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype="multipart/form-data"> 
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>/cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
-	<br>
+	<div class="blank"></div>
 	<div>
 	<input type = "text" name = "name" id = "name" value = "<%=aDto.getName() %>" class="login-text">
 	</div>
@@ -171,8 +171,10 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
 	</div>
 	<div>
+		<div class="blank3"></div>
 	<textarea  style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" class="login-text"><%=aDto.getDiscription() %></textarea>
 	</div>
+		<div class="blank"></div>
 	<div class="subtitle">
 	<h3>발매일</h3>
 	</div>

@@ -33,64 +33,75 @@ if(request.getParameter("albumId")!=null){
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일");
 	String releasedAt = formatter.format(aDto.getReleased_at());
 	%>
-	<h2>앨범수정</h2>
+			<div class=profile-change-card>
+	<div class="subtitle">
+			<h2>앨범수정</h2>
+		</div>
+	<div>
 	<div>
 		<input type="button" value="신곡 추가하기"
-			onclick="location.href = 'song-form.jsp?albumId=<%=albumId%>'"> <input
+			onclick="location.href = 'song-form.jsp?albumId=<%=albumId%>'" class="bt"> <input
 			type="button" value="앨범 정보 수정"
-			onclick="location.href = 'album-form.jsp?albumId=<%=albumId%>'">
-		<table class="mypage-album-table">
-			<thead>
-				<tr>
-					<td></td>
-					<td>앨범번호</td>
-					<td>앨범명</td>
-					<td>발매일</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><img
-						src="/semi2/resources/images/album/<%=albumId%>/cover.jpg"
+			onclick="location.href = 'album-form.jsp?albumId=<%=albumId%>'" class="bt">
+</div>
+<div class="blank"></div>
+			<img src="/semi2/resources/images/album/<%=albumId%>/cover.jpg"
 						onerror="this.src='/semi2/resources/images/album/default-cover.jpg';"
-						class="detail-card-image"></td>
-					<td><%=aDto.getId()%></td>
-					<td><%=aDto.getName()%></td>
-					<td><%=releasedAt%></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div>
-		<table>
-			<thead>
-				<tr>
+						class="detail-card-image">
 
-					<td>곡번호</td>
-					<td>곡명</td>
-					<td>작사</td>
-					<td>작곡</td>
+			<div class="detail-card-info-name">
+			<h2><%=aDto.getName()%></h2>
+			</div>
+			<div class="album-card-info-date">
+			<%=aDto.getId()%>
+			</div>
+			<div class="album-card-info-date">
+						<%=releasedAt%>
+					</div>
+
+	</div>
+	<div class="blank"></div>
+	<div>
+		<table class="album-list">
+		<colgroup>
+					<col style="width: 200px;">
+					<col style="width: 200px;">
+					<col style="width: 200px;">
+					<col style="width: 200px;">
+					<col style="width: 200px;">
+		</colgroup>
+			<thead>
+				<tr class="album-list-head">
+
+					<th>곡번호</th>
+					<th>곡명</th>
+					<th>작사</th>
+					<th>작곡</th>
+					<th>수정</th>
 				</tr>
 			</thead>
 			<tbody>
 				<%
 				if (songs == null || songs.size() == 0) {
 				%>
-				<tr>
-					<td colspan="4">등록된 수록곡이 없습니다</td>
+				<tr class="album-list-body">
+					<td colspan="5">등록된 수록곡이 없습니다</td>
 				</tr>
 				<%
 				} else {
 				for (int i = 0; i < songs.size(); i++) {
 				%>
-				<tr>
+				<tr class="album-list-body">
 
 					<td><%=songs.get(i).getId()%></td>
 					<td><%=songs.get(i).getName()%></td>
 					<td><%=songs.get(i).getComposer()%></td>
 					<td><%=songs.get(i).getLyricist()%></td>
-					<td><input type="button" value="연필모양"
-						onclick="location.href = 'song-form.jsp?songId=<%=songs.get(i).getId()%>&albumId=<%=albumId%>'">
+					<td><img id="edit-icon"
+								src="/semi2/resources/images/design/playlist-edit.png"
+								width="25" height="25" onclick="location.href = 'song-form.jsp?songId=<%=songs.get(i).getId()%>&albumId=<%=albumId%>'"/>
+					
+					
 					</td>
 				</tr>
 				<%
@@ -99,6 +110,7 @@ if(request.getParameter("albumId")!=null){
 				%>
 			</tbody>
 		</table>
+	</div>
 	</div>
 	<%@ include file="/footer.jsp"%>
 <%

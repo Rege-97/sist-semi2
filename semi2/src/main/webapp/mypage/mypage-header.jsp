@@ -35,7 +35,7 @@
 		urlCheck=1;
 	}else if(url.contains("artist-request")){
 		urlCheck=2;
-	}else if(url.contains("form")){
+	}else if(url.contains("album-management")){
 		urlCheck=3;
 	}else if(url.contains("request-processing")){
 		urlCheck=4;
