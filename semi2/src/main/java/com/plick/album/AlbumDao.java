@@ -95,13 +95,14 @@ public class AlbumDao {
 	public int addSong(SongsDto dto) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "INSERT INTO songs VALUES (seq_songs_id.nextval, ?, ?, ?, ?, ?, 0)";
+			String sql = "INSERT INTO songs VALUES (?, ?, ?, ?, ?, ?, 0)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getAlbum_id());
-			pstmt.setString(2, dto.getName());
-			pstmt.setString(3, dto.getComposer());
-			pstmt.setString(4, dto.getLyricist());
-			pstmt.setString(5, dto.getLyrics());
+			pstmt.setInt(1, dto.getId());
+			pstmt.setInt(2, dto.getAlbum_id());
+			pstmt.setString(3, dto.getName());
+			pstmt.setString(4, dto.getComposer());
+			pstmt.setString(5, dto.getLyricist());
+			pstmt.setString(6, dto.getLyrics());
 			int result = pstmt.executeUpdate();
 			return result;
 		}catch(Exception e) {
@@ -191,7 +192,7 @@ public class AlbumDao {
 	public int findMaxSongId() {
 		try {
 			conn = com.plick.db.DBConnector.getConn();
-			String sql = "SELECT MAX(id) as maxid FROM songs";
+			String sql = "SELECT seq_songs_id.NEXTVAL as maxid FROM dual";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -211,6 +212,8 @@ public class AlbumDao {
 			}
 		}
 	}
+	
+	
 	public int checkAlbumDuplicate(int albumId) {
 		try {
 			conn = com.plick.db.DBConnector.getConn();

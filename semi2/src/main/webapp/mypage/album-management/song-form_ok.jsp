@@ -49,9 +49,10 @@ AlbumDao aDao = new AlbumDao();
 MypageDao mDao = new MypageDao();
 
 String msg = "";
-int songId = request.getParameter("songId") != null ? Integer.parseInt(request.getParameter("songId")) : aDao.findMaxSongId()+1;
+int songId = request.getParameter("songId") != null ? Integer.parseInt(request.getParameter("songId")) : aDao.findMaxSongId();
 
 if (request.getParameter("songId")==null){
+	songDto.setId(songId);
 	msg = aDao.addSong(songDto) > 0 ? "" : "실패";
 }else{
 	songDto.setId(songId);

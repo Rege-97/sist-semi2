@@ -18,13 +18,13 @@ if(request.getParameter("email")!=null && request.getParameter("email")!=""){
 	if(result > 0){
 %>
 <script>
-	window.parent.document.getElementById("checkNicknameDuplicate").innerText = "중복된 닉네임이에요.";
+	window.parent.document.getElementById("checkNicknameDuplicate").innerText = "중복된 닉네임입니다.";
 </script>
 <%	
 	}else{
 %>
 <script>
-	window.parent.document.getElementById("checkNicknameDuplicate").innerText = "사용가능한 닉네임이에요.";
+	window.parent.document.getElementById("checkNicknameDuplicate").innerText = "사용가능한 닉네임입니다.";
 </script>
 <%	
 	}

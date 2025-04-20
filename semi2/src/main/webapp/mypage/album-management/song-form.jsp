@@ -51,7 +51,7 @@ if (request.getParameter("songId")==null){
 	<div class="subtitle">
 			<h2>수록곡 등록</h2>
 	</div>
-	<form action = "song-form_ok.jsp" method = "post" enctype = "multipart/form-data">
+	<form action = "song-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype = "multipart/form-data">
 	<audio id="audio" controls></audio>
 	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
 	<input style="display: none;" type="file" id="audioFile" name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
@@ -82,7 +82,7 @@ if (request.getParameter("songId")==null){
 	<div class="subtitle">
 			<h2>수록곡 수정</h2>
 	</div>
-	<form action = "song-form_ok.jsp?songId=<%=songDto.getId() %>" method = "post" enctype = "multipart/form-data">
+	<form action = "song-form_ok.jsp?songId=<%=songDto.getId() %>&albumId=<%=request.getParameter("albumId") %>" method = "post" enctype = "multipart/form-data">
 	<audio id="audio" src = "/semi2/resources/songs/<%=request.getParameter("albumId") %>/<%=songDto.getId() %>.mp3" controls></audio>
 	<input type = "button" value = "오디오 추가" onclick = "clickFile(this);">
 	<input style="display: none;" type="file" id="audioFile" name = "audioFile" accept="audio/mpeg" onchange = "changeAudio(this);">
