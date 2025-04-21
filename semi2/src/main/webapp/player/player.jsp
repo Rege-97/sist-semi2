@@ -236,7 +236,7 @@ playingIndex = i;
 						<a href="/semi2/artist/main.jsp?memberid=<%=arr.get(playingIndex).getMemberId()%>" id="artistlink" target="_blank"> <%=arr.get(playingIndex).getArtist()%>
 						</a>
 					</div>
-					<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(playingIndex).getAlbumId()%>" id="albumlink" target="_blank"> <img src="/semi2/resources/images/album/<%=arr.get(playingIndex).getAlbumId()%>/cover.jpg" class="play-now-info-image" id="info-album-cover">
+					<a href="/semi2/chart/album-details.jsp?albumid=<%=arr.get(playingIndex).getAlbumId()%>" id="albumlink" target="_blank"> <img class="play-now-info-image" id="info-album-cover">
 					</a>
 					<div>
 						<input type="button" value="전체 가사 보기" class="bt" onclick="showLyrics()">
@@ -405,6 +405,40 @@ playingIndex = i;
 		
 		// 오디오 이펙트 제어 변수
 		var img = document.getElementById("info-album-cover");
+		img.src = "/semi2/resources/images/album/<%=arr.get(playingIndex).getAlbumId()%>/cover.jpg";
+		
+		// 앨범 이미지 
+	    img.onload = function (event) {
+	       
+	    	const canvas = document.createElement("canvas");
+		    const ctx = canvas.getContext("2d");
+		    
+		    // 캔버스 크기를 이미지 크기와 동일하게 설정
+		    canvas.width = img.naturalWidth;
+	        canvas.height = img.naturalHeight;
+	        ctx.drawImage(img, 0, 0);
+	        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	        const imgdata = imageData.data;
+	        
+	        var pxCnt = 0;
+	        
+	        //투명도까지 4씩 증가
+	        for(var i = 0; i < imgdata.length; i+=4 ){
+	        	R += imgdata[i];
+	        	G += imgdata[i+1];
+	        	B += imgdata[i+2];
+	        	pxCnt++;
+	        }
+	        
+	        R = Math.round(R/pxCnt);
+	        G = Math.round(G/pxCnt);
+	        B = Math.round(B/pxCnt);
+	    	
+	        console.log("R:"+R+"G"+G+"B"+B);
+	    }
+		
+		
+		
 		//무드 선택 인덱스 - 파기
 		var colorsetIdx = 0;
 		// 컬러 틱 변환 인덱스 (모든 컬러 배열의 공배수여야함)
@@ -544,6 +578,7 @@ playingIndex = i;
 			frequencyData = new Uint8Array(bufferLength);
 						
 			volumeFill.style.width = (audio.volume * 100) + "%";
+
 			
 			noLoop=true;
 			oneLoop=false;
@@ -800,7 +835,7 @@ playingIndex = i;
 			document.getElementById("lyrics-artist").innerHTML=allArtist[playingIndex].value;
 			
 			document.getElementById("album-cover").src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
-			document.getElementById("info-album-cover").src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
+			img.src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
 			document.getElementById("back-album-cover").src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
 			
 
@@ -814,36 +849,7 @@ playingIndex = i;
 			document.getElementById("albumlink").href='/semi2/chart/album-details.jsp?albumid='+allAlbumId[playingIndex].value;
 			play();
 
-		    // 앨범 이미지 
-		    img = document.getElementById("info-album-cover");
-		    img.onload = function (event) {
-		       
-		    	const canvas = document.createElement("canvas");
-			    const ctx = canvas.getContext("2d");
-			    
-			    // 캔버스 크기를 이미지 크기와 동일하게 설정
-			    canvas.width = img.naturalWidth;
-		        canvas.height = img.naturalHeight;
-		        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		        const imgdata = imageData.data;
-		        
-		        ctx.drawImage(img, 0, 0);
-		        
-		        var pxCnt = 0;
-		        
-		        //투명도까지 4씩 증가
-		        for(var i = 0; i < imgdata.length; i+=4 ){
-		        	R += imgdata[i];
-		        	R += imgdata[i+1];
-		        	R += imgdata[i+2];
-		        	pxCnt++;
-		        }
-		        
-		        R = Math.round(R/pxCnt);
-		        G = Math.round(G/pxCnt);
-		        B = Math.round(B/pxCnt);
-		    	
-		    }
+		    
 			
 		for(var i=0;i<allSongList.length;i++){
 			allSongList[i].style.fontWeight = "normal";
