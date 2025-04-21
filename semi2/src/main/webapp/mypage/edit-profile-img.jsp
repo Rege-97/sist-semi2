@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로필 사진 변경</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 <style>
 #imgEditer {
 	position: relative;
@@ -33,6 +34,7 @@
 	%>
 <body>
 	<%@ include file="/header.jsp"%>
+	<div class="body-content">
 <%
 	MypageDao mypageDao = new MypageDao();
 	File oldProfile = new File(request.getRealPath("resources/images/member/"+signedinDto.getMemberId()+"/profile.jpg"));
@@ -300,5 +302,6 @@ function canvasToBase64() {
 	document.getElementById("img64").value = tempCanvas.toDataURL("image/jpeg");
 }
 </script>
+</div>
 </body>
 </html>

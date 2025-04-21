@@ -8,7 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 <script>
 	function showAlertAndGoLoginPage(message) {
 		window.alert(message);
@@ -38,6 +39,7 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
+	<div class="body-content">
 	<div class="categorey-name">
 			<label>내 플레이리스트</label>
 		</div>
@@ -89,6 +91,6 @@ List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
 	%>
 </div>
 	<%@include file="/footer.jsp"%>
-
+</div>
 </body>
 </html>

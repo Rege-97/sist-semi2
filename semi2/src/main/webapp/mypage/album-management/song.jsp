@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 
@@ -23,6 +24,7 @@ if (session.getAttribute("signedinDto") == null) {
 %>
 <body>
 	<%@ include file="/header.jsp"%>
+	<div class="body-content">
 	<%@ include file="/mypage/mypage-header.jsp"%>
 	<%
 if(request.getParameter("albumId")!=null){
@@ -123,5 +125,6 @@ parent.location.href = "/semi2/main.jsp";
 <%	
 }
 %>
+</div>
 </body>
 </html>

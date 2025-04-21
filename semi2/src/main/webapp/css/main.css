@@ -18,12 +18,17 @@
 
 /*기본 세팅*/
 body {
-	background: #131313;
-	color: white;
-	width: 995px;
+  background: #131313;
+  color: white;
+  margin: 0px auto;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding-top: 0;
+  width:1200px;
+}
+.body-content{
+	padding-top:90px;
 	margin: 0px auto;
-	font-family: 'Noto Sans KR', sans-serif;
-	padding-top: 0;
+	width: 995px;
 }
 
 /*링크 세팅*/
@@ -36,15 +41,18 @@ a {
 
 /*헤더 공통 세팅*/
 header {
-	position: relative;
-	width: 1200px;
-	margin-left: calc(50% - 600px);
-	background: #131313;
-	padding-top: 30px;
+  position: relative;
+  background: #131313;
+  padding-top: 30px;
+  width: 100%;
+	position: fixed;
 	z-index: 4000;
-	margin-bottom: 30px;
-}
+	
 
+}
+.header-content{
+  width:1200px;
+}
 /*메뉴 리스트*/
 .menu-list {
 	display: flex;

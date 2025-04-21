@@ -18,11 +18,13 @@ static{
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 </head>
 <body>
 	<%@ include file="/header.jsp"%>
+		<div class="body-content">
 		<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<!-- 배너 -->
 	<section>
@@ -88,7 +90,7 @@ static{
 		<article>
 		<div class="blank"></div>
 			<div class="categorey-name">
-				<a href="/semi2/chart/main.jsp"><label> 인기음악 </label></a>
+				<a href="/semi2/chart/main.jsp">인기음악</a>
 			</div>
 			
 			<table class="song-list">
@@ -345,6 +347,6 @@ window.onload = function() {
 };
 </script>
 
-
+</div>
 </body>
 </html>

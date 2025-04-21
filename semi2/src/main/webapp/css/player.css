@@ -107,6 +107,11 @@ a {
 	gap: 40px;
 }
 
+.center-controls img {
+	  cursor: pointer;
+
+	}
+
 .time-state {
 	font-size: 12px;
 }
@@ -114,6 +119,9 @@ a {
 .right-controls {
 	justify-content: flex-end;
 	gap: 10px;
+}
+.right-controls img{
+	  cursor: pointer;
 }
 
 #max {
@@ -180,6 +188,7 @@ table.song-list-table .songlist {
 	padding-left: 20px;
 	padding-bottom: 10px;
 	width:80%;
+	  cursor: pointer;
 }
 
 .sonlist-info:hover {
@@ -196,6 +205,7 @@ table.song-list-table .songlist {
 	width: 50px;
 	height: 50px;
 	border-radius: 6px;
+	 cursor: pointer;
 }
 
 .play-now-info-div {
@@ -271,12 +281,14 @@ table.song-list-table .songlist {
 	margin-top:10px;
 	mergin-left:auto;
 	position: relative;
+
 }
 
 .delete-icon-group img {
 	position: absolute;
 	top: 0;
 	left: 0;
+		cursor: pointer;
 }
 
 .delete-hover {

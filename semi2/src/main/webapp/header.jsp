@@ -4,6 +4,7 @@
 <%@ page import="com.plick.root.*" %>    
 <jsp:useBean id="signedinDto" class="com.plick.signedin.SignedinDto" scope="session"></jsp:useBean>
 <header>
+<div class="header-content">
 <script src="/semi2/player/player-open.js"></script>
 <nav class="menu-list">
 <a href="/semi2/main.jsp"><img src="/semi2/resources/images/design/logo.png" class="logo"></a>
@@ -50,4 +51,5 @@ if (signedinDto.getMemberId()!=0){
 %> 
 <%@include file="/playlist/mylist/modal.jsp"%>
 </nav>
+</div>
 </header>

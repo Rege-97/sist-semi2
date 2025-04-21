@@ -14,7 +14,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Plick - 나만의 플레이리스트</title>
+<link rel="icon" href="/semi2/resources/images/design/favicon.png" type="image/png">
 <script>
 	function showAlertAndGoBack(message) {
 		window.alert(message);
@@ -166,7 +167,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 
 <body>
 	<%@include file="/header.jsp"%>
-
+<div class="body-content">
 	<iframe name="hiddenFrame" style="display: none;"></iframe>
 	<section>
 		<article>
@@ -374,8 +375,8 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 					<%
 					if (sortedSongs == null || sortedSongs.size() == 0) {
 					%>
-					<tr>
-						<td colspan="6">수록곡이 존재하지 않습니다.</td>
+					<tr class="song-list-body" align="center">
+						<td colspan="7">수록곡이 존재하지 않습니다.</td>
 					</tr>
 					<%
 					} else {
@@ -596,5 +597,6 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 		</article>
 	</section>
 	<%@include file="/footer.jsp"%>
+	</div>
 </body>
 </html>
