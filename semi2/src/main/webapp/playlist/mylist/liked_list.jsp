@@ -75,14 +75,6 @@ List<PlaylistPreviewDto> likedPlaylists = playlistMylistDao
 			&#183;
 			<%=playlistPreview.getSongCount()%>곡
 		</div>
-		<div>
-			<a href="/semi2/playlist/mylist/delete_ok.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>" onclick="return confirmAction('정말 삭제하시겠습니까?');">
-			<div class="myplaylist-icon-group">
-			<img src="/semi2/resources/images/design/playlist-delete.png" class="playlist-delete">
-			<img src="/semi2/resources/images/design/playlist-delete-hover.png" class="playlist-delete-hover">
-			</div>
-			</a>
-		</div>
 	</div>
 	</div>
 	<%
