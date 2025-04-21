@@ -2,8 +2,10 @@
 <%@page import="java.util.stream.IntStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.plick.root.*"%>
+<%@ page import="com.plick.search.*"%>
 <%@ page import="java.util.*"%>
 <jsp:useBean id="rdao" class="com.plick.root.RootDao"></jsp:useBean>
+<jsp:useBean id="searchDao" class="com.plick.search.SearchDao"></jsp:useBean>
 <%! 
 static final int MAX_PLAYLISTS_LENGTH = 5;  
 static final int MAX_SONGS_LENGTH = 5;  
@@ -53,8 +55,8 @@ static{
 			</div>
 			<div class="gallery">
 				<%
-			ArrayList<RecentAlbumDto> recentAlbumArr = new ArrayList<RecentAlbumDto>();
-				recentAlbumArr = rdao.showRecentAlbums();
+			ArrayList<SearchAlbumDto> recentAlbumArr = new ArrayList<SearchAlbumDto>();
+				recentAlbumArr = searchDao.showRecentAlbums(1,10);
 			if(recentAlbumArr==null){
 				%>
 				불러올 정보가 없습니다.
@@ -74,10 +76,10 @@ static{
 						</div>
 					</div>
 					<div class="gallery-card-album-name">
-						<label><a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"><%=recentAlbumArr.get(i).getAlbumName() %></a></label>
+						<label><a href="/semi2/chart/album-details.jsp?albumid=<%=recentAlbumArr.get(i).getAlbumId()%>"><%=recentAlbumArr.get(i).getName() %></a></label>
 					</div>
 					<div class="gallery-card-artist-name">
-						<label><a href="/semi2/artist/main.jsp?memberid=<%=recentAlbumArr.get(i).getMemberId()%>"><%=recentAlbumArr.get(i).getMemberNickname() %></a></label>
+						<label><a href="/semi2/artist/main.jsp?memberid=<%=recentAlbumArr.get(i).getMemberId()%>"><%=recentAlbumArr.get(i).getNickname() %></a></label>
 					</div>
 				</div>
 				<%
