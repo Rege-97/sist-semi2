@@ -43,6 +43,7 @@ if(request.getParameter("albumId")==null){
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" required id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
 	<div class="blank"></div>
+	<label>jpg 이미지만 등록이 가능합니다</label>
 	<div>
 	<input type = "text" name = "name" id = "name" placeholder="앨범제목" required class="login-text">
 	</div>
