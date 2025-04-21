@@ -237,18 +237,18 @@ for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	<h3>장르 선택</h3>
 	</div>
 	<div class="genre-select">
-	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" class="album-select">
-	<option disabled selected>장르선택(필수)</option>
-	<option>발라드</option>
-	<option>알앤비</option>
-	<option>힙합</option>
-	<option>아이돌</option>
-	<option>재즈</option>
-	<option>팝</option>
-	<option>클래식</option>
-	<option>댄스</option>
-	<option>인디</option>
-	<option>락</option>
+	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" required class="album-select">
+	<option disabled selected value = "">장르선택</option>
+	<option value = "발라드">발라드</option>
+	<option value = "알앤비">알앤비</option>
+	<option value = "힙합">힙합</option>
+	<option value = "아이돌">아이돌</option>
+	<option value = "재즈">재즈</option>
+	<option value = "팝">팝</option>
+	<option value = "클래식">클래식</option>
+	<option value = "댄스">댄스</option>
+	<option value = "인디">인디</option>
+	<option value = "락">락</option>
 	</select>
 	<select id = "genre2" name = "genre2" onchange = "inputGenre2();" class="album-select">
 	<option disabled selected>장르선택</option>
