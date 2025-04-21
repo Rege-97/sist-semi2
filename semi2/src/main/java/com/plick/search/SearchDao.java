@@ -119,12 +119,13 @@ public class SearchDao {
 					+ "            albums.name album_name,albums.member_id,members.nickname "
 					+ "        from songs,albums,members  "
 					+ "        where songs.album_id = albums.id and members.id=albums.member_id  "
-					+ "        and lower(songs.name) like lower(?) "
+					+ "        and lower(songs.name) like lower(?) or members.nickname like ? "
 					+ "        order by created_at desc) so) where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
-			ps.setInt(2, start);
-			ps.setInt(3, end);
+			ps.setString(2, "%" + search + "%");
+			ps.setInt(3, start);
+			ps.setInt(4, end);
 			rs = ps.executeQuery();
 			ArrayList<SearchSongDto> arr = new ArrayList<SearchSongDto>();
 			while (rs.next()) {
@@ -238,14 +239,15 @@ public class SearchDao {
 					+ "        LEFT JOIN members m ON p.member_id = m.id "
 					+ "        LEFT JOIN playlist_songs ps2 ON p.id = ps2.playlist_id AND ps2.turn = 1 "
 					+ "        LEFT JOIN songs s ON ps2.song_id = s.id "
+					+ "			WHERE mood1 LIKE ? OR mood2 LIKE ? "
 					+ "        GROUP BY p.id, p.name, p.created_at, p.mood1, p.mood2, m.id, m.nickname, plc.like_count, s.album_id "
 					+ "        ORDER BY like_count DESC " + "    ) pl " + ") "
-					+ "WHERE rn >= ? AND rn <= ? AND (mood1 LIKE ? OR mood2 LIKE ?)";
+					+ "WHERE rn >= ? AND rn <= ?";
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
-			ps.setString(3, "%" + search + "%");
-			ps.setString(4, "%" + search + "%");
+			ps.setInt(3, start);
+			ps.setInt(4, end);
+			ps.setString(1, "%" + search + "%");
+			ps.setString(2, "%" + search + "%");
 			rs = ps.executeQuery();
 			ArrayList<SearchMoodDto> arr = new ArrayList<SearchMoodDto>();
 			while (rs.next()) {
@@ -299,6 +301,36 @@ public class SearchDao {
 			String sql = "select count(*) from " + table + " where lower(" + column + ") like lower(?)";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
+			rs = ps.executeQuery();
+			if (!rs.next())
+				return -1;
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	//무드 검색 컨텐츠 수 
+	public int showPlaylistCounts(String search) {
+		try {
+			conn = com.plick.db.DBConnector.getConn();
+			String sql = "select count(*) from playlists where mood1 like ? or mood2 like ? ";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, "%" + search + "%");
+			ps.setString(2, "%" + search + "%");
+			
 			rs = ps.executeQuery();
 			if (!rs.next())
 				return -1;
