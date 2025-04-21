@@ -223,9 +223,10 @@ playingIndex = i;
 		<input type="hidden" value="<%=playingIndex%>" id="playingindex">
 		<input type="hidden" value="<%=maxIndex%>" id="maxindex">
 		<input type="hidden" value="<%=hasMembership%>" id="hasmembership">
+		<div id="modalOverlay" onclick="firstClick();">	</div>
 		<div class="blur-container">
 			<img src="/semi2/resources/images/album/<%=arr.get(playingIndex).getAlbumId()%>/cover.jpg" class="bg-img" id="back-album-cover" fetchpriority="high">
-			<div class="overlay-content">
+			<div class="overlay-content" onclick="firstClick();">
 				<div class="play-now-info-div">
 					<div class="play-now-info-songname" id="info-songname">
 						<a href="/semi2/chart/song-details.jsp?songid=<%=arr.get(playingIndex).getId()%>" id="songlink" target="_blank"> <%=arr.get(playingIndex).getName()%>
@@ -243,7 +244,7 @@ playingIndex = i;
 					<%
 					if (hasMembership == 0) {
 					%>
-					<div class="nomembership">1분 미리듣기 중 입니다.<br>이용권을 구매하시고 전체를 감상해보세요.</div>
+					<div class="nomembership">1분 미리듣기 중 입니다.<br><a href="/semi2/membership/main.jsp">이용권 구매하러 가기</a></div>
 					<%
 					}
 					%>
@@ -258,7 +259,7 @@ playingIndex = i;
 					<%
 					if (hasMembership == 0) {
 					%>
-					<div class="nomembership">1분 미리듣기 중 입니다.<br>이용권을 구매하시고 전체를 감상해보세요.</div>
+					<div class="nomembership">1분 미리듣기 중 입니다.<br><a href="/semi2/membership/main.jsp">이용권 구매하러 가기</a></div>
 					<%
 					}
 					%>
@@ -329,6 +330,10 @@ playingIndex = i;
 		</div>
 	</div>
 
+	<div id="confirmModal" >
+		<div>플릭 플레이어에 오신 것을 환영합니다!</div>
+</div>
+
 	<script>
 
 		let audio;
@@ -359,6 +364,8 @@ playingIndex = i;
 		let volume;
 		let hasMembership;
 		let hasMembership_end=false;
+		
+		let firstPlay=false;
 	
 		const current = document.getElementById("current");
 		const max = document.getElementById("max");
@@ -501,7 +508,8 @@ playingIndex = i;
 					}
 				});	
 			}
-
+			
+			showModal();
 		}
 		
 		function seek(e) {
@@ -566,6 +574,14 @@ playingIndex = i;
 			play_bt.style.display = 'none';
 			pause_bt.style.display = 'inline';
 			
+		}
+		
+		function firstClick(){
+			if(!firstPlay){
+				firstPlay=true;
+				play();
+				confirmNo();
+			}
 		}
 
 		function pause() {
@@ -861,7 +877,26 @@ playingIndex = i;
 					randomListing();
 				}
 		}
-		
+		function showModal() {
+			document.getElementById("modalOverlay").style.display = "block";
+			  document.getElementById("confirmModal").classList.add("active");
+		}
+
+		function confirmYes() {
+			 const overlay = document.getElementById("modalOverlay");
+			  if (overlay) overlay.remove(); // DOM에서 아예 제거
+			  hideModal();
+			firstClick();
+		}
+
+		function confirmNo() {
+			 const overlay = document.getElementById("modalOverlay");
+			 hideModal();
+			  if (overlay) overlay.remove(); // DOM에서 아예 제거
+		}
+		function hideModal() {
+			  document.getElementById("confirmModal").classList.remove("active");
+			}
 	</script>
 </body>
 </html>
