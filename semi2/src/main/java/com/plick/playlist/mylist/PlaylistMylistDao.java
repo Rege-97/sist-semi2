@@ -23,7 +23,7 @@ public class PlaylistMylistDao {
 				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
 				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
 				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "    LEFT JOIN likes l ON p.id = l.playlist_id " + "    LEFT JOIN members m ON p.member_id = m.id "
+				+ "    LEFT JOIN members m ON p.member_id = m.id "
 				+ "    WHERE m.id = ? " + "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname "
 				+ "    ORDER BY p.created_at DESC";
 
