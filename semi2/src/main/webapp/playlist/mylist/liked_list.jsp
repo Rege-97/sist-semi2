@@ -66,13 +66,13 @@ List<PlaylistPreviewDto> likedPlaylists = playlistMylistDao
 			</a>
 		</div>
 	</div>
-		<div class ="gallery-card-album-name">
+		<div class ="gallery-card-playlist-title">
 			<a href="/semi2/playlist/details.jsp?playlistid=<%=playlistPreview.getPlaylistId()%>"><%=playlistPreview.getPlaylistName()%></a>
 		</div>
 		
-	<div class="gallery-card-artist-name-myplaylist">
+	<div class="gallery-card-playlist-author">
 		<div><%=playlistPreview.getMemberNickname()%>
-			|
+			&#183;
 			<%=playlistPreview.getSongCount()%>곡
 		</div>
 		<div>

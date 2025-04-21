@@ -1732,3 +1732,19 @@ table.album-list .album-list-body {
 	border-bottom: 1px solid #262626;
 	height: 85px;
 }
+
+.gallery-card-playlist-title{
+	max-height: 46px;
+	overflow: hidden;
+	padding-left: 5px;
+	padding-bottom: 2px;
+}
+
+.gallery-card-playlist-author {
+	font-size: 13px;
+	margin-bottom: 20px;
+	display: flex;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #a7a7a7;
+}
