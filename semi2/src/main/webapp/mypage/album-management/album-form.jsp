@@ -42,8 +42,9 @@ if(request.getParameter("albumId")==null){
 	<div class="blank"></div>
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" required id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
+	<br>
+	<label>jpg 이미지만 등록가능합니다.</label>
 	<div class="blank"></div>
-	<label>jpg 이미지만 등록이 가능합니다</label>
 	<div>
 	<input type = "text" name = "name" id = "name" placeholder="앨범제목" required class="login-text">
 	</div>
@@ -165,6 +166,8 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<form action="album-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype="multipart/form-data"> 
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>/cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
+	<br>
+	<label>jpg 이미지만 등록가능합니다.</label>
 	<div class="blank"></div>
 	<div>
 	<input type = "text" name = "name" id = "name" value = "<%=aDto.getName() %>" class="login-text">
