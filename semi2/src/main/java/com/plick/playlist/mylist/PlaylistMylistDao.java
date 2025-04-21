@@ -44,6 +44,48 @@ public class PlaylistMylistDao {
 		return playlistPreviewDtos;
 
 	}
+	
+	public List<PlaylistPreviewDto> findLikedPlaylistsOrderByLikesCreatedAtByMemberId(int memberId) {
+		String sql =
+			    "SELECT " +
+			    "  p.id                     AS playlist_id, " +
+			    "  p.name                   AS playlist_name, " +
+			    "  l.created_at             AS liked_at, " +
+			    "  m.id                     AS member_id, " +
+			    "  m.nickname               AS member_nickname, " +
+			    "  s_first.album_id         AS first_album_id, " +
+			    "  ps_count.song_count 		AS song_count " +
+			    "FROM likes l " +
+			    "JOIN playlists p               ON l.playlist_id = p.id " +
+			    "JOIN members m                 ON p.member_id   = m.id " +
+			    "LEFT JOIN playlist_songs ps_first ON ps_first.playlist_id = p.id AND ps_first.turn = 1 " +
+			    "LEFT JOIN songs s_first           ON ps_first.song_id     = s_first.id " +
+			    "LEFT JOIN ( " +
+			    "    SELECT playlist_id, COUNT(*) AS song_count " +
+			    "    FROM playlist_songs " +
+			    "    GROUP BY playlist_id " +
+			    ") ps_count ON ps_count.playlist_id = p.id " +
+			    "WHERE l.member_id = ? " +
+			    "ORDER BY l.created_at DESC";
+
+
+		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				while (rs.next()) {
+					playlistPreviewDtos.add(new PlaylistPreviewDto(rs.getInt("playlist_id"), rs.getInt("member_id"),
+							rs.getString("playlist_name"), rs.getTimestamp("liked_at"), 0,
+							rs.getInt("song_count"), rs.getString("member_nickname"), rs.getInt("first_album_id")));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playlistPreviewDtos;
+
+	}
+
 
 	public boolean deletePlaylistByPlaylistIdAndMemberId(int playlistId, int memberId) {
 		String sql = "DELETE FROM playlists WHERE id= ? AND member_id = ?";

@@ -32,6 +32,8 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 	<div class="blank3"></div>
 		<input type="button" value="내 플레이리스트" class="bt"
 		onclick="location.href='/semi2/playlist/mylist/main.jsp'">
+		<input type="button" value="좋아요" class="bt"
+		onclick="location.href='/semi2/playlist/mylist/liked_list.jsp'">
 		<div class="categorey-name">
 			<label> 인기 플레이리스트 </label>
 		</div>
