@@ -11,6 +11,16 @@ if(currentPage_str==null||currentPage_str.equals("")){
 }
 int currentPage = Integer.parseInt(currentPage_str);
 
+int totalResults = searchDao.showPlaylistCounts(moodSearch);
+
+int pageSize = 20;
+int totalPage = (totalResults - 1) / pageSize + 1;
+int pageGroupSize = 5;
+int pageGroupCount = (totalPage - 1) / pageGroupSize + 1;
+int currentGroup = (currentPage - 1) / pageGroupSize + 1;
+
+%>
+<%
 %>
 <!DOCTYPE html>
 <html>
@@ -28,7 +38,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 		<article>
 			<h2>플레이리스트 &gt;</h2>
 			<%
-			int searchCount = 50;
+			int searchCount = pageSize;
 			ArrayList<SearchMoodDto> arr = searchDao.searchMood(moodSearch,currentPage,  searchCount);
 			%>
 			
@@ -63,6 +73,31 @@ int currentPage = Integer.parseInt(currentPage_str);
 				}
 				}
 				%>
+			</div>
+			<div class="paging">
+				<%
+				String lt = currentGroup == 1 ? "" : "&lt;&lt;";
+				%>
+				<%
+				String gt = currentGroup == pageGroupCount ? "" : "&gt;&gt;";
+				%>
+				<div class="left-page">
+				<a href="/semi2/search/searchMood.jsp?mood=<%=moodSearch %>&page=<%=(currentGroup - 1) * 5%>"><%=lt%></a>
+				</div>
+				<%
+				int startPageNum = (currentGroup - 1) * 5 + 1;
+				int endPageNum = currentGroup == pageGroupCount ? totalPage : (currentGroup - 1) * 5 + 5;
+				for (int i = startPageNum; i <= endPageNum; i++) {
+				%>
+				<div class="<%=currentPage==i?"page-number-bold":"page-number" %>">
+					<a href="/semi2/search/searchMood.jsp?mood=<%=moodSearch %>&page=<%=i%>"><%=i%></a>
+				</div>
+				<%
+				}
+				%>
+				<div class="right-page">
+				<a href="/semi2/search/searchMood.jsp?mood=<%=moodSearch %>&page=<%=currentGroup * 5 + 1%>"><%=gt%></a>
+				</div>
 			</div>
 		</article>
 	</section>
