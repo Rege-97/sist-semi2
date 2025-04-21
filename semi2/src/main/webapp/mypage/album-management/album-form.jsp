@@ -42,6 +42,8 @@ if(request.getParameter("albumId")==null){
 	<div class="blank"></div>
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/add-cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" required id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
+	<br>
+	<label>jpg 이미지만 등록가능합니다.</label>
 	<div class="blank"></div>
 	<div>
 	<input type = "text" name = "name" id = "name" placeholder="앨범제목" required class="login-text">
@@ -107,18 +109,18 @@ for (int i = 1; i <= now.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	<h3>장르 선택</h3>
 	</div>
 	<div class="genre-select">
-	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" class="album-select">
-	<option disabled selected>장르선택</option>
-	<option>발라드</option>
-	<option>알앤비</option>
-	<option>힙합</option>
-	<option>아이돌</option>
-	<option>재즈</option>
-	<option>팝</option>
-	<option>클래식</option>
-	<option>댄스</option>
-	<option>인디</option>
-	<option>락</option>
+	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" required class="album-select">
+	<option disabled selected value = "">장르선택</option>
+	<option value = "발라드">발라드</option>
+	<option value = "알앤비">알앤비</option>
+	<option value = "힙합">힙합</option>
+	<option value = "아이돌">아이돌</option>
+	<option value = "재즈">재즈</option>
+	<option value = "팝">팝</option>
+	<option value = "클래식">클래식</option>
+	<option value = "댄스">댄스</option>
+	<option value = "인디">인디</option>
+	<option value = "락">락</option>
 	</select>
 	<select id = "genre2" name = "genre2" onchange = "inputGenre2();" class="album-select">
 	<option disabled selected>장르선택</option>
@@ -164,6 +166,8 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	<form action="album-form_ok.jsp?albumId=<%=request.getParameter("albumId") %>" method = "post" enctype="multipart/form-data"> 
 	<img name = "albumCover"  id = "albumCover" src = "/semi2/resources/images/album/<%=aDto.getId() %>/cover.jpg" onclick = "addAlbumCover();" class="detail-card-image">
 	<input style = "display: none;" type = "file" id = "inputAlbumCover" name = "inputAlbumCover" onchange="changeImg();">
+	<br>
+	<label>jpg 이미지만 등록가능합니다.</label>
 	<div class="blank"></div>
 	<div>
 	<input type = "text" name = "name" id = "name" value = "<%=aDto.getName() %>" class="login-text">
@@ -233,18 +237,18 @@ for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	<h3>장르 선택</h3>
 	</div>
 	<div class="genre-select">
-	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" class="album-select">
-	<option disabled selected>장르선택</option>
-	<option>발라드</option>
-	<option>알앤비</option>
-	<option>힙합</option>
-	<option>아이돌</option>
-	<option>재즈</option>
-	<option>팝</option>
-	<option>클래식</option>
-	<option>댄스</option>
-	<option>인디</option>
-	<option>락</option>
+	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" required class="album-select">
+	<option disabled selected value = "">장르선택</option>
+	<option value = "발라드">발라드</option>
+	<option value = "알앤비">알앤비</option>
+	<option value = "힙합">힙합</option>
+	<option value = "아이돌">아이돌</option>
+	<option value = "재즈">재즈</option>
+	<option value = "팝">팝</option>
+	<option value = "클래식">클래식</option>
+	<option value = "댄스">댄스</option>
+	<option value = "인디">인디</option>
+	<option value = "락">락</option>
 	</select>
 	<select id = "genre2" name = "genre2" onchange = "inputGenre2();" class="album-select">
 	<option disabled selected>장르선택</option>

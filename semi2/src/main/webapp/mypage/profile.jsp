@@ -49,14 +49,14 @@ textarea::-webkit-scrollbar {
 		</div>
 		<div class="profile-change-card-input">
 			<input type="text" id="nickname" name="nickname"
-				value="<%=signedinDto.getMemberNickname()%>" readonly
+				value="<%=signedinDto.getMemberNickname()%>" disabled
 				oninput="checkDuplicateNickname();" class="mypage-text"> 
 				<input type="button" id="nicknameEditButton" value="닉네임 변경"
 				onclick="changeNickname();" class="bt"> <label
 				id="duplicateNickname"></label> <input type="hidden"
 				id="nicknamecheck" value="true">
 		</div>
-		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" readonly class="login-text"><%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %></textarea>
+		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" disabled class="login-text"><%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %></textarea>
 		<input type = "button" value = "프로필 메세지 수정" id = "descriptionBt" class="bt" onclick = "changeDescription(this);">
 	</div>
 	<%@ include file="/footer.jsp"%>
@@ -75,10 +75,10 @@ textarea::-webkit-scrollbar {
 		
 		function changeDescription(bt) {
 			if (bt.value == "프로필 메세지 수정"){
-				description.removeAttribute("readonly");
+				description.removeAttribute("disabled");
 				bt.value = "수정 완료";
 			}else{
-				description.setAttribute("readonly", true);
+				description.setAttribute("disabled", true);
 				profileHidden.src = "description_hidden.jsp?description="+description.value+"&memberId=<%=signedinDto.getMemberId()%>";
 				bt.value = "프로필 메세지 수정";
 				}
@@ -87,7 +87,7 @@ textarea::-webkit-scrollbar {
 		// 닉네임 변경 dom 제어/ ifarame으로 중복 검사 요청
 		function changeNickname() {
 			if (nicknameEditButton.value == "닉네임 변경") {
-				nickname.removeAttribute("readonly");
+				nickname.removeAttribute("disabled");
 				nicknameEditButton.value = "수정완료";
 			} else if (nicknameEditButton.value == "수정완료") {
 				var effectiveness = document.getElementById("nicknamecheck").value == "true" ? true
@@ -95,7 +95,7 @@ textarea::-webkit-scrollbar {
 				if (effectiveness) {
 					profileHidden.src = "profile_hidden.jsp?editNickname="+nickname.value+"&memberId=<%=signedinDto.getMemberId()%>";
 				}
-				nickname.setAttribute("readonly", true);
+				nickname.setAttribute("disabled", true);
 				nicknameEditButton.value = "닉네임 변경";
 			}
 		}
