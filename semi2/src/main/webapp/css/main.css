@@ -679,11 +679,13 @@ table.song-list .song-list-body {
 .membership-table {
 	width: 100%;
 	height: 100px;
-	background: black;
+	background: #131313;
+	border: 1px solid #262626;
 	border-radius: 12px;
 	padding: 10px 10px;
 	margin-top: 30px;
-	border-collapse: collapse;
+	border-collapse: separate; /* ← 변경 */
+	border-spacing: 0;
 }
 
 .membership-title-col {
@@ -768,7 +770,9 @@ table.song-list .song-list-body {
 	width: 50%;
 	padding: 30px;
 	border-radius: 12px;
-	background: black;
+
+border: 1px solid #262626;
+	background: #131313;
 	margin: 0px auto;
 	text-align: center;
 }
@@ -784,11 +788,25 @@ table.song-list .song-list-body {
 .card-number-text {
 	width: 70px;
 	text-align: center;
+		background: #131313;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
 }
 
 .card-number-text-cvc {
 	width: 160px;
 	text-align: center;
+		background: #131313;
+		border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #262626;
+	font-family: 'Noto Sans KR', sans-serif;
+	color: white;
 }
 
 .login-box {
@@ -993,7 +1011,7 @@ table.song-list .song-list-body {
 
 .signin-hidden {
 	margin-bottom: 10px;
-	color: #666666;
+	color: #ff2dac;
 	font-size: 13px;
 }
 
