@@ -49,7 +49,7 @@ static{
 		<article>
 		<div class="blank2"></div>
 			<div class="categorey-name">
-				<label> 최신발매앨범 </label>
+				<label><a href="/semi2/search/showRecentAlbums.jsp"> 최신발매앨범 </a></label>
 			</div>
 			<div class="gallery">
 				<%
