@@ -36,7 +36,7 @@ playlistName = "default name";
 }
 
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-if (!playlistMylistDao.addPlaylistByMemberId(loggedinUserId, playlistName)) {
+if (!playlistMylistDao.addPlaylistWithLikeCount(loggedinUserId, playlistName)){
 %>
 <script>
 	showAlertAndGoBack('오류가 발생했습니다');
