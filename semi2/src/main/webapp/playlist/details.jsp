@@ -184,7 +184,11 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 						<form id="edit-form" method="get" action="name-update_ok.jsp"
 							style="display: inline;">
 							<h2 id="playlist-name">
-								<span id="name-text" style="color: white;"><%=playlistName%></span>
+								<span id="name-text" style="color: white;"><%=playlistName%><a href="#" id="edit-icon-link" onclick="toggleEdit(event)">
+								<img id="edit-icon"
+								src="/semi2/resources/images/design/playlist-edit.png"
+								width="25" height="25" />
+							</a></span>
 							</h2>
 							<input type="text" name="playlistname" id="name-input"
 								value="<%=playlistName%>" style="display: none;" /> <input
@@ -196,11 +200,7 @@ boolean isLiked = playlistDetailDto.getIsLiked();
 								onclick="cancelEdit()">취소</button>
 
 							<!-- 편집 아이콘 -->
-							<a href="#" id="edit-icon-link" onclick="toggleEdit(event)">
-								<img id="edit-icon"
-								src="/semi2/resources/images/design/playlist-edit.png"
-								width="25" height="25" />
-							</a>
+							
 						</form>
 						<%
 						} else {
