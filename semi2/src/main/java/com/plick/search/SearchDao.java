@@ -19,13 +19,15 @@ public class SearchDao {
 			int start = (currentPage - 1) * pageSize + 1;
 			int end = currentPage * pageSize;
 			String sql = "select *  " + "from (select rownum rn, alb.*,members.nickname "
-					+ "    from (select * from albums where lower(name) like lower(?) order by released_at desc) alb "
-					+ "        left join members " + "        on alb.member_id = members.id ) "
+					+ "    from (select * from albums order by released_at desc) alb "
+					+ "        left join members " + "        on alb.member_id = members.id "
+					+ "where lower(alb.name) like lower(?) or lower(members.nickname) like lower(?)) "
 					+ "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
-			ps.setInt(2, start);
-			ps.setInt(3, end);
+			ps.setString(2, "%" + search + "%");
+			ps.setInt(3, start);
+			ps.setInt(4, end);
 			rs = ps.executeQuery();
 			ArrayList<SearchAlbumDto> arr = new ArrayList<SearchAlbumDto>();
 			while (rs.next()) {
@@ -119,7 +121,7 @@ public class SearchDao {
 					+ "            albums.name album_name,albums.member_id,members.nickname "
 					+ "        from songs,albums,members  "
 					+ "        where songs.album_id = albums.id and members.id=albums.member_id  "
-					+ "        and lower(songs.name) like lower(?) or members.nickname like ? "
+					+ "        and lower(songs.name) like lower(?) or lower(members.nickname) like lower(?) "
 					+ "        order by created_at desc) so) where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
