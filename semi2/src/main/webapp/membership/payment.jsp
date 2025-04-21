@@ -81,7 +81,7 @@
 						<tr>
 							<td><input type="text" name="card_month" minlength="2" maxlength="2" required class="card-number-text"></td>
 							<td><input type="text" name="card_year" minlength="2" maxlength="2" required class="card-number-text"></td>
-							<td colspan="2"><input type="text" name="card_cvc" minlength="3" maxlength="3" required class="card-number-text-cvc"></td>
+							<td colspan="2"><input type="password" name="card_cvc" minlength="3" maxlength="3" required class="card-number-text-cvc"></td>
 						</tr>
 						<tr>
 							<th colspan="4">결제금액 : <%=price %>원</th>
@@ -96,5 +96,12 @@
 	</section>
 	<%@include file="/footer.jsp"%>
 	</div>
+	<script>
+document.querySelectorAll(".card-number-text").forEach(function(input) {
+  input.addEventListener("input", function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+  });
+});
+</script>
 </body>
 </html>
