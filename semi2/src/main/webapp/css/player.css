@@ -108,9 +108,8 @@ a {
 }
 
 .center-controls img {
-	  cursor: pointer;
-
-	}
+	cursor: pointer;
+}
 
 .time-state {
 	font-size: 12px;
@@ -120,8 +119,9 @@ a {
 	justify-content: flex-end;
 	gap: 10px;
 }
-.right-controls img{
-	  cursor: pointer;
+
+.right-controls img {
+	cursor: pointer;
 }
 
 #max {
@@ -167,10 +167,10 @@ a {
 	border-radius: 6px;
 	height: 70vh;
 	width: 30vw;
-
 }
-.list-table-div{
-	height:90%;
+
+.list-table-div {
+	height: 90%;
 	overflow: scroll;
 	overflow-x: hidden;
 }
@@ -187,8 +187,8 @@ table.song-list-table .songlist {
 	text-align: left;
 	padding-left: 20px;
 	padding-bottom: 10px;
-	width:80%;
-	  cursor: pointer;
+	width: 80%;
+	cursor: pointer;
 }
 
 .sonlist-info:hover {
@@ -198,27 +198,27 @@ table.song-list-table .songlist {
 .sonlist-info-artist {
 	font-size: 13px;
 	color: #a7a7a7;
-	
 }
 
 .songlist-image {
 	width: 50px;
 	height: 50px;
 	border-radius: 6px;
-	 cursor: pointer;
+	cursor: pointer;
 }
 
 .play-now-info-div {
 	height: 70vh;
-	width: 70vw; padding : 30px;
+	width: 70vw;
+	padding: 30px;
 	margin: 30px;
 	padding: 30px;
 }
 
 .play-now-info-image {
-  height: 63%;
-  border-radius: 12px;
-  margin: 30px;
+	height: 63%;
+	border-radius: 12px;
+	margin: 30px;
 }
 
 .play-now-info-songname {
@@ -278,17 +278,16 @@ table.song-list-table .songlist {
 .delete-icon-group {
 	width: 40px;
 	height: 40px;
-	margin-top:10px;
-	mergin-left:auto;
+	margin-top: 10px;
+	mergin-left: auto;
 	position: relative;
-
 }
 
 .delete-icon-group img {
 	position: absolute;
 	top: 0;
 	left: 0;
-		cursor: pointer;
+	cursor: pointer;
 }
 
 .delete-hover {
@@ -302,13 +301,50 @@ table.song-list-table .songlist {
 .delete-icon-group:hover .delete-hover {
 	opacity: 1;
 }
-.title{
+
+.title {
 	font-size: 20px;
 	font-weight: bold;
-	height:10%;
-}	
-.nomembership{
-	margin-top:10px;
+	height: 10%;
+}
+
+.nomembership {
+	margin-top: 10px;
 	font-size: 12px;
-	
+}
+
+.nomembership a:hover {
+	color: #ff2dac;
+}
+#modalOverlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(6px);
+	filter: blur(6px);
+	z-index: 9998; 
+}
+
+#confirmModal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 20px;
+	z-index: 9999;
+	border-radius: 8px;
+	text-align: center;
+	height: 10%;
+	font-size: 30px;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+#confirmModal.active {
+	opacity: 1;
+	visibility: visible;
 }
