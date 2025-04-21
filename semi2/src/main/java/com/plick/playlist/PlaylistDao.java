@@ -131,15 +131,14 @@ public class PlaylistDao {
 
 	private List<PlaylistCommentDto> findPlaylistCommentDtosByPlaylistId(int playlistId, Connection conn,
 			int commentLimit) {
-		String sql = "SELECT ROWNUM, inner_result.* " + "FROM ( " + "    SELECT " + "        c.id AS comment_id, "
-				+ "        c.member_id AS member_id, " + "        c.playlist_id AS playlist_id, "
-				+ "        c.content AS content, " + "        c.created_at AS created_at, "
-				+ "        c.parent_id AS parent_id, " + "        m.nickname AS member_nickname "
-				+ "    FROM playlist_COMMENTS c " + "    JOIN MEMBERS m ON c.MEMBER_ID = m.ID "
-				+ "    WHERE c.PLAYLIST_ID = ? " + "    ORDER BY "
-				+ "        CASE WHEN c.PARENT_ID = 0 THEN c.ID ELSE c.PARENT_ID END DESC, "
-				+ "        CASE WHEN c.PARENT_ID = 0 THEN 0 ELSE 1 END, " + "        c.ID ASC " + ") inner_result "
-				+ "WHERE ROWNUM <= ? ";
+		String sql = "SELECT * " + "FROM ( " + "  SELECT  " + "    c.id             AS comment_id, "
+				+ "    c.member_id      AS member_id, " + "    c.playlist_id    AS playlist_id, "
+				+ "    c.content        AS content, " + "    c.created_at     AS created_at, "
+				+ "    c.parent_id      AS parent_id, " + "    m.nickname       AS member_nickname "
+				+ "  FROM playlist_COMMENTS c " + "  JOIN MEMBERS m  " + "    ON c.MEMBER_ID = m.ID "
+				+ "  WHERE c.PLAYLIST_ID = ? " + "  ORDER BY " + "    NVL(NULLIF(c.parent_id, 0), c.id) DESC, "
+				+ "    CASE WHEN c.parent_id IS NULL OR c.parent_id = 0 THEN 0 ELSE 1 END ASC, " + "    c.id ASC "
+				+ ") " + "WHERE ROWNUM <= ?";
 
 		List<PlaylistCommentDto> playlistCommentDtos = new ArrayList<PlaylistCommentDto>();
 		try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
@@ -160,8 +159,6 @@ public class PlaylistDao {
 		}
 		return playlistCommentDtos;
 	}
-
-
 
 	public boolean updatePlaylistNameByPlaylistId(int playlistId, String playlistName, int memberId) {
 		String sql = "UPDATE playlists SET name = ? WHERE id = ? AND member_id = ? ";
