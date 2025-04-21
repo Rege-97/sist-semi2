@@ -342,6 +342,7 @@ table.song-list-table .songlist {
 	font-size: 30px;
 	opacity: 0;
 	visibility: hidden;
+	 user-select: none;
 	transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 #confirmModal.active {

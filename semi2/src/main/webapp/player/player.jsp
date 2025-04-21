@@ -456,7 +456,7 @@ playingIndex = i;
 		// 색상의 이동 범위
 		var colorRange = 50;
 		// 평균 색상이 너무 약해서 설정한 채도 보정 계수
-		var colorSet = 100;
+		var colorSet = 30;
 		
 		
 		// 분위기 별, 장르별 색상 변환 배열
@@ -532,7 +532,8 @@ playingIndex = i;
 			 }
 			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*img.width/cnt*effectLate)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
 		        img.style.boxShadow = "0 0 15px rgba("+colorR+", "+colorG+", "+colorB+", 0.9)";
-		
+					
+		        console.log(colorR+' '+colorG+' '+colorB);
 				cnt = 0;
 				
 				nomalyamp = 0;
