@@ -18,13 +18,12 @@ public class PlaylistMylistDao {
 	public List<PlaylistPreviewDto> findPlaylistPreviewsOrderByCreatedAtByMemberId(int memberId) {
 		String sql = "SELECT   " + "        p.id AS playlist_id, " + "        m.id AS member_id, "
 				+ "        p.name AS playlist_name, " + "        p.created_at AS created_at, "
-				+ "        COUNT(DISTINCT l.member_id) AS like_count, "
 				+ "        COUNT(DISTINCT ps.id) AS song_count, " + "        m.nickname AS member_nickname, "
 				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
 				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
 				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
 				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "    LEFT JOIN likes l ON p.id = l.playlist_id " + "    LEFT JOIN members m ON p.member_id = m.id "
+				+ "    LEFT JOIN members m ON p.member_id = m.id "
 				+ "    WHERE m.id = ? " + "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname "
 				+ "    ORDER BY p.created_at DESC";
 
@@ -34,7 +33,7 @@ public class PlaylistMylistDao {
 			try (ResultSet rs = pstmt.executeQuery();) {
 				while (rs.next()) {
 					playlistPreviewDtos.add(new PlaylistPreviewDto(rs.getInt("playlist_id"), rs.getInt("member_id"),
-							rs.getString("playlist_name"), rs.getTimestamp("created_at"), rs.getInt("like_count"),
+							rs.getString("playlist_name"), rs.getTimestamp("created_at"), 0,
 							rs.getInt("song_count"), rs.getString("member_nickname"), rs.getInt("first_album_id")));
 				}
 			}
@@ -44,6 +43,48 @@ public class PlaylistMylistDao {
 		return playlistPreviewDtos;
 
 	}
+	
+	public List<PlaylistPreviewDto> findLikedPlaylistsOrderByLikesCreatedAtByMemberId(int memberId) {
+		String sql =
+			    "SELECT " +
+			    "  p.id                     AS playlist_id, " +
+			    "  p.name                   AS playlist_name, " +
+			    "  l.created_at             AS liked_at, " +
+			    "  m.id                     AS member_id, " +
+			    "  m.nickname               AS member_nickname, " +
+			    "  s_first.album_id         AS first_album_id, " +
+			    "  ps_count.song_count 		AS song_count " +
+			    "FROM likes l " +
+			    "JOIN playlists p               ON l.playlist_id = p.id " +
+			    "JOIN members m                 ON p.member_id   = m.id " +
+			    "LEFT JOIN playlist_songs ps_first ON ps_first.playlist_id = p.id AND ps_first.turn = 1 " +
+			    "LEFT JOIN songs s_first           ON ps_first.song_id     = s_first.id " +
+			    "LEFT JOIN ( " +
+			    "    SELECT playlist_id, COUNT(*) AS song_count " +
+			    "    FROM playlist_songs " +
+			    "    GROUP BY playlist_id " +
+			    ") ps_count ON ps_count.playlist_id = p.id " +
+			    "WHERE l.member_id = ? " +
+			    "ORDER BY l.created_at DESC";
+
+
+		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
+		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, memberId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				while (rs.next()) {
+					playlistPreviewDtos.add(new PlaylistPreviewDto(rs.getInt("playlist_id"), rs.getInt("member_id"),
+							rs.getString("playlist_name"), rs.getTimestamp("liked_at"), 0,
+							rs.getInt("song_count"), rs.getString("member_nickname"), rs.getInt("first_album_id")));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playlistPreviewDtos;
+
+	}
+
 
 	public boolean deletePlaylistByPlaylistIdAndMemberId(int playlistId, int memberId) {
 		String sql = "DELETE FROM playlists WHERE id= ? AND member_id = ?";

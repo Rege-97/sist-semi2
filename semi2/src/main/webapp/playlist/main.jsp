@@ -32,6 +32,8 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 	<div class="blank3"></div>
 		<input type="button" value="내 플레이리스트" class="bt"
 		onclick="location.href='/semi2/playlist/mylist/main.jsp'">
+		<input type="button" value="좋아요" class="bt"
+		onclick="location.href='/semi2/playlist/mylist/liked_list.jsp'">
 		<div class="categorey-name">
 			<label> 인기 플레이리스트 </label>
 		</div>
@@ -63,13 +65,13 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 						</a>
 					</div>
 				</div>
-				<div class="gallery-card-album-name">
+				<div class="gallery-card-playlist-title">
 					<label><a
 						href="/semi2/playlist/details.jsp?playlistid=<%=popularPreview.getPlaylistId()%>"><%=popularPreview.getPlaylistName()%></a></label>
 				</div>
-				<div class="gallery-card-artist-name">
+				<div class="gallery-card-playlist-author">
 					<%=popularPreview.getMemberNickname()%>
-					|
+					&#183;
 					<%=popularPreview.getSongCount()%>곡
 				</div>
 			</div>
@@ -112,13 +114,13 @@ List<PlaylistPreviewDto> popularPreviews = previews.get("popular");
 						</a>
 					</div>
 				</div>
-				<div class="gallery-card-album-name">
+				<div class="gallery-card-playlist-title">
 					<label><a
 						href="/semi2/playlist/details.jsp?playlistid=<%=latestPreview.getPlaylistId()%>"><%=latestPreview.getPlaylistName()%></a></label>
 				</div>
-				<div class="gallery-card-artist-name">
+				<div class="gallery-card-playlist-author">
 					<%=latestPreview.getMemberNickname()%>
-					|
+					&#183;
 					<%=latestPreview.getSongCount()%>곡
 				</div>
 			</div>

@@ -33,32 +33,26 @@ return;
 }
 int loggedinUserId = loggedinUser.getMemberId();
 PlaylistMylistDao playlistMylistDao = new PlaylistMylistDao();
-List<PlaylistPreviewDto> playlistPreviews = playlistMylistDao
-		.findPlaylistPreviewsOrderByCreatedAtByMemberId(loggedinUserId);
+List<PlaylistPreviewDto> likedPlaylists = playlistMylistDao
+		.findLikedPlaylistsOrderByLikesCreatedAtByMemberId(loggedinUserId);
 %>
 <link rel="stylesheet" type="text/css" href="/semi2/css/main.css">
 <body>
 	<%@include file="/header.jsp"%>
 	<div class="body-content">
 	<br/>
-	<input type="button" value="내 플레이리스트" class="bt_clicked"
+	<input type="button" value="내 플레이리스트" class="bt"
 		onclick="location.href='/semi2/playlist/mylist/main.jsp'">
-		<input type="button" value="좋아요" class="bt"
+		<input type="button" value="좋아요" class="bt_clicked"
 		onclick="location.href='/semi2/playlist/mylist/liked_list.jsp'">
 	<div class="categorey-name">
-			<label>내 플레이리스트</label>
+			<label>좋아요 한 플레이리스트</label>
 		</div>
 	
 	<div class="gallery">
-	<div class="gallery-card">
-		<a href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트">
-		<img src="/semi2/resources/images/playlist/add-playlist.jpg" class="gallery-card-album-image" /></a>
-		 <a href="/semi2/playlist/mylist/add_ok.jsp?playlistName=<%=playlistPreviews.size() + 1%>번 플레이리스트">
-		 </a><div class ="gallery-card-album-name" id="playlist-">플레이리스트 추가</div>
-	</div>
 	<%
 	// 플레이리스트 하나씩 나열
-	for (PlaylistPreviewDto playlistPreview : playlistPreviews) {
+	for (PlaylistPreviewDto playlistPreview : likedPlaylists) {
 	%>
 	<div class="gallery-card">
 	<div class="gallery-card-album-image-group">
