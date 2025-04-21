@@ -464,7 +464,7 @@ playingIndex = i;
 		// 루프 안에서 컬러 배열의 인덱스
 		var colorIdx = 0;
 		// 효과 크기의 계수 (1을 기준으로 최대 볼륨을 때 이미지와 같은 크기)
-		var effectLate = 1;
+		var effectLate = 0.7;
 		// 볼륨 값이 변경되는 프레임 수
 		var tic = 1;
 		// 색상이 변경되는 프레임 수
