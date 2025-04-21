@@ -421,20 +421,39 @@ playingIndex = i;
 	        const imgdata = imageData.data;
 	        
 	        var pxCnt = 0;
+	        var colorKeyCnt;
 	        
+	        var colorCount = {};
+
 	        //투명도까지 4씩 증가
 	        for(var i = 0; i < imgdata.length; i+=4 ){
-	        	R += imgdata[i];
-	        	G += imgdata[i+1];
-	        	B += imgdata[i+2];
+	        	R = imgdata[i];
+	        	G = imgdata[i+1];
+	        	B = imgdata[i+2];
 	        	pxCnt++;
+	        // 약간 압축된 색상 (톤 그룹화 효과)
+	            var key = Math.round(R / 16) * 16 + "," + Math.round(G / 16) * 16 + "," + Math.round(B / 16) * 16;
+      			colorCount[key] = (colorCount[key] || 0) + 1;
+	        } 
+	    	 // 가장 많이 등장한 색상 찾기
+	        var maxCount = 0;
+	        var dominantColor = "";
+	        for (var key in colorCount) {
+	          if (colorCount.hasOwnProperty(key)) {
+	            if (colorCount[key] > maxCount) {
+	              maxCount = colorCount[key];
+	              dominantColor = key;
+	            }
+	          }
 	        }
+
+	        console.log("제일 많이 쓰인 색상 톤:", dominantColor);
 	        
 	        R = Math.round(R/pxCnt);
 	        G = Math.round(G/pxCnt);
 	        B = Math.round(B/pxCnt);
 	    	
-	        console.log("R:"+R+"G"+G+"B"+B);
+	      
 	    }
 		
 		
@@ -476,9 +495,9 @@ playingIndex = i;
 		var B = 0;
 		
 		
-		var colorR1 = generateSoftColorArray(R, colorRange, colorTic);
-		var colorG1 = generateSoftColorArray(G, colorRange, colorTic);
-		var colorB1 = generateSoftColorArray(B, colorRange, colorTic);
+		var colorR1 = [128];
+		var colorG1 = [128];
+		var colorB1 = [128];
 		
 		
 		
