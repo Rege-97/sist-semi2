@@ -392,7 +392,7 @@ public class SearchDao {
 					+ "    SELECT alb.*, m.nickname "
 					+ "    FROM albums alb "
 					+ "    LEFT JOIN members m ON alb.member_id = m.id "
-					+ "    ORDER BY alb.released_at DESC "
+					+ "    ORDER BY alb.released_at DESC, alb.created_at DESC "
 					+ ") a)  "
 					+ "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
