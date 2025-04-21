@@ -390,6 +390,125 @@ playingIndex = i;
 		
 		const hiddenFrame= document.getElementById("hiddenframe");
 		
+		// 오디오 이펙트
+		// 오디오 이펙트에 사용할 맴버변수들
+		var cnt = 0;
+		var cnt2 = 0;
+		var nomalyamp = 0;
+		var animationFrame;
+		var audioContext;
+		var source;
+		var analyser;
+		var bufferLength;
+		var timeDomainData;
+		var frequencyData;
+		
+		// 오디오 이펙트 제어 변수
+		var img = document.getElementById("info-album-cover");
+		//무드 선택 인덱스 - 파기
+		var colorsetIdx = 0;
+		// 컬러 틱 변환 인덱스 (모든 컬러 배열의 공배수여야함)
+		var colorLate = 1;
+		// 루프 안에서 컬러 배열의 인덱스
+		var colorIdx = 0;
+		// 효과 크기의 계수 (1을 기준으로 최대 볼륨을 때 이미지와 같은 크기)
+		var effectLate = 0.1;
+		// 볼륨 값이 변경되는 프레임 수
+		var tic = 1;
+		// 색상이 변경되는 프레임 수
+		var tic2 = 25;
+		// 색상의 변곡점 수
+		var colorTic = 20;
+		// 색상의 이동 범위
+		var colorRange = 50;
+		// 평균 색상이 너무 약해서 설정한 채도 보정 계수
+		var colorSet = 100;
+		
+		
+		// 분위기 별, 장르별 색상 변환 배열
+		function generateSoftColorArray(avg, range, steps) {
+			const arr = [];
+			for (let i = 0; i < steps; i++) {
+			let offset = Math.round(Math.sin(i / steps * Math.PI * 2) * range);
+			let val = Math.max(0, Math.min(255, (avg + offset + colorSet)));
+			arr.push(val);
+			}
+			return arr;
+		}
+		
+		// 인덱스 0은 이미지의 평균 색상
+		var R = 0;
+		var G = 0;
+		var B = 0;
+		
+		
+		var colorR1 = generateSoftColorArray(R, colorRange, colorTic);
+		var colorG1 = generateSoftColorArray(G, colorRange, colorTic);
+		var colorB1 = generateSoftColorArray(B, colorRange, colorTic);
+		
+		
+		
+		var RArr = [colorR1];
+		var GArr = [colorG1];
+		var BArr = [colorB1];
+			
+		// 데이터 추출 루프
+		function draw() {
+			var colorR = RArr[colorsetIdx][colorIdx];
+			var colorG = GArr[colorsetIdx][colorIdx];
+			var colorB = BArr[colorsetIdx][colorIdx];
+			animationFrame = requestAnimationFrame(draw);
+		
+			analyser.getByteTimeDomainData(timeDomainData);  // 진폭
+			analyser.getByteFrequencyData(frequencyData);    // 주파수
+			cnt2++;
+			cnt++;
+		  // 데이터의 최대크기는 analyser.fftSize/2
+		  var max = analyser.fftSize/2;
+		  var amplitudes = Array.prototype.slice.call(timeDomainData, 0, max);
+		  var frequencys = Array.prototype.slice.call(frequencyData, 0, max);
+		  
+		  // 진폭 == -1 ~ 1로 평준화 후 루트 공식으로 음량 데이터로 가공
+		  // 주파수 == 한 도메인 안에서 가장 에너지가 높은 주파수 패턴을 가지고 음정으로 가공 (단순히 maxnode 가져가니 음정 오차가 심함)
+		  var sum = 0;
+		  var high = 0;
+		  for (var i = 0; i < max; i++) {
+		      var amp = amplitudes[i] / 128 - 1;  
+		      sum += amp * amp;
+		  }
+		  nomalyamp += Math.sqrt(sum / max);
+		  
+		  // 설정한 틱 당 배경 이미지 크기 변경
+		  if(cnt>=tic){
+			  // 설정한 틱 당 색상 변경
+			 if(cnt2>=tic2){
+				if(colorR != RArr[colorsetIdx][colorIdx]){
+					colorR = colorR-RArr[colorsetIdx][colorIdx] > 0 ? colorR+colorLate : colorR-colorLate;
+				}
+				if(colorG != GArr[colorsetIdx][colorIdx]){
+					colorG = colorG-GArr[colorsetIdx][colorIdx] > 0 ? colorG+colorLate : colorG-colorLate;
+				}
+				if(colorB != BArr[colorsetIdx][colorIdx]){
+					colorB = colorB-BArr[colorsetIdx][colorIdx] > 0 ? colorB+colorLate : colorB-colorLate;
+				}
+				if(colorR == RArr[colorsetIdx][colorIdx] && colorG == GArr[colorsetIdx][colorIdx] && colorB == BArr[colorsetIdx][colorIdx]){
+					colorIdx = colorIdx >= (colorR1.length-2) ? 0 : (colorIdx+1);
+				}
+				cnt2 = 0;
+			 }
+			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*img.width/cnt*effectLate)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
+		        img.style.boxShadow = "0 0 15px rgba("+colorR+", "+colorG+", "+colorB+", 0.9)";
+		
+				cnt = 0;
+				
+				nomalyamp = 0;
+		  }
+		
+		  
+		}
+		
+		
+		
 		function set1() {
 			allSongId=document.querySelectorAll('.allsongid');
 			allAlbumId=document.querySelectorAll('.allalbumid');
@@ -409,6 +528,21 @@ playingIndex = i;
 					+ allSongId[playingIndex].value + '.mp3');
 			audio.preload = "auto";
 			
+			// 오디오 객체로부터 arrayBuffer로 데이터를 뽑아내서 오디오api로 전달
+			audioContext = new (window.AudioContext || window.webkitAudioContext)();
+			
+			source = audioContext.createMediaElementSource(audio);
+			analyser = audioContext.createAnalyser();
+			analyser.fftSize = 2048;
+			
+			// 오디오 연결: source → analyser → destination
+			source.connect(analyser);
+			analyser.connect(audioContext.destination);
+			
+			bufferLength = analyser.frequencyBinCount;
+			timeDomainData = new Uint8Array(bufferLength);
+			frequencyData = new Uint8Array(bufferLength);
+						
 			volumeFill.style.width = (audio.volume * 100) + "%";
 			
 			noLoop=true;
@@ -564,10 +698,14 @@ playingIndex = i;
 		function play() {
 			if (audio.readyState >= 4) { 
 				audio.play();
+				audioContext.resume();
+				draw();
 			} else {
 				audio.addEventListener('canplaythrough', function onReady() {
 					audio.play();
 					console.log("오디오 로드 완료됨");
+					audioContext.resume();
+					draw();
 					audio.removeEventListener('canplaythrough', onReady); // 중복 방지
 				});
 			}
@@ -586,6 +724,8 @@ playingIndex = i;
 
 		function pause() {
 			audio.pause();
+			audioContext.suspend();
+			cancelAnimationFrame(animationFrame);
 			pause_bt.style.display = 'none';
 			play_bt.style.display = 'inline';
 		}
@@ -663,6 +803,7 @@ playingIndex = i;
 			document.getElementById("info-album-cover").src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
 			document.getElementById("back-album-cover").src='/semi2/resources/images/album/'+allAlbumId[playingIndex].value+'/cover.jpg';
 			
+
 			document.getElementById("lyrics").innerHTML=allLyrics[playingIndex].value.replaceAll("\n", "<br>");
 			
 			playTime=0;
@@ -672,6 +813,37 @@ playingIndex = i;
 			document.getElementById("artistlink").href='/semi2/artist/main.jsp?memberid='+allMemberId[playingIndex].value;
 			document.getElementById("albumlink").href='/semi2/chart/album-details.jsp?albumid='+allAlbumId[playingIndex].value;
 			play();
+
+		    // 앨범 이미지 
+		    img = document.getElementById("info-album-cover");
+		    img.onload = function (event) {
+		       
+		    	const canvas = document.createElement("canvas");
+			    const ctx = canvas.getContext("2d");
+			    
+			    // 캔버스 크기를 이미지 크기와 동일하게 설정
+			    canvas.width = img.naturalWidth;
+		        canvas.height = img.naturalHeight;
+		        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		        const imgdata = imageData.data;
+		        
+		        ctx.drawImage(img, 0, 0);
+		        
+		        var pxCnt = 0;
+		        
+		        //투명도까지 4씩 증가
+		        for(var i = 0; i < imgdata.length; i+=4 ){
+		        	R += imgdata[i];
+		        	R += imgdata[i+1];
+		        	R += imgdata[i+2];
+		        	pxCnt++;
+		        }
+		        
+		        R = Math.round(R/pxCnt);
+		        G = Math.round(G/pxCnt);
+		        B = Math.round(B/pxCnt);
+		    	
+		    }
 			
 		for(var i=0;i<allSongList.length;i++){
 			allSongList[i].style.fontWeight = "normal";
