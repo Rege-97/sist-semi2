@@ -239,42 +239,238 @@ for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	<div class="genre-select">
 	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" required class="album-select">
 	<option selected value = "<%=aDto.getGenre1() %>"><%=aDto.getGenre1() %></option>
+<%
+if(!aDto.getGenre1().equals("발라드")){
+%>
 	<option value = "발라드">발라드</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("알앤비")){
+%>
 	<option value = "알앤비">알앤비</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("힙합")){
+%>
 	<option value = "힙합">힙합</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("아이돌")){
+%>
 	<option value = "아이돌">아이돌</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("재즈")){
+%>
 	<option value = "재즈">재즈</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("팝")){
+%>
 	<option value = "팝">팝</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("클래식")){
+%>
 	<option value = "클래식">클래식</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("댄스")){
+%>
 	<option value = "댄스">댄스</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("인디")){
+%>
 	<option value = "인디">인디</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre1().equals("락")){
+%>
 	<option value = "락">락</option>
+<%
+}
+%>
 	</select>
 	<select id = "genre2" name = "genre2" onchange = "inputGenre2();" class="album-select">
 	<option selected value = "<%=aDto.getGenre2()==null ? "선택" : aDto.getGenre2() %>"><%=aDto.getGenre2()==null ? "선택" : aDto.getGenre2() %></option>
-	<option>발라드</option>
-	<option>알앤비</option>
-	<option>힙합</option>
-	<option>아이돌</option>
-	<option>재즈</option>
-	<option>팝</option>
-	<option>클래식</option>
-	<option>댄스</option>
-	<option>인디</option>
-	<option>락</option>
+	<%
+	if(aDto.getGenre2() != null){
+if(!aDto.getGenre2().equals("알앤비")){
+%>
+	<option value = "알앤비">알앤비</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("힙합")){
+%>
+	<option value = "힙합">힙합</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("아이돌")){
+%>
+	<option value = "아이돌">아이돌</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("재즈")){
+%>
+	<option value = "재즈">재즈</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("팝")){
+%>
+	<option value = "팝">팝</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("클래식")){
+%>
+	<option value = "클래식">클래식</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("댄스")){
+%>
+	<option value = "댄스">댄스</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("인디")){
+%>
+	<option value = "인디">인디</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre2().equals("락")){
+%>
+	<option value = "락">락</option>
+<%
+}
+	}else{
+		%>
+		<option value = "발라드">발라드</option>
+		<option value = "알앤비">알앤비</option>
+		<option value = "힙합">힙합</option>
+		<option value = "아이돌">아이돌</option>
+		<option value = "재즈">재즈</option>
+		<option value = "팝">팝</option>
+		<option value = "클래식">클래식</option>
+		<option value = "댄스">댄스</option>
+		<option value = "인디">인디</option>
+		<option value = "락">락</option>
+		<%
+	}
+%>
 	</select>
 	<select id = "genre3" name = "genre3" onchange = "inputGenre3();" class="album-select">
 	<option selected value = "<%=aDto.getGenre3()==null ? "선택" : aDto.getGenre3() %>"><%=aDto.getGenre3()==null ? "선택" : aDto.getGenre3() %></option>
-	<option>발라드</option>
-	<option>알앤비</option>
-	<option>힙합</option>
-	<option>아이돌</option>
-	<option>재즈</option>
-	<option>팝</option>
-	<option>클래식</option>
-	<option>댄스</option>
-	<option>인디</option>
-	<option>락</option>
+	<%
+	if(aDto.getGenre3() != null){
+if(!aDto.getGenre3().equals("알앤비")){
+%>
+	<option value = "알앤비">알앤비</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("힙합")){
+%>
+	<option value = "힙합">힙합</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("아이돌")){
+%>
+	<option value = "아이돌">아이돌</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("재즈")){
+%>
+	<option value = "재즈">재즈</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("팝")){
+%>
+	<option value = "팝">팝</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("클래식")){
+%>
+	<option value = "클래식">클래식</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("댄스")){
+%>
+	<option value = "댄스">댄스</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("인디")){
+%>
+	<option value = "인디">인디</option>
+<%
+}
+%>
+<%
+if(!aDto.getGenre3().equals("락")){
+%>
+	<option value = "락">락</option>
+<%
+}
+	}else{
+		%>
+		<option value = "발라드">발라드</option>
+		<option value = "알앤비">알앤비</option>
+		<option value = "힙합">힙합</option>
+		<option value = "아이돌">아이돌</option>
+		<option value = "재즈">재즈</option>
+		<option value = "팝">팝</option>
+		<option value = "클래식">클래식</option>
+		<option value = "댄스">댄스</option>
+		<option value = "인디">인디</option>
+		<option value = "락">락</option>
+		<%
+	}
+%>
 	</select>
 	</div>
 	<div>
