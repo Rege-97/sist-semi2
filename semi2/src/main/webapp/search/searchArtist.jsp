@@ -11,7 +11,7 @@ if(currentPage_str==null||currentPage_str.equals("")){
 }
 int currentPage = Integer.parseInt(currentPage_str);
 int totalResults = searchDao.showTotalResults("members", "nickname", search);
-int pageSize = 6;
+int pageSize = 5;
 int totalPage = (totalResults-1)/pageSize+1;
 int pageGroupSize = 5;
 int pageGroupCount = (totalPage-1)/pageGroupSize+1;

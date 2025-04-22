@@ -72,7 +72,7 @@ public class SearchDao {
 			int start = (currentPage - 1) * pageSize + 1;
 			int end = currentPage * pageSize;
 			String sql = "select * from (select rownum rn, mem.id member_id, mem.name, mem.nickname memnickname, mem.email, mem.access_type  "
-					+ "    from (select * from members where lower(members.nickname) like lower(?)) mem) "
+					+ "    from (select * from members where members.access_type='artist' and lower(members.nickname) like lower(?)) mem) "
 					+ "where rn >=? and rn <=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
@@ -116,13 +116,14 @@ public class SearchDao {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (currentPage - 1) * pageSize + 1;
 			int end = currentPage * pageSize;
-			String sql = "select * from (select rownum rn, so.* "
-					+ "    from (select songs.id song_id,songs.name song_name,albums.id album_id,albums.created_at, "
-					+ "            albums.name album_name,albums.member_id,members.nickname "
-					+ "        from songs,albums,members  "
-					+ "        where songs.album_id = albums.id and members.id=albums.member_id  "
-					+ "        and lower(songs.name) like lower(?) or lower(members.nickname) like lower(?) "
-					+ "        order by created_at desc) so) where rn >=? and rn <=?";
+			String sql = "select * from (select rownum rn, x.*  "
+					+ "from (select songs.id song_id,songs.name song_name,albums.id album_id,albums.created_at,  "
+					+ "albums.name album_name,albums.member_id,members.nickname  "
+					+ "from songs "
+					+ "left join albums on songs.album_id=albums.id "
+					+ "left join members on albums.member_id = members.id) x "
+					+ "where lower(song_name) like lower(?) or nickname like ? order by created_at desc)  "
+					+ "where rn >=? and rn <=? order by rn  ";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + search + "%");
 			ps.setString(2, "%" + search + "%");
