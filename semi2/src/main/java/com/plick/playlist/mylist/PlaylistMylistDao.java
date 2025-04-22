@@ -21,7 +21,7 @@ public class PlaylistMylistDao {
 				+ "        COUNT(DISTINCT ps.id) AS song_count, " + "        m.nickname AS member_nickname, "
 				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
 				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
-				+ "              AND ps2.turn = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
+				+ "              AND ps2.turn = 1 AND ROWNUM = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
 				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
 				+ "    LEFT JOIN members m ON p.member_id = m.id "
 				+ "    WHERE m.id = ? " + "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname "
@@ -501,33 +501,28 @@ public class PlaylistMylistDao {
 
 		try (PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
 				PreparedStatement updatePstmt = conn.prepareStatement(updateSql);) {
-
 			// 트랜잭션시작
 			conn.setAutoCommit(false);
-
+			
 			deletePstmt.setInt(1, playlistSondId);
 			deletePstmt.setInt(2, playlistId);
 			if (deletePstmt.executeUpdate() == 0) {
 				conn.rollback();
 				return false;
 			}
-
 			updatePstmt.setInt(1, playlistId);
 			updatePstmt.setInt(2, turn);
 			updatePstmt.executeUpdate();
 
-			// 트랜잭션끝
 			conn.commit();
 			return true;
-
+			
 		} catch (Exception e) {
-			// 예외발생시 롤백
 			conn.rollback();
 			e.printStackTrace();
 			return false;
-
+			
 		} finally {
-			// 오토커밋시작
 			conn.setAutoCommit(true);
 		}
 	}
