@@ -477,11 +477,10 @@ public class ChartDao {
 			conn = com.plick.db.DBConnector.getConn();
 			int start = (cp - 1) * listSize + 1;
 			int end = cp * listSize;
-			String sql = "SELECT b.*,m.NICKNAME FROM "
-					+ "(SELECT rownum AS rnum,a.* from "
-					+ "(SELECT a.*,ROW_NUMBER() OVER (PARTITION BY PARENT_ID ORDER BY id ASC) AS \"answer_check\" "
-					+ "FROM ALBUM_COMMENTS a WHERE a.ALBUM_ID=? ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m "
-					+ "WHERE b.MEMBER_ID=m.ID AND rnum >=? AND rnum<=?";
+			String sql = "SELECT b.*,m.NICKNAME FROM (SELECT rownum AS rnum,a.* from  "
+		               + "               (SELECT a.*,ROW_NUMBER() OVER (PARTITION BY PARENT_ID ORDER BY id ASC) AS \"answer_check\"  "
+		               + "               FROM ALBUM_COMMENTS a WHERE a.ALBUM_ID=? ORDER BY PARENT_ID DESC,id asc)a)b,MEMBERS m "
+		               + "               WHERE b.MEMBER_ID=m.ID AND rnum >=? AND rnum<=? ORDER BY b.PARENT_ID DESC, b.\"answer_check\" asc";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, albumId);
 			ps.setInt(2, start);

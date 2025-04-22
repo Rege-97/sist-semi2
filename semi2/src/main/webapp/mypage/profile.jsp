@@ -89,6 +89,7 @@ textarea::-webkit-scrollbar {
 		function changeNickname() {
 			if (nicknameEditButton.value == "닉네임 변경") {
 				nickname.removeAttribute("disabled");
+				document.getElementById("duplicateNickname").innerText = "중복된 닉네임 입니다.";
 				nicknameEditButton.value = "수정완료";
 			} else if (nicknameEditButton.value == "수정완료") {
 				var effectiveness = document.getElementById("nicknamecheck").value == "true" ? true

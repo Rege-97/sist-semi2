@@ -56,9 +56,13 @@ function formCheck(e) {
 			break;
 		}
 	}
-	
-	// 숫자만 허용 11자리 고정
 	var tel = document.getElementById("tel");
+	if (tel.value == null || tel.value == ""){
+		window.alert("전화번호가 비어있습니다.");
+		e.preventDefault();
+		return;
+	}
+	// 숫자만 허용 11자리 고정
 	if (!(tel.value.length == 11)){
 		window.alert("유효하지 않은 전화번호 입니다.");
 		e.preventDefault();
