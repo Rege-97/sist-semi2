@@ -36,6 +36,5 @@ int result = cdao.addCommentAnswer(memberId, albumId, content, parentId);
 String msg = result > 0 ? "답글이 등록되었습니다." : "답글 등록을 실패하였습니다.";
 %>
 <script>
-window.alert('<%=msg%>');
 window.location.href = document.referrer+'#comment';
 </script>
