@@ -1,3 +1,4 @@
+<%@page import="com.plick.signedin.SignedinDao"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.plick.signedin.SignedinDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -20,6 +21,9 @@
 	%>
 	<%
 	SignedinDto sdto = (SignedinDto)session.getAttribute("signedinDto");
+	SignedinDao sdao = new SignedinDao();
+	sdao.verifySignin(sdto);
+
 	MypageDao mdao = new MypageDao();
 	// Dao에서 이용권 이름, 만료 기간을 가져와서 남은 일자 계산 후 출력
 	Calendar now = Calendar.getInstance();

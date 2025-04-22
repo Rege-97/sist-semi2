@@ -33,11 +33,6 @@ textarea::-webkit-scrollbar {
 	<%@ include file="/header.jsp"%>
 	<div class="body-content">
 	<%@ include file="/mypage/mypage-header.jsp"%>
-<%
-	SignedinDao sdao = new SignedinDao();
-	
-	sdao.verifySignin(((SignedinDto) session.getAttribute("signedinDto")));
-%>
 	<div class=profile-change-card>
 		<div class="subtitle">
 			<h2>프로필 변경</h2>
