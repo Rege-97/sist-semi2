@@ -548,9 +548,9 @@ playingIndex = i;
 				}
 				cnt2 = 0;
 			 }
-			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*img.width/cnt*effectLate)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
-		        img.style.boxShadow = "0 0 15px rgba("+colorR+", "+colorG+", "+colorB+", 0.9)";
-
+			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*40/cnt)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
+		        img.style.boxShadow = "0 0 15px rgba("+colorR+", "+colorG+", "+colorB+", 0)";
+				
 				console.log("colorR:"+colorR+"colorG:"+colorG+"colorB"+colorB);
 				cnt = 0;
 				
