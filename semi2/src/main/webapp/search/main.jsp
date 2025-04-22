@@ -10,6 +10,14 @@ String currentPage_str = request.getParameter("page");
 if(currentPage_str==null||currentPage_str.equals("")){
 	currentPage_str="1";
 }
+if(search==null||search.equals("")){
+	%>
+	<script>
+	window.alert('검색어를 입력하세요');
+	history.back();
+	</script>
+	<%
+}
 int currentPage = Integer.parseInt(currentPage_str);
 %>    
 <!DOCTYPE html>
@@ -268,7 +276,7 @@ int currentPage = Integer.parseInt(currentPage_str);
 		<a href="/semi2/search/searchArtist.jsp?search=<%=search%>">아티스트 &gt;</a>
 		</div>
 		<%
-			searchCount = 6;
+			searchCount = 5;
 			ArrayList<SearchArtistDto> aritstArr = searchDao.searchAritists(search,currentPage, searchCount);
 			%>
 			<div class="gallery">
