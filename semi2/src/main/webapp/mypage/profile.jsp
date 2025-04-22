@@ -57,7 +57,7 @@ textarea::-webkit-scrollbar {
 				id="duplicateNickname"></label> <input type="hidden"
 				id="nicknamecheck" value="true">
 		</div>
-		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" disabled class="login-text"><%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %></textarea>
+		<textarea name = "description" id = "description" rows = "10" cols = "70" maxlength = "1300" disabled class="login-text"><%=signedinDto.getMemberDescription() == null ? "" : signedinDto.getMemberDescription() %></textarea>
 		<input type = "button" value = "프로필 메세지 수정" id = "descriptionBt" class="bt" onclick = "changeDescription(this);">
 	</div>
 	<%@ include file="/footer.jsp"%>
