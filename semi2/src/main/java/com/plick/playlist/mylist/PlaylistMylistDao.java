@@ -205,8 +205,8 @@ public class PlaylistMylistDao {
 		String insertSql = "INSERT INTO playlist_songs (id, song_id, playlist_id, turn) VALUES (seq_playlist_songs_id.NEXTVAL, ?, ?, 1)";
 		String updateAllSql = "UPDATE playlist_songs SET turn = turn + 1 WHERE playlist_id = ?";
 
+		conn.setAutoCommit(false);
 		try {
-			conn.setAutoCommit(false);
 			int existingTurn = -1;
 			// SELECT turn
 			try (PreparedStatement selectPstmt = conn.prepareStatement(selectTurnSql)) {
@@ -267,7 +267,7 @@ public class PlaylistMylistDao {
 	}
 
 	public boolean addAlbumIntoPlaylist(int targetPlaylistId, int myPlaylistId, Connection conn) throws SQLException {
-		conn.setAutoCommit(false);
+		conn.setAutoCommit(false); // 트랜잭션 시작
 		try {
 			// 1. 대상 앨범 곡 가져오기
 			String selectSql = "SELECT id FROM songs WHERE album_id = ?";
@@ -285,9 +285,9 @@ public class PlaylistMylistDao {
 			if (targetSongIds.isEmpty())
 				return false;
 
-			// 2. 내 플레이리스트: song_id -> turn 매핑
+			// 2. 내 플레이리스트: song_id -> turn 매핑 (FOR UPDATE로 잠금)
 			Map<Integer, Integer> mySongsMap = new HashMap<>();
-			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ?";
+			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ? FOR UPDATE";
 			try (PreparedStatement pstmt = conn.prepareStatement(selectMySql)) {
 				pstmt.setInt(1, myPlaylistId);
 				try (ResultSet rs = pstmt.executeQuery()) {
@@ -342,13 +342,15 @@ public class PlaylistMylistDao {
 				pstmt.executeBatch();
 			}
 
-			conn.commit();
+			conn.commit(); // 트랜잭션 커밋
 			return true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			conn.rollback();
+			conn.rollback(); // 롤백
 			return false;
+		} finally {
+			conn.setAutoCommit(true);
 		}
 	}
 
@@ -384,7 +386,7 @@ public class PlaylistMylistDao {
 
 			// 2. 내 플레이리스트: song_id -> turn 매핑
 			Map<Integer, Integer> mySongsMap = new HashMap<>();
-			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ?";
+			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ? FOR UPDATE";
 			try (PreparedStatement pstmt = conn.prepareStatement(selectMySql)) {
 				pstmt.setInt(1, myPlaylistId);
 				try (ResultSet rs = pstmt.executeQuery()) {
@@ -446,6 +448,8 @@ public class PlaylistMylistDao {
 			e.printStackTrace();
 			conn.rollback();
 			return false;
+		} finally {
+			conn.setAutoCommit(true);
 		}
 	}
 
