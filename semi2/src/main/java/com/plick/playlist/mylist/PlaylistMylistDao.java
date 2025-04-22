@@ -354,7 +354,17 @@ public class PlaylistMylistDao {
 
 	public boolean addAnoterPlaylistIntoMyPlaylist(int targetPlaylistId, int myPlaylistId) {
 		try (Connection conn = DBConnector.getConn()) {
-			conn.setAutoCommit(false);
+			return addAnoterPlaylistIntoMyPlaylist(targetPlaylistId, myPlaylistId, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean addAnoterPlaylistIntoMyPlaylist(int targetPlaylistId, int myPlaylistId, Connection conn)
+			throws SQLException {
+		conn.setAutoCommit(false);
+		try {
 
 			// 1. 타겟 플레이리스트 곡들 (순서 유지)
 			String selectTargetSql = "SELECT song_id FROM playlist_songs WHERE playlist_id = ? ORDER BY turn ASC";
@@ -434,11 +444,7 @@ public class PlaylistMylistDao {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			try (Connection conn = DBConnector.getConn()) {
-				conn.rollback();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+			conn.rollback();
 			return false;
 		}
 	}
