@@ -32,7 +32,7 @@ AlbumDao aDao = new AlbumDao();
 
 int albumId = request.getParameter("albumId")!=null ? Integer.parseInt(request.getParameter("albumId")) : aDao.findMaxAlbumId();
 
-if ((request.getParameter("albumId")==null && aDao.checkAlbumDuplicate(albumId ) == 0) || request.getParameter("albumId")!=null){
+if ((request.getParameter("albumId")==null && aDao.checkAlbumDuplicate(albumId) == 0) || request.getParameter("albumId")!=null){
 
 
 String coverPath = request.getRealPath("/resources/images/album/"+albumId);
@@ -81,10 +81,10 @@ if(request.getParameter("albumId")==null){
 }
 	
 if (mr.getFilesystemName("inputAlbumCover")!=null){
-		
 	String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
 	type = type.toLowerCase();
-	File df = new File(coverPath+"/"+albumId+type);
+	File df = new File(coverPath+"/cover"+type);
+	System.out.println(df.getPath());
 	if(df.exists()) df.delete();
 	if (mDao.renameFile(coverPath, mr.getFilesystemName("inputAlbumCover"), "cover"+type)){
 		

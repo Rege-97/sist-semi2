@@ -238,7 +238,7 @@ for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	</div>
 	<div class="genre-select">
 	<select id = "genre1" name = "genre1" onchange = "inputGenre1();" required class="album-select">
-	<option disabled selected value = "">장르선택</option>
+	<option selected value = "<%=aDto.getGenre1() %>"><%=aDto.getGenre1() %></option>
 	<option value = "발라드">발라드</option>
 	<option value = "알앤비">알앤비</option>
 	<option value = "힙합">힙합</option>
@@ -251,7 +251,7 @@ for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	<option value = "락">락</option>
 	</select>
 	<select id = "genre2" name = "genre2" onchange = "inputGenre2();" class="album-select">
-	<option disabled selected>장르선택</option>
+	<option selected value = "<%=aDto.getGenre2()==null ? "선택" : aDto.getGenre2() %>"><%=aDto.getGenre2()==null ? "선택" : aDto.getGenre2() %></option>
 	<option>발라드</option>
 	<option>알앤비</option>
 	<option>힙합</option>
@@ -264,7 +264,7 @@ for (int i = 1; i <= time.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
 	<option>락</option>
 	</select>
 	<select id = "genre3" name = "genre3" onchange = "inputGenre3();" class="album-select">
-	<option disabled selected>장르선택</option>
+	<option selected value = "<%=aDto.getGenre3()==null ? "선택" : aDto.getGenre3() %>"><%=aDto.getGenre3()==null ? "선택" : aDto.getGenre3() %></option>
 	<option>발라드</option>
 	<option>알앤비</option>
 	<option>힙합</option>
@@ -319,19 +319,7 @@ function releaseDateChanged() {
 		date.appendChild(newoption);
 	}
 }
-// 장르 선택시 select 태그의 name 속성값을 변경 후 서밋
-function inputGenre1() {
-	var genre = document.getElementById("genre1");
-	genre.name = "genre"+(genre.selectedIndex+1);
-}
-function inputGenre2() {
-	var genre = document.getElementById("genre2");
-	genre.name = "genre"+(genre.selectedIndex+1);
-}
-function inputGenre3() {
-	var genre = document.getElementById("genre3");
-	genre.name = "genre"+(genre.selectedIndex+1);
-}
+
 // 앨범 이미지 변경시 이미지 보여주기
 function changeImg() {
 	newImg = inputAlbumCover.files[0];

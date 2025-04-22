@@ -421,20 +421,38 @@ playingIndex = i;
 	        const imgdata = imageData.data;
 	        
 	        var pxCnt = 0;
+	        var colorKeyCnt;
 	        
+	        var colorCount = {};
+
 	        //투명도까지 4씩 증가
 	        for(var i = 0; i < imgdata.length; i+=4 ){
-	        	R += imgdata[i];
-	        	G += imgdata[i+1];
-	        	B += imgdata[i+2];
+	        	R = imgdata[i];
+	        	G = imgdata[i+1];
+	        	B = imgdata[i+2];
 	        	pxCnt++;
+	        // 약간 압축된 색상 (톤 그룹화 효과)
+	            var key = Math.round(R / 16) * 16 + "," + Math.round(G / 16) * 16 + "," + Math.round(B / 16) * 16;
+      			colorCount[key] = (colorCount[key] || 0) + 1;
+	        } 
+	    	 // 가장 많이 등장한 색상 찾기
+	        var maxCount = 0;
+	        for (var key in colorCount) {
+	          if (colorCount.hasOwnProperty(key)) {
+	            if (colorCount[key] > maxCount) {
+	              maxCount = colorCount[key];
+	              dominantColor = key;
+	            }
+	          }
 	        }
+
+	        console.log("제일 많이 쓰인 색상 톤:", dominantColor);
 	        
 	        R = Math.round(R/pxCnt);
 	        G = Math.round(G/pxCnt);
 	        B = Math.round(B/pxCnt);
 	    	
-	        console.log("R:"+R+"G"+G+"B"+B);
+	      
 	    }
 		
 		
@@ -446,7 +464,7 @@ playingIndex = i;
 		// 루프 안에서 컬러 배열의 인덱스
 		var colorIdx = 0;
 		// 효과 크기의 계수 (1을 기준으로 최대 볼륨을 때 이미지와 같은 크기)
-		var effectLate = 0.1;
+		var effectLate = 0.7;
 		// 볼륨 값이 변경되는 프레임 수
 		var tic = 1;
 		// 색상이 변경되는 프레임 수
@@ -470,27 +488,27 @@ playingIndex = i;
 			return arr;
 		}
 		
+		var dominantColor = "";
 		// 인덱스 0은 이미지의 평균 색상
 		var R = 0;
 		var G = 0;
 		var B = 0;
 		
 		
-		var colorR1 = generateSoftColorArray(R, colorRange, colorTic);
-		var colorG1 = generateSoftColorArray(G, colorRange, colorTic);
-		var colorB1 = generateSoftColorArray(B, colorRange, colorTic);
 		
 		
-		
-		var RArr = [colorR1];
-		var GArr = [colorG1];
-		var BArr = [colorB1];
 			
 		// 데이터 추출 루프
 		function draw() {
-			var colorR = RArr[colorsetIdx][colorIdx];
-			var colorG = GArr[colorsetIdx][colorIdx];
-			var colorB = BArr[colorsetIdx][colorIdx];
+			var arr = dominantColor.split(",");
+			
+			var colorR1 = [arr[0]];
+			var colorG1 = [arr[1]];
+			var colorB1 = [arr[2]];
+			
+			var colorR = colorR1[colorIdx];
+			var colorG = colorG1[colorIdx];
+			var colorB = colorB1[colorIdx];
 			animationFrame = requestAnimationFrame(draw);
 		
 			analyser.getByteTimeDomainData(timeDomainData);  // 진폭
@@ -516,24 +534,24 @@ playingIndex = i;
 		  if(cnt>=tic){
 			  // 설정한 틱 당 색상 변경
 			 if(cnt2>=tic2){
-				if(colorR != RArr[colorsetIdx][colorIdx]){
-					colorR = colorR-RArr[colorsetIdx][colorIdx] > 0 ? colorR+colorLate : colorR-colorLate;
+				if(colorR != colorR1[colorIdx]){
+					colorR = colorR-colorR1[colorIdx] > 0 ? colorR+colorLate : colorR-colorLate;
 				}
-				if(colorG != GArr[colorsetIdx][colorIdx]){
-					colorG = colorG-GArr[colorsetIdx][colorIdx] > 0 ? colorG+colorLate : colorG-colorLate;
+				if(colorG != colorG1[colorIdx]){
+					colorG = colorG-colorG1[colorIdx] > 0 ? colorG+colorLate : colorG-colorLate;
 				}
-				if(colorB != BArr[colorsetIdx][colorIdx]){
-					colorB = colorB-BArr[colorsetIdx][colorIdx] > 0 ? colorB+colorLate : colorB-colorLate;
+				if(colorB != colorB1[colorIdx]){
+					colorB = colorB-colorB1[colorIdx] > 0 ? colorB+colorLate : colorB-colorLate;
 				}
-				if(colorR == RArr[colorsetIdx][colorIdx] && colorG == GArr[colorsetIdx][colorIdx] && colorB == BArr[colorsetIdx][colorIdx]){
+				if(colorR == colorR1[colorIdx] && colorG == colorG1[colorIdx] && colorB == colorB1[colorIdx]){
 					colorIdx = colorIdx >= (colorR1.length-2) ? 0 : (colorIdx+1);
 				}
 				cnt2 = 0;
 			 }
 			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*img.width/cnt*effectLate)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
 		        img.style.boxShadow = "0 0 15px rgba("+colorR+", "+colorG+", "+colorB+", 0.9)";
-					
-		        console.log(colorR+' '+colorG+' '+colorB);
+
+				console.log("colorR:"+colorR+"colorG:"+colorG+"colorB"+colorB);
 				cnt = 0;
 				
 				nomalyamp = 0;
