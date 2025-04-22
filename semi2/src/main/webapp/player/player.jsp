@@ -20,9 +20,12 @@
 <script>
 const channel = new BroadcastChannel("player-control");
 
-channel.onmessage = function(event) {
-  if (event.data.type === "navigate" && event.data.url) {
-    window.location.href = event.data.url;
+channel.onmessage = (event) => {
+  if (event.data?.type === "navigate") {
+    const newUrl = event.data.url;
+    if (location.href !== newUrl) {
+      location.href = newUrl; // 동일한 URL이면 이동/새로고침 안 함
+    }
   }
 };
 </script>
@@ -189,6 +192,8 @@ playingIndex = i;
 }
 }
 %>
+
+<%@include file="/playlist/mylist/modal.jsp"%>
 </head>
 <link rel="stylesheet" type="text/css" href="/semi2/css/player.css">
 <body onload="set1()">
@@ -276,15 +281,23 @@ playingIndex = i;
 								<tr class="songlist">
 									<td><img src="/semi2/resources/images/album/<%=arr.get(i).getAlbumId()%>/cover.jpg" class="songlist-image" onclick="moveSong(<%=arr.get(i).getId() + ""%>)"></td>
 									<td class="sonlist-info" onclick="moveSong(<%=arr.get(i).getId() + ""%>)">
-										<div>
+										<div class="sonlist-info-title-wrapper">
+										<div class="sonlist-info-songname">
 											<%=arr.get(i).getName()%>
+										</div>
 										</div>
 										<div class="sonlist-info-artist">
 											<%=arr.get(i).getArtist()%>
 										</div>
 									</td>
 									<td>
-										<div class="delete-icon-group" onclick="deleteSong(<%=arr.get(i).getId() + ""%>)">
+										<div class="delete-icon-group" onclick="openModal('songid',<%=arr.get(i).getId()%>); return false;">
+											<img src="/semi2/resources/images/design/add-list-icon.png" class="delete">
+								<img src="/semi2/resources/images/design/add-list-icon-hover.png" class="delete-hover">
+										</div>
+									</td>
+									<td>
+									<div class="delete-icon-group" onclick="deleteSong(<%=arr.get(i).getId() + ""%>)">
 											<img src="/semi2/resources/images/design/playlist-delete.png" class="delete"> <img src="/semi2/resources/images/design/playlist-delete-hover.png" class="delete-hover">
 										</div>
 									</td>
@@ -548,7 +561,7 @@ playingIndex = i;
 				}
 				cnt2 = 0;
 			 }
-			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*40/cnt)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
+			 	img.style.filter = "drop-shadow(0 0 "+Math.round(nomalyamp*80/cnt)+"px rgba("+colorR+", "+colorG+", "+colorB+", 0.7))";
 		        img.style.boxShadow = "0 0 15px rgba("+colorR+", "+colorG+", "+colorB+", 0)";
 				
 				console.log("colorR:"+colorR+"colorG:"+colorG+"colorB"+colorB);
@@ -595,7 +608,7 @@ playingIndex = i;
 			bufferLength = analyser.frequencyBinCount;
 			timeDomainData = new Uint8Array(bufferLength);
 			frequencyData = new Uint8Array(bufferLength);
-						
+			audio.volume = 0.5;
 			volumeFill.style.width = (audio.volume * 100) + "%";
 
 			

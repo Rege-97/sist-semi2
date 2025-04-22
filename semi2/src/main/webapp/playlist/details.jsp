@@ -6,6 +6,7 @@
 <%@page import="com.plick.playlist.PlaylistDao"%>
 <%@page import="com.plick.playlist.PlaylistDetailDto"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DecimalFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
@@ -321,7 +322,11 @@ boolean isLiked = playlistDetailDto.getIsLiked();
  %>
 							</a>
 							<div class="likes-count">
-								<%=likeCount%>
+							<%
+							DecimalFormat df = new DecimalFormat("#,###");
+							String likeCount_f=df.format(likeCount);
+							%>
+								<%=likeCount_f%>
 							</div>
 						</div>
 					</div>
