@@ -53,7 +53,7 @@ if(request.getParameter("albumId")==null){
 	<input type = "hidden" name = "memberId" value = "<%=signedinDto.getMemberId() %>">
 	</div>
 	<div>
-	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "4000" placeholder="앨범소개" required class="login-text"></textarea>
+	<textarea  style = "resize: none;" name = "description" rows = "10" cols = "70" maxlength = "1300" placeholder="앨범소개" required class="login-text"></textarea>
 	</div>
 	<div class="subtitle">
 	<h3>발매일</h3>
@@ -178,7 +178,7 @@ AlbumDto aDto = mDao.findInfoAlbums(Integer.parseInt(request.getParameter("album
 	</div>
 	<div>
 		<div class="blank3"></div>
-	<textarea  style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "4000" class="login-text"><%=aDto.getDiscription() %></textarea>
+	<textarea  style = "resize: none;" name = "description" id = "description" rows = "10" cols = "70" maxlength = "1300" class="login-text"><%=aDto.getDiscription() %></textarea>
 	</div>
 		<div class="blank"></div>
 	<div class="subtitle">

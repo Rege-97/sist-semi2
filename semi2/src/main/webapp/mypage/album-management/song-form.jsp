@@ -74,7 +74,7 @@ if (request.getParameter("songId")==null){
 	</div>
 			<div class="blank3"></div>
 	<div>
-	<textarea  style = "resize: none;" name = "lyrics" required id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"></textarea>
+	<textarea  style = "resize: none;" name = "lyrics" required id = "lyrics" rows = "10" cols = "70" maxlength = "1300" placeholder="가사" class="login-text"></textarea>
 	</div>
 	<div>
 	</div>
@@ -110,7 +110,7 @@ if (request.getParameter("songId")==null){
 	</div>
 	<div class="blank3"></div>
 	<div>
-	<textarea  style = "resize: none;" name = "lyrics" id = "lyrics" rows = "10" cols = "70" maxlength = "255" placeholder="가사" class="login-text"><%=songDto.getLyrics() %></textarea>
+	<textarea  style = "resize: none;" name = "lyrics" id = "lyrics" rows = "10" cols = "70" maxlength = "1300" placeholder="가사" class="login-text"><%=songDto.getLyrics() %></textarea>
 	</div>
 	<div>
 	</div>
