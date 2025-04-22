@@ -46,6 +46,7 @@ if(!f2.exists()) f2.mkdirs();
 
 MultipartRequest mr = new MultipartRequest(request, coverPath, 20 * 1024 * 1024, "UTF-8");
 
+
 AlbumDto albumDto = new AlbumDto();
 albumDto.setId(albumId);
 albumDto.setName(mr.getParameter("name"));
@@ -84,10 +85,11 @@ if (mr.getFilesystemName("inputAlbumCover")!=null){
 	String type = mr.getFilesystemName("inputAlbumCover").substring(mr.getFilesystemName("inputAlbumCover").lastIndexOf("."));
 	type = type.toLowerCase();
 	File df = new File(coverPath+"/cover"+type);
-	System.out.println(df.getPath());
-	if(df.exists()) df.delete();
 	if (mDao.renameFile(coverPath, mr.getFilesystemName("inputAlbumCover"), "cover"+type)){
 		
+	}else{
+		if(df.exists()) df.delete();
+		mDao.renameFile(coverPath, mr.getFilesystemName("inputAlbumCover"), "cover"+type);
 	}
 }
 
