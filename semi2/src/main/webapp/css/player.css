@@ -189,10 +189,7 @@ table.song-list-table .songlist {
 	padding-bottom: 10px;
 	width: 80%;
 	cursor: pointer;
-}
-
-.sonlist-info:hover {
-	color: #ff2dac;
+		
 }
 
 .sonlist-info-artist {

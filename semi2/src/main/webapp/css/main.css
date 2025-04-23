@@ -154,6 +154,10 @@ header {
 	font-size: 20px;
 }
 
+.categorey-name a:hover {
+	color:#ff2dac;
+}
+
 /*갤러리타입 앨범*/
 
 /*갤러리 구역 div*/
@@ -436,6 +440,15 @@ table.song-list .song-list-body {
 	width: 200px;
 	height: 200px;
 	border-radius: 12px;
+}
+.detail-card-image-add {
+	width: 200px;
+	height: 200px;
+	border-radius: 12px;
+	cursor: pointer;
+}
+.detail-card-image-add:hover{
+	filter: brightness(50%);
 }
 /*디테일 카드 정보 공간 세팅*/
 .detail-card-info {

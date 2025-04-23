@@ -18,7 +18,7 @@
 			<a href="/semi2/membership/main.jsp">이용권</a>
 		</div>
 		<div class="menu">
-			<a href="#" onclick="openOrReuseTabWithChannel('/semi2/player/player.jsp'); return false;">플레이어</a>
+			<a href="#" onclick="openPlayerFromHeader();">플레이어</a>
 		</div>
 		<div class="menu">
 		<form action="/semi2/search/main.jsp">
