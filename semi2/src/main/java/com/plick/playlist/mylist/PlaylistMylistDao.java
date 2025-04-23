@@ -21,11 +21,10 @@ public class PlaylistMylistDao {
 				+ "        COUNT(DISTINCT ps.id) AS song_count, " + "        m.nickname AS member_nickname, "
 				+ "        ( " + "            SELECT s.album_id " + "            FROM playlist_songs ps2 "
 				+ "            JOIN songs s ON ps2.song_id = s.id " + "            WHERE ps2.playlist_id = p.id "
-				+ "              AND ps2.turn = 1 AND ROWNUM = 1 " + "        ) AS first_album_id " + "    FROM playlists p  "
-				+ "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
-				+ "    LEFT JOIN members m ON p.member_id = m.id "
-				+ "    WHERE m.id = ? " + "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname "
-				+ "    ORDER BY p.created_at DESC";
+				+ "              AND ps2.turn = 1 AND ROWNUM = 1 " + "        ) AS first_album_id "
+				+ "    FROM playlists p  " + "    LEFT JOIN playlist_songs ps ON p.id = ps.playlist_id "
+				+ "    LEFT JOIN members m ON p.member_id = m.id " + "    WHERE m.id = ? "
+				+ "    GROUP BY p.id, p.name, p.created_at, m.id, m.nickname " + "    ORDER BY p.created_at DESC";
 
 		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
 		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
@@ -33,8 +32,8 @@ public class PlaylistMylistDao {
 			try (ResultSet rs = pstmt.executeQuery();) {
 				while (rs.next()) {
 					playlistPreviewDtos.add(new PlaylistPreviewDto(rs.getInt("playlist_id"), rs.getInt("member_id"),
-							rs.getString("playlist_name"), rs.getTimestamp("created_at"), 0,
-							rs.getInt("song_count"), rs.getString("member_nickname"), rs.getInt("first_album_id")));
+							rs.getString("playlist_name"), rs.getTimestamp("created_at"), 0, rs.getInt("song_count"),
+							rs.getString("member_nickname"), rs.getInt("first_album_id")));
 				}
 			}
 		} catch (SQLException e) {
@@ -43,30 +42,19 @@ public class PlaylistMylistDao {
 		return playlistPreviewDtos;
 
 	}
-	
+
 	public List<PlaylistPreviewDto> findLikedPlaylistsOrderByLikesCreatedAtByMemberId(int memberId) {
-		String sql =
-			    "SELECT " +
-			    "  p.id                     AS playlist_id, " +
-			    "  p.name                   AS playlist_name, " +
-			    "  l.created_at             AS liked_at, " +
-			    "  m.id                     AS member_id, " +
-			    "  m.nickname               AS member_nickname, " +
-			    "  s_first.album_id         AS first_album_id, " +
-			    "  ps_count.song_count 		AS song_count " +
-			    "FROM likes l " +
-			    "JOIN playlists p               ON l.playlist_id = p.id " +
-			    "JOIN members m                 ON p.member_id   = m.id " +
-			    "LEFT JOIN playlist_songs ps_first ON ps_first.playlist_id = p.id AND ps_first.turn = 1 " +
-			    "LEFT JOIN songs s_first           ON ps_first.song_id     = s_first.id " +
-			    "LEFT JOIN ( " +
-			    "    SELECT playlist_id, COUNT(*) AS song_count " +
-			    "    FROM playlist_songs " +
-			    "    GROUP BY playlist_id " +
-			    ") ps_count ON ps_count.playlist_id = p.id " +
-			    "WHERE l.member_id = ? " +
-			    "ORDER BY l.created_at DESC";
-
+		String sql = "SELECT " + "  p.id                     AS playlist_id, "
+				+ "  p.name                   AS playlist_name, " + "  l.created_at             AS liked_at, "
+				+ "  m.id                     AS member_id, " + "  m.nickname               AS member_nickname, "
+				+ "  s_first.album_id         AS first_album_id, " + "  ps_count.song_count 		AS song_count "
+				+ "FROM likes l " + "JOIN playlists p               ON l.playlist_id = p.id "
+				+ "JOIN members m                 ON p.member_id   = m.id "
+				+ "LEFT JOIN playlist_songs ps_first ON ps_first.playlist_id = p.id AND ps_first.turn = 1 "
+				+ "LEFT JOIN songs s_first           ON ps_first.song_id     = s_first.id " + "LEFT JOIN ( "
+				+ "    SELECT playlist_id, COUNT(*) AS song_count " + "    FROM playlist_songs "
+				+ "    GROUP BY playlist_id " + ") ps_count ON ps_count.playlist_id = p.id " + "WHERE l.member_id = ? "
+				+ "ORDER BY l.created_at DESC";
 
 		List<PlaylistPreviewDto> playlistPreviewDtos = new ArrayList<PlaylistPreviewDto>();
 		try (Connection conn = DBConnector.getConn(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
@@ -74,8 +62,8 @@ public class PlaylistMylistDao {
 			try (ResultSet rs = pstmt.executeQuery();) {
 				while (rs.next()) {
 					playlistPreviewDtos.add(new PlaylistPreviewDto(rs.getInt("playlist_id"), rs.getInt("member_id"),
-							rs.getString("playlist_name"), rs.getTimestamp("liked_at"), 0,
-							rs.getInt("song_count"), rs.getString("member_nickname"), rs.getInt("first_album_id")));
+							rs.getString("playlist_name"), rs.getTimestamp("liked_at"), 0, rs.getInt("song_count"),
+							rs.getString("member_nickname"), rs.getInt("first_album_id")));
 				}
 			}
 		} catch (SQLException e) {
@@ -84,7 +72,6 @@ public class PlaylistMylistDao {
 		return playlistPreviewDtos;
 
 	}
-
 
 	public boolean deletePlaylistByPlaylistIdAndMemberId(int playlistId, int memberId) {
 		String sql = "DELETE FROM playlists WHERE id= ? AND member_id = ?";
@@ -218,8 +205,8 @@ public class PlaylistMylistDao {
 		String insertSql = "INSERT INTO playlist_songs (id, song_id, playlist_id, turn) VALUES (seq_playlist_songs_id.NEXTVAL, ?, ?, 1)";
 		String updateAllSql = "UPDATE playlist_songs SET turn = turn + 1 WHERE playlist_id = ?";
 
+		conn.setAutoCommit(false);
 		try {
-			conn.setAutoCommit(false);
 			int existingTurn = -1;
 			// SELECT turn
 			try (PreparedStatement selectPstmt = conn.prepareStatement(selectTurnSql)) {
@@ -272,8 +259,16 @@ public class PlaylistMylistDao {
 
 	public boolean addAlbumIntoPlaylist(int targetPlaylistId, int myPlaylistId) {
 		try (Connection conn = DBConnector.getConn()) {
-			conn.setAutoCommit(false);
+			return addAlbumIntoPlaylist(targetPlaylistId, myPlaylistId, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
+	public boolean addAlbumIntoPlaylist(int targetPlaylistId, int myPlaylistId, Connection conn) throws SQLException {
+		conn.setAutoCommit(false); // 트랜잭션 시작
+		try {
 			// 1. 대상 앨범 곡 가져오기
 			String selectSql = "SELECT id FROM songs WHERE album_id = ?";
 			List<Integer> targetSongIds = new ArrayList<>();
@@ -290,9 +285,9 @@ public class PlaylistMylistDao {
 			if (targetSongIds.isEmpty())
 				return false;
 
-			// 2. 내 플레이리스트: song_id -> turn 매핑
+			// 2. 내 플레이리스트: song_id -> turn 매핑 (FOR UPDATE로 잠금)
 			Map<Integer, Integer> mySongsMap = new HashMap<>();
-			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ?";
+			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ? FOR UPDATE";
 			try (PreparedStatement pstmt = conn.prepareStatement(selectMySql)) {
 				pstmt.setInt(1, myPlaylistId);
 				try (ResultSet rs = pstmt.executeQuery()) {
@@ -347,23 +342,31 @@ public class PlaylistMylistDao {
 				pstmt.executeBatch();
 			}
 
-			conn.commit();
+			conn.commit(); // 트랜잭션 커밋
 			return true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			try (Connection conn = DBConnector.getConn()) {
-				conn.rollback();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+			conn.rollback(); // 롤백
 			return false;
+		} finally {
+			conn.setAutoCommit(true);
 		}
 	}
 
 	public boolean addAnoterPlaylistIntoMyPlaylist(int targetPlaylistId, int myPlaylistId) {
 		try (Connection conn = DBConnector.getConn()) {
-			conn.setAutoCommit(false);
+			return addAnoterPlaylistIntoMyPlaylist(targetPlaylistId, myPlaylistId, conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean addAnoterPlaylistIntoMyPlaylist(int targetPlaylistId, int myPlaylistId, Connection conn)
+			throws SQLException {
+		conn.setAutoCommit(false);
+		try {
 
 			// 1. 타겟 플레이리스트 곡들 (순서 유지)
 			String selectTargetSql = "SELECT song_id FROM playlist_songs WHERE playlist_id = ? ORDER BY turn ASC";
@@ -383,7 +386,7 @@ public class PlaylistMylistDao {
 
 			// 2. 내 플레이리스트: song_id -> turn 매핑
 			Map<Integer, Integer> mySongsMap = new HashMap<>();
-			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ?";
+			String selectMySql = "SELECT song_id, turn FROM playlist_songs WHERE playlist_id = ? FOR UPDATE";
 			try (PreparedStatement pstmt = conn.prepareStatement(selectMySql)) {
 				pstmt.setInt(1, myPlaylistId);
 				try (ResultSet rs = pstmt.executeQuery()) {
@@ -443,12 +446,10 @@ public class PlaylistMylistDao {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			try (Connection conn = DBConnector.getConn()) {
-				conn.rollback();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+			conn.rollback();
 			return false;
+		} finally {
+			conn.setAutoCommit(true);
 		}
 	}
 
@@ -503,7 +504,7 @@ public class PlaylistMylistDao {
 				PreparedStatement updatePstmt = conn.prepareStatement(updateSql);) {
 			// 트랜잭션시작
 			conn.setAutoCommit(false);
-			
+
 			deletePstmt.setInt(1, playlistSondId);
 			deletePstmt.setInt(2, playlistId);
 			if (deletePstmt.executeUpdate() == 0) {
@@ -516,12 +517,12 @@ public class PlaylistMylistDao {
 
 			conn.commit();
 			return true;
-			
+
 		} catch (Exception e) {
 			conn.rollback();
 			e.printStackTrace();
 			return false;
-			
+
 		} finally {
 			conn.setAutoCommit(true);
 		}
