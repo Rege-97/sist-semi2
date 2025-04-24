@@ -28,16 +28,12 @@ request.setCharacterEncoding("UTF-8");
 <div class="body-content">
 <%
 SignedinDao sDao = new SignedinDao();
-String pwd = signedinDto.getMemberPassword();
+String pwd = request.getParameter("password");
 int result = sDao.verifyPasswordReset(signedinDto, pwd);
-boolean pwdCheck = result == 0 ? true : false;
+boolean pwdCheck = (result == 0 ? false : true);
+if (!pwdCheck){
 %>
 <script>
-if (<%=pwdCheck %>){
-}else{
-	window.alert("입력하신 비밀번호가 잘못되었습니다.");
-	history.back();
-}
 
 
 function testPassword() {
@@ -84,5 +80,17 @@ function formCheck(event) {
 </div>
 <%@ include file="/footer.jsp" %>
 </div>
+<%
+}else{
+%>
+<script>
+	window.alert("입력하신 비밀번호가 잘못되었습니다.");
+	history.back();
+
+</script>
+<%
+}
+%>
 </body>
 </html>
+

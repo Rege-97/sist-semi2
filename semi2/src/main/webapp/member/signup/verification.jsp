@@ -48,11 +48,9 @@ function formCheck(e) {
 		var charidx = name.value.charCodeAt(i);
 
 		if ((((charidx < 65 || (charidx >= 91 && charidx <= 96)) || (charidx >= 123 && charidx <= 126))) || !(charidx >= 44032 && charidx <= 55203)){
-			if (b){
 				window.alert("이름의 값이 형식과 맞지 않습니다");
 				e.preventDefault();
 				return;
-			}
 			break;
 		}
 	}
